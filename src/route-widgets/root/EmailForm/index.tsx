@@ -1,13 +1,13 @@
 import {ReactElement} from "react"
 import {useFormik} from "formik"
 import useSchema, {Form} from "./use-schema"
-import {ServerSettings} from "apis/get-server-settings"
-import signup from "apis/signup"
+import signup from "~/apis/signup"
 import {MdEmail} from "react-icons/md"
 import {InputAdornment, TextField} from "@mui/material"
 import DetectEmailAutofillService from "./DetectEmailAutofillService"
 import handleErrors from "utils/handle-errors"
 import {MultiStepFormElement, SimpleForm} from "components"
+import {ServerSettings} from "~/types";
 
 interface EmailFormProps {
 	serverSettings: ServerSettings
