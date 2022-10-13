@@ -1,5 +1,5 @@
 import {Box, Container} from "@mui/material"
-import {ReactElement} from "react"
+import React, {ReactElement} from "react"
 
 export interface MultiStepFormElementProps {
 	children: ReactElement

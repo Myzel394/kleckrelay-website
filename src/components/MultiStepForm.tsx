@@ -1,6 +1,6 @@
-import {forwardRef, ReactElement, useEffect, useRef, useState} from "react"
+import React, {forwardRef, ReactElement, useEffect, useRef, useState} from "react"
 import {Paper} from "@mui/material"
-import whenElementHasBounds from "~/utils/when-element-has-bounds"
+import {whenElementHasBounds} from "~/utils"
 
 export interface MultiStepFormProps {
 	steps: (() => ReactElement)[]

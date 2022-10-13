@@ -1,7 +1,7 @@
 import {ReactElement} from "react"
 import UAParser from "ua-parser-js"
 import {Button} from "@mui/material"
-import APP_LINK_MAP from "utils/app-url-links"
+import {APP_LINK_MAP} from "utils"
 import {IoMdMailOpen} from "react-icons/io"
 
 export interface OpenMailButtonProps {
