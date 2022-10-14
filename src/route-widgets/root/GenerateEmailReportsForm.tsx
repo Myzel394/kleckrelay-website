@@ -1,7 +1,8 @@
-import {ReactElement} from "react"
-import {Box, Button, Grid, Typography} from "@mui/material"
 import {FaLongArrowAltRight} from "react-icons/fa"
 import {TiCancel} from "react-icons/ti"
+import React, {ReactElement} from "react"
+
+import {Box, Button, Grid, Typography} from "@mui/material"
 
 export interface GenerateEmailReportsFormProps {
 	onYes: () => void

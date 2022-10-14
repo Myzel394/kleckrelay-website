@@ -1,5 +1,7 @@
-import {ReactElement} from "react"
+import React, {ReactElement} from "react"
+
 import {Grid, Typography} from "@mui/material"
+
 import {MultiStepFormElement, OpenMailButton} from "~/components"
 
 export interface YouGotMailProps {

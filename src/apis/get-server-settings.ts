@@ -1,5 +1,6 @@
 import axios from "axios"
-import {ServerSettings} from "~/types";
+
+import {ServerSettings} from "~/types"
 
 export default async function getServerSettings(): Promise<ServerSettings> {
 	return (

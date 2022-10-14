@@ -17,8 +17,46 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["ordered-imports", "react", "@typescript-eslint"],
   "rules": {
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "ordered-imports/ordered-imports": [
+      "error",
+      {
+        "symbols-first": true,
+        "declaration-ordering": ["type", {
+          "ordering": ["namespace", "destructured", "default", "side-effect"],
+          "secondaryOrdering": ["name", "lowercase-last"]
+        }],
+        "specifier-ordering": "lowercase-last",
+        "group-ordering": [
+          {
+            "name": "third-party named",
+            "match": "^@",
+            "order": 20
+          },
+          {
+            "name": "project",
+            "match": "^\\~",
+            "order": 30
+          },
+          {
+            "name": "parent directories",
+            "match": "^\\.\\.",
+            "order": 40
+          },
+          {
+            "name": "current directory",
+            "match": "^\\.",
+            "order": 50
+          },
+          {
+            "name": "third-party",
+            "match": ".*",
+            "order": 10
+          }
+        ]
+      }
+    ]
   }
 }

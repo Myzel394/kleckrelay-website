@@ -1,5 +1,6 @@
-import {AuthenticationDetails} from "~/types"
 import axios from "axios"
+
+import {AuthenticationDetails} from "~/types"
 
 export interface ValidateTokenData {
 	email: string

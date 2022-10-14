@@ -1,5 +1,13 @@
-import React, {forwardRef, ReactElement, useEffect, useRef, useState} from "react"
+import React, {
+	ReactElement,
+	forwardRef,
+	useEffect,
+	useRef,
+	useState,
+} from "react"
+
 import {Paper} from "@mui/material"
+
 import {whenElementHasBounds} from "~/utils"
 
 export interface MultiStepFormProps {

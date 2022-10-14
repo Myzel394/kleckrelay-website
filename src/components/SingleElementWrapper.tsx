@@ -1,4 +1,5 @@
-import {ReactElement} from "react"
+import React, {ReactElement} from "react"
+
 import {Box} from "@mui/material"
 
 export interface SingleElementWrapperProps {

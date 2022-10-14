@@ -1,12 +1,15 @@
-import {ReactElement, useMemo} from "react"
 import * as yup from "yup"
 import {useFormik} from "formik"
-import {Box, Grid, InputAdornment, Typography} from "@mui/material"
 import {MdCheckCircle, MdChevronRight, MdLock} from "react-icons/md"
-import {LoadingButton} from "@mui/lab"
-import {PasswordField} from "components"
-import {encryptString, handleErrors} from "~/utils"
 import {generateKey} from "openpgp"
+import React, {ReactElement, useMemo} from "react"
+
+import {LoadingButton} from "@mui/lab"
+import {Box, Grid, InputAdornment, Typography} from "@mui/material"
+
+import {PasswordField} from "~/components"
+import {encryptString, handleErrors} from "~/utils"
+import {isDev} from "~/constants/development"
 
 export interface PasswordFormProps {
 	email: string

@@ -1,8 +1,10 @@
-import {ReactElement} from "react"
-import UAParser from "ua-parser-js"
-import {Button} from "@mui/material"
-import {APP_LINK_MAP} from "~/utils"
 import {IoMdMailOpen} from "react-icons/io"
+import React, {ReactElement} from "react"
+import UAParser from "ua-parser-js"
+
+import {Button} from "@mui/material"
+
+import {APP_LINK_MAP} from "~/utils"
 
 export interface OpenMailButtonProps {
 	domain: string

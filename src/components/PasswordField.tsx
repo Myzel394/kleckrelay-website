@@ -1,11 +1,12 @@
+import {MdVisibility, MdVisibilityOff} from "react-icons/md"
+import React, {ReactElement, useState} from "react"
+
 import {
 	IconButton,
 	InputAdornment,
 	TextField,
 	TextFieldProps,
 } from "@mui/material"
-import {ReactElement, useState} from "react"
-import {MdVisibility, MdVisibilityOff} from "react-icons/md"
 
 export interface PasswordFieldProps extends Omit<TextFieldProps, "type"> {}
 

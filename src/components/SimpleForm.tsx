@@ -1,3 +1,7 @@
+import {MdChevronRight} from "react-icons/md"
+import {TiCancel} from "react-icons/ti"
+import React, {ReactElement, useEffect, useState} from "react"
+
 import {
 	Alert,
 	Button,
@@ -6,11 +10,8 @@ import {
 	Typography,
 	TypographyProps,
 } from "@mui/material"
-import {ReactElement, useEffect, useState} from "react"
 import {LoadingButton} from "@mui/lab"
-import {MdChevronRight} from "react-icons/md"
 import {OverrideProps} from "@mui/types"
-import {TiCancel} from "react-icons/ti"
 
 export interface SimpleFormProps {
 	title: string
