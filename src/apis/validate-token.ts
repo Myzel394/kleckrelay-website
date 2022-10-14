@@ -12,7 +12,7 @@ export default async function validateToken({
 	token,
 }: ValidateTokenData): Promise<AuthenticationDetails> {
 	const {data} = await axios.post(
-		`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/verify-email`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/verify-email`,
 		{
 			email: email,
 			token: token,

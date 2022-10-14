@@ -1,27 +1,23 @@
-import React, {
-	ReactElement,
-	forwardRef,
-	useEffect,
-	useRef,
-	useState,
-} from "react"
+import React, {ReactElement, useEffect, useRef, useState} from "react"
 
 import {Paper} from "@mui/material"
 
 import {whenElementHasBounds} from "~/utils"
 
 export interface MultiStepFormProps {
-	steps: (() => ReactElement)[]
+	steps: ReactElement[]
 	index: number
 
 	duration?: number
 	easing?: string
 }
 
-function MultiStepForm(
-	{steps, index, duration = 900, easing = "ease-in-out"}: MultiStepFormProps,
-	ref: any,
-): ReactElement {
+function MultiStepForm({
+	steps,
+	index,
+	duration = 900,
+	easing = "ease-in-out",
+}: MultiStepFormProps): ReactElement {
 	const $currentElement = useRef<HTMLDivElement>(null)
 	const $timeout = useRef<any>()
 
@@ -44,6 +40,11 @@ function MultiStepForm(
 		return $timeout.current?.cancel!
 	}, [index, currentIndex])
 
+	const hasSize = Boolean(
+		(currentSize?.width || nextSize?.width) &&
+			(currentSize?.height || nextSize?.height),
+	)
+
 	return (
 		<div
 			style={{
@@ -52,9 +53,13 @@ function MultiStepForm(
 				flexDirection: "column",
 				alignItems: "center",
 				justifyContent: "center",
-				width: Math.max(currentSize?.width, nextSize?.width),
-				height: Math.max(currentSize?.height, nextSize?.height),
-				overflow: "hidden",
+				width:
+					Math.max(currentSize?.width || 0, nextSize?.width || 0) ||
+					"100%",
+				height:
+					Math.max(currentSize?.height || 0, nextSize?.height || 0) ||
+					"100%",
+				overflow: hasSize ? "hidden" : "visible",
 			}}
 		>
 			<Paper
@@ -122,7 +127,7 @@ function MultiStepForm(
 					transform: isTransitioning ? "translateX(-100%)" : "",
 				}}
 			>
-				{steps[currentIndex]()}
+				{steps[currentIndex]}
 			</div>
 			<div
 				// @ts-ignore
@@ -151,10 +156,10 @@ function MultiStepForm(
 			>
 				{currentIndex === steps.length - 1
 					? null
-					: steps[currentIndex + 1]()}
+					: steps[currentIndex + 1]}
 			</div>
 		</div>
 	)
 }
 
-export default forwardRef(MultiStepForm)
+export default MultiStepForm

@@ -6,7 +6,7 @@ export interface SignupResult {
 
 export default async function signup(email: string): Promise<SignupResult> {
 	const {data} = await axios.post(
-		`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/signup`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/signup`,
 		{
 			email,
 		},
