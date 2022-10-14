@@ -2,15 +2,15 @@ import axios from "axios"
 
 import {AuthenticationDetails} from "~/types"
 
-export interface ValidateTokenData {
+export interface ValidateEmailData {
 	email: string
 	token: string
 }
 
-export default async function validateToken({
+export default async function validateEmail({
 	email,
 	token,
-}: ValidateTokenData): Promise<AuthenticationDetails> {
+}: ValidateEmailData): Promise<AuthenticationDetails> {
 	const {data} = await axios.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/verify-email`,
 		{

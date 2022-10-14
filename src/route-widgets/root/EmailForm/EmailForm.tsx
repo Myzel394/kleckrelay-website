@@ -7,17 +7,20 @@ import {InputAdornment, TextField} from "@mui/material"
 import {MultiStepFormElement, SimpleForm} from "~/components"
 import {signup} from "~/apis"
 import {handleErrors} from "~/utils"
-import {useServerSettings} from "~/hooks"
+import {ServerSettings} from "~/types"
 
 import DetectEmailAutofillService from "./DetectEmailAutofillService"
 import useSchema, {Form} from "./use-schema"
 
 interface EmailFormProps {
+	serverSettings: ServerSettings
 	onSignUp: (email: string) => void
 }
 
-export default function EmailForm({onSignUp}: EmailFormProps): ReactElement {
-	const serverSettings = useServerSettings()
+export default function EmailForm({
+	onSignUp,
+	serverSettings,
+}: EmailFormProps): ReactElement {
 	const schema = useSchema(serverSettings)
 	const formik = useFormik<Form>({
 		validationSchema: schema,
