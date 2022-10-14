@@ -1,16 +1,7 @@
 import {ReactElement, useCallback, useEffect, useRef, useState} from "react"
-import {
-	Alert,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Grid,
-} from "@mui/material"
+import {Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid,} from "@mui/material"
 import {MdCheck} from "react-icons/md"
-import useSessionStorage from "hooks/use-session-storage"
+import {useSessionStorage} from "react-use"
 
 export interface DetectEmailAutofillServiceProps {
 	domains: string[]

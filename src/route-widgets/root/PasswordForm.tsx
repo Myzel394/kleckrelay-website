@@ -5,10 +5,8 @@ import {Box, Grid, InputAdornment, Typography} from "@mui/material"
 import {MdCheckCircle, MdChevronRight, MdLock} from "react-icons/md"
 import {LoadingButton} from "@mui/lab"
 import {PasswordField} from "components"
-import handleErrors from "utils/handle-errors"
+import {encryptString, handleErrors} from "~/utils"
 import {generateKey} from "openpgp"
-import {isDev} from "constants/values"
-import encryptString from "utils/encrypt-string"
 
 export interface PasswordFormProps {
 	email: string

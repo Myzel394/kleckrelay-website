@@ -11,7 +11,9 @@
   "dependencies": {
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.9",
+    "@tanstack/react-query": "^4.12.0",
     "axios": "^1.1.2",
+    "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
     "openpgp": "^5.5.0",
     "react": "^18.2.0",
@@ -34,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "@vitejs/plugin-react": "^2.1.0",
-    "eslint": "^8.25.0",
+    "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-react": "^7.31.10",

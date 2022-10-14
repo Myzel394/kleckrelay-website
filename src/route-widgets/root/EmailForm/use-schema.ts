@@ -1,6 +1,6 @@
 import * as yup from "yup"
-import {ServerSettings} from "apis/get-server-settings"
-import checkIsDomainDisposable from "apis/check-is-domain-disposable"
+import {checkIsDomainDisposable} from "~/apis"
+import {ServerSettings} from "~/types";
 
 export interface Form {
 	email: string
