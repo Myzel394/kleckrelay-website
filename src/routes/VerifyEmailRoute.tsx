@@ -31,7 +31,7 @@ export default function VerifyEmailRoute(): ReactElement {
 			const chars = serverSettings.email_verification_chars.split("")
 			return token.split("").every(chars.includes)
 		})
-	const {error, loading} = useAsync(async () => {
+	const {loading} = useAsync(async () => {
 		await emailSchema.validate(email)
 		await tokenSchema.validate(token)
 
