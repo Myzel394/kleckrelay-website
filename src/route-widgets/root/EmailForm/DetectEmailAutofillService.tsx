@@ -49,7 +49,7 @@ export default function DetectEmailAutofillService({
 	const handleFound = useCallback(
 		(type: AliasType) => {
 			if (domains.includes(type)) {
-				if (hasShownModal) {
+				if (!hasShownModal) {
 					setType(type)
 
 					setHasShownModal(true)
