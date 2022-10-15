@@ -24,10 +24,7 @@ export default function SignupRoute(): ReactElement {
 					onSignUp={setEmail}
 					key="email"
 				/>,
-				<YouGotMail
-					domain={(email || "").split("@")[1]}
-					key="you_got_mail"
-				/>,
+				<YouGotMail email={email || ""} key="you_got_mail" />,
 			]}
 			index={index}
 		/>

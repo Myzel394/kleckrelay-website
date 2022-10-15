@@ -3,12 +3,15 @@ import React, {ReactElement} from "react"
 import {Grid, Typography} from "@mui/material"
 
 import {MultiStepFormElement, OpenMailButton} from "~/components"
+import ResendMailButton from "~/route-widgets/root/YouGotMail/ResendMailButton"
 
 export interface YouGotMailProps {
-	domain: string
+	email: string
 }
 
-export default function YouGotMail({domain}: YouGotMailProps): ReactElement {
+export default function YouGotMail({email}: YouGotMailProps): ReactElement {
+	const domain = email.split("@")[1]
+
 	return (
 		<MultiStepFormElement>
 			<Grid
@@ -34,6 +37,9 @@ export default function YouGotMail({domain}: YouGotMailProps): ReactElement {
 				</Grid>
 				<Grid item>
 					<OpenMailButton domain={domain} />
+				</Grid>
+				<Grid item>
+					<ResendMailButton email={email} />
 				</Grid>
 			</Grid>
 		</MultiStepFormElement>
