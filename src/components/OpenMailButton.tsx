@@ -19,7 +19,7 @@ export default function OpenMailButton({
 		return (
 			<Button
 				startIcon={<IoMdMailOpen />}
-				variant="contained"
+				variant="text"
 				href={APP_LINK_MAP[domain].android}
 			>
 				Open Mail

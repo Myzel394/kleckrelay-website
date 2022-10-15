@@ -26,15 +26,20 @@ function MultiStepForm({
 	const [currentSize, setCurrentSize] = useState<any>(null)
 	const [nextSize, setNextSize] = useState<any>(null)
 
-	const isTransitioning = currentIndex !== index
+	const isTransitioning = currentIndex < index
 
 	useEffect(() => {
-		if (index !== currentIndex) {
+		if (index > currentIndex) {
 			$timeout.current = setTimeout(() => {
 				setCurrentSize(null)
 				setNextSize(null)
 				setCurrentIndex(index)
 			}, duration)
+		} else if (index < currentIndex) {
+			// "Going-back" animation is not supported
+			setCurrentIndex(index)
+			setCurrentSize(null)
+			setNextSize(null)
 		}
 
 		return $timeout.current?.cancel!

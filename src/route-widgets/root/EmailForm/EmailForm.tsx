@@ -1,37 +1,66 @@
+import * as yup from "yup"
 import {useFormik} from "formik"
 import {MdEmail} from "react-icons/md"
+import {AxiosError} from "axios"
 import React, {ReactElement} from "react"
 
 import {InputAdornment, TextField} from "@mui/material"
 
 import {MultiStepFormElement, SimpleForm} from "~/components"
-import {signup} from "~/apis"
-import {handleErrors} from "~/utils"
-import {ServerSettings} from "~/types"
+import {checkIsDomainDisposable, signup} from "~/apis"
+import {parseFastapiError} from "~/utils"
+import {ServerSettings} from "~/server-types"
 
 import DetectEmailAutofillService from "./DetectEmailAutofillService"
-import useSchema, {Form} from "./use-schema"
 
-interface EmailFormProps {
+export interface EmailFormProps {
 	serverSettings: ServerSettings
 	onSignUp: (email: string) => void
 }
+
+interface Form {
+	email: string
+	detail?: string
+}
+
+const SCHEMA = yup.object().shape({
+	email: yup.string().email().required(),
+})
 
 export default function EmailForm({
 	onSignUp,
 	serverSettings,
 }: EmailFormProps): ReactElement {
-	const schema = useSchema(serverSettings)
 	const formik = useFormik<Form>({
-		validationSchema: schema,
+		validationSchema: SCHEMA,
 		initialValues: {
 			email: "",
 		},
-		onSubmit: (values, {setErrors}) =>
-			handleErrors(
-				values.email,
-				setErrors,
-			)(signup).then(({normalized_email}) => onSignUp(normalized_email)),
+		onSubmit: async (values, {setErrors}) => {
+			// Check is email disposable
+			try {
+				const isDisposable = await checkIsDomainDisposable(values.email)
+
+				if (isDisposable) {
+					setErrors({
+						email: "Disposable email addresses are not allowed",
+					})
+					return
+				}
+			} catch {
+				setErrors({
+					detail: "An error occurred",
+				})
+				return
+			}
+
+			try {
+				await signup(values.email)
+				onSignUp(values.email)
+			} catch (error) {
+				setErrors(parseFastapiError(error as AxiosError))
+			}
+		},
 	})
 
 	return (

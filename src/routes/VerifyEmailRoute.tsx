@@ -6,7 +6,7 @@ import React, {ReactElement} from "react"
 
 import {Grid, Paper, Typography, useTheme} from "@mui/material"
 
-import {ServerSettings} from "~/types"
+import {ServerSettings} from "~/server-types"
 import {validateEmail} from "~/apis"
 
 const emailSchema = yup.string().email()

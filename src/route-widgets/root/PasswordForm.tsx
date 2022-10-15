@@ -8,7 +8,7 @@ import {LoadingButton} from "@mui/lab"
 import {Box, Grid, InputAdornment, Typography} from "@mui/material"
 
 import {PasswordField} from "~/components"
-import {encryptString, handleErrors} from "~/utils"
+import {encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
 
 export interface PasswordFormProps {
@@ -18,6 +18,7 @@ export interface PasswordFormProps {
 interface Form {
 	password: string
 	passwordConfirmation: string
+	detail?: string
 }
 
 const schema = yup.object().shape({
@@ -47,11 +48,8 @@ export default function PasswordForm({email}: PasswordFormProps): ReactElement {
 			password: "",
 			passwordConfirmation: "",
 		},
-		onSubmit: (values, {setErrors}) =>
-			handleErrors(
-				values,
-				setErrors,
-			)(async () => {
+		onSubmit: async (values, {setErrors}) => {
+			try {
 				const keyPair = await awaitGenerateKey
 
 				const encryptedPrivateKey = encryptString(
@@ -60,7 +58,10 @@ export default function PasswordForm({email}: PasswordFormProps): ReactElement {
 				)
 
 				console.log(encryptedPrivateKey)
-			}),
+			} catch (error) {
+				setErrors({detail: "An error occurred"})
+			}
+		},
 	})
 
 	return (

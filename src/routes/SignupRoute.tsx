@@ -3,7 +3,7 @@ import {useLocalStorage} from "react-use"
 import {useLoaderData} from "react-router-dom"
 
 import {MultiStepForm} from "~/components"
-import {ServerSettings} from "~/types"
+import {ServerSettings} from "~/server-types"
 import EmailForm from "~/route-widgets/root/EmailForm"
 import YouGotMail from "~/route-widgets/root/YouGotMail"
 
@@ -24,7 +24,11 @@ export default function SignupRoute(): ReactElement {
 					onSignUp={setEmail}
 					key="email"
 				/>,
-				<YouGotMail email={email || ""} key="you_got_mail" />,
+				<YouGotMail
+					onGoBack={() => setEmail("")}
+					email={email || ""}
+					key="you_got_mail"
+				/>,
 			]}
 			index={index}
 		/>
