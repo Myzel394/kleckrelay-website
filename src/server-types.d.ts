@@ -47,3 +47,6 @@ export interface ServerSettings {
 	email_verification_length: number
 }
 
+export interface MinimumServerResponse {
+	detail?: string
+}

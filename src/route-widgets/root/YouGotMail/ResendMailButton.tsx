@@ -10,6 +10,7 @@ import {useIntervalUpdate} from "~/hooks"
 import {resendEmailVerificationCode} from "~/apis"
 import {isDev} from "~/constants/development"
 import {MutationStatusSnackbar} from "~/components"
+import {MinimumServerResponse} from "~/server-types"
 
 export interface ResendMailButtonProps {
 	email: string
@@ -24,7 +25,7 @@ export default function ResendMailButton({
 	const secondsPassed = differenceInSeconds(new Date(), startDate)
 	const secondsLeft = RESEND_INTERVAL - secondsPassed
 
-	const mutation = useMutation<void, AxiosError, string>(
+	const mutation = useMutation<MinimumServerResponse, AxiosError, string>(
 		resendEmailVerificationCode,
 		{
 			onSettled: resetInterval,

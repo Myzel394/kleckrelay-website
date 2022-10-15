@@ -1,10 +1,11 @@
 import {AxiosError} from "axios"
-import {ReactElement, useEffect, useState} from "react"
+import {ReactElement, useEffect, useLayoutEffect, useRef, useState} from "react"
 
 import {UseMutationResult} from "@tanstack/react-query"
-import {Alert, Snackbar} from "@mui/material"
+import {Alert, AlertProps, Snackbar} from "@mui/material"
 
 import {FastAPIError} from "~/utils"
+import {MinimumServerResponse} from "~/server-types"
 import getErrorMessage from "~/utils/get-error-message"
 
 export interface MutationStatusSnackbarProps<
@@ -20,7 +21,7 @@ export interface MutationStatusSnackbarProps<
 }
 
 export default function MutationStatusSnackbar<
-	TData extends {data: {detail?: string}} = {data: {detail?: string}},
+	TData extends MinimumServerResponse = MinimumServerResponse,
 	TError extends AxiosError = AxiosError<FastAPIError>,
 	TVariables = unknown,
 	TContext = unknown,
@@ -34,33 +35,38 @@ export default function MutationStatusSnackbar<
 	TVariables,
 	TContext
 >): ReactElement {
+	const $severity = useRef<AlertProps["severity"]>()
+	const $message = useRef<string>()
+
 	const [open, setOpen] = useState<boolean>(false)
 
-	const severity = (() => {
-		if (mutation.isError) {
-			return "error"
-		}
-
-		if (mutation.isSuccess) {
-			return "success"
-		}
-
-		return "info"
-	})()
-	const message = (() => {
-		if (mutation.isError) {
-			// @ts-ignore
-			return errorMessage ?? getErrorMessage(mutation.error)
-		}
-
-		if (mutation.isSuccess) {
-			return successMessage ?? mutation.data?.data?.detail ?? "Success!"
-		}
-	})()
+	useLayoutEffect(() => {
+		setOpen(false)
+	}, [mutation.isSuccess, mutation.isError])
 
 	useEffect(() => {
 		if (mutation.isSuccess || mutation.isError) {
 			setOpen(true)
+
+			$severity.current = (() => {
+				if (mutation.isError) {
+					return "error"
+				}
+
+				if (mutation.isSuccess) {
+					return "success"
+				}
+			})()
+			$message.current = (() => {
+				if (mutation.isError) {
+					// @ts-ignore
+					return errorMessage ?? getErrorMessage(mutation.error)
+				}
+
+				if (mutation.isSuccess) {
+					return successMessage ?? mutation.data?.detail ?? "Success!"
+				}
+			})()
 		}
 	}, [mutation.isSuccess, mutation.isError])
 
@@ -70,8 +76,8 @@ export default function MutationStatusSnackbar<
 			onClose={() => setOpen(false)}
 			autoHideDuration={5000}
 		>
-			<Alert severity={severity} variant="filled">
-				{message}
+			<Alert severity={$severity.current} variant="filled">
+				{$message.current}
 			</Alert>
 		</Snackbar>
 	)

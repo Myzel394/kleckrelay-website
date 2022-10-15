@@ -1,12 +1,16 @@
 import axios from "axios"
 
-export default function resendEmailVerificationCode(
+import {MinimumServerResponse} from "~/server-types"
+
+export default async function resendEmailVerificationCode(
 	email: string,
-): Promise<void> {
-	return axios.post(
+): Promise<MinimumServerResponse> {
+	const {data} = await axios.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/resend-email`,
 		{
 			email,
 		},
 	)
+
+	return data
 }
