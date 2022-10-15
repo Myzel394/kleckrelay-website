@@ -7,6 +7,7 @@ import {CssBaseline, ThemeProvider} from "@mui/material"
 import {queryClient} from "~/constants/react-query"
 import {lightTheme} from "~/constants/themes"
 import {getServerSettings} from "~/apis"
+import AuthContextProvider from "~/AuthContext/AuthContextProvider"
 import RootRoute from "~/routes/Root"
 import SignupRoute from "~/routes/SignupRoute"
 import SingleElementRoute from "~/routes/SingleElementRoute"
@@ -43,8 +44,10 @@ export default function App(): ReactElement {
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={lightTheme}>
-					<CssBaseline />
-					<RouterProvider router={router} />
+					<AuthContextProvider>
+						<CssBaseline />
+						<RouterProvider router={router} />
+					</AuthContextProvider>
 				</ThemeProvider>
 			</QueryClientProvider>
 		</React.StrictMode>

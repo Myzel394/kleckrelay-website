@@ -30,8 +30,8 @@ export interface User {
 }
 
 export interface AuthenticationDetails {
-	access_token: string
-	refresh_token: string
+	user: User
+	detail: string
 }
 
 export interface ServerSettings {

@@ -1,6 +1,7 @@
 import axios from "axios"
 
-import {AuthenticationDetails} from "~/types"
+import {AuthenticationDetails} from "~/server-types"
+import parseUser from "~/apis/helpers/parse-user"
 
 export interface ValidateEmailData {
 	email: string
@@ -18,6 +19,10 @@ export default async function validateEmail({
 			token: token,
 		},
 	)
+	console.log(data)
 
-	return data
+	return {
+		...data,
+		user: parseUser(data.user),
+	}
 }

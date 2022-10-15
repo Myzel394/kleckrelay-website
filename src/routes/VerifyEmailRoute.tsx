@@ -1,19 +1,25 @@
 import * as yup from "yup"
-import {useLoaderData, useParams} from "react-router-dom"
+import {useLoaderData, useNavigate} from "react-router-dom"
 import {useAsync} from "react-use"
 import {MdCancel} from "react-icons/md"
-import React, {ReactElement} from "react"
+import {AxiosError} from "axios"
+import React, {ReactElement, useContext} from "react"
 
 import {Grid, Paper, Typography, useTheme} from "@mui/material"
+import {useMutation} from "@tanstack/react-query"
 
-import {ServerSettings} from "~/server-types"
-import {validateEmail} from "~/apis"
+import {AuthenticationDetails, ServerSettings} from "~/server-types"
+import {ValidateEmailData, validateEmail} from "~/apis"
+import {useQueryParams} from "~/hooks"
+import AuthContext from "~/AuthContext/AuthContext"
 
 const emailSchema = yup.string().email()
 
 export default function VerifyEmailRoute(): ReactElement {
 	const theme = useTheme()
-	const {email, token} = useParams<{
+	const navigate = useNavigate()
+	const {login} = useContext(AuthContext)
+	const {email, token} = useQueryParams<{
 		email: string
 		token: string
 	}>()
@@ -29,18 +35,27 @@ export default function VerifyEmailRoute(): ReactElement {
 
 			// Check token only contains chars from `serverSettings.email_verification_chars`
 			const chars = serverSettings.email_verification_chars.split("")
-			return token.split("").every(chars.includes)
+
+			return token.split("").every(char => chars.includes(char))
 		})
+	const {mutateAsync: verifyEmail} = useMutation<
+		AuthenticationDetails,
+		AxiosError,
+		ValidateEmailData
+	>(validateEmail, {
+		onSuccess: async ({user}) => {
+			await login(user)
+			navigate("/")
+		},
+	})
 	const {loading} = useAsync(async () => {
 		await emailSchema.validate(email)
 		await tokenSchema.validate(token)
 
-		await validateEmail({
-			token: token as string,
-			email: email as string,
+		await verifyEmail({
+			email,
+			token,
 		})
-
-		return true
 	}, [email, token])
 
 	return (
@@ -82,7 +97,7 @@ export default function VerifyEmailRoute(): ReactElement {
 								component="p"
 								align="center"
 							>
-								Sorry, but this token is invalid.
+								Sorry, but this verification code is invalid.
 							</Typography>
 						</Grid>
 					</>

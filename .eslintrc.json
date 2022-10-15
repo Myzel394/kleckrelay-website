@@ -20,6 +20,7 @@
   "plugins": ["ordered-imports", "react", "@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "compat/compat": "error",
     "ordered-imports/ordered-imports": [
       "error",
       {
