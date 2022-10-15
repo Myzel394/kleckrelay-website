@@ -39,7 +39,9 @@ export default function EmailForm({
 		onSubmit: async (values, {setErrors}) => {
 			// Check is email disposable
 			try {
-				const isDisposable = await checkIsDomainDisposable(values.email)
+				const isDisposable = await checkIsDomainDisposable(
+					values.email.split("@")[1],
+				)
 
 				if (isDisposable) {
 					setErrors({
