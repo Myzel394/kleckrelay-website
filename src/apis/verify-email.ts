@@ -1,18 +1,17 @@
-import axios from "axios"
-
 import {AuthenticationDetails} from "~/server-types"
+import {client} from "~/constants/axios-client"
 import parseUser from "~/apis/helpers/parse-user"
 
-export interface ValidateEmailData {
+export interface VerifyEmailData {
 	email: string
 	token: string
 }
 
-export default async function validateEmail({
+export default async function verifyEmail({
 	email,
 	token,
-}: ValidateEmailData): Promise<AuthenticationDetails> {
-	const {data} = await axios.post(
+}: VerifyEmailData): Promise<AuthenticationDetails> {
+	const {data} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/verify-email`,
 		{
 			email: email,

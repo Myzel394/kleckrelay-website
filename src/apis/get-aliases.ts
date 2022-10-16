@@ -1,12 +1,10 @@
-import axios from "axios"
-
 import {Alias} from "~/server-types"
-import parseAlias from "~/apis/helpers/parse-alias"
+import {client} from "~/constants/axios-client"
 
 export default async function getAliases(): Promise<Array<Alias>> {
-	const {data} = await axios.get(
+	const {data} = await client.get(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/alias`,
 	)
 
-	return data.map(parseAlias)
+	return data
 }

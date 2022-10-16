@@ -1,11 +1,11 @@
-import axios from "axios"
+import {client} from "~/constants/axios-client"
 
 export interface SignupResult {
 	normalized_email: string
 }
 
 export default async function signup(email: string): Promise<SignupResult> {
-	const {data} = await axios.post(
+	const {data} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/signup`,
 		{
 			email,

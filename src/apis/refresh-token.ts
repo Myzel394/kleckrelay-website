@@ -1,6 +1,5 @@
-import axios from "axios"
-
 import {User} from "~/server-types"
+import {client} from "~/constants/axios-client"
 
 export interface RefreshTokenResult {
 	user: User
@@ -12,7 +11,7 @@ export const REFRESH_TOKEN_URL = `${
 }/api/refresh-token`
 
 export default async function refreshToken(): Promise<RefreshTokenResult> {
-	const {data} = await axios.post(REFRESH_TOKEN_URL)
+	const {data} = await client.post(REFRESH_TOKEN_URL)
 
 	return data
 }

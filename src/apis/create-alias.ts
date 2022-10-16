@@ -1,12 +1,10 @@
-import axios from "axios"
-
 import {
 	Alias,
 	AliasType,
 	ImageProxyFormatType,
 	ProxyUserAgentType,
 } from "~/server-types"
-import parseAlias from "~/apis/helpers/parse-alias"
+import {client} from "~/constants/axios-client"
 
 interface CreateAliasDataOther {
 	isActive?: boolean
@@ -40,10 +38,10 @@ export type CreateAliasData =
 export default async function createAlias(
 	aliasData: CreateAliasData,
 ): Promise<Alias> {
-	const {data} = await axios.post(
+	const {data} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/alias`,
-		{},
+		aliasData,
 	)
 
-	return parseAlias(data)
+	return data
 }

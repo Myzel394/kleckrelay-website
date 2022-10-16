@@ -1,6 +1,6 @@
 import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
 import {useLocalStorage} from "react-use"
-import axios, {AxiosError} from "axios"
+import {AxiosError} from "axios"
 
 import {useMutation} from "@tanstack/react-query"
 
@@ -11,6 +11,7 @@ import {
 	logout as logoutUser,
 	refreshToken,
 } from "~/apis"
+import {client} from "~/constants/axios-client"
 
 import AuthContext, {AuthContextType} from "./AuthContext"
 
@@ -59,7 +60,7 @@ export default function AuthContextProvider({
 	)
 
 	useEffect(() => {
-		const interceptor = axios.interceptors.response.use(
+		const interceptor = client.interceptors.response.use(
 			response => response,
 			async (error: AxiosError) => {
 				if (error.isAxiosError) {
@@ -80,7 +81,7 @@ export default function AuthContextProvider({
 			},
 		)
 
-		return () => axios.interceptors.response.eject(interceptor)
+		return () => client.interceptors.response.eject(interceptor)
 	}, [logout, refresh])
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

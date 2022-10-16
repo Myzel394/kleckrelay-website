@@ -18,6 +18,10 @@ export enum AliasType {
 	CUSTOM = "custom",
 }
 
+export enum Language {
+	EN_US = "en_US",
+}
+
 export interface User {
 	id: string
 	createdAt: Date
