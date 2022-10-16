@@ -11,6 +11,7 @@ import AliasesRoute from "~/routes/AliasesRoute"
 import AuthContextProvider from "~/AuthContext/AuthContextProvider"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
 import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
+import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import RootRoute from "~/routes/Root"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
 						loader: getServerSettings,
 						path: "/auth/signup",
 						element: <SignupRoute />,
+					},
+					{
+						path: "/auth/complete-account",
+						element: <CompleteAccountRoute />,
 					},
 				],
 			},

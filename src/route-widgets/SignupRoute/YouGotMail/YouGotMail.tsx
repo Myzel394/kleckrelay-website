@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 
 import {MultiStepFormElement, OpenMailButton} from "~/components"
-import ResendMailButton from "~/route-widgets/root/YouGotMail/ResendMailButton"
+import ResendMailButton from "~/route-widgets/SignupRoute/YouGotMail/ResendMailButton"
 
 export interface YouGotMailProps {
 	email: string

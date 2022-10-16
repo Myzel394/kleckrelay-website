@@ -24,12 +24,12 @@ interface CreateAliasDataBase extends CreateAliasDataOther {
 }
 
 interface CreateAliasDataRandomType extends CreateAliasDataBase {
-	type: AliasType.Random
+	type: AliasType.RANDOM
 	local?: undefined
 }
 
 interface CreateAliasDataCustomType extends CreateAliasDataBase {
-	type: AliasType.Custom
+	type: AliasType.CUSTOM
 	local: string
 }
 
@@ -42,7 +42,7 @@ export default async function createAlias(
 ): Promise<Alias> {
 	const {data} = await axios.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/alias`,
-		aliasData,
+		{},
 	)
 
 	return parseAlias(data)

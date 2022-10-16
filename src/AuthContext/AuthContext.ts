@@ -5,7 +5,7 @@ import {User} from "~/server-types"
 interface AuthContextTypeBase {
 	user: User | null
 	isAuthenticated: boolean
-	login: (user: User) => Promise<void>
+	login: (user: User, callback: () => void) => Promise<void>
 	logout: () => void
 }
 

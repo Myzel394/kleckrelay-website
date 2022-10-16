@@ -10,10 +10,8 @@ import {Box, Grid, InputAdornment, Typography} from "@mui/material"
 import {PasswordField} from "~/components"
 import {encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
-
-export interface PasswordFormProps {
-	email: string
-}
+import {useUser} from "~/hooks"
+import {useMutation} from "@tanstack/react-query"
 
 interface Form {
 	password: string
@@ -29,7 +27,9 @@ const schema = yup.object().shape({
 		.oneOf([yup.ref("password"), null], "Passwords must match"),
 })
 
-export default function PasswordForm({email}: PasswordFormProps): ReactElement {
+export default function PasswordForm(): ReactElement {
+	const user = useUser()
+	const {} = useMutation()
 	const awaitGenerateKey = useMemo(
 		() =>
 			generateKey({
@@ -54,7 +54,7 @@ export default function PasswordForm({email}: PasswordFormProps): ReactElement {
 
 				const encryptedPrivateKey = encryptString(
 					keyPair.privateKey,
-					`${values.password}-${email}`,
+					`${values.password}-${user.email.address}`,
 				)
 
 				console.log(encryptedPrivateKey)

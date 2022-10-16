@@ -24,7 +24,7 @@ export default function AuthenticateRoute(): ReactElement {
 				<Grid item>
 					<Button
 						component={RouterLink}
-						to="/signup"
+						to="/auth/signup"
 						color="inherit"
 						size="small"
 						startIcon={<MdAdd />}
@@ -35,7 +35,7 @@ export default function AuthenticateRoute(): ReactElement {
 				<Grid item>
 					<Button
 						component={RouterLink}
-						to="/login"
+						to="/auth/login"
 						color="inherit"
 						size="small"
 						startIcon={<MdLogin />}

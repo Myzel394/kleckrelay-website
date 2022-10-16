@@ -10,7 +10,7 @@ export default function MultiStepFormElement({
 	children,
 }: MultiStepFormElementProps): ReactElement {
 	return (
-		<Box width="90vw" justifyContent="center" alignItems="center">
+		<Box maxWidth="90vw" justifyContent="center" alignItems="center">
 			<Container maxWidth="xs">{children}</Container>
 		</Box>
 	)

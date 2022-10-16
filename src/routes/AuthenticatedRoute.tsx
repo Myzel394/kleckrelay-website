@@ -25,7 +25,7 @@ export default function AuthenticatedRoute(): ReactElement {
 			justifyContent="center"
 			height="100vh"
 		>
-			<Box width="90vw" justifyContent="center" alignItems="center">
+			<Box maxWidth="90vw" justifyContent="center" alignItems="center">
 				<Container
 					maxWidth="md"
 					style={{

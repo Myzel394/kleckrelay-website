@@ -14,8 +14,8 @@ export enum ProxyUserAgentType {
 }
 
 export enum AliasType {
-	Random = "random",
-	Custom = "custom",
+	RANDOM = "random",
+	CUSTOM = "custom",
 }
 
 export interface User {

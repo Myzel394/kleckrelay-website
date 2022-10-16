@@ -6,12 +6,13 @@ import React, {ReactElement} from "react"
 
 import {InputAdornment, TextField} from "@mui/material"
 
+import {useMutation} from "@tanstack/react-query"
+import DetectEmailAutofillService from "./DetectEmailAutofillService"
+
 import {MultiStepFormElement, SimpleForm} from "~/components"
-import {checkIsDomainDisposable, signup} from "~/apis"
+import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
 import {parseFastapiError} from "~/utils"
 import {ServerSettings} from "~/server-types"
-
-import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 export interface EmailFormProps {
 	serverSettings: ServerSettings
@@ -31,6 +32,12 @@ export default function EmailForm({
 	onSignUp,
 	serverSettings,
 }: EmailFormProps): ReactElement {
+	const {mutateAsync} = useMutation<SignupResult, AxiosError, string>(
+		signup,
+		{
+			onSuccess: ({normalized_email}) => onSignUp(normalized_email),
+		},
+	)
 	const formik = useFormik<Form>({
 		validationSchema: SCHEMA,
 		initialValues: {
@@ -57,8 +64,7 @@ export default function EmailForm({
 			}
 
 			try {
-				await signup(values.email)
-				onSignUp(values.email)
+				await mutateAsync(values.email)
 			} catch (error) {
 				setErrors(parseFastapiError(error as AxiosError))
 			}

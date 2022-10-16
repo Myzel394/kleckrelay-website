@@ -3,6 +3,9 @@ import {TiCancel} from "react-icons/ti"
 import React, {ReactElement} from "react"
 
 import {Box, Button, Grid, Typography} from "@mui/material"
+import {MultiStepFormElement} from "~/components"
+import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
+import Icon from "@mdi/react"
 
 export interface GenerateEmailReportsFormProps {
 	onYes: () => void
@@ -14,7 +17,7 @@ export default function GenerateEmailReportsForm({
 	onYes,
 }: GenerateEmailReportsFormProps): ReactElement {
 	return (
-		<Box width="80vw">
+		<MultiStepFormElement>
 			<Grid
 				container
 				direction="column"
@@ -33,7 +36,7 @@ export default function GenerateEmailReportsForm({
 						alignItems="center"
 					>
 						<Grid item>
-							<Grid container spacing={2} direction="column">
+							<Grid container spacing={4} direction="column">
 								<Grid item>
 									<Typography
 										variant="h6"
@@ -42,6 +45,14 @@ export default function GenerateEmailReportsForm({
 									>
 										Generate Email Reports?
 									</Typography>
+								</Grid>
+								<Grid item>
+									<Box display="flex" justifyContent="center">
+										<Icon
+											path={mdiTextBoxMultiple}
+											size={2}
+										/>
+									</Box>
 								</Grid>
 								<Grid item>
 									<Typography
@@ -81,6 +92,6 @@ export default function GenerateEmailReportsForm({
 					</Grid>
 				</Grid>
 			</Grid>
-		</Box>
+		</MultiStepFormElement>
 	)
 }

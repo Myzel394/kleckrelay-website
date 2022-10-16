@@ -46,8 +46,7 @@ export default function VerifyEmailRoute(): ReactElement {
 	>(validateEmail, {
 		onSuccess: async ({user}) => {
 			setEmail("")
-			await login(user)
-			navigate("/")
+			await login(user, () => navigate("/auth/complete-account"))
 		},
 	})
 	const {loading} = useAsync(async () => {

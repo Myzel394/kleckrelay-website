@@ -34,8 +34,10 @@ export default function AuthContextProvider({
 		}
 	}, [])
 
-	const login = useCallback(async (user: User) => {
+	const login = useCallback(async (user: User, callback?: () => void) => {
 		setUser(user)
+
+		callback?.()
 	}, [])
 
 	const {mutateAsync: refresh} = useMutation<

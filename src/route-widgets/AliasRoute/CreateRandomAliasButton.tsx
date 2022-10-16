@@ -5,7 +5,7 @@ import {AxiosError} from "axios"
 import {Button} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {createAlias, CreateAliasData} from "~/apis"
+import {CreateAliasData, createAlias} from "~/apis"
 import {Alias, AliasType} from "~/server-types"
 
 export interface CreateRandomAliasButtonProps {
@@ -27,7 +27,7 @@ export default function CreateRandomAliasButton({
 			startIcon={<BsArrowClockwise />}
 			onClick={() =>
 				mutate({
-					type: AliasType.Random,
+					type: AliasType.RANDOM,
 				})
 			}
 		>
