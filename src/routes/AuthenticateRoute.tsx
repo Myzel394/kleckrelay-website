@@ -4,7 +4,7 @@ import {MdAdd, MdLogin} from "react-icons/md"
 
 import {Box, Button, Grid} from "@mui/material"
 
-export default function SingleElementRoute(): ReactElement {
+export default function AuthenticateRoute(): ReactElement {
 	return (
 		<Box
 			display="flex"

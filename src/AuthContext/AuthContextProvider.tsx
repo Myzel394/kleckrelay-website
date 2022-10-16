@@ -1,11 +1,16 @@
-import {ReactElement, ReactNode, useCallback, useMemo} from "react"
-import {AxiosError} from "axios"
+import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
 import {useLocalStorage} from "react-use"
+import axios, {AxiosError} from "axios"
 
 import {useMutation} from "@tanstack/react-query"
 
 import {User} from "~/server-types"
-import {RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
+import {
+	REFRESH_TOKEN_URL,
+	RefreshTokenResult,
+	logout as logoutUser,
+	refreshToken,
+} from "~/apis"
 
 import AuthContext, {AuthContextType} from "./AuthContext"
 
@@ -50,6 +55,31 @@ export default function AuthContextProvider({
 		}),
 		[refresh, login, logout],
 	)
+
+	useEffect(() => {
+		const interceptor = axios.interceptors.response.use(
+			response => response,
+			async (error: AxiosError) => {
+				if (error.isAxiosError) {
+					if (error.response?.status === 401) {
+						// Check if error comes from refreshing the token.
+						// If yes, the user has been logged out completely.
+						const request: XMLHttpRequest = error.request
+
+						if (request.responseURL === REFRESH_TOKEN_URL) {
+							await logout(false)
+						} else {
+							await refresh()
+						}
+					}
+				}
+
+				throw error
+			},
+		)
+
+		return () => axios.interceptors.response.eject(interceptor)
+	}, [logout, refresh])
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

@@ -8,9 +8,10 @@ import {queryClient} from "~/constants/react-query"
 import {lightTheme} from "~/constants/themes"
 import {getServerSettings} from "~/apis"
 import AuthContextProvider from "~/AuthContext/AuthContextProvider"
+import AuthenticateRoute from "~/routes/AuthenticateRoute"
+import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import RootRoute from "~/routes/Root"
 import SignupRoute from "~/routes/SignupRoute"
-import SingleElementRoute from "~/routes/SingleElementRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
 const router = createBrowserRouter([
@@ -20,20 +21,24 @@ const router = createBrowserRouter([
 		errorElement: <div></div>,
 		children: [
 			{
-				path: "/",
-				element: <SingleElementRoute />,
+				path: "/auth",
+				element: <AuthenticateRoute />,
 				children: [
 					{
 						loader: getServerSettings,
-						path: "/verify-email",
+						path: "/auth/verify-email",
 						element: <VerifyEmailRoute />,
 					},
 					{
 						loader: getServerSettings,
-						path: "/signup",
+						path: "/auth/signup",
 						element: <SignupRoute />,
 					},
 				],
+			},
+			{
+				path: "/",
+				element: <AuthenticatedRoute />,
 			},
 		],
 	},
