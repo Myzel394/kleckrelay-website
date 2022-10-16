@@ -5,8 +5,8 @@ import {AxiosError} from "axios"
 import {Button} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {CreateAliasData, createAlias} from "~/apis"
-import {Alias} from "~/server-types"
+import {createAlias, CreateAliasData} from "~/apis"
+import {Alias, AliasType} from "~/server-types"
 
 export interface CreateRandomAliasButtonProps {
 	onCreated: (alias: Alias) => void

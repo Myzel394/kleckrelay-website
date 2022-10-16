@@ -1,6 +1,6 @@
 import * as yup from "yup"
 import {useLoaderData, useNavigate} from "react-router-dom"
-import {useAsync} from "react-use"
+import {useAsync, useLocalStorage} from "react-use"
 import {MdCancel} from "react-icons/md"
 import {AxiosError} from "axios"
 import React, {ReactElement, useContext} from "react"
@@ -19,6 +19,7 @@ export default function VerifyEmailRoute(): ReactElement {
 	const theme = useTheme()
 	const navigate = useNavigate()
 	const {login} = useContext(AuthContext)
+	const [_, setEmail] = useLocalStorage<string>("signup-form-state-email", "")
 	const {email, token} = useQueryParams<{
 		email: string
 		token: string
@@ -44,6 +45,7 @@ export default function VerifyEmailRoute(): ReactElement {
 		ValidateEmailData
 	>(validateEmail, {
 		onSuccess: async ({user}) => {
+			setEmail("")
 			await login(user)
 			navigate("/")
 		},

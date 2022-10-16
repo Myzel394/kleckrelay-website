@@ -4,8 +4,8 @@ import {useLoaderData} from "react-router-dom"
 
 import {MultiStepForm} from "~/components"
 import {ServerSettings} from "~/server-types"
-import EmailForm from "~/route-widgets/root/EmailForm"
-import YouGotMail from "~/route-widgets/root/YouGotMail"
+import EmailForm from "~/route-widgets/SignupRoute/EmailForm"
+import YouGotMail from "~/route-widgets/SignupRoute/YouGotMail"
 
 export default function SignupRoute(): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
