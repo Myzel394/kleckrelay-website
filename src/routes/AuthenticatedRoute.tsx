@@ -1,5 +1,5 @@
 import {ReactElement} from "react"
-import {Outlet, useLocation} from "react-router-dom"
+import {Outlet} from "react-router-dom"
 
 import {Box, Container, List, ListItem, Paper, useTheme} from "@mui/material"
 
@@ -8,29 +8,12 @@ import NavigationButton, {
 	NavigationSection,
 } from "~/route-widgets/AuthenticateRoute/NavigationButton"
 
-enum Section {
-	Overview,
-	Aliases,
-	Reports,
-	Settings,
-}
+const sections = (
+	Object.keys(NavigationSection) as Array<keyof typeof NavigationSection>
+).filter(value => isNaN(Number(value)))
 
 export default function AuthenticatedRoute(): ReactElement {
 	const theme = useTheme()
-	const route = useLocation()
-
-	const section = (() => {
-		switch (route.pathname) {
-			case "/":
-				return Section.Overview
-			case "/aliases":
-				return Section.Aliases
-			case "/reports":
-				return Section.Reports
-			case "/settings":
-				return Section.Settings
-		}
-	})()
 
 	useUser()
 
@@ -53,17 +36,14 @@ export default function AuthenticatedRoute(): ReactElement {
 						display="flex"
 						flexDirection="row"
 						justifyContent="center"
+						alignItems="flex-start"
 					>
 						<Box
 							bgcolor={theme.palette.background.paper}
 							component="nav"
 						>
 							<List>
-								{(
-									Object.keys(NavigationSection) as Array<
-										keyof typeof NavigationSection
-									>
-								).map(key => (
+								{sections.map(key => (
 									<ListItem key={key}>
 										<NavigationButton
 											section={NavigationSection[key]}
