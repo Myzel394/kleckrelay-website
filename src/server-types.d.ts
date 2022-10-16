@@ -13,6 +13,11 @@ export enum ProxyUserAgentType {
 	CHROME = "chrome",
 }
 
+export enum AliasType {
+	Random = "random",
+	Custom = "custom",
+}
+
 export interface User {
 	id: string
 	createdAt: Date
@@ -49,4 +54,17 @@ export interface ServerSettings {
 
 export interface MinimumServerResponse {
 	detail?: string
+}
+
+export interface Alias {
+	id: string
+	domain: string
+	local: string
+	isActive: boolean
+	encryptedNotes: string
+	removeTrackers: boolean
+	createMailReport: boolean
+	proxyImages: boolean
+	imageProxyFormat: ImageProxyFormatType
+	imageProxyUserAgent: ProxyUserAgentType
 }

@@ -12,7 +12,7 @@ export default function useUser(): User {
 
 	useLayoutEffect(() => {
 		if (!isAuthenticated) {
-			navigate("/login")
+			navigate("/auth/login")
 		}
 	}, [isAuthenticated, navigate])
 
