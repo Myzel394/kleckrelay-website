@@ -22,6 +22,11 @@ export enum Language {
 	EN_US = "en_US",
 }
 
+export enum Theme {
+	LIGHT = "light",
+	DARK = "dark",
+}
+
 export interface User {
 	id: string
 	createdAt: Date
@@ -71,4 +76,9 @@ export interface Alias {
 	proxyImages: boolean
 	imageProxyFormat: ImageProxyFormatType
 	imageProxyUserAgent: ProxyUserAgentType
+}
+
+export interface UserNote {
+	theme: Theme
+	privateKey: string
 }

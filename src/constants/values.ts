@@ -1,0 +1,1 @@
+export const MASTER_PASSWORD_LENGTH = 4096

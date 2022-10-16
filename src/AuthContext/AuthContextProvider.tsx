@@ -1,4 +1,11 @@
-import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
+import {
+	ReactElement,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react"
 import {useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 
@@ -12,6 +19,7 @@ import {
 	refreshToken,
 } from "~/apis"
 import {client} from "~/constants/axios-client"
+import {decryptString, encryptString} from "~/utils"
 
 import AuthContext, {AuthContextType} from "./AuthContext"
 
@@ -22,6 +30,7 @@ export interface AuthContextProviderProps {
 export default function AuthContextProvider({
 	children,
 }: AuthContextProviderProps): ReactElement {
+	const [masterPassword, setMasterPassword] = useState<string | null>(null)
 	const [user, setUser] = useLocalStorage<User | null>(
 		"_global-context-auth-user",
 		null,
@@ -41,6 +50,28 @@ export default function AuthContextProvider({
 		callback?.()
 	}, [])
 
+	const encryptContent = useCallback(
+		(content: string) => {
+			if (!masterPassword) {
+				throw new Error("Master password not set.")
+			}
+
+			return encryptString(content, masterPassword)
+		},
+		[masterPassword],
+	)
+
+	const decryptContent = useCallback(
+		(content: string) => {
+			if (!masterPassword) {
+				throw new Error("Master password not set.")
+			}
+
+			return decryptString(content, masterPassword)
+		},
+		[masterPassword],
+	)
+
 	const {mutateAsync: refresh} = useMutation<
 		RefreshTokenResult,
 		AxiosError,
@@ -55,6 +86,9 @@ export default function AuthContextProvider({
 			login,
 			logout,
 			isAuthenticated: user !== null,
+			_setMasterPassword: setMasterPassword,
+			_encryptContent: encryptContent,
+			_decryptContent: decryptContent,
 		}),
 		[refresh, login, logout],
 	)

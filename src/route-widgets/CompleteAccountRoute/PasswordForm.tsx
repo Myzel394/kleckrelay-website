@@ -3,15 +3,17 @@ import {useFormik} from "formik"
 import {MdCheckCircle, MdChevronRight, MdLock} from "react-icons/md"
 import {generateKey} from "openpgp"
 import React, {ReactElement, useMemo} from "react"
+import passwordGenerator from "secure-random-password"
 
 import {LoadingButton} from "@mui/lab"
 import {Box, Grid, InputAdornment, Typography} from "@mui/material"
+import {useMutation} from "@tanstack/react-query"
 
 import {PasswordField} from "~/components"
-import {encryptString} from "~/utils"
+import {buildEncryptionPassword, encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
 import {useUser} from "~/hooks"
-import {useMutation} from "@tanstack/react-query"
+import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 
 interface Form {
 	password: string
@@ -29,7 +31,7 @@ const schema = yup.object().shape({
 
 export default function PasswordForm(): ReactElement {
 	const user = useUser()
-	const {} = useMutation()
+	const {} = useMutation<>()
 	const awaitGenerateKey = useMemo(
 		() =>
 			generateKey({
@@ -52,12 +54,22 @@ export default function PasswordForm(): ReactElement {
 			try {
 				const keyPair = await awaitGenerateKey
 
-				const encryptedPrivateKey = encryptString(
-					keyPair.privateKey,
+				const masterPassword = passwordGenerator.randomPassword({
+					length: MASTER_PASSWORD_LENGTH,
+				})
+
+				const encryptionPassword = buildEncryptionPassword(
+					values.password,
+					user.email.address,
+				)
+				const encryptedMasterPassword = encryptString(
+					masterPassword,
 					`${values.password}-${user.email.address}`,
 				)
-
-				console.log(encryptedPrivateKey)
+				const encryptedPrivateKey = encryptString(
+					keyPair.privateKey,
+					masterPassword,
+				)
 			} catch (error) {
 				setErrors({detail: "An error occurred"})
 			}

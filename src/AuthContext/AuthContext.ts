@@ -7,6 +7,9 @@ interface AuthContextTypeBase {
 	isAuthenticated: boolean
 	login: (user: User, callback: () => void) => Promise<void>
 	logout: () => void
+	_decryptContent: (content: string) => string
+	_encryptContent: (content: string) => string
+	_setMasterPassword: (masterPassword: string) => void
 }
 
 interface AuthContextTypeAuthenticated {
@@ -31,6 +34,15 @@ const AuthContext = createContext<AuthContextType>({
 	},
 	logout: () => {
 		throw new Error("logout() not implemented")
+	},
+	_decryptContent: () => {
+		throw new Error("_decryptContent() not implemented")
+	},
+	_encryptContent: () => {
+		throw new Error("_encryptContent() not implemented")
+	},
+	_setMasterPassword: () => {
+		throw new Error("_setMasterPassword() not implemented")
 	},
 })
 
