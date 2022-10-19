@@ -1,8 +1,9 @@
-import {User} from "~/server-types"
+import {ServerUser} from "~/server-types"
 
-export default function parseUser(user: any): User {
+export default function parseUser(user: any): ServerUser {
 	return {
 		...user,
+		isDecrypted: false,
 		createdAt: new Date(user.createdAt),
 	}
 }

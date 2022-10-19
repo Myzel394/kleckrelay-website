@@ -30,6 +30,7 @@
     "react-use": "^17.4.0",
     "secure-random-password": "^0.2.3",
     "ua-parser-js": "^1.0.2",
+    "use-system-theme": "^0.1.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

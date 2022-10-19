@@ -1,17 +1,10 @@
-import {
-	ReactElement,
-	ReactNode,
-	useCallback,
-	useEffect,
-	useMemo,
-	useState,
-} from "react"
+import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
 import {useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 
 import {useMutation} from "@tanstack/react-query"
 
-import {User} from "~/server-types"
+import {ServerUser, User} from "~/server-types"
 import {
 	REFRESH_TOKEN_URL,
 	RefreshTokenResult,
@@ -30,11 +23,20 @@ export interface AuthContextProviderProps {
 export default function AuthContextProvider({
 	children,
 }: AuthContextProviderProps): ReactElement {
-	const [masterPassword, setMasterPassword] = useState<string | null>(null)
-	const [user, setUser] = useLocalStorage<User | null>(
+	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<
+		string | null
+	>("_global-context-auth-decryption-password", null)
+	const [user, setUser] = useLocalStorage<ServerUser | User | null>(
 		"_global-context-auth-user",
 		null,
 	)
+	const masterPassword = useMemo<string | null>(() => {
+		if (decryptionPassword === null || !user?.encryptedPassword) {
+			return null
+		}
+
+		return decryptString(user!.encryptedPassword, decryptionPassword!)
+	}, [user?.encryptedPassword, decryptionPassword])
 
 	const logout = useCallback(async (forceLogout = true) => {
 		setUser(null)
@@ -42,12 +44,6 @@ export default function AuthContextProvider({
 		if (forceLogout) {
 			await logoutUser()
 		}
-	}, [])
-
-	const login = useCallback(async (user: User, callback?: () => void) => {
-		setUser(user)
-
-		callback?.()
 	}, [])
 
 	const encryptContent = useCallback(
@@ -72,6 +68,27 @@ export default function AuthContextProvider({
 		[masterPassword],
 	)
 
+	const login = useCallback(
+		async (user: ServerUser, callback?: () => void) => {
+			if (masterPassword !== null && user.encryptedNotes) {
+				const note = JSON.parse(decryptContent(user.encryptedNotes))
+
+				const newUser: User = {
+					...user,
+					notes: note,
+					isDecrypted: true,
+				}
+
+				setUser(newUser)
+			} else {
+				setUser(user)
+			}
+
+			callback?.()
+		},
+		[masterPassword, decryptContent],
+	)
+
 	const {mutateAsync: refresh} = useMutation<
 		RefreshTokenResult,
 		AxiosError,
@@ -86,9 +103,9 @@ export default function AuthContextProvider({
 			login,
 			logout,
 			isAuthenticated: user !== null,
-			_setMasterPassword: setMasterPassword,
 			_encryptContent: encryptContent,
 			_decryptContent: decryptContent,
+			_setDecryptionPassword: setDecryptionPassword,
 		}),
 		[refresh, login, logout],
 	)

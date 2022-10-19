@@ -1,8 +1,8 @@
-import {User} from "~/server-types"
+import {ServerUser} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 export interface RefreshTokenResult {
-	user: User
+	user: ServerUser
 	detail: string
 }
 

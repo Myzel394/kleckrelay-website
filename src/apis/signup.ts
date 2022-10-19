@@ -1,7 +1,7 @@
 import {client} from "~/constants/axios-client"
 
 export interface SignupResult {
-	normalized_email: string
+	normalizedEmail: string
 }
 
 export default async function signup(email: string): Promise<SignupResult> {

@@ -35,7 +35,7 @@ export default function EmailForm({
 	const {mutateAsync} = useMutation<SignupResult, AxiosError, string>(
 		signup,
 		{
-			onSuccess: ({normalized_email}) => onSignUp(normalized_email),
+			onSuccess: ({normalizedEmail}) => onSignUp(normalizedEmail),
 		},
 	)
 	const formik = useFormik<Form>({
@@ -112,9 +112,9 @@ export default function EmailForm({
 					</SimpleForm>
 				</form>
 			</MultiStepFormElement>
-			{!serverSettings.other_relays_enabled && (
+			{!serverSettings.otherRelaysEnabled && (
 				<DetectEmailAutofillService
-					domains={serverSettings.other_relay_domains}
+					domains={serverSettings.otherRelayDomains}
 				/>
 			)}
 		</>

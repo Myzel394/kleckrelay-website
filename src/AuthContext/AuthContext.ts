@@ -1,19 +1,19 @@
 import {createContext} from "react"
 
-import {User} from "~/server-types"
+import {ServerUser, User} from "~/server-types"
 
 interface AuthContextTypeBase {
-	user: User | null
+	user: ServerUser | User | null
 	isAuthenticated: boolean
-	login: (user: User, callback: () => void) => Promise<void>
+	login: (user: ServerUser, callback?: () => void) => Promise<void>
 	logout: () => void
 	_decryptContent: (content: string) => string
 	_encryptContent: (content: string) => string
-	_setMasterPassword: (masterPassword: string) => void
+	_setDecryptionPassword: (decryptionPassword: string) => void
 }
 
 interface AuthContextTypeAuthenticated {
-	user: User
+	user: ServerUser
 	isAuthenticated: true
 }
 
@@ -41,8 +41,8 @@ const AuthContext = createContext<AuthContextType>({
 	_encryptContent: () => {
 		throw new Error("_encryptContent() not implemented")
 	},
-	_setMasterPassword: () => {
-		throw new Error("_setMasterPassword() not implemented")
+	_setDecryptionPassword: () => {
+		throw new Error("_setMasterDecryptionPassword() not implemented")
 	},
 })
 

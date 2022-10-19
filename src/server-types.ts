@@ -27,9 +27,18 @@ export enum Theme {
 	DARK = "dark",
 }
 
-export interface User {
+export enum ThemeSettings {
+	LIGHT = "light",
+	DARK = "dark",
+	SYSTEM = "system",
+}
+
+export interface ServerUser {
 	id: string
 	createdAt: Date
+	encryptedNotes: string
+	isDecrypted: false
+	encryptedPassword: string
 	email: {
 		address: string
 		isVerified: boolean
@@ -44,21 +53,21 @@ export interface User {
 }
 
 export interface AuthenticationDetails {
-	user: User
+	user: ServerUser
 	detail: string
 }
 
 export interface ServerSettings {
-	mail_domain: string
-	random_email_id_min_length: number
-	random_email_id_chars: string
-	image_proxy_enabled: boolean
-	image_proxy_life_time: number
-	disposable_emails_enabled: boolean
-	other_relays_enabled: boolean
-	other_relay_domains: Array<string>
-	email_verification_chars: string
-	email_verification_length: number
+	mailDomain: string
+	randomEmailIdMinLength: number
+	RandomEmailIdChars: string
+	imageProxyEnabled: boolean
+	imageProxyLifeTime: number
+	disposableEmailsEnabled: boolean
+	otherRelaysEnabled: boolean
+	otherRelayDomains: Array<string>
+	emailVerificationChars: string
+	emailVerificationLength: number
 }
 
 export interface MinimumServerResponse {
@@ -81,4 +90,10 @@ export interface Alias {
 export interface UserNote {
 	theme: Theme
 	privateKey: string
+}
+
+export interface User
+	extends Omit<ServerUser, "encryptedNotes" | "isDecrypted"> {
+	notes: UserNote
+	isDecrypted: true
 }

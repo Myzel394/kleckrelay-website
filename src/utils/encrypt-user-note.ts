@@ -10,16 +10,6 @@ export const USER_NOTE_SCHEMA = yup.object().shape({
 	theme: yup.string().oneOf(Object.values(Theme)).required(),
 })
 
-export function createUserNote(
-	privateKey: string,
-	theme: Theme = Theme.LIGHT,
-): UserNote {
-	return {
-		theme,
-		privateKey,
-	}
-}
-
 export function decryptUserNote(
 	encryptedUserNote: string,
 	password: string,

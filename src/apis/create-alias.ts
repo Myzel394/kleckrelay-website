@@ -41,6 +41,9 @@ export default async function createAlias(
 	const {data} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/alias`,
 		aliasData,
+		{
+			withCredentials: true,
+		},
 	)
 
 	return data

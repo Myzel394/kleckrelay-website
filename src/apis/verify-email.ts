@@ -17,8 +17,10 @@ export default async function verifyEmail({
 			email: email,
 			token: token,
 		},
+		{
+			withCredentials: true,
+		},
 	)
-	console.log(data)
 
 	return {
 		...data,

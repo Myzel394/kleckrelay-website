@@ -28,14 +28,14 @@ export default function VerifyEmailRoute(): ReactElement {
 
 	const tokenSchema = yup
 		.string()
-		.length(serverSettings.email_verification_length)
+		.length(serverSettings.emailVerificationLength)
 		.test("token", "Invalid token", token => {
 			if (!token) {
 				return false
 			}
 
 			// Check token only contains chars from `serverSettings.email_verification_chars`
-			const chars = serverSettings.email_verification_chars.split("")
+			const chars = serverSettings.emailVerificationChars.split("")
 
 			return token.split("").every(char => chars.includes(char))
 		})
