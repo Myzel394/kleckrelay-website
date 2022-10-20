@@ -1,25 +1,30 @@
 import {AxiosError} from "axios"
 import {useLoaderData} from "react-router-dom"
-import {MdMail} from "react-icons/md"
 import React, {ReactElement} from "react"
 
 import {useMutation} from "@tanstack/react-query"
 
-import {resendEmailVerificationCode} from "~/apis"
+import {resendEmailLoginCode} from "~/apis"
 import {MutationStatusSnackbar, TimedButton} from "~/components"
 import {ServerSettings, SimpleDetailResponse} from "~/server-types"
+import {MdMail} from "react-icons/md"
 
 export interface ResendMailButtonProps {
 	email: string
+	sameRequestToken: string
 }
 
 export default function ResendMailButton({
 	email,
+	sameRequestToken,
 }: ResendMailButtonProps): ReactElement {
 	const settings = useLoaderData() as ServerSettings
 
 	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
-		resendEmailVerificationCode(email),
+		resendEmailLoginCode({
+			email,
+			sameRequestToken,
+		}),
 	)
 	const {mutate} = mutation
 

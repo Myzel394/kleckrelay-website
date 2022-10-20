@@ -52,9 +52,12 @@ export interface ServerUser {
 	}
 }
 
-export interface AuthenticationDetails {
-	user: ServerUser
+export interface SimpleDetailResponse {
 	detail: string
+}
+
+export interface AuthenticationDetails extends SimpleDetailResponse {
+	user: ServerUser
 }
 
 export interface ServerSettings {
@@ -68,10 +71,9 @@ export interface ServerSettings {
 	otherRelayDomains: Array<string>
 	emailVerificationChars: string
 	emailVerificationLength: number
-}
-
-export interface MinimumServerResponse {
-	detail?: string
+	emailLoginTokenChars: string
+	emailLoginTokenLength: number
+	emailResendWaitTime: number
 }
 
 export interface Alias {

@@ -5,7 +5,7 @@ import {UseMutationResult} from "@tanstack/react-query"
 import {Alert, AlertProps, Snackbar} from "@mui/material"
 
 import {FastAPIError} from "~/utils"
-import {MinimumServerResponse} from "~/server-types"
+import {SimpleDetailResponse} from "~/server-types"
 import getErrorMessage from "~/utils/get-error-message"
 
 export interface MutationStatusSnackbarProps<
@@ -21,7 +21,7 @@ export interface MutationStatusSnackbarProps<
 }
 
 export default function MutationStatusSnackbar<
-	TData extends MinimumServerResponse = MinimumServerResponse,
+	TData extends SimpleDetailResponse = SimpleDetailResponse,
 	TError extends AxiosError = AxiosError<FastAPIError>,
 	TVariables = unknown,
 	TContext = unknown,
