@@ -1,7 +1,7 @@
 import {ReactElement} from "react"
 import {AxiosError} from "axios"
 
-import {List} from "@mui/material"
+import {Grid, List, Typography} from "@mui/material"
 import {useQuery} from "@tanstack/react-query"
 
 import {Alias} from "~/server-types"
@@ -18,15 +18,24 @@ export default function AliasesRoute(): ReactElement {
 	} = useQuery<Array<Alias>, AxiosError>(["get_aliases"], getAliases)
 
 	return (
-		<List>
-			{isLoading ? (
-				<LoadingData />
-			) : (
-				aliases?.map?.(alias => (
-					<AliasListItem key={alias.id} alias={alias} />
-				))
-			)}
-			<CreateRandomAliasButton onCreated={() => refetch()} />
-		</List>
+		<Grid direction="column" container spacing={4}>
+			<Grid item>
+				<Typography variant="h6" component="h2">
+					Random Aliases
+				</Typography>
+				<List>
+					{isLoading ? (
+						<LoadingData />
+					) : (
+						aliases?.map?.(alias => (
+							<AliasListItem key={alias.id} alias={alias} />
+						))
+					)}
+				</List>
+			</Grid>
+			<Grid item>
+				<CreateRandomAliasButton onCreated={() => refetch()} />
+			</Grid>
+		</Grid>
 	)
 }

@@ -15,7 +15,7 @@ export interface CreateRandomAliasButtonProps {
 export default function CreateRandomAliasButton({
 	onCreated,
 }: CreateRandomAliasButtonProps): ReactElement {
-	const {mutate} = useMutation<Alias, AxiosError, CreateAliasData>(
+	const {mutate, isLoading} = useMutation<Alias, AxiosError, CreateAliasData>(
 		createAlias,
 		{
 			onSuccess: onCreated,
@@ -24,6 +24,7 @@ export default function CreateRandomAliasButton({
 
 	return (
 		<Button
+			disabled={isLoading}
 			startIcon={<BsArrowClockwise />}
 			onClick={() =>
 				mutate({
