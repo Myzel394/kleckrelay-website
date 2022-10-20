@@ -121,21 +121,26 @@ export default function AliasesPreferencesForm(): ReactElement {
 
 	return (
 		<>
-			<Grid container spacing={4}>
-				<Grid item>
-					<Typography variant="h6" component="h3">
-						Aliases Preferences
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Typography variant="body1" component="p">
-						Select the default behavior for your aliases. This will
-						only affect aliases that do not have a custom behavior
-						set.
-					</Typography>
-				</Grid>
-				<Grid item>
-					<form onSubmit={formik.handleSubmit}>
+			<form onSubmit={formik.handleSubmit}>
+				<Grid
+					container
+					spacing={4}
+					flexDirection="column"
+					alignItems="center"
+				>
+					<Grid item>
+						<Typography variant="h6" component="h3">
+							Aliases Preferences
+						</Typography>
+					</Grid>
+					<Grid item>
+						<Typography variant="body1" component="p">
+							Select the default behavior for your aliases. This
+							will only affect aliases that do not have a custom
+							behavior set.
+						</Typography>
+					</Grid>
+					<Grid item>
 						<Grid
 							display="flex"
 							flexDirection="row"
@@ -383,20 +388,20 @@ export default function AliasesPreferencesForm(): ReactElement {
 									</Grid>
 								</Collapse>
 							</Grid>
-							<Grid item>
-								<LoadingButton
-									loading={formik.isSubmitting}
-									variant="contained"
-									type="submit"
-									startIcon={<MdCheckCircle />}
-								>
-									Save Preferences
-								</LoadingButton>
-							</Grid>
 						</Grid>
-					</form>
+					</Grid>
+					<Grid item>
+						<LoadingButton
+							loading={formik.isSubmitting}
+							variant="contained"
+							type="submit"
+							startIcon={<MdCheckCircle />}
+						>
+							Save Preferences
+						</LoadingButton>
+					</Grid>
 				</Grid>
-			</Grid>
+			</form>
 			<ErrorSnack message={formik.errors.detail} />
 			<SuccessSnack message={data?.detail} />
 		</>
