@@ -89,6 +89,17 @@ export default function AuthContextProvider({
 		[masterPassword, decryptContent],
 	)
 
+	const updateUser = useCallback(
+		async (newUser: ServerUser | User) => {
+			if (user === null) {
+				throw new Error("Can't update user when user is null.")
+			}
+
+			setUser(newUser)
+		},
+		[user],
+	)
+
 	const {mutateAsync: refresh} = useMutation<
 		RefreshTokenResult,
 		AxiosError,
@@ -106,6 +117,7 @@ export default function AuthContextProvider({
 			_encryptContent: encryptContent,
 			_decryptContent: decryptContent,
 			_setDecryptionPassword: setDecryptionPassword,
+			_updateUser: updateUser,
 		}),
 		[refresh, login, logout],
 	)

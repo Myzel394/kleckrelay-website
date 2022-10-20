@@ -1,7 +1,15 @@
 import {ReactElement} from "react"
 import {Outlet} from "react-router-dom"
 
-import {Box, Container, List, ListItem, Paper, useTheme} from "@mui/material"
+import {
+	Box,
+	Container,
+	Grid,
+	List,
+	ListItem,
+	Paper,
+	useTheme,
+} from "@mui/material"
 
 import {useUser} from "~/hooks"
 import NavigationButton, {
@@ -32,32 +40,39 @@ export default function AuthenticatedRoute(): ReactElement {
 						backgroundColor: "transparent",
 					}}
 				>
-					<Box
-						display="flex"
-						flexDirection="row"
+					<Grid
+						container
 						justifyContent="center"
 						alignItems="flex-start"
 					>
-						<Box
-							bgcolor={theme.palette.background.paper}
-							component="nav"
-						>
-							<List>
-								{sections.map(key => (
-									<ListItem key={key}>
-										<NavigationButton
-											section={NavigationSection[key]}
-										/>
-									</ListItem>
-								))}
-							</List>
-						</Box>
-						<Paper>
-							<Box padding={4} maxHeight="80vh" overflow="scroll">
-								<Outlet />
+						<Grid item xs={12} sm={4}>
+							<Box
+								bgcolor={theme.palette.background.paper}
+								component="nav"
+							>
+								<List>
+									{sections.map(key => (
+										<ListItem key={key}>
+											<NavigationButton
+												section={NavigationSection[key]}
+											/>
+										</ListItem>
+									))}
+								</List>
 							</Box>
-						</Paper>
-					</Box>
+						</Grid>
+						<Grid item xs={12} sm={8}>
+							<Paper>
+								<Box
+									padding={4}
+									maxHeight="80vh"
+									overflow="scroll"
+								>
+									<Outlet />
+								</Box>
+							</Paper>
+						</Grid>
+					</Grid>
 				</Container>
 			</Box>
 		</Box>

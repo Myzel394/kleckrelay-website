@@ -10,6 +10,7 @@ interface AuthContextTypeBase {
 	_decryptContent: (content: string) => string
 	_encryptContent: (content: string) => string
 	_setDecryptionPassword: (decryptionPassword: string) => void
+	_updateUser: (user: ServerUser | User) => void
 }
 
 interface AuthContextTypeAuthenticated {
@@ -43,6 +44,9 @@ const AuthContext = createContext<AuthContextType>({
 	},
 	_setDecryptionPassword: () => {
 		throw new Error("_setMasterDecryptionPassword() not implemented")
+	},
+	_updateUser: () => {
+		throw new Error("_updateUser() not implemented")
 	},
 })
 

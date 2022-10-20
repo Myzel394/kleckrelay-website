@@ -14,6 +14,7 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import LoginRoute from "~/routes/LoginRoute"
 import RootRoute from "~/routes/Root"
+import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
 					{
 						path: "/aliases",
 						element: <AliasesRoute />,
+					},
+					{
+						path: "/settings",
+						element: <SettingsRoute />,
 					},
 				],
 			},
