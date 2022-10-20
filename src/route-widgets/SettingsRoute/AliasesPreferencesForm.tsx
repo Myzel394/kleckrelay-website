@@ -28,7 +28,7 @@ import {
 } from "~/server-types"
 import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useUser} from "~/hooks"
-import {parseFastapiError} from "~/utils"
+import {parseFastAPIError} from "~/utils"
 import {SuccessSnack} from "~/components"
 import AuthContext from "~/AuthContext/AuthContext"
 import ErrorSnack from "~/components/ErrorSnack"
@@ -112,7 +112,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 					aliasImageProxyUserAgent: values.imageProxyUserAgent,
 				})
 			} catch (error) {
-				setErrors(parseFastapiError(error as AxiosError))
+				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})

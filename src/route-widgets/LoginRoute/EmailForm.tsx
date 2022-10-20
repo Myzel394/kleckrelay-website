@@ -8,7 +8,7 @@ import {useMutation} from "@tanstack/react-query"
 import {InputAdornment, TextField} from "@mui/material"
 
 import {LoginWithEmailResult, loginWithEmail} from "~/apis"
-import {parseFastapiError} from "~/utils"
+import {parseFastAPIError} from "~/utils"
 import {MultiStepFormElement, SimpleForm} from "~/components"
 
 export interface EmailFormProps {
@@ -42,7 +42,7 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 			try {
 				await mutateAsync(values.email)
 			} catch (error) {
-				setErrors(parseFastapiError(error as AxiosError))
+				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})

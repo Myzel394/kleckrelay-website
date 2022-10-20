@@ -7,15 +7,14 @@ import {useQuery} from "@tanstack/react-query"
 import {Alias} from "~/server-types"
 import AliasListItem from "~/route-widgets/AliasRoute/AliasListItem"
 import CreateRandomAliasButton from "~/route-widgets/AliasRoute/CreateRandomAliasButton"
-import LoadingData from "~/components/LoadingData"
+import QueryResult from "~/components/QueryResult"
 import getAliases from "~/apis/get-aliases"
 
 export default function AliasesRoute(): ReactElement {
-	const {
-		data: aliases,
-		isLoading,
-		refetch,
-	} = useQuery<Array<Alias>, AxiosError>(["get_aliases"], getAliases)
+	const query = useQuery<Array<Alias>, AxiosError>(
+		["get_aliases"],
+		getAliases,
+	)
 
 	return (
 		<Grid direction="column" container spacing={4}>
@@ -23,18 +22,20 @@ export default function AliasesRoute(): ReactElement {
 				<Typography variant="h6" component="h2">
 					Random Aliases
 				</Typography>
-				<List>
-					{isLoading ? (
-						<LoadingData />
-					) : (
-						aliases?.map?.(alias => (
-							<AliasListItem key={alias.id} alias={alias} />
-						))
-					)}
-				</List>
 			</Grid>
 			<Grid item>
-				<CreateRandomAliasButton onCreated={() => refetch()} />
+				<QueryResult<Array<Alias>> query={query}>
+					{aliases => (
+						<List>
+							{aliases.map(alias => (
+								<AliasListItem key={alias.id} alias={alias} />
+							))}
+						</List>
+					)}
+				</QueryResult>
+			</Grid>
+			<Grid item>
+				<CreateRandomAliasButton onCreated={() => query.refetch()} />
 			</Grid>
 		</Grid>
 	)

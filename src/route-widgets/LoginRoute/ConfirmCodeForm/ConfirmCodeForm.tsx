@@ -11,7 +11,7 @@ import {LoadingButton} from "@mui/lab"
 import {AuthenticationDetails, ServerUser} from "~/server-types"
 import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
-import {parseFastapiError} from "~/utils"
+import {parseFastAPIError} from "~/utils"
 
 import ResendMailButton from "./ResendMailButton"
 import useSchema from "./use-schema"
@@ -54,7 +54,7 @@ export default function ConfirmCodeForm({
 					token: values.code,
 				})
 			} catch (error) {
-				setErrors(parseFastapiError(error as AxiosError))
+				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})

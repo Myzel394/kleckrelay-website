@@ -1,5 +1,6 @@
 import {AxiosError} from "axios"
 import {FormikErrors} from "formik"
+import {SimpleDetailResponse} from "~/server-types"
 
 export interface FastAPIError {
 	detail:
@@ -13,15 +14,21 @@ export interface FastAPIError {
 
 export default function parseFastAPIError(
 	rawError: AxiosError,
-): FormikErrors<any> {
+): FormikErrors<SimpleDetailResponse> {
 	if (rawError.isAxiosError) {
-		const fastAPIError = rawError.response?.data as FastAPIError
+		const error = rawError.response?.data as FastAPIError
 
-		if (typeof fastAPIError.detail === "string") {
-			return {detail: fastAPIError.detail}
+		if (typeof error === "undefined") {
+			return {
+				detail: "There was an error",
+			}
 		}
 
-		return fastAPIError.detail.reduce((acc, error) => {
+		if (typeof error.detail === "string") {
+			return {detail: error.detail}
+		}
+
+		return error.detail.reduce((acc, error) => {
 			const [location, field] = error.loc
 
 			if (location === "body") {

@@ -11,7 +11,7 @@ import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 import {MultiStepFormElement, SimpleForm} from "~/components"
 import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
-import {parseFastapiError} from "~/utils"
+import {parseFastAPIError} from "~/utils"
 import {ServerSettings} from "~/server-types"
 
 export interface EmailFormProps {
@@ -66,7 +66,7 @@ export default function EmailForm({
 			try {
 				await mutateAsync(values.email)
 			} catch (error) {
-				setErrors(parseFastapiError(error as AxiosError))
+				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})
