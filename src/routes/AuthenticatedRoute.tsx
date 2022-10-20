@@ -53,7 +53,7 @@ export default function AuthenticatedRoute(): ReactElement {
 							</List>
 						</Box>
 						<Paper>
-							<Box padding={4}>
+							<Box padding={4} maxHeight="80vh" overflow="scroll">
 								<Outlet />
 							</Box>
 						</Paper>
