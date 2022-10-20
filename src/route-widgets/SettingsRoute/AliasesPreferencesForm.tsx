@@ -7,6 +7,7 @@ import React, {ReactElement, useContext} from "react"
 import {useMutation} from "@tanstack/react-query"
 import {
 	Checkbox,
+	Collapse,
 	FormControlLabel,
 	FormGroup,
 	FormHelperText,
@@ -15,6 +16,8 @@ import {
 	MenuItem,
 	TextField,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
@@ -113,6 +116,8 @@ export default function AliasesPreferencesForm(): ReactElement {
 			}
 		},
 	})
+	const theme = useTheme()
+	const isLarge = useMediaQuery(theme.breakpoints.up("md"))
 
 	return (
 		<>
@@ -133,12 +138,12 @@ export default function AliasesPreferencesForm(): ReactElement {
 					<form onSubmit={formik.handleSubmit}>
 						<Grid
 							display="flex"
-							flexDirection="column"
+							flexDirection="row"
 							container
 							spacing={4}
 							alignItems="flex-end"
 						>
-							<Grid item>
+							<Grid item md={6}>
 								<FormGroup>
 									<FormControlLabel
 										disabled={formik.isSubmitting}
@@ -168,7 +173,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 									</FormHelperText>
 								</FormGroup>
 							</Grid>
-							<Grid item>
+							<Grid item md={6}>
 								<FormGroup>
 									<FormControlLabel
 										disabled={formik.isSubmitting}
@@ -199,7 +204,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 									</FormHelperText>
 								</FormGroup>
 							</Grid>
-							<Grid item>
+							<Grid item xs={12}>
 								<FormGroup>
 									<FormControlLabel
 										disabled={formik.isSubmitting}
@@ -228,115 +233,155 @@ export default function AliasesPreferencesForm(): ReactElement {
 											"Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the original server has no idea you have opened the mail. After the cache time, the image is loaded from the original server, but it gets proxied by us. This means the original server will not be able to access neither your IP address nor your user agent."}
 									</FormHelperText>
 								</FormGroup>
-							</Grid>
-							<Grid item>
-								<FormGroup>
-									<TextField
-										fullWidth
-										select
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<MdImage />
-												</InputAdornment>
-											),
-										}}
-										name="imageProxyFormat"
-										id="imageProxyFormat"
-										label="Image File Type"
-										value={formik.values.imageProxyFormat}
-										onChange={formik.handleChange}
-										disabled={formik.isSubmitting}
-										error={
-											formik.touched.imageProxyFormat &&
-											Boolean(
-												formik.errors.imageProxyFormat,
-											)
+								<Collapse in={formik.values.proxyImages}>
+									<Grid
+										display="flex"
+										flexDirection={
+											isLarge ? "row" : "column"
 										}
-										helperText={
-											formik.touched.imageProxyFormat &&
-											formik.errors.imageProxyFormat
+										container
+										marginY={2}
+										spacing={4}
+										alignItems={
+											isLarge ? "flex-start" : "flex-end"
 										}
 									>
-										{Object.entries(
-											ImageProxyFormatType,
-										).map(([key, value]) => (
-											<MenuItem key={key} value={value}>
-												{
-													IMAGE_PROXY_FORMAT_TYPE_NAME_MAP[
-														value
-													] as string
-												}
-											</MenuItem>
-										))}
-									</TextField>
-									<FormHelperText
-										error={Boolean(
-											formik.touched.imageProxyFormat &&
-												formik.errors.imageProxyFormat,
-										)}
-									>
-										{formik.touched.imageProxyFormat &&
-											formik.errors.imageProxyFormat}
-									</FormHelperText>
-								</FormGroup>
-							</Grid>
-							<Grid item>
-								<FormGroup>
-									<TextField
-										fullWidth
-										select
-										name="imageProxyUserAgent"
-										id="imageProxyUserAgent"
-										label="Image Proxy User Agent"
-										value={
-											formik.values.imageProxyUserAgent
-										}
-										onChange={formik.handleChange}
-										disabled={formik.isSubmitting}
-										error={
-											formik.touched
-												.imageProxyUserAgent &&
-											Boolean(
-												formik.errors
-													.imageProxyUserAgent,
-											)
-										}
-										helperText={
-											formik.touched
-												.imageProxyUserAgent &&
-											formik.errors.imageProxyUserAgent
-										}
-									>
-										{Object.entries(ProxyUserAgentType).map(
-											([key, value]) => (
-												<MenuItem
-													key={key}
-													value={value}
-												>
-													{
-														IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP[
-															value
-														] as string
+										<Grid item md={6}>
+											<FormGroup>
+												<TextField
+													fullWidth
+													select
+													InputProps={{
+														startAdornment: (
+															<InputAdornment position="start">
+																<MdImage />
+															</InputAdornment>
+														),
+													}}
+													name="imageProxyFormat"
+													id="imageProxyFormat"
+													label="Image File Type"
+													value={
+														formik.values
+															.imageProxyFormat
 													}
-												</MenuItem>
-											),
-										)}
-									</TextField>
-									<FormHelperText
-										error={Boolean(
-											formik.touched
-												.imageProxyUserAgent &&
-												formik.errors
-													.imageProxyUserAgent,
-										)}
-									>
-										{(formik.touched.imageProxyUserAgent &&
-											formik.errors
-												.imageProxyUserAgent) ||
-											"An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used by the proxy. User Agents are kept up-to-date."}
-									</FormHelperText>
-								</FormGroup>
+													onChange={
+														formik.handleChange
+													}
+													disabled={
+														formik.isSubmitting
+													}
+													error={
+														formik.touched
+															.imageProxyFormat &&
+														Boolean(
+															formik.errors
+																.imageProxyFormat,
+														)
+													}
+													helperText={
+														formik.touched
+															.imageProxyFormat &&
+														formik.errors
+															.imageProxyFormat
+													}
+												>
+													{Object.entries(
+														ImageProxyFormatType,
+													).map(([key, value]) => (
+														<MenuItem
+															key={key}
+															value={value}
+														>
+															{
+																IMAGE_PROXY_FORMAT_TYPE_NAME_MAP[
+																	value
+																] as string
+															}
+														</MenuItem>
+													))}
+												</TextField>
+												<FormHelperText
+													error={Boolean(
+														formik.touched
+															.imageProxyFormat &&
+															formik.errors
+																.imageProxyFormat,
+													)}
+												>
+													{formik.touched
+														.imageProxyFormat &&
+														formik.errors
+															.imageProxyFormat}
+												</FormHelperText>
+											</FormGroup>
+										</Grid>
+										<Grid item md={6}>
+											<FormGroup>
+												<TextField
+													fullWidth
+													select
+													name="imageProxyUserAgent"
+													id="imageProxyUserAgent"
+													label="Image Proxy User Agent"
+													value={
+														formik.values
+															.imageProxyUserAgent
+													}
+													onChange={
+														formik.handleChange
+													}
+													disabled={
+														formik.isSubmitting
+													}
+													error={
+														formik.touched
+															.imageProxyUserAgent &&
+														Boolean(
+															formik.errors
+																.imageProxyUserAgent,
+														)
+													}
+													helperText={
+														formik.touched
+															.imageProxyUserAgent &&
+														formik.errors
+															.imageProxyUserAgent
+													}
+												>
+													{Object.entries(
+														ProxyUserAgentType,
+													).map(([key, value]) => (
+														<MenuItem
+															key={key}
+															value={value}
+														>
+															{
+																IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP[
+																	value
+																] as string
+															}
+														</MenuItem>
+													))}
+												</TextField>
+												<FormHelperText
+													error={Boolean(
+														formik.touched
+															.imageProxyUserAgent &&
+															formik.errors
+																.imageProxyUserAgent,
+													)}
+												>
+													{(formik.touched
+														.imageProxyUserAgent &&
+														formik.errors
+															.imageProxyUserAgent) ||
+														"An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used by the proxy. User Agents are kept up-to-date."}
+												</FormHelperText>
+											</FormGroup>
+										</Grid>
+									</Grid>
+								</Collapse>
 							</Grid>
 							<Grid item>
 								<LoadingButton

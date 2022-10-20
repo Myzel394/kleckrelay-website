@@ -42,10 +42,10 @@ export default function AuthenticatedRoute(): ReactElement {
 				>
 					<Grid
 						container
-						justifyContent="center"
-						alignItems="flex-start"
+						justifyContent="space-between"
+						alignItems="center"
 					>
-						<Grid item xs={12} sm={4}>
+						<Grid item xs={12} sm={4} lg={2}>
 							<Box
 								bgcolor={theme.palette.background.paper}
 								component="nav"
@@ -61,11 +61,11 @@ export default function AuthenticatedRoute(): ReactElement {
 								</List>
 							</Box>
 						</Grid>
-						<Grid item xs={12} sm={8}>
+						<Grid item xs={12} sm={8} lg={10}>
 							<Paper>
 								<Box
 									padding={4}
-									maxHeight="80vh"
+									maxHeight="60vh"
 									overflow="scroll"
 								>
 									<Outlet />

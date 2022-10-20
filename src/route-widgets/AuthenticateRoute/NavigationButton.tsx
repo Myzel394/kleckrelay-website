@@ -1,6 +1,7 @@
 import {ReactElement} from "react"
 import {BiStats} from "react-icons/bi"
-import {MdMail, MdSettings} from "react-icons/md"
+import {MdSettings} from "react-icons/md"
+import {FaMask} from "react-icons/fa"
 import {Link as RouterLink, useLocation} from "react-router-dom"
 
 import {Button} from "@mui/material"
@@ -20,7 +21,7 @@ export interface NavigationButtonProps {
 
 const SECTION_ICON_MAP: Record<NavigationSection, ReactElement> = {
 	[NavigationSection.Overview]: <BiStats />,
-	[NavigationSection.Aliases]: <MdMail />,
+	[NavigationSection.Aliases]: <FaMask />,
 	[NavigationSection.Reports]: <Icon path={mdiTextBoxMultiple} size={0.8} />,
 	[NavigationSection.Settings]: <MdSettings />,
 }
