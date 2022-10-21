@@ -8,7 +8,7 @@ export interface RefreshTokenResult {
 
 export const REFRESH_TOKEN_URL = `${
 	import.meta.env.VITE_SERVER_BASE_URL
-}/auth/refresh-token`
+}/auth/refresh`
 
 export default async function refreshToken(): Promise<RefreshTokenResult> {
 	const {data} = await client.post(REFRESH_TOKEN_URL)

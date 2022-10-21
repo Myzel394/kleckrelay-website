@@ -45,7 +45,7 @@ export default function AuthenticatedRoute(): ReactElement {
 						justifyContent="space-between"
 						alignItems="center"
 					>
-						<Grid item xs={12} sm={4} lg={2}>
+						<Grid item xs={12} sm={4}>
 							<Box
 								bgcolor={theme.palette.background.paper}
 								component="nav"
@@ -61,7 +61,7 @@ export default function AuthenticatedRoute(): ReactElement {
 								</List>
 							</Box>
 						</Grid>
-						<Grid item xs={12} sm={8} lg={10}>
+						<Grid item xs={12} sm={8}>
 							<Paper>
 								<Box
 									padding={4}
