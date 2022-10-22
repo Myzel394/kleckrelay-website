@@ -27,7 +27,14 @@ export default function LoginRoute(): ReactElement {
 					key="confirm_code_form"
 					onConfirm={user => {
 						login(user)
-						navigate("/")
+
+						setTimeout(() => {
+							if (user.encryptedPassword) {
+								navigate("/enter-password")
+							} else {
+								navigate("/")
+							}
+						}, 0)
 					}}
 					email={email}
 					sameRequestToken={sameRequestToken}

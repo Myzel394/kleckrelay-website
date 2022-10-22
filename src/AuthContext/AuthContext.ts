@@ -10,7 +10,7 @@ interface AuthContextTypeBase {
 	_decryptUsingMasterPassword: (content: string) => string
 	_encryptUsingMasterPassword: (content: string) => string
 	_decryptUsingPrivateKey: (message: string) => Promise<string>
-	_setDecryptionPassword: (decryptionPassword: string) => void
+	_setDecryptionPassword: (decryptionPassword: string) => boolean
 	_updateUser: (user: ServerUser | User) => void
 }
 

@@ -1,35 +1,83 @@
-import {ReactElement, useContext, useState} from "react"
+import * as yup from "yup"
+import {ReactElement, useContext} from "react"
 import {useNavigate} from "react-router-dom"
+import {useFormik} from "formik"
+
 import {buildEncryptionPassword} from "~/utils"
 import {useUser} from "~/hooks"
+import {PasswordField, SimpleForm} from "~/components"
+import {InputAdornment} from "@mui/material"
+import {MdLock} from "react-icons/md"
 import AuthContext from "~/AuthContext/AuthContext"
+
+interface Form {
+	password: string
+}
+
+const schema = yup.object().shape({
+	password: yup.string().required(),
+})
 
 export default function EnterDecryptionPassword(): ReactElement {
 	const navigate = useNavigate()
 	const user = useUser()
 	const {_setDecryptionPassword} = useContext(AuthContext)
 
-	const [password, setPassword] = useState<string>("")
+	const formik = useFormik<Form>({
+		validationSchema: schema,
+		initialValues: {
+			password: "",
+		},
+		onSubmit: async ({password}, {setErrors}) => {
+			const decryptionPassword = buildEncryptionPassword(
+				password,
+				user.email.address,
+			)
+
+			if (!_setDecryptionPassword(decryptionPassword)) {
+				setErrors({password: "Password is invalid."})
+			} else {
+				navigate("/")
+			}
+		},
+	})
 
 	return (
-		<div>
-			<input
-				value={password}
-				onChange={event => setPassword(event.target.value)}
-			/>
-			<button
-				onClick={() => {
-					const encryptionPassword = buildEncryptionPassword(
-						password,
-						user.email.address,
-					)
-
-					_setDecryptionPassword(encryptionPassword)
-					navigate("/")
-				}}
+		<form onSubmit={formik.handleSubmit}>
+			<SimpleForm
+				title="Decrypt reports"
+				description="Please enter your password so that your reports can de decrypted."
+				cancelActionLabel="Don't decrypt"
+				continueActionLabel="Continue"
+				isSubmitting={formik.isSubmitting}
 			>
-				Ok
-			</button>
-		</div>
+				{[
+					<PasswordField
+						key="password"
+						fullWidth
+						name="password"
+						id="password"
+						label="Password"
+						value={formik.values.password}
+						onChange={formik.handleChange}
+						disabled={formik.isSubmitting}
+						error={
+							formik.touched.password &&
+							Boolean(formik.errors.password)
+						}
+						helperText={
+							formik.touched.password && formik.errors.password
+						}
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<MdLock />
+								</InputAdornment>
+							),
+						}}
+					/>,
+				]}
+			</SimpleForm>
+		</form>
 	)
 }

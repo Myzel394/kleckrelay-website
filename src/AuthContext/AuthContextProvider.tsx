@@ -102,6 +102,34 @@ export default function AuthContextProvider({
 		[user],
 	)
 
+	const updateDecryptionPassword = useCallback(
+		(password: string): boolean => {
+			if (!user) {
+				throw new Error("User not set.")
+			}
+
+			if (user.isDecrypted) {
+				// Password already set
+				return true
+			}
+
+			try {
+				// Check if the password is correct
+				const masterPassword = decryptString(
+					user.encryptedPassword,
+					password,
+				)
+				JSON.parse(decryptString(user.encryptedNotes, masterPassword))
+			} catch {
+				return false
+			}
+
+			setDecryptionPassword(password)
+			return true
+		},
+		[user?.encryptedPassword],
+	)
+
 	const value = useMemo<AuthContextType>(
 		() => ({
 			user: user ?? null,
@@ -111,7 +139,7 @@ export default function AuthContextProvider({
 			_encryptUsingMasterPassword: encryptUsingMasterPassword,
 			_decryptUsingMasterPassword: decryptUsingMasterPassword,
 			_decryptUsingPrivateKey: decryptUsingPrivateKey,
-			_setDecryptionPassword: setDecryptionPassword,
+			_setDecryptionPassword: updateDecryptionPassword,
 			_updateUser: setUser,
 		}),
 		[user, logout, encryptUsingMasterPassword, decryptUsingMasterPassword],

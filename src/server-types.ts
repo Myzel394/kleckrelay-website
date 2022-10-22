@@ -94,6 +94,36 @@ export interface Report {
 	encryptedContent: string
 }
 
+export interface DecryptedReportContent {
+	version: "1.0"
+	messageDetails: {
+		meta: {
+			from: string
+			to: string
+			createdAt: Date
+		}
+		content: {
+			subject: string
+			proxiedImages: Array<{
+				url: string
+				imageProxyId: string
+			}>
+			singlePixelImages: Array<{
+				source: string
+				trackerName: string
+				trackerUrl: string
+			}>
+		}
+	}
+}
+
+export type PaginationResult<T> = {
+	items: T[]
+	total: number
+	page: number
+	size: number
+}
+
 export interface UserNote {
 	theme: Theme
 	privateKey: string
