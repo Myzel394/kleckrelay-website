@@ -68,7 +68,7 @@ export interface ServerSettings {
 	imageProxyLifeTime: number
 	disposableEmailsEnabled: boolean
 	otherRelaysEnabled: boolean
-	otherRelayDomains: Array<string>
+	otherRelayDomains: string[]
 	emailVerificationChars: string
 	emailVerificationLength: number
 	emailLoginTokenChars: string

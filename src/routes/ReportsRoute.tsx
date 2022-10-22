@@ -6,10 +6,11 @@ import {List, ListItem, ListItemText} from "@mui/material"
 
 import {PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
+import {WithEncryptionRequired} from "~/hocs"
 import DecryptReport from "~/route-widgets/SettingsRoute/DecryptReport"
 import QueryResult from "~/components/QueryResult"
 
-export default function ReportsRoute(): ReactElement {
+function ReportsRoute(): ReactElement {
 	const query = useQuery<PaginationResult<Report>, AxiosError>(
 		["get_reports"],
 		getReports,
@@ -29,7 +30,9 @@ export default function ReportsRoute(): ReactElement {
 									<ListItemText
 										primary={
 											report.messageDetails.content
-												.subject
+												.subject ?? (
+												<i>{"<No Subject>"}</i>
+											)
 										}
 										secondary={`${report.messageDetails.meta.from} -> ${report.messageDetails.meta.to}`}
 									></ListItemText>
@@ -42,3 +45,5 @@ export default function ReportsRoute(): ReactElement {
 		</QueryResult>
 	)
 }
+
+export default WithEncryptionRequired(ReportsRoute)
