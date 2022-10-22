@@ -5,10 +5,11 @@ import {ServerUser, User} from "~/server-types"
 interface AuthContextTypeBase {
 	user: ServerUser | User | null
 	isAuthenticated: boolean
-	login: (user: ServerUser) => Promise<void>
+	login: (user: ServerUser | User) => void
 	logout: () => void
-	_decryptContent: (content: string) => string
-	_encryptContent: (content: string) => string
+	_decryptUsingMasterPassword: (content: string) => string
+	_encryptUsingMasterPassword: (content: string) => string
+	_decryptUsingPrivateKey: (message: string) => Promise<string>
 	_setDecryptionPassword: (decryptionPassword: string) => void
 	_updateUser: (user: ServerUser | User) => void
 }
@@ -36,11 +37,14 @@ const AuthContext = createContext<AuthContextType>({
 	logout: () => {
 		throw new Error("logout() not implemented")
 	},
-	_decryptContent: () => {
+	_decryptUsingMasterPassword: () => {
 		throw new Error("_decryptContent() not implemented")
 	},
-	_encryptContent: () => {
+	_encryptUsingMasterPassword: () => {
 		throw new Error("_encryptContent() not implemented")
+	},
+	_decryptUsingPrivateKey: () => {
+		throw new Error("_decryptUsingPrivateKey() not implemented")
 	},
 	_setDecryptionPassword: () => {
 		throw new Error("_setMasterDecryptionPassword() not implemented")

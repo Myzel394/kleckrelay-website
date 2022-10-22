@@ -91,7 +91,7 @@ export interface Alias {
 
 export interface Report {
 	id: string
-	encryptedNotes: string
+	encryptedContent: string
 }
 
 export interface UserNote {

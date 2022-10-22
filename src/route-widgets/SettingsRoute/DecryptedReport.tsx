@@ -1,37 +1,28 @@
-import {ReactElement} from "react"
+import {ReactElement, useContext} from "react"
 import {useAsync} from "react-use"
-import {useUser} from "~/hooks"
-import {decrypt, readMessage, readPrivateKey} from "openpgp"
+import camelcaseKeys from "camelcase-keys"
+
+import AuthContext from "~/AuthContext/AuthContext"
 
 export interface DecryptedReportProps {
-	encryptedNotes: string
+	encryptedContent: string
 }
 
 export default function DecryptedReport({
-	encryptedNotes,
+	encryptedContent,
 }: DecryptedReportProps): ReactElement {
-	const user = useUser()
+	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
 	const {value} = useAsync(async () => {
-		if (user.isDecrypted) {
-			// @ts-ignore
-			const key = await readPrivateKey({
-				armoredKey: user.notes.privateKey,
-			})
-			const message = await readMessage({
-				armoredMessage: encryptedNotes,
-			})
-
-			return await decrypt({
-				message: message,
-				decryptionKeys: key,
-			})
-		}
-	}, [encryptedNotes])
+		const message = await _decryptUsingPrivateKey(encryptedContent)
+		return camelcaseKeys(JSON.parse(message))
+	}, [encryptedContent])
 
 	if (!value) {
 		return <></>
 	}
 
-	return <div>{value}</div>
+	console.log(value)
+
+	return <></>
 }

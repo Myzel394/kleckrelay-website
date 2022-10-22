@@ -1,6 +1,7 @@
 import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
 import {useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
+import {decrypt, readMessage, readPrivateKey} from "openpgp"
 
 import {useMutation} from "@tanstack/react-query"
 
@@ -23,6 +24,14 @@ export interface AuthContextProviderProps {
 export default function AuthContextProvider({
 	children,
 }: AuthContextProviderProps): ReactElement {
+	const {mutateAsync: refresh} = useMutation<
+		RefreshTokenResult,
+		AxiosError,
+		void
+	>(refreshToken, {
+		onError: () => logout(false),
+	})
+
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<
 		string | null
 	>("_global-context-auth-decryption-password", null)
@@ -30,6 +39,7 @@ export default function AuthContextProvider({
 		"_global-context-auth-user",
 		null,
 	)
+
 	const masterPassword = useMemo<string | null>(() => {
 		if (decryptionPassword === null || !user?.encryptedPassword) {
 			return null
@@ -46,7 +56,7 @@ export default function AuthContextProvider({
 		}
 	}, [])
 
-	const encryptContent = useCallback(
+	const encryptUsingMasterPassword = useCallback(
 		(content: string) => {
 			if (!masterPassword) {
 				throw new Error("Master password not set.")
@@ -57,7 +67,7 @@ export default function AuthContextProvider({
 		[masterPassword],
 	)
 
-	const decryptContent = useCallback(
+	const decryptUsingMasterPassword = useCallback(
 		(content: string) => {
 			if (!masterPassword) {
 				throw new Error("Master password not set.")
@@ -68,75 +78,68 @@ export default function AuthContextProvider({
 		[masterPassword],
 	)
 
-	const tryDecryptUserNote = useCallback(
-		(newUser?: ServerUser): void => {
-			const userData: ServerUser = newUser ?? user
-
-			if (userData?.encryptedNotes && masterPassword) {
-				const note = JSON.parse(
-					decryptContent(userData.encryptedNotes!),
-				)
-
-				// @ts-ignore
-				const newUser: User = {
-					...user,
-					notes: note,
-					isDecrypted: true,
-				}
-
-				setUser(newUser)
+	const decryptUsingPrivateKey = useCallback(
+		async (message: string): Promise<string> => {
+			if (!user) {
+				throw new Error("User not set.")
 			}
+
+			if (!user.isDecrypted) {
+				throw new Error("User is not decrypted.")
+			}
+
+			return (
+				await decrypt({
+					message: await readMessage({
+						armoredMessage: message,
+					}),
+					decryptionKeys: await readPrivateKey({
+						armoredKey: user.notes.privateKey,
+					}),
+				})
+			).data.toString()
 		},
-		[user, decryptContent, masterPassword],
+		[user],
 	)
-
-	const updateUser = useCallback(
-		(newUser: ServerUser | User) => {
-			setUser(newUser)
-
-			tryDecryptUserNote()
-		},
-		[user, tryDecryptUserNote],
-	)
-
-	const updateDecryptionPassword = useCallback(
-		(password: string) => {
-			setDecryptionPassword(password)
-
-			tryDecryptUserNote()
-		},
-		[tryDecryptUserNote],
-	)
-
-	const {mutateAsync: refresh} = useMutation<
-		RefreshTokenResult,
-		AxiosError,
-		void
-	>(refreshToken, {
-		onError: () => logout(false),
-	})
 
 	const value = useMemo<AuthContextType>(
 		() => ({
 			user: user ?? null,
-			login: updateUser,
+			login: setUser,
 			logout,
 			isAuthenticated: user !== null,
-			_encryptContent: encryptContent,
-			_decryptContent: decryptContent,
-			_setDecryptionPassword: updateDecryptionPassword,
-			_updateUser: updateUser,
+			_encryptUsingMasterPassword: encryptUsingMasterPassword,
+			_decryptUsingMasterPassword: decryptUsingMasterPassword,
+			_decryptUsingPrivateKey: decryptUsingPrivateKey,
+			_setDecryptionPassword: setDecryptionPassword,
+			_updateUser: setUser,
 		}),
-		[
-			user,
-			logout,
-			encryptContent,
-			decryptContent,
-			updateDecryptionPassword,
-			updateUser,
-		],
+		[user, logout, encryptUsingMasterPassword, decryptUsingMasterPassword],
 	)
 
+	// Decrypt user notes
+	useEffect(() => {
+		if (
+			user &&
+			!user.isDecrypted &&
+			user.encryptedPassword &&
+			masterPassword
+		) {
+			const note = JSON.parse(
+				decryptUsingMasterPassword(user.encryptedNotes!),
+			)
+
+			const newUser: User = {
+				...user,
+				notes: note,
+				isDecrypted: true,
+			}
+
+			setUser(newUser)
+		}
+	}, [user, decryptUsingMasterPassword])
+
+	// Refresh token and logout user if needed
 	useEffect(() => {
 		const interceptor = client.interceptors.response.use(
 			response => response,

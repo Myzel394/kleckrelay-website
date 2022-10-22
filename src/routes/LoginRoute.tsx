@@ -25,7 +25,10 @@ export default function LoginRoute(): ReactElement {
 				/>,
 				<ConfirmCodeForm
 					key="confirm_code_form"
-					onConfirm={user => login(user, () => navigate("/"))}
+					onConfirm={user => {
+						login(user)
+						navigate("/")
+					}}
 					email={email}
 					sameRequestToken={sameRequestToken}
 				/>,

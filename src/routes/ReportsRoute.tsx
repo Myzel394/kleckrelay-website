@@ -19,7 +19,7 @@ export default function ReportsRoute(): ReactElement {
 					{reports.map(report => (
 						<DecryptedReport
 							key={report.id}
-							encryptedNotes={report.encryptedNotes}
+							encryptedContent={report.encryptedContent}
 						/>
 					))}
 				</>
