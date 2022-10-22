@@ -1,7 +1,7 @@
 import {useLocation, useNavigate} from "react-router-dom"
 import {useContext, useLayoutEffect} from "react"
 
-import {ServerUser} from "~/server-types"
+import {ServerUser, User} from "~/server-types"
 import AuthContext from "~/AuthContext/AuthContext"
 
 const AUTHENTICATION_PATHS = [
@@ -12,7 +12,7 @@ const AUTHENTICATION_PATHS = [
 
 /// Returns the currently authenticated user.
 // If the user is not authenticated, it will automatically redirect to the login page.
-export default function useUser(): ServerUser {
+export default function useUser(): ServerUser | User {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const {user, isAuthenticated} = useContext(AuthContext)
@@ -26,5 +26,5 @@ export default function useUser(): ServerUser {
 		}
 	}, [isAuthenticated, navigate])
 
-	return user as ServerUser
+	return user as ServerUser | User
 }

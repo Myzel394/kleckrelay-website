@@ -34,7 +34,6 @@ export default function VerifyEmailRoute(): ReactElement {
 				return false
 			}
 
-			// Check token only contains chars from `serverSettings.email_verification_chars`
 			const chars = serverSettings.emailVerificationChars.split("")
 
 			return token.split("").every(char => chars.includes(char))
@@ -44,9 +43,10 @@ export default function VerifyEmailRoute(): ReactElement {
 		AxiosError,
 		VerifyEmailData
 	>(verifyEmail, {
-		onSuccess: async ({user}) => {
+		onSuccess: ({user}) => {
 			setEmail("")
-			await login(user, () => navigate("/auth/complete-account"))
+			login(user)
+			navigate("/auth/complete-account")
 		},
 	})
 	const {loading} = useAsync(async () => {

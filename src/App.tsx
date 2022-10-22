@@ -12,7 +12,9 @@ import AuthContextProvider from "~/AuthContext/AuthContextProvider"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
 import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
+import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
 import LoginRoute from "~/routes/LoginRoute"
+import ReportsRoute from "~/routes/ReportsRoute"
 import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
@@ -60,6 +62,14 @@ const router = createBrowserRouter([
 					{
 						path: "/settings",
 						element: <SettingsRoute />,
+					},
+					{
+						path: "/reports",
+						element: <ReportsRoute />,
+					},
+					{
+						path: "/enter-password",
+						element: <EnterDecryptionPassword />,
 					},
 				],
 			},

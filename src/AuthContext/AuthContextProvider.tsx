@@ -68,11 +68,16 @@ export default function AuthContextProvider({
 		[masterPassword],
 	)
 
-	const login = useCallback(
-		async (user: ServerUser, callback?: () => void) => {
-			if (masterPassword !== null && user.encryptedNotes) {
-				const note = JSON.parse(decryptContent(user.encryptedNotes))
+	const tryDecryptUserNote = useCallback(
+		(newUser?: ServerUser): void => {
+			const userData: ServerUser = newUser ?? user
 
+			if (userData?.encryptedNotes && masterPassword) {
+				const note = JSON.parse(
+					decryptContent(userData.encryptedNotes!),
+				)
+
+				// @ts-ignore
 				const newUser: User = {
 					...user,
 					notes: note,
@@ -80,24 +85,27 @@ export default function AuthContextProvider({
 				}
 
 				setUser(newUser)
-			} else {
-				setUser(user)
 			}
-
-			callback?.()
 		},
-		[masterPassword, decryptContent],
+		[user, decryptContent, masterPassword],
 	)
 
 	const updateUser = useCallback(
-		async (newUser: ServerUser | User) => {
-			if (user === null) {
-				throw new Error("Can't update user when user is null.")
-			}
-
+		(newUser: ServerUser | User) => {
 			setUser(newUser)
+
+			tryDecryptUserNote()
 		},
-		[user],
+		[user, tryDecryptUserNote],
+	)
+
+	const updateDecryptionPassword = useCallback(
+		(password: string) => {
+			setDecryptionPassword(password)
+
+			tryDecryptUserNote()
+		},
+		[tryDecryptUserNote],
 	)
 
 	const {mutateAsync: refresh} = useMutation<
@@ -111,15 +119,22 @@ export default function AuthContextProvider({
 	const value = useMemo<AuthContextType>(
 		() => ({
 			user: user ?? null,
-			login,
+			login: updateUser,
 			logout,
 			isAuthenticated: user !== null,
 			_encryptContent: encryptContent,
 			_decryptContent: decryptContent,
-			_setDecryptionPassword: setDecryptionPassword,
+			_setDecryptionPassword: updateDecryptionPassword,
 			_updateUser: updateUser,
 		}),
-		[refresh, login, logout],
+		[
+			user,
+			logout,
+			encryptContent,
+			decryptContent,
+			updateDecryptionPassword,
+			updateUser,
+		],
 	)
 
 	useEffect(() => {

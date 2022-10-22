@@ -91,7 +91,7 @@ export default function PasswordForm(): ReactElement {
 				}
 				const encryptedNotes = encryptUserNote(note, masterPassword)
 
-				_setDecryptionPassword(values.password)
+				_setDecryptionPassword(encryptionPassword)
 
 				await mutateAsync({
 					encryptedPassword: encryptedMasterPassword,

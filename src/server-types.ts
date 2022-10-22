@@ -89,6 +89,11 @@ export interface Alias {
 	imageProxyUserAgent: ProxyUserAgentType
 }
 
+export interface Report {
+	id: string
+	encryptedNotes: string
+}
+
 export interface UserNote {
 	theme: Theme
 	privateKey: string
