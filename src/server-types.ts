@@ -96,8 +96,10 @@ export interface Report {
 
 export interface DecryptedReportContent {
 	version: "1.0"
+	id: string
 	messageDetails: {
 		meta: {
+			messageId: string
 			from: string
 			to: string
 			createdAt: Date
@@ -107,6 +109,8 @@ export interface DecryptedReportContent {
 			proxiedImages: Array<{
 				url: string
 				imageProxyId: string
+				createdAt: Date
+				serverUrl: string
 			}>
 			singlePixelImages: Array<{
 				source: string

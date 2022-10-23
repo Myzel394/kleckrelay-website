@@ -2,13 +2,14 @@ import {ReactElement} from "react"
 import {AxiosError} from "axios"
 
 import {useQuery} from "@tanstack/react-query"
-import {List, ListItem, ListItemText} from "@mui/material"
+import {List} from "@mui/material"
 
 import {PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
 import {WithEncryptionRequired} from "~/hocs"
-import DecryptReport from "~/route-widgets/SettingsRoute/DecryptReport"
+import {DecryptReport} from "~/components"
 import QueryResult from "~/components/QueryResult"
+import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
 
 function ReportsRoute(): ReactElement {
 	const query = useQuery<PaginationResult<Report>, AxiosError>(
@@ -26,17 +27,10 @@ function ReportsRoute(): ReactElement {
 							encryptedContent={report.encryptedContent}
 						>
 							{report => (
-								<ListItem>
-									<ListItemText
-										primary={
-											report.messageDetails.content
-												.subject ?? (
-												<i>{"<No Subject>"}</i>
-											)
-										}
-										secondary={`${report.messageDetails.meta.from} -> ${report.messageDetails.meta.to}`}
-									></ListItemText>
-								</ListItem>
+								<ReportInformationItem
+									report={report}
+									key={report.id}
+								/>
 							)}
 						</DecryptReport>
 					))}

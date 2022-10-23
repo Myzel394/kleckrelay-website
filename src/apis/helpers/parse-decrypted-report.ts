@@ -11,6 +11,15 @@ export default function parseDecryptedReport(
 				...report.messageDetails.meta,
 				createdAt: new Date(report.messageDetails.meta.createdAt),
 			},
+			content: {
+				...report.messageDetails.content,
+				proxiedImages: report.messageDetails.content.proxiedImages.map(
+					image => ({
+						...image,
+						createdAt: new Date(image.createdAt),
+					}),
+				),
+			},
 		},
 	}
 }

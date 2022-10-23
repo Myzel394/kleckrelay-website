@@ -14,6 +14,7 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
 import LoginRoute from "~/routes/LoginRoute"
+import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
@@ -66,6 +67,11 @@ const router = createBrowserRouter([
 					{
 						path: "/reports",
 						element: <ReportsRoute />,
+					},
+					{
+						loader: getServerSettings,
+						path: "/reports/:id",
+						element: <ReportDetailRoute />,
 					},
 					{
 						path: "/enter-password",

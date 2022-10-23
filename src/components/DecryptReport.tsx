@@ -19,7 +19,7 @@ export default function DecryptReport({
 
 	const {value} = useAsync(async () => {
 		const message = await _decryptUsingPrivateKey(encryptedContent)
-		const content = camelcaseKeys(JSON.parse(message))
+		const content = camelcaseKeys(JSON.parse(message), {deep: true})
 
 		return parseDecryptedReport(content)
 	}, [encryptedContent])
