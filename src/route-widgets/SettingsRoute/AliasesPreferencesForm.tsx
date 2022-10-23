@@ -30,6 +30,10 @@ import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useUser} from "~/hooks"
 import {parseFastAPIError} from "~/utils"
 import {SuccessSnack} from "~/components"
+import {
+	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
+	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+} from "~/constants/enum_mappings"
 import AuthContext from "~/AuthContext/AuthContext"
 import ErrorSnack from "~/components/ErrorSnack"
 
@@ -56,22 +60,6 @@ const SCHEMA = yup.object().shape({
 		.oneOf(Object.values(ProxyUserAgentType))
 		.required(),
 })
-
-const IMAGE_PROXY_FORMAT_TYPE_NAME_MAP: Record<ImageProxyFormatType, string> = {
-	[ImageProxyFormatType.JPEG]: "JPEG",
-	[ImageProxyFormatType.PNG]: "PNG",
-	[ImageProxyFormatType.WEBP]: "WebP",
-}
-
-const IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP: Record<ProxyUserAgentType, string> =
-	{
-		[ProxyUserAgentType.APPLE_MAIL]: "Apple Mail",
-		[ProxyUserAgentType.GOOGLE_MAIL]: "Google Mail",
-		[ProxyUserAgentType.CHROME]: "Chrome Browser",
-		[ProxyUserAgentType.FIREFOX]: "Firefox Browser",
-		[ProxyUserAgentType.OUTLOOK_MACOS]: "Outlook / MacOS",
-		[ProxyUserAgentType.OUTLOOK_WINDOWS]: "Outlook / Windows",
-	}
 
 export default function AliasesPreferencesForm(): ReactElement {
 	const {_updateUser} = useContext(AuthContext)

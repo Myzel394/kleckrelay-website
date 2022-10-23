@@ -3,7 +3,7 @@ import {MdOutlineMoreVert} from "react-icons/md"
 
 import {
 	IconButton,
-	ListItem,
+	ListItemButton,
 	ListItemSecondaryAction,
 	ListItemText,
 } from "@mui/material"
@@ -17,14 +17,16 @@ export interface AliasListItemProps {
 export default function AliasListItem({
 	alias,
 }: AliasListItemProps): ReactElement {
+	const address = `${alias.local}@${alias.domain}`
+
 	return (
-		<ListItem>
-			<ListItemText primary={`${alias.local}@${alias.domain}`} />
+		<ListItemButton href={`/aliases/${btoa(address)}`}>
+			<ListItemText primary={address} />
 			<ListItemSecondaryAction>
 				<IconButton edge="end">
 					<MdOutlineMoreVert />
 				</IconButton>
 			</ListItemSecondaryAction>
-		</ListItem>
+		</ListItemButton>
 	)
 }

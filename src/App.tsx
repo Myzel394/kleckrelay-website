@@ -7,6 +7,7 @@ import {CssBaseline, ThemeProvider} from "@mui/material"
 import {queryClient} from "~/constants/react-query"
 import {lightTheme} from "~/constants/themes"
 import {getServerSettings} from "~/apis"
+import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
 import AuthContextProvider from "~/AuthContext/AuthContextProvider"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
 					{
 						path: "/aliases",
 						element: <AliasesRoute />,
+					},
+					{
+						path: "/aliases/:addressInBase64",
+						element: <AliasDetailRoute />,
 					},
 					{
 						path: "/settings",
