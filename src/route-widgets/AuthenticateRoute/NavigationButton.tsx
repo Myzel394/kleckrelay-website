@@ -34,10 +34,10 @@ const SECTION_TEXT_MAP: Record<NavigationSection, string> = {
 }
 
 const PATH_SECTION_MAP: Record<string, NavigationSection> = {
-	"/": NavigationSection.Overview,
-	"/aliases": NavigationSection.Aliases,
-	"/reports": NavigationSection.Reports,
-	"/settings": NavigationSection.Settings,
+	"": NavigationSection.Overview,
+	aliases: NavigationSection.Aliases,
+	reports: NavigationSection.Reports,
+	settings: NavigationSection.Settings,
 }
 
 export default function NavigationButton({
@@ -45,7 +45,7 @@ export default function NavigationButton({
 }: NavigationButtonProps): ReactElement {
 	const location = useLocation()
 
-	const currentSection = PATH_SECTION_MAP[location.pathname]
+	const currentSection = PATH_SECTION_MAP[location.pathname.split("/")[1]]
 	const Icon = SECTION_ICON_MAP[section]
 	const text = SECTION_TEXT_MAP[section]
 

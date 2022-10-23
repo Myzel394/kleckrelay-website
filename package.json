@@ -31,6 +31,7 @@
     "react-router-dom": "^6.4.2",
     "react-use": "^17.4.0",
     "secure-random-password": "^0.2.3",
+    "sort-array": "^4.1.5",
     "ua-parser-js": "^1.0.2",
     "use-system-theme": "^0.1.1",
     "yup": "^0.32.11"
@@ -46,6 +47,7 @@
     "@types/react-router": "^5.1.19",
     "@types/react-router-dom": "^5.3.3",
     "@types/secure-random-password": "^0.2.1",
+    "@types/sort-array": "^4.1.0",
     "@types/ua-parser-js": "^0.7.36",
     "@types/yup": "^0.32.0",
     "@typescript-eslint/eslint-plugin": "^5.40.0",

@@ -12,8 +12,6 @@ export default function WithEncryptionRequired(
 	return (props: any): ReactElement => {
 		const user = useUser()
 
-		console.log("withencryption required", user)
-
 		if (!user.encryptedPassword) {
 			return (
 				<Grid container spacing={4}>

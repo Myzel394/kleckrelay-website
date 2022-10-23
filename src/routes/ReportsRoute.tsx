@@ -4,12 +4,12 @@ import {AxiosError} from "axios"
 import {useQuery} from "@tanstack/react-query"
 import {List} from "@mui/material"
 
-import {PaginationResult, Report} from "~/server-types"
+import {DecryptedReportContent, PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
 import {WithEncryptionRequired} from "~/hocs"
 import {DecryptReport} from "~/components"
 import QueryResult from "~/components/QueryResult"
-import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
+import ReportsList from "~/route-widgets/ReportsRoute/ReportsList"
 
 function ReportsRoute(): ReactElement {
 	const query = useQuery<PaginationResult<Report>, AxiosError>(
@@ -21,19 +21,13 @@ function ReportsRoute(): ReactElement {
 		<QueryResult<PaginationResult<Report>> query={query}>
 			{result => (
 				<List>
-					{result.items.map(report => (
-						<DecryptReport
-							key={report.id}
-							encryptedContent={report.encryptedContent}
-						>
-							{report => (
-								<ReportInformationItem
-									report={report}
-									key={report.id}
-								/>
-							)}
-						</DecryptReport>
-					))}
+					<DecryptReport reports={result.items}>
+						{reports => (
+							<ReportsList
+								reports={reports as DecryptedReportContent[]}
+							/>
+						)}
+					</DecryptReport>
 				</List>
 			)}
 		</QueryResult>

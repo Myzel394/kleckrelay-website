@@ -27,48 +27,71 @@ export default function ReportDetailRoute(): ReactElement {
 				>
 					{report => (
 						<Grid container spacing={4}>
-							<Grid item>
+							<Grid item xs={12}>
 								<Typography variant="h4" component="h1">
 									Email Report
 								</Typography>
 							</Grid>
-							<Grid item>
+							<Grid item xs={12}>
 								<Typography variant="h6" component="h2">
 									Email information
 								</Typography>
-								<Box component="dl">
-									<Typography
-										variant="overline"
-										component="dt"
-									>
-										From
-									</Typography>
-									<Typography variant="body1" component="dd">
-										{report.messageDetails.meta.from}
-									</Typography>
-								</Box>
-								<Box component="dl">
-									<Typography
-										variant="overline"
-										component="dt"
-									>
-										To
-									</Typography>
-									<Typography variant="body1" component="dd">
-										{report.messageDetails.meta.to}
-									</Typography>
-								</Box>
-								<Box component="dl">
-									<Typography
-										variant="overline"
-										component="dt"
-									>
-										Subject
-									</Typography>
-									<Typography variant="body1" component="dd">
-										{report.messageDetails.content.subject}
-									</Typography>
-								</Box>
+								<Grid container columnSpacing={4}>
+									<Grid item xs={12} md={6} lg={4}>
+										<Box component="dl">
+											<Typography
+												variant="overline"
+												component="dt"
+											>
+												From
+											</Typography>
+											<Typography
+												variant="body1"
+												component="dd"
+											>
+												{
+													report.messageDetails.meta
+														.from
+												}
+											</Typography>
+										</Box>
+									</Grid>
+									<Grid item xs={12} md={6} lg={4}>
+										<Box component="dl">
+											<Typography
+												variant="overline"
+												component="dt"
+											>
+												To
+											</Typography>
+											<Typography
+												variant="body1"
+												component="dd"
+											>
+												{report.messageDetails.meta.to}
+											</Typography>
+										</Box>
+									</Grid>
+									<Grid item xs={12} lg={4}>
+										<Box component="dl">
+											<Typography
+												variant="overline"
+												component="dt"
+											>
+												Subject
+											</Typography>
+											<Typography
+												variant="body1"
+												component="dd"
+											>
+												{
+													report.messageDetails
+														.content.subject
+												}
+											</Typography>
+										</Box>
+									</Grid>
+								</Grid>
 							</Grid>
 							<Grid item>
 								<Typography variant="h6" component="h2">
