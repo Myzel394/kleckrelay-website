@@ -8,6 +8,7 @@ import {AliasList, PaginationResult} from "~/server-types"
 import AliasListItem from "~/route-widgets/AliasRoute/AliasListItem"
 import CreateRandomAliasButton from "~/route-widgets/AliasRoute/CreateRandomAliasButton"
 import QueryResult from "~/components/QueryResult"
+import SimplePage from "~/components/SimplePage"
 import getAliases from "~/apis/get-aliases"
 
 export default function AliasesRoute(): ReactElement {
@@ -17,26 +18,33 @@ export default function AliasesRoute(): ReactElement {
 	)
 
 	return (
-		<Grid direction="column" container spacing={4}>
-			<Grid item>
-				<Typography variant="h6" component="h2">
-					Random Aliases
-				</Typography>
+		<SimplePage title="Aliases">
+			<Grid container spacing={4} direction="column" alignItems="stretch">
+				<Grid item>
+					<Typography variant="h6" component="h2">
+						Random Aliases
+					</Typography>
+				</Grid>
+				<Grid item>
+					<QueryResult<PaginationResult<AliasList>> query={query}>
+						{result => (
+							<List>
+								{result.items.map(alias => (
+									<AliasListItem
+										key={alias.id}
+										alias={alias}
+									/>
+								))}
+							</List>
+						)}
+					</QueryResult>
+				</Grid>
+				<Grid item>
+					<CreateRandomAliasButton
+						onCreated={() => query.refetch()}
+					/>
+				</Grid>
 			</Grid>
-			<Grid item>
-				<QueryResult<PaginationResult<AliasList>> query={query}>
-					{result => (
-						<List>
-							{result.items.map(alias => (
-								<AliasListItem key={alias.id} alias={alias} />
-							))}
-						</List>
-					)}
-				</QueryResult>
-			</Grid>
-			<Grid item>
-				<CreateRandomAliasButton onCreated={() => query.refetch()} />
-			</Grid>
-		</Grid>
+		</SimplePage>
 	)
 }

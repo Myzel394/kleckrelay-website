@@ -10,6 +10,7 @@ import {getReport} from "~/apis"
 import {DecryptReport} from "~/components"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
 import QueryResult from "~/components/QueryResult"
+import SimplePage from "~/components/SimplePage"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
 
 export default function ReportDetailRoute(): ReactElement {
@@ -20,102 +21,102 @@ export default function ReportDetailRoute(): ReactElement {
 	)
 
 	return (
-		<QueryResult<Report> query={query}>
-			{encryptedReport => (
-				<DecryptReport
-					encryptedContent={encryptedReport.encryptedContent}
-				>
-					{report => (
-						<Grid container spacing={4}>
-							<Grid item xs={12}>
-								<Typography variant="h4" component="h1">
-									Email Report
-								</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Typography variant="h6" component="h2">
-									Email information
-								</Typography>
-								<Grid container columnSpacing={4}>
-									<Grid item xs={12} md={6} lg={4}>
-										<Box component="dl">
-											<Typography
-												variant="overline"
-												component="dt"
-											>
-												From
-											</Typography>
-											<Typography
-												variant="body1"
-												component="dd"
-											>
-												{
-													report.messageDetails.meta
-														.from
-												}
-											</Typography>
-										</Box>
-									</Grid>
-									<Grid item xs={12} md={6} lg={4}>
-										<Box component="dl">
-											<Typography
-												variant="overline"
-												component="dt"
-											>
-												To
-											</Typography>
-											<Typography
-												variant="body1"
-												component="dd"
-											>
-												{report.messageDetails.meta.to}
-											</Typography>
-										</Box>
-									</Grid>
-									<Grid item xs={12} lg={4}>
-										<Box component="dl">
-											<Typography
-												variant="overline"
-												component="dt"
-											>
-												Subject
-											</Typography>
-											<Typography
-												variant="body1"
-												component="dd"
-											>
-												{
-													report.messageDetails
-														.content.subject
-												}
-											</Typography>
-										</Box>
+		<SimplePage title="Report Details">
+			<QueryResult<Report> query={query}>
+				{encryptedReport => (
+					<DecryptReport
+						encryptedContent={encryptedReport.encryptedContent}
+					>
+						{report => (
+							<Grid container spacing={4}>
+								<Grid item xs={12}>
+									<Typography variant="h6" component="h2">
+										Email information
+									</Typography>
+									<Grid container columnSpacing={4}>
+										<Grid item xs={12} md={6} lg={4}>
+											<Box component="dl">
+												<Typography
+													variant="overline"
+													component="dt"
+												>
+													From
+												</Typography>
+												<Typography
+													variant="body1"
+													component="dd"
+												>
+													{
+														report.messageDetails
+															.meta.from
+													}
+												</Typography>
+											</Box>
+										</Grid>
+										<Grid item xs={12} md={6} lg={4}>
+											<Box component="dl">
+												<Typography
+													variant="overline"
+													component="dt"
+												>
+													To
+												</Typography>
+												<Typography
+													variant="body1"
+													component="dd"
+												>
+													{
+														report.messageDetails
+															.meta.to
+													}
+												</Typography>
+											</Box>
+										</Grid>
+										<Grid item xs={12} lg={4}>
+											<Box component="dl">
+												<Typography
+													variant="overline"
+													component="dt"
+												>
+													Subject
+												</Typography>
+												<Typography
+													variant="body1"
+													component="dd"
+												>
+													{
+														report.messageDetails
+															.content.subject
+													}
+												</Typography>
+											</Box>
+										</Grid>
 									</Grid>
 								</Grid>
+								<Grid item>
+									<Typography variant="h6" component="h2">
+										Trackers
+									</Typography>
+									<List>
+										<SinglePixelImageTrackersListItem
+											images={
+												report.messageDetails.content
+													.singlePixelImages
+											}
+										/>
+										<ProxiedImagesListItem
+											images={
+												report.messageDetails.content
+													.proxiedImages
+											}
+										/>
+									</List>
+								</Grid>
 							</Grid>
-							<Grid item>
-								<Typography variant="h6" component="h2">
-									Trackers
-								</Typography>
-								<List>
-									<SinglePixelImageTrackersListItem
-										images={
-											report.messageDetails.content
-												.singlePixelImages
-										}
-									/>
-									<ProxiedImagesListItem
-										images={
-											report.messageDetails.content
-												.proxiedImages
-										}
-									/>
-								</List>
-							</Grid>
-						</Grid>
-					)}
-				</DecryptReport>
-			)}
-		</QueryResult>
+						)}
+					</DecryptReport>
+				)}
+			</QueryResult>
+		</SimplePage>
 	)
 }

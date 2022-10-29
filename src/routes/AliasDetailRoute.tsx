@@ -9,6 +9,7 @@ import {getAlias} from "~/apis"
 import {Alias} from "~/server-types"
 import AliasPreferencesForm from "~/route-widgets/AliasDetailRoute/AliasPreferencesForm"
 import QueryResult from "~/components/QueryResult"
+import SimplePage from "~/components/SimplePage"
 
 export default function AliasDetailRoute(): ReactElement {
 	const params = useParams()
@@ -20,41 +21,43 @@ export default function AliasDetailRoute(): ReactElement {
 	)
 
 	return (
-		<QueryResult<Alias> query={query}>
-			{alias => (
-				<Grid container spacing={4}>
-					<Grid item xs={12}>
-						<Typography variant="h4" component="h1">
-							Alias Details
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Typography variant="subtitle1">{address}</Typography>
-					</Grid>
-					<Grid item>
-						<Grid container spacing={4}>
-							<Grid item>
-								<Typography variant="h6">Settings</Typography>
-							</Grid>
-							<Grid item>
-								<Typography variant="body1">
-									These settings apply to this alias only. You
-									can either set a value manually or refer to
-									your defaults settings. Note that this does
-									change in behavior. When you set a value to
-									refer to your default setting, the alias
-									will always use the latest value. So when
-									you change your default setting, the alias
-									will automatically use the new value.
-								</Typography>
-							</Grid>
-							<Grid item>
-								<AliasPreferencesForm alias={alias} />
+		<SimplePage title="Alias Details">
+			<QueryResult<Alias> query={query}>
+				{alias => (
+					<Grid container spacing={4}>
+						<Grid item>
+							<Typography variant="subtitle1">
+								{address}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Grid container spacing={4}>
+								<Grid item>
+									<Typography variant="h6">
+										Settings
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography variant="body1">
+										These settings apply to this alias only.
+										You can either set a value manually or
+										refer to your defaults settings. Note
+										that this does change in behavior. When
+										you set a value to refer to your default
+										setting, the alias will always use the
+										latest value. So when you change your
+										default setting, the alias will
+										automatically use the new value.
+									</Typography>
+								</Grid>
+								<Grid item>
+									<AliasPreferencesForm alias={alias} />
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
-			)}
-		</QueryResult>
+				)}
+			</QueryResult>
+		</SimplePage>
 	)
 }
