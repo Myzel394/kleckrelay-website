@@ -83,6 +83,7 @@ export interface Alias {
 	local: string
 	isActive: boolean
 	encryptedNotes: string
+	type: AliasType
 
 	prefRemoveTrackers: boolean | null
 	prefCreateMailReport: boolean | null
