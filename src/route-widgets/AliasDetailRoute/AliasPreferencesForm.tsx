@@ -20,6 +20,7 @@ import {
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {ErrorSnack, SuccessSnack} from "~/components"
 import {parseFastAPIError} from "~/utils"
+import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 
 export interface AliasPreferencesFormProps {
@@ -171,6 +172,7 @@ export default function AliasPreferencesForm({
 					</Grid>
 				</Grid>
 			</form>
+			<FormikAutoLockNavigation formik={formik} />
 			<ErrorSnack message={formik.errors.detail} />
 			<SuccessSnack
 				message={isSuccess && "Updated Alias successfully!"}

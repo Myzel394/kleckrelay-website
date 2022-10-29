@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom"
 import {Box, Grid, List, ListItem, Paper, useTheme} from "@mui/material"
 
 import {useUser} from "~/hooks"
+import LockNavigationContextProvider from "~/LockNavigationContext/LockNavigationContextProvider"
 import NavigationButton, {
 	NavigationSection,
 } from "~/route-widgets/AuthenticateRoute/NavigationButton"
@@ -18,55 +19,57 @@ export default function AuthenticatedRoute(): ReactElement {
 	useUser()
 
 	return (
-		<Box
-			display="flex"
-			flexDirection="column"
-			alignItems="center"
-			justifyContent="center"
-			height="100vh"
-		>
+		<LockNavigationContextProvider>
 			<Box
 				display="flex"
-				maxWidth="90vw"
-				width="100%"
-				justifyContent="center"
+				flexDirection="column"
 				alignItems="center"
+				justifyContent="center"
+				height="100vh"
 			>
-				<Grid
-					maxWidth="md"
-					container
-					justifyContent="space-between"
+				<Box
+					display="flex"
+					maxWidth="90vw"
+					width="100%"
+					justifyContent="center"
 					alignItems="center"
 				>
-					<Grid item xs={12} sm={4} md={2}>
-						<Box
-							bgcolor={theme.palette.background.paper}
-							component="nav"
-						>
-							<List>
-								{sections.map(key => (
-									<ListItem key={key}>
-										<NavigationButton
-											section={NavigationSection[key]}
-										/>
-									</ListItem>
-								))}
-							</List>
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={8} md={10}>
-						<Paper>
+					<Grid
+						maxWidth="md"
+						container
+						justifyContent="space-between"
+						alignItems="center"
+					>
+						<Grid item xs={12} sm={4} md={2}>
 							<Box
-								maxHeight="80vh"
-								sx={{overflowY: "auto"}}
-								padding={4}
+								bgcolor={theme.palette.background.paper}
+								component="nav"
 							>
-								<Outlet />
+								<List>
+									{sections.map(key => (
+										<ListItem key={key}>
+											<NavigationButton
+												section={NavigationSection[key]}
+											/>
+										</ListItem>
+									))}
+								</List>
 							</Box>
-						</Paper>
+						</Grid>
+						<Grid item xs={12} sm={8} md={10}>
+							<Paper>
+								<Box
+									maxHeight="80vh"
+									sx={{overflowY: "auto"}}
+									padding={4}
+								>
+									<Outlet />
+								</Box>
+							</Paper>
+						</Grid>
 					</Grid>
-				</Grid>
+				</Box>
 			</Box>
-		</Box>
+		</LockNavigationContextProvider>
 	)
 }

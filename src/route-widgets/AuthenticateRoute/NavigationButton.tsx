@@ -1,4 +1,4 @@
-import {ReactElement} from "react"
+import {ReactElement, useContext} from "react"
 import {BiStats} from "react-icons/bi"
 import {MdSettings} from "react-icons/md"
 import {FaMask} from "react-icons/fa"
@@ -7,6 +7,7 @@ import {Link as RouterLink, useLocation} from "react-router-dom"
 import {Button} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import Icon from "@mdi/react"
+import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
 
 export enum NavigationSection {
 	Overview,
@@ -43,6 +44,7 @@ const PATH_SECTION_MAP: Record<string, NavigationSection> = {
 export default function NavigationButton({
 	section,
 }: NavigationButtonProps): ReactElement {
+	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const location = useLocation()
 
 	const currentSection = PATH_SECTION_MAP[location.pathname.split("/")[1]]
@@ -61,6 +63,7 @@ export default function NavigationButton({
 					path => PATH_SECTION_MAP[path] === section,
 				) ?? "/"
 			}
+			onClick={handleAnchorClick}
 		>
 			{text}
 		</Button>
