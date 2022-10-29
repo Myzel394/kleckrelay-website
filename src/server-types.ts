@@ -74,6 +74,7 @@ export interface ServerSettings {
 	emailLoginTokenChars: string
 	emailLoginTokenLength: number
 	emailResendWaitTime: number
+	customAliasSuffixLength: number
 }
 
 export interface Alias {
@@ -95,6 +96,7 @@ export interface AliasList {
 	domain: string
 	local: string
 	isActive: boolean
+	type: AliasType
 }
 
 export interface Report {

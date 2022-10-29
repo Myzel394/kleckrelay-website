@@ -15,20 +15,25 @@ import {
 } from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {CreateAliasData, createAlias} from "~/apis"
+import {createAlias} from "~/apis"
 import {Alias, AliasType} from "~/server-types"
 
-export interface CreateRandomAliasButtonProps {
-	onCreated: (alias: Alias) => void
+export interface CreateAliasButtonProps {
+	onRandomCreated: (alias: Alias) => void
+	onCustomCreated: () => void
 }
 
-export default function CreateRandomAliasButton({
-	onCreated,
-}: CreateRandomAliasButtonProps): ReactElement {
-	const {mutate, isLoading} = useMutation<Alias, AxiosError, CreateAliasData>(
-		createAlias,
+export default function CreateAliasButton({
+	onRandomCreated,
+	onCustomCreated,
+}: CreateAliasButtonProps): ReactElement {
+	const {mutate, isLoading} = useMutation<Alias, AxiosError, void>(
+		() =>
+			createAlias({
+				type: AliasType.RANDOM,
+			}),
 		{
-			onSuccess: onCreated,
+			onSuccess: onRandomCreated,
 		},
 	)
 
@@ -41,11 +46,7 @@ export default function CreateRandomAliasButton({
 				<Button
 					disabled={isLoading}
 					startIcon={<BsArrowClockwise />}
-					onClick={() =>
-						mutate({
-							type: AliasType.RANDOM,
-						})
-					}
+					onClick={() => mutate()}
 				>
 					Create random alias
 				</Button>
@@ -62,7 +63,12 @@ export default function CreateRandomAliasButton({
 				onClose={() => setAnchorElement(null)}
 			>
 				<MenuList>
-					<MenuItem>
+					<MenuItem
+						onClick={() => {
+							setAnchorElement(null)
+							onCustomCreated()
+						}}
+					>
 						<ListItemIcon>
 							<FaPen />
 						</ListItemIcon>

@@ -95,7 +95,7 @@ export default function ConfirmCodeForm({
 							fullWidth
 							name="code"
 							id="code"
-							label="code"
+							label="Code"
 							value={formik.values.code}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
