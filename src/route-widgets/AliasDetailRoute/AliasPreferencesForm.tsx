@@ -7,7 +7,7 @@ import {MdCheckCircle} from "react-icons/md"
 import {AxiosError} from "axios"
 
 import {LoadingButton} from "@mui/lab"
-import {Collapse, Grid, MenuItem} from "@mui/material"
+import {Collapse, Grid} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
@@ -137,52 +137,20 @@ export default function AliasPreferencesForm({
 														formik={formik}
 														icon={<FaFile />}
 														name="imageProxyFormat"
-													>
-														{Object.entries(
-															ImageProxyFormatType,
-														).map(
-															([key, value]) => (
-																<MenuItem
-																	key={key}
-																	value={
-																		value
-																	}
-																>
-																	{
-																		IMAGE_PROXY_FORMAT_TYPE_NAME_MAP[
-																			value
-																		] as string
-																	}
-																</MenuItem>
-															),
-														)}
-													</SelectField>
+														valueTextMap={
+															IMAGE_PROXY_FORMAT_TYPE_NAME_MAP
+														}
+													/>
 												</Grid>
 												<Grid item xs={12} sm={6}>
 													<SelectField
 														label="Image Proxy User Agent"
 														formik={formik}
 														name="imageProxyUserAgent"
-													>
-														{Object.entries(
-															ProxyUserAgentType,
-														).map(
-															([key, value]) => (
-																<MenuItem
-																	key={key}
-																	value={
-																		value
-																	}
-																>
-																	{
-																		IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP[
-																			value
-																		] as string
-																	}
-																</MenuItem>
-															),
-														)}
-													</SelectField>
+														valueTextMap={
+															IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP
+														}
+													/>
 												</Grid>
 											</Grid>
 										</Collapse>

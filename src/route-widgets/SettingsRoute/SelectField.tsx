@@ -1,4 +1,4 @@
-import {ReactElement, ReactNode} from "react"
+import {ReactElement} from "react"
 
 import {
 	FormControl,
@@ -9,13 +9,21 @@ import {
 	Select,
 } from "@mui/material"
 
+import {useUser} from "~/hooks"
+import {User} from "~/server-types"
+
 export interface SelectFieldProps {
 	label: string
 	formik: any
 	name: string
 
+	valueTextMap?: Record<string, string>
 	icon?: ReactElement
-	children?: ReactNode
+}
+
+const BOOLEAN_SELECT_TEXT_MAP: Record<string, string> = {
+	true: "Yes",
+	false: "No",
 }
 
 export default function SelectField({
@@ -23,9 +31,16 @@ export default function SelectField({
 	formik,
 	icon,
 	name,
-	children,
+	valueTextMap = BOOLEAN_SELECT_TEXT_MAP,
 }: SelectFieldProps): ReactElement {
+	const user = useUser()
+
 	const labelId = `${name}-label`
+	const preferenceName = `alias${
+		name.charAt(0).toUpperCase() + name.slice(1)
+	}`
+	const value = user.preferences[preferenceName as keyof User["preferences"]]
+	const defaultValueText = valueTextMap[value.toString()]
 
 	return (
 		<FormControl fullWidth>
@@ -60,13 +75,23 @@ export default function SelectField({
 				}}
 				disabled={formik.isSubmitting}
 				error={Boolean(formik.touched[name] && formik.errors[name])}
+				renderValue={value =>
+					value === "null" ? (
+						<i>{`<${defaultValueText}>`}</i>
+					) : (
+						valueTextMap[value.toString()]
+					)
+				}
 			>
 				<MenuItem value="null">
-					<i>{"<Default>"}</i>
+					<i>{`Default <${defaultValueText}>`}</i>
 				</MenuItem>
-				{!children && <MenuItem value="true">Yes</MenuItem>}
-				{!children && <MenuItem value="false">No</MenuItem>}
-				{children}
+				{valueTextMap &&
+					Object.entries(valueTextMap).map(([value, text]) => (
+						<MenuItem key={value} value={value}>
+							{text}
+						</MenuItem>
+					))}
 			</Select>
 			<FormHelperText
 				error={Boolean(formik.touched[name] && formik.errors[name])}
