@@ -3,14 +3,23 @@ import {ReactElement} from "react"
 import {BsImage, BsShieldShaded} from "react-icons/bs"
 import {useFormik} from "formik"
 import {FaFile} from "react-icons/fa"
+import {MdCheckCircle} from "react-icons/md"
+import {AxiosError} from "axios"
 
-import {Collapse, Grid} from "@mui/material"
+import {LoadingButton} from "@mui/lab"
+import {Collapse, Grid, MenuItem} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
+import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
 import {Alias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
-import {LoadingButton} from "@mui/lab"
-import {MdCheckCircle} from "react-icons/md"
+import {
+	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
+	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+} from "~/constants/enum_mappings"
+import {UpdateAliasData, updateAlias} from "~/apis"
+import {ErrorSnack, SuccessSnack} from "~/components"
+import {parseFastAPIError} from "~/utils"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 
 export interface AliasPreferencesFormProps {
@@ -18,33 +27,37 @@ export interface AliasPreferencesFormProps {
 }
 
 interface Form {
-	removeTrackers: boolean
-	createMailReport: boolean
-	proxyImages: boolean
-	imageProxyFormat: ImageProxyFormatType
-	imageProxyUserAgent: ProxyUserAgentType
+	removeTrackers: boolean | null
+	createMailReport: boolean | null
+	proxyImages: boolean | null
+	imageProxyFormat: ImageProxyFormatType | null
+	imageProxyUserAgent: ProxyUserAgentType | null
 
 	detail?: string
 }
 
 const SCHEMA = yup.object().shape({
-	removeTrackers: yup.boolean(),
-	createMailReport: yup.boolean(),
-	proxyImages: yup.boolean(),
+	removeTrackers: yup.mixed<boolean | null>().oneOf([true, false, null]),
+	createMailReport: yup.mixed<boolean | null>().oneOf([true, false, null]),
+	proxyImages: yup.mixed<boolean | null>().oneOf([true, false, null]),
 	imageProxyFormat: yup
 		.mixed<ImageProxyFormatType>()
-		.oneOf(Object.values(ImageProxyFormatType))
-		.required(),
+		.oneOf([null, ...Object.values(ImageProxyFormatType)]),
 	imageProxyUserAgent: yup
 		.mixed<ProxyUserAgentType>()
-		.oneOf(Object.values(ProxyUserAgentType))
-		.required(),
+		.oneOf([null, ...Object.values(ProxyUserAgentType)]),
 })
 
 export default function AliasPreferencesForm({
 	alias,
 }: AliasPreferencesFormProps): ReactElement {
+	const {mutateAsync, isSuccess} = useMutation<
+		Alias,
+		AxiosError,
+		UpdateAliasData
+	>(data => updateAlias(alias.id, data))
 	const formik = useFormik<Form>({
+		enableReinitialize: true,
 		initialValues: {
 			removeTrackers: alias.prefRemoveTrackers,
 			createMailReport: alias.prefCreateMailReport,
@@ -53,88 +66,147 @@ export default function AliasPreferencesForm({
 			imageProxyUserAgent: alias.prefImageProxyUserAgent,
 		},
 		validationSchema: SCHEMA,
-		onSubmit: () => null,
+		onSubmit: async (values, {setErrors}) => {
+			try {
+				await mutateAsync({
+					prefCreateMailReport: values.createMailReport,
+					prefRemoveTrackers: values.removeTrackers,
+					prefProxyImages: values.proxyImages,
+					prefImagProxyFormat: values.imageProxyFormat,
+					prefImageProxyUserAgent: values.imageProxyUserAgent,
+				})
+			} catch (error) {
+				setErrors(parseFastAPIError(error as AxiosError))
+			}
+		},
 	})
 
 	return (
-		<form onSubmit={formik.handleSubmit}>
-			<Grid
-				container
-				spacing={4}
-				flexDirection="column"
-				alignItems="center"
-			>
-				<Grid item>
-					<Grid container spacing={4}>
-						<Grid item xs={12} sm={6}>
-							<SelectField
-								label="Remove Trackers"
-								formik={formik}
-								icon={<BsShieldShaded />}
-								name="removeTrackers"
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<SelectField
-								label="Create Reports"
-								formik={formik}
-								icon={
-									<Icon
-										path={mdiTextBoxMultiple}
-										size={0.8}
-									/>
-								}
-								name="createMailReport"
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<Grid container spacing={2}>
-								<Grid item xs={12}>
-									<SelectField
-										label="Proxy Images"
-										formik={formik}
-										icon={<BsImage />}
-										name="proxyImages"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<Collapse
-										in={formik.values.proxyImages !== false}
-									>
-										<Grid container spacing={4}>
-											<Grid item xs={12} sm={6}>
-												<SelectField
-													label="Image File Type"
-													formik={formik}
-													icon={<FaFile />}
-													name="imageProxyFormat"
-												/>
+		<>
+			<form onSubmit={formik.handleSubmit}>
+				<Grid
+					container
+					spacing={4}
+					flexDirection="column"
+					alignItems="center"
+				>
+					<Grid item>
+						<Grid container spacing={4}>
+							<Grid item xs={12} sm={6}>
+								<SelectField
+									label="Remove Trackers"
+									formik={formik}
+									icon={<BsShieldShaded />}
+									name="removeTrackers"
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<SelectField
+									label="Create Reports"
+									formik={formik}
+									icon={
+										<Icon
+											path={mdiTextBoxMultiple}
+											size={0.8}
+										/>
+									}
+									name="createMailReport"
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<Grid container spacing={2}>
+									<Grid item xs={12}>
+										<SelectField
+											label="Proxy Images"
+											formik={formik}
+											icon={<BsImage />}
+											name="proxyImages"
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Collapse
+											in={
+												formik.values.proxyImages !==
+												false
+											}
+										>
+											<Grid container spacing={4}>
+												<Grid item xs={12} sm={6}>
+													<SelectField
+														label="Image File Type"
+														formik={formik}
+														icon={<FaFile />}
+														name="imageProxyFormat"
+													>
+														{Object.entries(
+															ImageProxyFormatType,
+														).map(
+															([key, value]) => (
+																<MenuItem
+																	key={key}
+																	value={
+																		value
+																	}
+																>
+																	{
+																		IMAGE_PROXY_FORMAT_TYPE_NAME_MAP[
+																			value
+																		] as string
+																	}
+																</MenuItem>
+															),
+														)}
+													</SelectField>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<SelectField
+														label="Image Proxy User Agent"
+														formik={formik}
+														name="imageProxyUserAgent"
+													>
+														{Object.entries(
+															ProxyUserAgentType,
+														).map(
+															([key, value]) => (
+																<MenuItem
+																	key={key}
+																	value={
+																		value
+																	}
+																>
+																	{
+																		IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP[
+																			value
+																		] as string
+																	}
+																</MenuItem>
+															),
+														)}
+													</SelectField>
+												</Grid>
 											</Grid>
-											<Grid item xs={12} sm={6}>
-												<SelectField
-													label="Image Proxy User Agent"
-													formik={formik}
-													name="imageProxyUserAgent"
-												/>
-											</Grid>
-										</Grid>
-									</Collapse>
+										</Collapse>
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
+					<Grid item>
+						<LoadingButton
+							loading={formik.isSubmitting}
+							variant="contained"
+							type="submit"
+							startIcon={<MdCheckCircle />}
+						>
+							Save Settings
+						</LoadingButton>
+					</Grid>
 				</Grid>
-				<Grid item>
-					<LoadingButton
-						loading={formik.isSubmitting}
-						variant="contained"
-						type="submit"
-						startIcon={<MdCheckCircle />}
-					>
-						Save Settings
-					</LoadingButton>
-				</Grid>
-			</Grid>
-		</form>
+			</form>
+			<ErrorSnack message={formik.errors.detail} />
+			<SuccessSnack
+				message={isSuccess && "Updated Alias successfully!"}
+			/>
+		</>
 	)
 }

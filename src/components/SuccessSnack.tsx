@@ -3,7 +3,7 @@ import React, {ReactElement, useEffect, useState} from "react"
 import {Alert, Snackbar} from "@mui/material"
 
 export interface SuccessSnackProps {
-	message?: string | null
+	message?: string | null | boolean
 }
 
 export default function SuccessSnack({

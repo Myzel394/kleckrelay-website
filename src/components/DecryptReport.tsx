@@ -58,7 +58,5 @@ export default function DecryptReport({
 		return <></>
 	}
 
-	console.log(value)
-
 	return render(value)
 }

@@ -83,11 +83,11 @@ export interface Alias {
 	isActive: boolean
 	encryptedNotes: string
 
-	prefRemoveTrackers: boolean
-	prefCreateMailReport: boolean
-	prefProxyImages: boolean
-	prefImageProxyFormat: ImageProxyFormatType
-	prefImageProxyUserAgent: ProxyUserAgentType
+	prefRemoveTrackers: boolean | null
+	prefCreateMailReport: boolean | null
+	prefProxyImages: boolean | null
+	prefImageProxyFormat: ImageProxyFormatType | null
+	prefImageProxyUserAgent: ProxyUserAgentType | null
 }
 
 export interface AliasList {

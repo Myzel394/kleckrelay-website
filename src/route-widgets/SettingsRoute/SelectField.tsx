@@ -42,17 +42,31 @@ export default function SelectField({
 					) : undefined
 				}
 				value={(formik.values[name] ?? "null").toString()}
-				onChange={formik.handleChange}
+				onChange={event => {
+					const value = (() => {
+						switch (event.target.value) {
+							case "true":
+								return true
+							case "false":
+								return false
+							case "null":
+								return null
+							default:
+								return event.target.value
+						}
+					})()
+
+					formik.setFieldValue(name, value)
+				}}
 				disabled={formik.isSubmitting}
 				error={Boolean(formik.touched[name] && formik.errors[name])}
 			>
-				{children ?? (
-					<MenuItem value="null">
-						<i>{"<Default>"}</i>
-					</MenuItem>
-				)}
-				{children ?? <MenuItem value="true">Yes</MenuItem>}
-				{children ?? <MenuItem value="false">No</MenuItem>}
+				<MenuItem value="null">
+					<i>{"<Default>"}</i>
+				</MenuItem>
+				{!children && <MenuItem value="true">Yes</MenuItem>}
+				{!children && <MenuItem value="false">No</MenuItem>}
+				{children}
 			</Select>
 			<FormHelperText
 				error={Boolean(formik.touched[name] && formik.errors[name])}
