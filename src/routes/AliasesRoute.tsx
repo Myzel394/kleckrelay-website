@@ -4,14 +4,14 @@ import {AxiosError} from "axios"
 import {Grid, List, Typography} from "@mui/material"
 import {useQuery} from "@tanstack/react-query"
 
-import {Alias, PaginationResult} from "~/server-types"
+import {AliasList, PaginationResult} from "~/server-types"
 import AliasListItem from "~/route-widgets/AliasRoute/AliasListItem"
 import CreateRandomAliasButton from "~/route-widgets/AliasRoute/CreateRandomAliasButton"
 import QueryResult from "~/components/QueryResult"
 import getAliases from "~/apis/get-aliases"
 
 export default function AliasesRoute(): ReactElement {
-	const query = useQuery<PaginationResult<Alias>, AxiosError>(
+	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
 		["get_aliases"],
 		getAliases,
 	)
@@ -24,7 +24,7 @@ export default function AliasesRoute(): ReactElement {
 				</Typography>
 			</Grid>
 			<Grid item>
-				<QueryResult<PaginationResult<Alias>> query={query}>
+				<QueryResult<PaginationResult<AliasList>> query={query}>
 					{result => (
 						<List>
 							{result.items.map(alias => (

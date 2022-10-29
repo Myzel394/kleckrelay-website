@@ -8,10 +8,10 @@ import {
 	ListItemText,
 } from "@mui/material"
 
-import {Alias} from "~/server-types"
+import {AliasList} from "~/server-types"
 
 export interface AliasListItemProps {
-	alias: Alias
+	alias: AliasList
 }
 
 export default function AliasListItem({
