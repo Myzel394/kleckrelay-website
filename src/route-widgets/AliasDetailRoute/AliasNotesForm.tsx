@@ -5,6 +5,7 @@ import {ReactElement, useContext} from "react"
 import {MdEditCalendar} from "react-icons/md"
 import {RiLinkM, RiStickyNoteFill} from "react-icons/ri"
 import {FieldArray, FormikProvider, useFormik} from "formik"
+import format from "date-fns/format"
 import update from "immutability-helper"
 
 import {useMutation} from "@tanstack/react-query"
@@ -26,12 +27,12 @@ import {
 } from "@mui/material"
 
 import {URL_REGEX} from "~/constants/values"
-import {decryptAliasNotes, parseFastAPIError, whenEnterPressed} from "~/utils"
+import {parseFastAPIError, whenEnterPressed} from "~/utils"
 import {BackupImage, ErrorSnack, SuccessSnack} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import AuthContext from "~/AuthContext/AuthContext"
-import format from "date-fns/format"
+import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface AliasNotesFormProps {
 	id: string
@@ -82,7 +83,12 @@ export default function AliasNotesForm({
 		UpdateAliasData
 	>(values => updateAlias(id, values), {
 		onSuccess: newAlias => {
-			onChanged(decryptAliasNotes(newAlias, _decryptUsingMasterPassword))
+			;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+				newAlias.encryptedNotes,
+				_decryptUsingMasterPassword,
+			)
+
+			onChanged(newAlias as any as DecryptedAlias)
 		},
 	})
 	const formik = useFormik<Form>({

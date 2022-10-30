@@ -7,9 +7,9 @@ import {useQuery} from "@tanstack/react-query"
 import {getAlias} from "~/apis"
 import {Alias, DecryptedAlias} from "~/server-types"
 import {QueryResult, SimplePage} from "~/components"
-import {decryptAliasNotes} from "~/utils"
 import AliasDetails from "~/route-widgets/AliasDetailRoute/AliasDetails"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
+import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export default function AliasDetailRoute(): ReactElement {
 	const params = useParams()
@@ -20,14 +20,16 @@ export default function AliasDetailRoute(): ReactElement {
 	const query = useQuery<Alias | DecryptedAlias, AxiosError>(
 		["get_alias", params.addressInBase64],
 		async () => {
+			const alias = await getAlias(address)
+
 			if (encryptionStatus === EncryptionStatus.Available) {
-				return decryptAliasNotes(
-					await getAlias(address),
+				;(alias as any as DecryptedAlias).notes = decryptAliasNotes(
+					alias.encryptedNotes,
 					_decryptUsingMasterPassword,
 				)
-			} else {
-				return getAlias(address)
 			}
+
+			return alias
 		},
 	)
 

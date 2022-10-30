@@ -6,9 +6,10 @@ import {useMutation} from "@tanstack/react-query"
 
 import {Alias, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {decryptAliasNotes, parseFastAPIError} from "~/utils"
+import {parseFastAPIError} from "~/utils"
 import {ErrorSnack, SuccessSnack} from "~/components"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
+import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface ChangeAliasActivationStatusSwitchProps {
 	id: string
@@ -37,12 +38,13 @@ export default function ChangeAliasActivationStatusSwitch({
 	>(values => updateAlias(id, values), {
 		onSuccess: newAlias => {
 			if (encryptionStatus === EncryptionStatus.Available) {
-				onChanged(
-					decryptAliasNotes(newAlias, _decryptUsingMasterPassword),
+				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+					newAlias.encryptedNotes,
+					_decryptUsingMasterPassword,
 				)
-			} else {
-				onChanged(newAlias)
 			}
+
+			onChanged(newAlias)
 		},
 		onError: error =>
 			setErrorMessage(parseFastAPIError(error).detail as string),

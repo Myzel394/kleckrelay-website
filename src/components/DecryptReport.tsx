@@ -1,10 +1,9 @@
 import {ReactElement, useContext} from "react"
 import {useAsync} from "react-use"
-import camelcaseKeys from "camelcase-keys"
 
 import {DecryptedReportContent, Report} from "~/server-types"
 import AuthContext from "~/AuthContext/AuthContext"
-import parseDecryptedReport from "~/apis/helpers/parse-decrypted-report"
+import decryptReport from "~/apis/helpers/decrypt-report"
 
 interface DecryptReportPropsBase {
 	encryptedContent?: string
@@ -38,12 +37,7 @@ export default function DecryptReport({
 		const decrypt = async (
 			content: string,
 		): Promise<DecryptedReportContent> =>
-			parseDecryptedReport(
-				camelcaseKeys(
-					JSON.parse(await _decryptUsingPrivateKey(content)),
-					{deep: true},
-				),
-			)
+			decryptReport(content, _decryptUsingPrivateKey)
 
 		if (encryptedContent) {
 			return decrypt(encryptedContent)
