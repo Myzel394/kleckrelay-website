@@ -12,7 +12,12 @@ import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
-import {Alias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
+import {
+	Alias,
+	DecryptedAlias,
+	ImageProxyFormatType,
+	ProxyUserAgentType,
+} from "~/server-types"
 import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
 	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
@@ -24,7 +29,7 @@ import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavi
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 
 export interface AliasPreferencesFormProps {
-	alias: Alias
+	alias: Alias | DecryptedAlias
 }
 
 interface Form {

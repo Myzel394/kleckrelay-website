@@ -92,6 +92,21 @@ export interface Alias {
 	prefImageProxyUserAgent: ProxyUserAgentType | null
 }
 
+export interface AliasNote {
+	version: "1.0"
+	data: {
+		personalNotes: string
+		websites: Array<{
+			url: string
+			createdAt: Date
+		}>
+	}
+}
+
+export interface DecryptedAlias extends Omit<Alias, "encryptedNotes"> {
+	notes: AliasNote
+}
+
 export interface AliasList {
 	id: string
 	domain: string

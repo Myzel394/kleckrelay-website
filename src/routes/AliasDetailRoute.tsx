@@ -1,4 +1,4 @@
-import {ReactElement, useState} from "react"
+import {ReactElement, useContext, useState} from "react"
 import {useParams} from "react-router-dom"
 import {AxiosError} from "axios"
 
@@ -6,25 +6,41 @@ import {useMutation, useQuery} from "@tanstack/react-query"
 import {Grid, Switch, Typography} from "@mui/material"
 
 import {UpdateAliasData, getAlias, updateAlias} from "~/apis"
-import {Alias} from "~/server-types"
-import {ErrorSnack, SuccessSnack} from "~/components"
-import {parseFastAPIError} from "~/utils"
+import {Alias, DecryptedAlias} from "~/server-types"
+import {
+	AliasTypeIndicator,
+	ErrorSnack,
+	QueryResult,
+	SimplePage,
+	SuccessSnack,
+} from "~/components"
+import {decryptAliasNotes, parseFastAPIError} from "~/utils"
+import AliasNotesForm from "~/route-widgets/AliasDetailRoute/AliasNotesForm"
 import AliasPreferencesForm from "~/route-widgets/AliasDetailRoute/AliasPreferencesForm"
-import AliasTypeIndicator from "~/components/AliasTypeIndicator"
-import QueryResult from "~/components/QueryResult"
-import SimplePage from "~/components/SimplePage"
+import AuthContext from "~/AuthContext/AuthContext"
+import DecryptionPasswordMissingAlert from "~/components/DecryptionPasswordMissingAlert"
 
 export default function AliasDetailRoute(): ReactElement {
 	const params = useParams()
+	const {user, _decryptUsingMasterPassword} = useContext(AuthContext)
 	const address = atob(params.addressInBase64 as string)
 
 	const [successMessage, setSuccessMessage] = useState<string>("")
 	const [errorMessage, setErrorMessage] = useState<string>("")
 
 	const [isActive, setIsActive] = useState<boolean>(true)
-	const query = useQuery<Alias, AxiosError>(
+	const query = useQuery<Alias | DecryptedAlias, AxiosError>(
 		["get_alias", params.addressInBase64],
-		() => getAlias(address),
+		async () => {
+			if (user?.encryptedPassword) {
+				return decryptAliasNotes(
+					await getAlias(address),
+					_decryptUsingMasterPassword,
+				)
+			} else {
+				return getAlias(address)
+			}
+		},
 		{
 			onSuccess: alias => setIsActive(alias.isActive),
 		},
@@ -33,16 +49,15 @@ export default function AliasDetailRoute(): ReactElement {
 		values => updateAlias(query.data!.id, values),
 		{
 			onSuccess: () => query.refetch(),
-			onError: error => {
-				setErrorMessage(parseFastAPIError(error).detail as string)
-			},
+			onError: error =>
+				setErrorMessage(parseFastAPIError(error).detail as string),
 		},
 	)
 
 	return (
 		<>
 			<SimplePage title="Alias Details">
-				<QueryResult<Alias> query={query}>
+				<QueryResult<Alias | DecryptedAlias> query={query}>
 					{alias => (
 						<Grid container spacing={4}>
 							<Grid item>
@@ -86,10 +101,33 @@ export default function AliasDetailRoute(): ReactElement {
 									</Grid>
 								</Grid>
 							</Grid>
+							<Grid item width="100%">
+								<Grid container direction="column" spacing={4}>
+									<Grid item>
+										<Typography variant="h6" component="h3">
+											Notes
+										</Typography>
+									</Grid>
+									<Grid item>
+										{user?.encryptedPassword &&
+										(alias as DecryptedAlias).notes ? (
+											<AliasNotesForm
+												id={alias.id}
+												notes={
+													(alias as DecryptedAlias)
+														.notes
+												}
+											/>
+										) : (
+											<DecryptionPasswordMissingAlert />
+										)}
+									</Grid>
+								</Grid>
+							</Grid>
 							<Grid item>
 								<Grid container spacing={4}>
 									<Grid item>
-										<Typography variant="h6">
+										<Typography variant="h6" component="h3">
 											Settings
 										</Typography>
 									</Grid>
