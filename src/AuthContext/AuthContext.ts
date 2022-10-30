@@ -2,11 +2,18 @@ import {createContext} from "react"
 
 import {ServerUser, User} from "~/server-types"
 
+export enum EncryptionStatus {
+	Unavailable = "Unavailable",
+	PasswordRequired = "PasswordRequired",
+	Available = "Available",
+}
+
 interface AuthContextTypeBase {
 	user: ServerUser | User | null
 	isAuthenticated: boolean
 	login: (user: ServerUser | User) => void
 	logout: () => void
+	encryptionStatus: EncryptionStatus
 	_decryptUsingMasterPassword: (content: string) => string
 	_encryptUsingMasterPassword: (content: string) => string
 	_decryptUsingPrivateKey: (message: string) => Promise<string>
@@ -31,6 +38,7 @@ export type AuthContextType =
 const AuthContext = createContext<AuthContextType>({
 	user: null,
 	isAuthenticated: false,
+	encryptionStatus: EncryptionStatus.Unavailable,
 	login: () => {
 		throw new Error("login() not implemented")
 	},

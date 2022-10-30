@@ -1,13 +1,14 @@
 import * as yup from "yup"
 import {ReactElement, useContext} from "react"
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 import {useFormik} from "formik"
+import {MdLock} from "react-icons/md"
+
+import {InputAdornment} from "@mui/material"
 
 import {buildEncryptionPassword} from "~/utils"
 import {useUser} from "~/hooks"
 import {PasswordField, SimpleForm} from "~/components"
-import {InputAdornment} from "@mui/material"
-import {MdLock} from "react-icons/md"
 import AuthContext from "~/AuthContext/AuthContext"
 
 interface Form {
@@ -20,6 +21,7 @@ const schema = yup.object().shape({
 
 export default function EnterDecryptionPassword(): ReactElement {
 	const navigate = useNavigate()
+	const location = useLocation()
 	const user = useUser()
 	const {_setDecryptionPassword} = useContext(AuthContext)
 
@@ -37,7 +39,9 @@ export default function EnterDecryptionPassword(): ReactElement {
 			if (!_setDecryptionPassword(decryptionPassword)) {
 				setErrors({password: "Password is invalid."})
 			} else {
-				navigate("/")
+				const nextUrl =
+					new URLSearchParams(location.search).get("next") || "/"
+				navigate(nextUrl)
 			}
 		},
 	})

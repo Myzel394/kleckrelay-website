@@ -4,6 +4,7 @@ import {AxiosError} from "axios"
 import {ReactElement, useContext} from "react"
 import {RiLinkM, RiStickyNoteFill} from "react-icons/ri"
 import {FieldArray, FormikProvider, useFormik} from "formik"
+import update from "immutability-helper"
 
 import {useMutation} from "@tanstack/react-query"
 import {
@@ -22,15 +23,17 @@ import {
 } from "@mui/material"
 
 import {URL_REGEX} from "~/constants/values"
-import {parseFastAPIError, whenEnterPressed} from "~/utils"
+import {decryptAliasNotes, parseFastAPIError, whenEnterPressed} from "~/utils"
 import {BackupImage, ErrorSnack, SuccessSnack} from "~/components"
-import {Alias, AliasNote} from "~/server-types"
+import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import AuthContext from "~/AuthContext/AuthContext"
 
 export interface AliasNotesFormProps {
 	id: string
 	notes: AliasNote
+
+	onChanged: (alias: DecryptedAlias) => void
 }
 
 interface Form {
@@ -65,13 +68,19 @@ const getDomain = (url: string): string => {
 export default function AliasNotesForm({
 	id,
 	notes,
+	onChanged,
 }: AliasNotesFormProps): ReactElement {
-	const {_encryptUsingMasterPassword} = useContext(AuthContext)
+	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} =
+		useContext(AuthContext)
 	const {mutateAsync, isSuccess} = useMutation<
 		Alias,
 		AxiosError,
 		UpdateAliasData
-	>(values => updateAlias(id, values))
+	>(values => updateAlias(id, values), {
+		onSuccess: newAlias => {
+			onChanged(decryptAliasNotes(newAlias, _decryptUsingMasterPassword))
+		},
+	})
 	const formik = useFormik<Form>({
 		validationSchema: SCHEMA,
 		initialValues: {
@@ -80,14 +89,17 @@ export default function AliasNotesForm({
 		},
 		onSubmit: async (values, {setErrors}) => {
 			try {
-				const newNotes = {
-					...notes,
+				const newNotes = update(notes, {
 					data: {
-						...notes.data,
-						personalNotes: values.personalNotes,
-						websites: values.websites,
+						personalNotes: {
+							$set: values.personalNotes,
+						},
+						websites: {
+							$set: values.websites,
+						},
 					},
-				}
+				})
+
 				const data = _encryptUsingMasterPassword(
 					JSON.stringify(newNotes),
 				)

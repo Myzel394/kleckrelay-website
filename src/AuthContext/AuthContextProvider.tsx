@@ -15,7 +15,7 @@ import {
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
 
-import AuthContext, {AuthContextType} from "./AuthContext"
+import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
@@ -134,6 +134,21 @@ export default function AuthContextProvider({
 		() => ({
 			user: user ?? null,
 			login: setUser,
+			encryptionStatus: (() => {
+				if (!user) {
+					return EncryptionStatus.Unavailable
+				}
+
+				if (!user.encryptedPassword) {
+					return EncryptionStatus.Unavailable
+				}
+
+				if (user.isDecrypted) {
+					return EncryptionStatus.Available
+				}
+
+				return EncryptionStatus.PasswordRequired
+			})(),
 			logout,
 			isAuthenticated: user !== null,
 			_encryptUsingMasterPassword: encryptUsingMasterPassword,

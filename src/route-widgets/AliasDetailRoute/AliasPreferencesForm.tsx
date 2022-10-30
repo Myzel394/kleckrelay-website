@@ -30,6 +30,8 @@ import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 
 export interface AliasPreferencesFormProps {
 	alias: Alias | DecryptedAlias
+
+	onChanged: (newAlias: Alias | DecryptedAlias) => void
 }
 
 interface Form {
@@ -56,12 +58,15 @@ const SCHEMA = yup.object().shape({
 
 export default function AliasPreferencesForm({
 	alias,
+	onChanged,
 }: AliasPreferencesFormProps): ReactElement {
 	const {mutateAsync, isSuccess} = useMutation<
 		Alias,
 		AxiosError,
 		UpdateAliasData
-	>(data => updateAlias(alias.id, data))
+	>(data => updateAlias(alias.id, data), {
+		onSuccess: onChanged,
+	})
 	const formik = useFormik<Form>({
 		enableReinitialize: true,
 		initialValues: {

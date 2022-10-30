@@ -1,19 +1,20 @@
-import {ReactElement, useEffect, useState} from "react"
+import {ReactElement, useContext, useEffect, useState} from "react"
 import {AxiosError} from "axios"
 
 import {Switch} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {Alias} from "~/server-types"
+import {Alias, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {parseFastAPIError} from "~/utils"
+import {decryptAliasNotes, parseFastAPIError} from "~/utils"
 import {ErrorSnack, SuccessSnack} from "~/components"
+import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 
 export interface ChangeAliasActivationStatusSwitchProps {
 	id: string
 	isActive: boolean
 
-	onChanged: () => void
+	onChanged: (alias: Alias | DecryptedAlias) => void
 }
 
 export default function ChangeAliasActivationStatusSwitch({
@@ -21,6 +22,9 @@ export default function ChangeAliasActivationStatusSwitch({
 	isActive,
 	onChanged,
 }: ChangeAliasActivationStatusSwitchProps): ReactElement {
+	const {_decryptUsingMasterPassword, encryptionStatus} =
+		useContext(AuthContext)
+
 	const [isActiveUIState, setIsActiveUIState] = useState<boolean>(true)
 
 	const [successMessage, setSuccessMessage] = useState<string>("")
@@ -31,7 +35,15 @@ export default function ChangeAliasActivationStatusSwitch({
 		AxiosError,
 		UpdateAliasData
 	>(values => updateAlias(id, values), {
-		onSuccess: onChanged,
+		onSuccess: newAlias => {
+			if (encryptionStatus === EncryptionStatus.Available) {
+				onChanged(
+					decryptAliasNotes(newAlias, _decryptUsingMasterPassword),
+				)
+			} else {
+				onChanged(newAlias)
+			}
+		},
 		onError: error =>
 			setErrorMessage(parseFastAPIError(error).detail as string),
 	})
