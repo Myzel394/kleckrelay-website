@@ -14,7 +14,7 @@ import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 export default function AliasDetailRoute(): ReactElement {
 	const params = useParams()
 	const address = atob(params.addressInBase64 as string)
-	const {user, _decryptUsingMasterPassword, encryptionStatus} =
+	const {_decryptUsingMasterPassword, encryptionStatus} =
 		useContext(AuthContext)
 
 	const query = useQuery<Alias | DecryptedAlias, AxiosError>(

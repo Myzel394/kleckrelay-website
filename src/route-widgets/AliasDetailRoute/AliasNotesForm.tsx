@@ -2,6 +2,7 @@ import * as yup from "yup"
 import {TiDelete} from "react-icons/ti"
 import {AxiosError} from "axios"
 import {ReactElement, useContext} from "react"
+import {MdEditCalendar} from "react-icons/md"
 import {RiLinkM, RiStickyNoteFill} from "react-icons/ri"
 import {FieldArray, FormikProvider, useFormik} from "formik"
 import update from "immutability-helper"
@@ -20,6 +21,8 @@ import {
 	ListItemSecondaryAction,
 	ListItemText,
 	TextField,
+	Tooltip,
+	Typography,
 } from "@mui/material"
 
 import {URL_REGEX} from "~/constants/values"
@@ -28,6 +31,7 @@ import {BackupImage, ErrorSnack, SuccessSnack} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import AuthContext from "~/AuthContext/AuthContext"
+import format from "date-fns/format"
 
 export interface AliasNotesFormProps {
 	id: string
@@ -153,6 +157,29 @@ export default function AliasNotesForm({
 		<>
 			<form onSubmit={formik.handleSubmit}>
 				<Grid container spacing={4} direction="column">
+					{notes.data.createdAt && (
+						<Grid item>
+							<Grid
+								container
+								spacing={1}
+								flexDirection="row"
+								alignItems="center"
+							>
+								<Grid item>
+									<MdEditCalendar />
+								</Grid>
+								<Grid item>
+									<Tooltip
+										title={notes.data.createdAt.toISOString()}
+									>
+										<Typography variant="body1">
+											{format(notes.data.createdAt, "Pp")}
+										</Typography>
+									</Tooltip>
+								</Grid>
+							</Grid>
+						</Grid>
+					)}
 					<Grid item>
 						<TextField
 							label="Personal Notes"

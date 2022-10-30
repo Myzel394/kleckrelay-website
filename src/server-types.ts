@@ -95,10 +95,10 @@ export interface Alias {
 export interface AliasNote {
 	version: "1.0"
 	data: {
+		createdAt: Date | null
 		personalNotes: string
 		websites: Array<{
 			url: string
-			createdAt: Date
 		}>
 	}
 }

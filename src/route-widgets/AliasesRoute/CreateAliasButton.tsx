@@ -1,8 +1,9 @@
-import {ReactElement, useState} from "react"
+import {ReactElement, useContext, useState} from "react"
 import {MdArrowDropDown} from "react-icons/md"
 import {BsArrowClockwise} from "react-icons/bs"
 import {FaPen} from "react-icons/fa"
 import {AxiosError} from "axios"
+import update from "immutability-helper"
 
 import {
 	Button,
@@ -19,6 +20,8 @@ import {CreateAliasData, createAlias} from "~/apis"
 import {Alias, AliasType} from "~/server-types"
 import {parseFastAPIError} from "~/utils"
 import {ErrorSnack, SuccessSnack} from "~/components"
+import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
+import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
 export interface CreateAliasButtonProps {
@@ -28,16 +31,39 @@ export interface CreateAliasButtonProps {
 export default function CreateAliasButton({
 	onCreated,
 }: CreateAliasButtonProps): ReactElement {
+	const {_encryptUsingMasterPassword, encryptionStatus} =
+		useContext(AuthContext)
+
 	const [errorMessage, setErrorMessage] = useState<string>("")
+
 	const {mutateAsync, isLoading, isSuccess} = useMutation<
 		Alias,
 		AxiosError,
 		CreateAliasData
-	>(values => createAlias(values), {
-		onSuccess: onCreated,
-		onError: error =>
-			setErrorMessage(parseFastAPIError(error).detail as string),
-	})
+	>(
+		async values => {
+			if (encryptionStatus === EncryptionStatus.Available) {
+				values.encryptedNotes = await _encryptUsingMasterPassword(
+					JSON.stringify(
+						update(DEFAULT_ALIAS_NOTE, {
+							data: {
+								createdAt: {
+									$set: new Date(),
+								},
+							},
+						}),
+					),
+				)
+			}
+
+			return createAlias(values)
+		},
+		{
+			onSuccess: onCreated,
+			onError: error =>
+				setErrorMessage(parseFastAPIError(error).detail as string),
+		},
+	)
 
 	const [showCustomCreateDialog, setShowCustomCreateDialog] =
 		useState<boolean>(false)
