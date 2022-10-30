@@ -15,27 +15,32 @@ import {
 } from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {createAlias} from "~/apis"
+import {CreateAliasData, createAlias} from "~/apis"
 import {Alias, AliasType} from "~/server-types"
+import {parseFastAPIError} from "~/utils"
+import {ErrorSnack, SuccessSnack} from "~/components"
+import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
 export interface CreateAliasButtonProps {
-	onRandomCreated: (alias: Alias) => void
-	onCustomCreated: () => void
+	onCreated: (alias: Alias) => void
 }
 
 export default function CreateAliasButton({
-	onRandomCreated,
-	onCustomCreated,
+	onCreated,
 }: CreateAliasButtonProps): ReactElement {
-	const {mutate, isLoading} = useMutation<Alias, AxiosError, void>(
-		() =>
-			createAlias({
-				type: AliasType.RANDOM,
-			}),
-		{
-			onSuccess: onRandomCreated,
-		},
-	)
+	const [errorMessage, setErrorMessage] = useState<string>("")
+	const {mutateAsync, isLoading, isSuccess} = useMutation<
+		Alias,
+		AxiosError,
+		CreateAliasData
+	>(values => createAlias(values), {
+		onSuccess: onCreated,
+		onError: error =>
+			setErrorMessage(parseFastAPIError(error).detail as string),
+	})
+
+	const [showCustomCreateDialog, setShowCustomCreateDialog] =
+		useState<boolean>(false)
 
 	const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
 	const open = Boolean(anchorElement)
@@ -46,7 +51,11 @@ export default function CreateAliasButton({
 				<Button
 					disabled={isLoading}
 					startIcon={<BsArrowClockwise />}
-					onClick={() => mutate()}
+					onClick={() =>
+						mutateAsync({
+							type: AliasType.RANDOM,
+						})
+					}
 				>
 					Create random alias
 				</Button>
@@ -64,9 +73,10 @@ export default function CreateAliasButton({
 			>
 				<MenuList>
 					<MenuItem
+						disabled={isLoading}
 						onClick={() => {
+							setShowCustomCreateDialog(true)
 							setAnchorElement(null)
-							onCustomCreated()
 						}}
 					>
 						<ListItemIcon>
@@ -76,6 +86,19 @@ export default function CreateAliasButton({
 					</MenuItem>
 				</MenuList>
 			</Menu>
+			<CustomAliasDialog
+				visible={showCustomCreateDialog}
+				isLoading={isLoading}
+				onCreate={async values => {
+					await mutateAsync(values)
+					setShowCustomCreateDialog(false)
+				}}
+				onClose={() => setShowCustomCreateDialog(false)}
+			/>
+			<ErrorSnack message={errorMessage} />
+			<SuccessSnack
+				message={isSuccess && "Created Alias successfully!"}
+			/>
 		</>
 	)
 }

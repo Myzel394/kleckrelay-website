@@ -18,17 +18,16 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material"
-import {useMutation} from "@tanstack/react-query"
 
-import {Alias, AliasType, ServerSettings} from "~/server-types"
-import {CreateAliasData, createAlias} from "~/apis"
+import {AliasType, ServerSettings} from "~/server-types"
+import {CreateAliasData} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {LOCAL_REGEX} from "~/constants/values"
-import {ErrorSnack, SuccessSnack} from "~/components"
 
 export interface CustomAliasDialogProps {
 	visible: boolean
-	onCreated: () => void
+	onCreate: (values: CreateAliasData) => void
+	isLoading: boolean
 	onClose: () => void
 }
 
@@ -40,7 +39,8 @@ interface Form {
 
 export default function CustomAliasDialog({
 	visible,
-	onCreated,
+	isLoading,
+	onCreate,
 	onClose,
 }: CustomAliasDialogProps): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
@@ -54,25 +54,6 @@ export default function CustomAliasDialog({
 			.max(64 - serverSettings.customAliasSuffixLength - 1),
 	})
 
-	const {mutateAsync, isLoading, isSuccess, reset} = useMutation<
-		Alias,
-		AxiosError,
-		Omit<CreateAliasData, "type">
-	>(
-		values =>
-			// @ts-ignore
-			createAlias({
-				type: AliasType.CUSTOM,
-				...values,
-			}),
-		{
-			onSuccess: () => {
-				reset()
-				onCreated()
-			},
-		},
-	)
-
 	const formik = useFormik<Form>({
 		validationSchema: schema,
 		initialValues: {
@@ -80,9 +61,11 @@ export default function CustomAliasDialog({
 		},
 		onSubmit: async (values, {setErrors}) => {
 			try {
-				await mutateAsync({
+				await onCreate({
 					local: values.local,
+					type: AliasType.CUSTOM,
 				})
+				formik.resetForm()
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
 			}
@@ -90,75 +73,68 @@ export default function CustomAliasDialog({
 	})
 
 	return (
-		<>
-			<Dialog onClose={onClose} open={visible} keepMounted={false}>
-				<form onSubmit={formik.handleSubmit}>
-					<DialogTitle>Create Custom Alias</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							You can define your own custom alias. Note that a
-							random suffix will be added at the end to avoid
-							duplicates.
-						</DialogContentText>
-						<Box paddingY={4}>
-							<TextField
-								key="local"
-								fullWidth
-								autoFocus
-								name="local"
-								id="local"
-								label="Address"
-								value={formik.values.local}
-								onChange={formik.handleChange}
-								disabled={formik.isSubmitting}
-								error={
-									formik.touched.local &&
-									Boolean(formik.errors.local)
-								}
-								helperText={
-									formik.touched.local && formik.errors.local
-								}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<Typography variant="body2">
-												<span>
-													{Array(
-														serverSettings.customAliasSuffixLength,
-													)
-														.fill("#")
-														.join("")}
-												</span>
-												<span>
-													@{serverSettings.mailDomain}
-												</span>
-											</Typography>
-										</InputAdornment>
-									),
-								}}
-							/>
-						</Box>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={onClose} startIcon={<TiCancel />}>
-							Cancel
-						</Button>
-						<Button
-							onClick={() => {}}
-							disabled={isLoading}
-							startIcon={<FaPen />}
-							variant="contained"
-							type="submit"
-						>
-							Create Alias
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-			<ErrorSnack message={formik.errors.detail} />
-			<SuccessSnack
-				message={isSuccess && "Created Alias successfully!"}
-			/>
-		</>
+		<Dialog onClose={onClose} open={visible} keepMounted={false}>
+			<form onSubmit={formik.handleSubmit}>
+				<DialogTitle>Create Custom Alias</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						You can define your own custom alias. Note that a random
+						suffix will be added at the end to avoid duplicates.
+					</DialogContentText>
+					<Box paddingY={4}>
+						<TextField
+							key="local"
+							fullWidth
+							autoFocus
+							name="local"
+							id="local"
+							label="Address"
+							value={formik.values.local}
+							onChange={formik.handleChange}
+							disabled={formik.isSubmitting}
+							error={
+								formik.touched.local &&
+								Boolean(formik.errors.local)
+							}
+							helperText={
+								formik.touched.local && formik.errors.local
+							}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<Typography variant="body2">
+											<span>
+												{Array(
+													serverSettings.customAliasSuffixLength,
+												)
+													.fill("#")
+													.join("")}
+											</span>
+											<span>
+												@{serverSettings.mailDomain}
+											</span>
+										</Typography>
+									</InputAdornment>
+								),
+							}}
+						/>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={onClose} startIcon={<TiCancel />}>
+						Cancel
+					</Button>
+					<Button
+						onClick={() => {}}
+						disabled={isLoading}
+						startIcon={<FaPen />}
+						variant="contained"
+						type="submit"
+					>
+						Create Alias
+					</Button>
+				</DialogActions>
+			</form>
+		</Dialog>
 	)
 }
