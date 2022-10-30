@@ -240,11 +240,12 @@ export default function AliasNotesForm({
 														<IconButton
 															edge="end"
 															aria-label="delete"
-															onClick={() =>
+															onClick={async () => {
 																arrayHelpers.remove(
 																	index,
 																)
-															}
+																await formik.submitForm()
+															}}
 														>
 															<TiDelete />
 														</IconButton>
@@ -260,7 +261,9 @@ export default function AliasNotesForm({
 				</Grid>
 			</form>
 			<ErrorSnack message={formik.errors.detail} />
-			<SuccessSnack message={isSuccess && "Update Alias notes!"} />
+			<SuccessSnack
+				message={isSuccess && "Updated notes successfully!"}
+			/>
 		</>
 	)
 }

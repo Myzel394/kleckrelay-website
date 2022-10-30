@@ -10,6 +10,7 @@ export default function ErrorSnack({message}: ErrorSnackProps): ReactElement {
 	const [open, setOpen] = useState<boolean>(true)
 
 	useEffect(() => {
+		setOpen(false)
 		setOpen(Boolean(message))
 	}, [message])
 

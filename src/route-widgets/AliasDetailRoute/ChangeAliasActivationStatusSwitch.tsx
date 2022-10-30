@@ -1,0 +1,68 @@
+import {ReactElement, useEffect, useState} from "react"
+import {AxiosError} from "axios"
+
+import {Switch} from "@mui/material"
+import {useMutation} from "@tanstack/react-query"
+
+import {Alias} from "~/server-types"
+import {UpdateAliasData, updateAlias} from "~/apis"
+import {parseFastAPIError} from "~/utils"
+import {ErrorSnack, SuccessSnack} from "~/components"
+
+export interface ChangeAliasActivationStatusSwitchProps {
+	id: string
+	isActive: boolean
+
+	onChanged: () => void
+}
+
+export default function ChangeAliasActivationStatusSwitch({
+	id,
+	isActive,
+	onChanged,
+}: ChangeAliasActivationStatusSwitchProps): ReactElement {
+	const [isActiveUIState, setIsActiveUIState] = useState<boolean>(true)
+
+	const [successMessage, setSuccessMessage] = useState<string>("")
+	const [errorMessage, setErrorMessage] = useState<string>("")
+
+	const {mutateAsync, isLoading} = useMutation<
+		Alias,
+		AxiosError,
+		UpdateAliasData
+	>(values => updateAlias(id, values), {
+		onSuccess: onChanged,
+		onError: error =>
+			setErrorMessage(parseFastAPIError(error).detail as string),
+	})
+
+	useEffect(() => {
+		setIsActiveUIState(isActive)
+	}, [isActive])
+
+	return (
+		<>
+			<Switch
+				checked={isActiveUIState}
+				disabled={isActiveUIState === null || isLoading}
+				onChange={async () => {
+					setIsActiveUIState(!isActiveUIState)
+
+					try {
+						await mutateAsync({
+							isActive: !isActiveUIState,
+						})
+
+						if (!isActiveUIState) {
+							setSuccessMessage("Alias activated successfully!")
+						} else {
+							setSuccessMessage("Alias deactivated successfully!")
+						}
+					} catch {}
+				}}
+			/>
+			<SuccessSnack message={successMessage} />
+			<ErrorSnack message={errorMessage} />
+		</>
+	)
+}
