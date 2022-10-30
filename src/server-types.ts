@@ -164,3 +164,8 @@ export interface User
 	notes: UserNote
 	isDecrypted: true
 }
+
+export interface GetPageData {
+	page?: number
+	size?: number
+}
