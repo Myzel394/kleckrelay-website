@@ -15,7 +15,7 @@ export default function AliasesRoute(): ReactElement {
 	const [queryValue, setQueryValue] = useState<string>("")
 	const [, startTransition] = useTransition()
 
-	const query = useQuery<PaginationResult<AliasList>, AxiosError, void>(
+	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
 		["get_aliases", queryValue],
 		() =>
 			getAliases({
@@ -47,9 +47,7 @@ export default function AliasesRoute(): ReactElement {
 				/>
 			}
 		>
-			<QueryResult<PaginationResult<AliasList>, AxiosError, void>
-				query={query}
-			>
+			<QueryResult<PaginationResult<AliasList>, AxiosError> query={query}>
 				{result => <AliasesDetails aliases={result.items} />}
 			</QueryResult>
 		</SimplePage>
