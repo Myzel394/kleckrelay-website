@@ -41,7 +41,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 			} else {
 				const nextUrl =
 					new URLSearchParams(location.search).get("next") || "/"
-				navigate(nextUrl)
+				setTimeout(() => navigate(nextUrl), 0)
 			}
 		},
 	})
