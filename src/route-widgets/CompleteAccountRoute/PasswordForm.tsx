@@ -15,11 +15,14 @@ import {isDev} from "~/constants/development"
 import {useSystemPreferredTheme, useUser} from "~/hooks"
 import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 import {AuthenticationDetails, UserNote} from "~/server-types"
-import {AxiosError} from "axios"
 import {UpdateAccountData, updateAccount} from "~/apis"
 import {encryptUserNote} from "~/utils/encrypt-user-note"
-import {useNavigate} from "react-router-dom"
+import {AxiosError} from "axios"
 import AuthContext from "~/AuthContext/AuthContext"
+
+export interface PasswordFormProps {
+	onDone: () => void
+}
 
 interface Form {
 	password: string
@@ -35,10 +38,11 @@ const schema = yup.object().shape({
 		.oneOf([yup.ref("password"), null], "Passwords must match"),
 })
 
-export default function PasswordForm(): ReactElement {
+export default function PasswordForm({
+	onDone,
+}: PasswordFormProps): ReactElement {
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
-	const navigate = useNavigate()
 
 	const {_setDecryptionPassword, login} = useContext(AuthContext)
 
@@ -60,7 +64,7 @@ export default function PasswordForm(): ReactElement {
 	>(updateAccount, {
 		onSuccess: ({user}) => {
 			login(user)
-			navigate("/")
+			onDone()
 		},
 	})
 	const formik = useFormik<Form>({

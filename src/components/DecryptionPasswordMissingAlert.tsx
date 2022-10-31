@@ -2,7 +2,7 @@ import {useContext} from "react"
 import {MdLock} from "react-icons/md"
 import {Link as RouterLink} from "react-router-dom"
 
-import {Button, Grid, Typography} from "@mui/material"
+import {Button, Grid, Typography, useTheme} from "@mui/material"
 
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
@@ -16,11 +16,19 @@ export default function DecryptionPasswordMissingAlert({
 }: WithEncryptionRequiredProps): JSX.Element {
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const {encryptionStatus} = useContext(AuthContext)
+	const theme = useTheme()
 
 	switch (encryptionStatus) {
 		case EncryptionStatus.Unavailable: {
 			return (
-				<Grid container spacing={4}>
+				<Grid
+					paddingY={2}
+					bgcolor={theme.palette.background.default}
+					container
+					gap={2}
+					direction="column"
+					alignItems="center"
+				>
 					<Grid item>
 						<Typography variant="h6" component="h2">
 							Encryption required
@@ -35,7 +43,7 @@ export default function DecryptionPasswordMissingAlert({
 						<Button
 							variant="contained"
 							component={RouterLink}
-							to="/complete-account?setup=true"
+							to={`/auth/complete-account?setup=true&next=${window.location.pathname}`}
 							startIcon={<MdLock />}
 							onClick={handleAnchorClick}
 						>
@@ -49,8 +57,10 @@ export default function DecryptionPasswordMissingAlert({
 		case EncryptionStatus.PasswordRequired: {
 			return (
 				<Grid
+					paddingY={2}
+					bgcolor={theme.palette.background.default}
 					container
-					spacing={4}
+					gap={2}
 					direction="column"
 					alignItems="center"
 				>
