@@ -342,7 +342,7 @@ export default function AliasNotesForm({
 											) : (
 												<Typography variant="body2">
 													You haven&apos;t used this
-													alias on any website yet.
+													alias on any site yet.
 												</Typography>
 											)}
 										</Grid>
