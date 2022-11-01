@@ -1,6 +1,7 @@
 import {ReactElement, useState, useTransition} from "react"
 import {AxiosError} from "axios"
 import {MdSearch} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 
 import {useQuery} from "@tanstack/react-query"
 import {InputAdornment, TextField} from "@mui/material"
@@ -11,6 +12,8 @@ import AliasesDetails from "~/route-widgets/AliasesRoute/AliasesDetails"
 import getAliases from "~/apis/get-aliases"
 
 export default function AliasesRoute(): ReactElement {
+	const {t} = useTranslation()
+
 	const [searchValue, setSearchValue] = useState<string>("")
 	const [queryValue, setQueryValue] = useState<string>("")
 	const [, startTransition] = useTransition()
@@ -25,7 +28,7 @@ export default function AliasesRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title="Aliases"
+			title={t("routes.AliasesRoute.title")}
 			pageOptionsActions={
 				<TextField
 					value={searchValue}
@@ -35,7 +38,10 @@ export default function AliasesRoute(): ReactElement {
 							setQueryValue(event.target.value)
 						})
 					}}
-					label="Search"
+					label={t("routes.AliasesRoute.pageActions.search.label")}
+					placeholder={t(
+						"routes.AliasesRoute.pageActions.search.placeholder",
+					)}
 					id="search"
 					InputProps={{
 						startAdornment: (

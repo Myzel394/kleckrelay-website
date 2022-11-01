@@ -13,6 +13,7 @@ import {MultiStepFormElement, SimpleForm} from "~/components"
 import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {ServerSettings} from "~/server-types"
+import {useTranslation} from "react-i18next"
 
 export interface EmailFormProps {
 	serverSettings: ServerSettings
@@ -24,20 +25,19 @@ interface Form {
 	detail?: string
 }
 
-const SCHEMA = yup.object().shape({
-	email: yup.string().email().required(),
-})
+export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): ReactElement {
+	const {t} = useTranslation()
+	const SCHEMA = yup.object().shape({
+		email: yup
+			.string()
+			.email()
+			.required()
+			.label(t("routes.SignupRoute.forms.email.form.email.label")),
+	})
 
-export default function EmailForm({
-	onSignUp,
-	serverSettings,
-}: EmailFormProps): ReactElement {
-	const {mutateAsync} = useMutation<SignupResult, AxiosError, string>(
-		signup,
-		{
-			onSuccess: ({normalizedEmail}) => onSignUp(normalizedEmail),
-		},
-	)
+	const {mutateAsync} = useMutation<SignupResult, AxiosError, string>(signup, {
+		onSuccess: ({normalizedEmail}) => onSignUp(normalizedEmail),
+	})
 	const formik = useFormik<Form>({
 		validationSchema: SCHEMA,
 		initialValues: {
@@ -46,9 +46,7 @@ export default function EmailForm({
 		onSubmit: async (values, {setErrors}) => {
 			// Check is email disposable
 			try {
-				const isDisposable = await checkIsDomainDisposable(
-					values.email.split("@")[1],
-				)
+				const isDisposable = await checkIsDomainDisposable(values.email.split("@")[1])
 
 				if (isDisposable) {
 					setErrors({
@@ -76,9 +74,9 @@ export default function EmailForm({
 			<MultiStepFormElement>
 				<form onSubmit={formik.handleSubmit}>
 					<SimpleForm
-						title="Sign up"
-						description="We only need your email and you are ready to go!"
-						continueActionLabel="Sign up"
+						title={t("routes.SignupRoute.forms.email.title")}
+						description={t("routes.SignupRoute.forms.email.description")}
+						continueActionLabel={t("routes.SignupRoute.forms.email.continueAction")}
 						nonFieldError={formik.errors.detail}
 						isSubmitting={formik.isSubmitting}
 					>
@@ -88,18 +86,16 @@ export default function EmailForm({
 								fullWidth
 								name="email"
 								id="email"
-								label="Email"
+								label={t("routes.SignupRoute.forms.email.form.email.label")}
+								placeholder={t(
+									"routes.SignupRoute.forms.email.form.email.placeholder",
+								)}
 								inputMode="email"
 								value={formik.values.email}
 								onChange={formik.handleChange}
 								disabled={formik.isSubmitting}
-								error={
-									formik.touched.email &&
-									Boolean(formik.errors.email)
-								}
-								helperText={
-									formik.touched.email && formik.errors.email
-								}
+								error={formik.touched.email && Boolean(formik.errors.email)}
+								helperText={formik.touched.email && formik.errors.email}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -113,9 +109,7 @@ export default function EmailForm({
 				</form>
 			</MultiStepFormElement>
 			{!serverSettings.otherRelaysEnabled && (
-				<DetectEmailAutofillService
-					domains={serverSettings.otherRelayDomains}
-				/>
+				<DetectEmailAutofillService domains={serverSettings.otherRelayDomains} />
 			)}
 		</>
 	)

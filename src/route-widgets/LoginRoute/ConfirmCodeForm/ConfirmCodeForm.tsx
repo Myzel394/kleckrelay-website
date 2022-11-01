@@ -1,20 +1,22 @@
+import * as yup from "yup"
 import {AxiosError} from "axios"
 import {ReactElement} from "react"
 import {useFormik} from "formik"
 import {FaHashtag} from "react-icons/fa"
 import {MdChevronRight, MdMail} from "react-icons/md"
 
+import {useLoaderData} from "react-router-dom"
+import {useTranslation} from "react-i18next"
+import ResendMailButton from "./ResendMailButton"
+
 import {useMutation} from "@tanstack/react-query"
 import {Box, Grid, InputAdornment, TextField, Typography} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {AuthenticationDetails, ServerUser} from "~/server-types"
+import {AuthenticationDetails, ServerSettings, ServerUser} from "~/server-types"
 import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
 import {parseFastAPIError} from "~/utils"
-
-import ResendMailButton from "./ResendMailButton"
-import useSchema from "./use-schema"
 
 export interface ConfirmCodeFormProps {
 	onConfirm: (user: ServerUser) => void
@@ -32,16 +34,36 @@ export default function ConfirmCodeForm({
 	email,
 	sameRequestToken,
 }: ConfirmCodeFormProps): ReactElement {
-	const schema = useSchema()
-	const {mutateAsync} = useMutation<
-		AuthenticationDetails,
-		AxiosError,
-		VerifyLoginWithEmailData
-	>(verifyLoginWithEmail, {
-		onSuccess: ({user}) => onConfirm(user),
+	const settings = useLoaderData() as ServerSettings
+	const {t} = useTranslation()
+	const SCHEMA = yup.object().shape({
+		code: yup
+			.string()
+			.required()
+			.min(settings.emailLoginTokenLength)
+			.max(settings.emailLoginTokenLength)
+			.test(
+				"chars",
+				t("routes.LoginRoute.forms.confirmCode.form.code.errors.invalidChars") as string,
+				code => {
+					if (!code) {
+						return false
+					}
+
+					const chars = settings.emailLoginTokenChars.split("")
+
+					return code.split("").every(char => chars.includes(char))
+				},
+			),
 	})
+	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyLoginWithEmailData>(
+		verifyLoginWithEmail,
+		{
+			onSuccess: ({user}) => onConfirm(user),
+		},
+	)
 	const formik = useFormik<Form>({
-		validationSchema: schema,
+		validationSchema: SCHEMA,
 		initialValues: {
 			code: "",
 			detail: "",
@@ -54,7 +76,8 @@ export default function ConfirmCodeForm({
 					token: values.code,
 				})
 			} catch (error) {
-				setErrors(parseFastAPIError(error as AxiosError))
+				const errors = parseFastAPIError(error as AxiosError)
+				setErrors({code: errors.detail})
 			}
 		},
 	})
@@ -71,7 +94,7 @@ export default function ConfirmCodeForm({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h1" align="center">
-							You got mail!
+							{t("routes.LoginRoute.forms.confirmCode.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -80,13 +103,8 @@ export default function ConfirmCodeForm({
 						</Box>
 					</Grid>
 					<Grid item>
-						<Typography
-							variant="subtitle1"
-							component="p"
-							align="center"
-						>
-							We sent you a code to your email. Enter it below to
-							login.
+						<Typography variant="subtitle1" component="p" align="center">
+							{t("routes.LoginRoute.forms.confirmCode.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -95,17 +113,12 @@ export default function ConfirmCodeForm({
 							fullWidth
 							name="code"
 							id="code"
-							label="Code"
+							label={t("routes.LoginRoute.forms.confirmCode.form.code.label")}
 							value={formik.values.code}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
-							error={
-								formik.touched.code &&
-								Boolean(formik.errors.code)
-							}
-							helperText={
-								formik.touched.code && formik.errors.code
-							}
+							error={formik.touched.code && Boolean(formik.errors.code)}
+							helperText={formik.touched.code && formik.errors.code}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -116,12 +129,7 @@ export default function ConfirmCodeForm({
 						/>
 					</Grid>
 					<Grid item>
-						<Grid
-							width="100%"
-							container
-							display="flex"
-							justifyContent="space-between"
-						>
+						<Grid width="100%" container display="flex" justifyContent="space-between">
 							<Grid item>
 								<ResendMailButton
 									email={email}
@@ -135,7 +143,7 @@ export default function ConfirmCodeForm({
 									type="submit"
 									startIcon={<MdChevronRight />}
 								>
-									Login
+									{t("routes.LoginRoute.forms.confirmCode.continueAction")}
 								</LoadingButton>
 							</Grid>
 						</Grid>

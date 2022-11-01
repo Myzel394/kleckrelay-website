@@ -5,26 +5,22 @@ import {useFormik} from "formik"
 import {FaFile} from "react-icons/fa"
 import {MdCheckCircle} from "react-icons/md"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 
 import {LoadingButton} from "@mui/lab"
-import {Collapse, Grid} from "@mui/material"
+import {Collapse, Grid, Typography} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
-import {
-	Alias,
-	DecryptedAlias,
-	ImageProxyFormatType,
-	ProxyUserAgentType,
-} from "~/server-types"
-import {
-	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
-} from "~/constants/enum_mappings"
+import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {ErrorSnack, SuccessSnack} from "~/components"
 import {parseFastAPIError} from "~/utils"
+import {
+	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
+	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+} from "~/constants/enum-mappings"
 import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 
@@ -44,29 +40,36 @@ interface Form {
 	detail?: string
 }
 
-const SCHEMA = yup.object().shape({
-	removeTrackers: yup.mixed<boolean | null>().oneOf([true, false, null]),
-	createMailReport: yup.mixed<boolean | null>().oneOf([true, false, null]),
-	proxyImages: yup.mixed<boolean | null>().oneOf([true, false, null]),
-	imageProxyFormat: yup
-		.mixed<ImageProxyFormatType>()
-		.oneOf([null, ...Object.values(ImageProxyFormatType)]),
-	imageProxyUserAgent: yup
-		.mixed<ProxyUserAgentType>()
-		.oneOf([null, ...Object.values(ProxyUserAgentType)]),
-})
-
 export default function AliasPreferencesForm({
 	alias,
 	onChanged,
 }: AliasPreferencesFormProps): ReactElement {
-	const {mutateAsync, isSuccess} = useMutation<
-		Alias,
-		AxiosError,
-		UpdateAliasData
-	>(data => updateAlias(alias.id, data), {
-		onSuccess: onChanged,
+	const {t} = useTranslation()
+	const SCHEMA = yup.object().shape({
+		removeTrackers: yup
+			.mixed<boolean | null>()
+			.oneOf([true, false, null])
+			.label(t("relations.alias.settings.removeTrackers.label")),
+		createMailReport: yup
+			.mixed<boolean | null>()
+			.oneOf([true, false, null])
+			.label(t("relations.alias.settings.createMailReport.label")),
+		proxyImages: yup.mixed<boolean | null>().oneOf([true, false, null]),
+		imageProxyFormat: yup
+			.mixed<ImageProxyFormatType>()
+			.oneOf([null, ...Object.values(ImageProxyFormatType)])
+			.label(t("relations.alias.settings.imageProxyFormat.label")),
+		imageProxyUserAgent: yup
+			.mixed<ProxyUserAgentType>()
+			.oneOf([null, ...Object.values(ProxyUserAgentType)])
+			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})
+	const {mutateAsync, isSuccess} = useMutation<Alias, AxiosError, UpdateAliasData>(
+		data => updateAlias(alias.id, data),
+		{
+			onSuccess: onChanged,
+		},
+	)
 	const formik = useFormik<Form>({
 		enableReinitialize: true,
 		initialValues: {
@@ -97,6 +100,7 @@ export default function AliasPreferencesForm({
 			<form onSubmit={formik.handleSubmit}>
 				<Grid
 					container
+					marginTop={1}
 					spacing={4}
 					flexDirection="column"
 					alignItems="center"
@@ -105,7 +109,7 @@ export default function AliasPreferencesForm({
 						<Grid container spacing={4}>
 							<Grid item xs={12} sm={6}>
 								<SelectField
-									label="Remove Trackers"
+									label={t("relations.alias.settings.removeTrackers.label")}
 									formik={formik}
 									icon={<BsShieldShaded />}
 									name="removeTrackers"
@@ -113,14 +117,9 @@ export default function AliasPreferencesForm({
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<SelectField
-									label="Create Reports"
+									label={t("relations.alias.settings.createMailReports.label")}
 									formik={formik}
-									icon={
-										<Icon
-											path={mdiTextBoxMultiple}
-											size={0.8}
-										/>
-									}
+									icon={<Icon path={mdiTextBoxMultiple} size={0.8} />}
 									name="createMailReport"
 								/>
 							</Grid>
@@ -128,23 +127,20 @@ export default function AliasPreferencesForm({
 								<Grid container spacing={2}>
 									<Grid item xs={12}>
 										<SelectField
-											label="Proxy Images"
+											label={t("relations.alias.settings.proxyImages.label")}
 											formik={formik}
 											icon={<BsImage />}
 											name="proxyImages"
 										/>
 									</Grid>
 									<Grid item xs={12}>
-										<Collapse
-											in={
-												formik.values.proxyImages !==
-												false
-											}
-										>
+										<Collapse in={formik.values.proxyImages !== false}>
 											<Grid container spacing={4}>
 												<Grid item xs={12} sm={6}>
 													<SelectField
-														label="Image File Type"
+														label={t(
+															"relations.alias.settings.imageProxyFormat.label",
+														)}
 														formik={formik}
 														icon={<FaFile />}
 														name="imageProxyFormat"
@@ -155,7 +151,9 @@ export default function AliasPreferencesForm({
 												</Grid>
 												<Grid item xs={12} sm={6}>
 													<SelectField
-														label="Image Proxy User Agent"
+														label={t(
+															"relations.alias.settings.imageProxyUserAgent.label",
+														)}
 														formik={formik}
 														name="imageProxyUserAgent"
 														valueTextMap={
@@ -177,15 +175,20 @@ export default function AliasPreferencesForm({
 							type="submit"
 							startIcon={<MdCheckCircle />}
 						>
-							Save Settings
+							{t("relations.alias.settings.saveAction")}
 						</LoadingButton>
+					</Grid>
+					<Grid item>
+						<Typography variant="body2">
+							{t("routes.AliasDetailRoute.sections.settings.description")}
+						</Typography>
 					</Grid>
 				</Grid>
 			</form>
 			<FormikAutoLockNavigation formik={formik} />
 			<ErrorSnack message={formik.errors.detail} />
 			<SuccessSnack
-				message={isSuccess && "Updated Alias successfully!"}
+				message={isSuccess && t("relations.alias.mutations.success.aliasUpdated")}
 			/>
 		</>
 	)

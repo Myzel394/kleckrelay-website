@@ -1,10 +1,13 @@
 import {ReactElement} from "react"
 import {Link as RouterLink, Outlet} from "react-router-dom"
 import {MdAdd, MdLogin} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 
 import {Box, Button, Grid} from "@mui/material"
 
 export default function AuthenticateRoute(): ReactElement {
+	const {t} = useTranslation()
+
 	return (
 		<Box
 			display="flex"
@@ -15,12 +18,7 @@ export default function AuthenticateRoute(): ReactElement {
 		>
 			<div />
 			<Outlet />
-			<Grid
-				container
-				spacing={2}
-				justifyContent="center"
-				marginBottom={2}
-			>
+			<Grid container spacing={2} justifyContent="center" marginBottom={2}>
 				<Grid item>
 					<Button
 						component={RouterLink}
@@ -29,7 +27,7 @@ export default function AuthenticateRoute(): ReactElement {
 						size="small"
 						startIcon={<MdAdd />}
 					>
-						Sign Up
+						{t("components.AuthenticateRoute.signup")}
 					</Button>
 				</Grid>
 				<Grid item>
@@ -40,7 +38,7 @@ export default function AuthenticateRoute(): ReactElement {
 						size="small"
 						startIcon={<MdLogin />}
 					>
-						Login
+						{t("components.AuthenticateRoute.login")}
 					</Button>
 				</Grid>
 			</Grid>

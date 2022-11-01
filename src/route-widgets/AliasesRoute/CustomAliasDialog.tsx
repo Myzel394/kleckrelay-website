@@ -5,6 +5,7 @@ import {useLoaderData} from "react-router-dom"
 import {AxiosError} from "axios"
 import {TiCancel} from "react-icons/ti"
 import {FaPen} from "react-icons/fa"
+import {useTranslation} from "react-i18next"
 
 import {
 	Box,
@@ -44,6 +45,7 @@ export default function CustomAliasDialog({
 	onClose,
 }: CustomAliasDialogProps): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
+	const {t} = useTranslation()
 
 	const schema = yup.object().shape({
 		local: yup
@@ -75,11 +77,14 @@ export default function CustomAliasDialog({
 	return (
 		<Dialog onClose={onClose} open={visible} keepMounted={false}>
 			<form onSubmit={formik.handleSubmit}>
-				<DialogTitle>Create Custom Alias</DialogTitle>
+				<DialogTitle>
+					{t("routes.AliasesRoute.actions.createCustomAlias.label")}
+				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						You can define your own custom alias. Note that a random
-						suffix will be added at the end to avoid duplicates.
+						{t(
+							"routes.AliasesRoute.actions.createCustomAlias.description",
+						)}
 					</DialogContentText>
 					<Box paddingY={4}>
 						<TextField
@@ -88,7 +93,12 @@ export default function CustomAliasDialog({
 							autoFocus
 							name="local"
 							id="local"
-							label="Address"
+							label={t(
+								"routes.AliasesRoute.actions.createCustomAlias.form.address.label",
+							)}
+							placeholder={t(
+								"routes.AliasesRoute.actions.createCustomAlias.form.address.placeholder",
+							)}
 							value={formik.values.local}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
@@ -122,7 +132,7 @@ export default function CustomAliasDialog({
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={onClose} startIcon={<TiCancel />}>
-						Cancel
+						{t("general.cancelLabel")}
 					</Button>
 					<Button
 						onClick={() => {}}
@@ -131,7 +141,9 @@ export default function CustomAliasDialog({
 						variant="contained"
 						type="submit"
 					>
-						Create Alias
+						{t(
+							"routes.AliasesRoute.actions.createCustomAlias.continueAction",
+						)}
 					</Button>
 				</DialogActions>
 			</form>

@@ -1,6 +1,7 @@
 import {ReactElement, useContext} from "react"
 import {useParams} from "react-router-dom"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 
 import {useQuery} from "@tanstack/react-query"
 
@@ -12,6 +13,7 @@ import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export default function AliasDetailRoute(): ReactElement {
+	const {t} = useTranslation()
 	const params = useParams()
 	const address = atob(params.addressInBase64 as string)
 	const {_decryptUsingMasterPassword, encryptionStatus} =
@@ -34,7 +36,7 @@ export default function AliasDetailRoute(): ReactElement {
 	)
 
 	return (
-		<SimplePage title="Alias Details">
+		<SimplePage title={t("routes.AliasDetailRoute.title")}>
 			<QueryResult<Alias | DecryptedAlias> query={query}>
 				{alias => <AliasDetails alias={alias} />}
 			</QueryResult>

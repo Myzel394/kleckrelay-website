@@ -1,19 +1,21 @@
 import {useParams} from "react-router-dom"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {useQuery} from "@tanstack/react-query"
-import {Box, Grid, List, Typography} from "@mui/material"
+import {List} from "@mui/material"
 
-import {Report} from "~/server-types"
+import {DecryptedReportContent, Report} from "~/server-types"
 import {getReport} from "~/apis"
-import {DecryptReport} from "~/components"
+import {DecryptReport, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
+import {WithEncryptionRequired} from "~/hocs"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
 import QueryResult from "~/components/QueryResult"
-import SimplePage from "~/components/SimplePage"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
 
-export default function ReportDetailRoute(): ReactElement {
+function ReportDetailRoute(): ReactElement {
+	const {t} = useTranslation()
 	const params = useParams()
 
 	const query = useQuery<Report, AxiosError>(["get_report", params.id], () =>
@@ -21,102 +23,89 @@ export default function ReportDetailRoute(): ReactElement {
 	)
 
 	return (
-		<SimplePage title="Report Details">
+		<SimplePageBuilder.Page title="Report Details">
 			<QueryResult<Report> query={query}>
 				{encryptedReport => (
-					<DecryptReport
-						encryptedContent={encryptedReport.encryptedContent}
-					>
+					<DecryptReport encryptedContent={encryptedReport.encryptedContent}>
 						{report => (
-							<Grid container spacing={4}>
-								<Grid item xs={12}>
-									<Typography variant="h6" component="h2">
-										Email information
-									</Typography>
-									<Grid container columnSpacing={4}>
-										<Grid item xs={12} md={6} lg={4}>
-											<Box component="dl">
-												<Typography
-													variant="overline"
-													component="dt"
-												>
-													From
-												</Typography>
-												<Typography
-													variant="body1"
-													component="dd"
+							<SimplePageBuilder.MultipleSections>
+								{[
+									<SimplePageBuilder.Section
+										key="information"
+										label={t(
+											"routes.ReportDetailRoute.sections.information.title",
+										)}
+									>
+										<SimplePageBuilder.InformationContainer>
+											{[
+												<SimpleOverlayInformation
+													key="from"
+													label={t(
+														"routes.ReportDetailRoute.sections.information.form.from.label",
+													)}
 												>
 													{
-														report.messageDetails
-															.meta.from
+														(report as DecryptedReportContent)
+															.messageDetails.meta.from
 													}
-												</Typography>
-											</Box>
-										</Grid>
-										<Grid item xs={12} md={6} lg={4}>
-											<Box component="dl">
-												<Typography
-													variant="overline"
-													component="dt"
-												>
-													To
-												</Typography>
-												<Typography
-													variant="body1"
-													component="dd"
+												</SimpleOverlayInformation>,
+
+												<SimpleOverlayInformation
+													key="to"
+													label={t(
+														"routes.ReportDetailRoute.sections.information.form.to.label",
+													)}
 												>
 													{
-														report.messageDetails
-															.meta.to
+														(report as DecryptedReportContent)
+															.messageDetails.meta.to
 													}
-												</Typography>
-											</Box>
-										</Grid>
-										<Grid item xs={12} lg={4}>
-											<Box component="dl">
-												<Typography
-													variant="overline"
-													component="dt"
-												>
-													Subject
-												</Typography>
-												<Typography
-													variant="body1"
-													component="dd"
+												</SimpleOverlayInformation>,
+
+												<SimpleOverlayInformation
+													key="subject"
+													label={t(
+														"routes.ReportDetailRoute.sections.information.form.subject.label",
+													)}
 												>
 													{
-														report.messageDetails
-															.content.subject
+														(report as DecryptedReportContent)
+															.messageDetails.content.subject
 													}
-												</Typography>
-											</Box>
-										</Grid>
-									</Grid>
-								</Grid>
-								<Grid item>
-									<Typography variant="h6" component="h2">
-										Trackers
-									</Typography>
-									<List>
-										<SinglePixelImageTrackersListItem
-											images={
-												report.messageDetails.content
-													.singlePixelImages
-											}
-										/>
-										<ProxiedImagesListItem
-											images={
-												report.messageDetails.content
-													.proxiedImages
-											}
-										/>
-									</List>
-								</Grid>
-							</Grid>
+												</SimpleOverlayInformation>,
+											]}
+										</SimplePageBuilder.InformationContainer>
+									</SimplePageBuilder.Section>,
+
+									<SimplePageBuilder.Section
+										key="trackers"
+										label={t(
+											"routes.ReportDetailRoute.sections.trackers.title",
+										)}
+									>
+										<List>
+											<SinglePixelImageTrackersListItem
+												images={
+													(report as DecryptedReportContent)
+														.messageDetails.content.singlePixelImages
+												}
+											/>
+											<ProxiedImagesListItem
+												images={
+													(report as DecryptedReportContent)
+														.messageDetails.content.proxiedImages
+												}
+											/>
+										</List>
+									</SimplePageBuilder.Section>,
+								]}
+							</SimplePageBuilder.MultipleSections>
 						)}
 					</DecryptReport>
 				)}
 			</QueryResult>
-		</SimplePage>
+		</SimplePageBuilder.Page>
 	)
 }
+
+export default WithEncryptionRequired(ReportDetailRoute)

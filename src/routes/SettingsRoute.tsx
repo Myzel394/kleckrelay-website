@@ -1,20 +1,15 @@
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
-import {Grid, Typography} from "@mui/material"
-
+import {SimplePageBuilder} from "~/components"
 import AliasesPreferencesForm from "~/route-widgets/SettingsRoute/AliasesPreferencesForm"
 
 export default function SettingsRoute(): ReactElement {
+	const {t} = useTranslation()
+
 	return (
-		<Grid container spacing={4}>
-			<Grid item>
-				<Typography variant="h5" component="h2">
-					Settings
-				</Typography>
-			</Grid>
-			<Grid item>
-				<AliasesPreferencesForm />
-			</Grid>
-		</Grid>
+		<SimplePageBuilder.Page title={t("routes.SettingsRoute.title")}>
+			<AliasesPreferencesForm />
+		</SimplePageBuilder.Page>
 	)
 }

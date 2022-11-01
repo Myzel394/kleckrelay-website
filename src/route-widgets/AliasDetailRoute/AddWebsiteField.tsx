@@ -14,6 +14,7 @@ import {
 
 import {URL_REGEX} from "~/constants/values"
 import {whenEnterPressed} from "~/utils"
+import {useTranslation} from "react-i18next"
 
 export interface AddWebsiteFieldProps {
 	onAdd: (website: string) => Promise<void>
@@ -32,6 +33,7 @@ export default function AddWebsiteField({
 	onAdd,
 	isLoading,
 }: AddWebsiteFieldProps): ReactElement {
+	const {t} = useTranslation()
 	const websiteFormik = useFormik<WebsiteForm>({
 		validationSchema: WEBSITE_SCHEMA,
 		initialValues: {
@@ -60,13 +62,18 @@ export default function AddWebsiteField({
 	})
 
 	return (
-		<Grid container spacing={2} direction="column">
+		<Grid container direction="column">
 			<Grid item>
 				<FormGroup row>
 					<TextField
 						name="url"
 						id="url"
-						label="Website"
+						label={t(
+							"routes.AliasDetailRoute.sections.notes.form.websites.label",
+						)}
+						placeholder={t(
+							"routes.AliasDetailRoute.sections.notes.form.websites.placeholder",
+						)}
 						variant="outlined"
 						value={websiteFormik.values.url}
 						onChange={websiteFormik.handleChange}
@@ -106,7 +113,9 @@ export default function AddWebsiteField({
 					}
 				>
 					{(websiteFormik.touched.url && websiteFormik.errors.url) ||
-						"Add a website to this alias. Used to autofill."}
+						t(
+							"routes.AliasDetailRoute.sections.notes.form.websites.helperText",
+						)}
 				</FormHelperText>
 			</Grid>
 		</Grid>

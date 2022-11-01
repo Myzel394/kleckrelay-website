@@ -1,5 +1,6 @@
-import {ReactElement, useContext, useEffect, useState} from "react"
+import {ReactElement, useContext, useState} from "react"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 
 import {Switch} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
@@ -8,6 +9,7 @@ import {Alias, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {ErrorSnack, SuccessSnack} from "~/components"
+import {useUIState} from "~/hooks"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
@@ -23,10 +25,11 @@ export default function ChangeAliasActivationStatusSwitch({
 	isActive,
 	onChanged,
 }: ChangeAliasActivationStatusSwitchProps): ReactElement {
+	const {t} = useTranslation()
 	const {_decryptUsingMasterPassword, encryptionStatus} =
 		useContext(AuthContext)
 
-	const [isActiveUIState, setIsActiveUIState] = useState<boolean>(true)
+	const [isActiveUIState, setIsActiveUIState] = useUIState<boolean>(isActive)
 
 	const [successMessage, setSuccessMessage] = useState<string>("")
 	const [errorMessage, setErrorMessage] = useState<string>("")
@@ -50,10 +53,6 @@ export default function ChangeAliasActivationStatusSwitch({
 			setErrorMessage(parseFastAPIError(error).detail as string),
 	})
 
-	useEffect(() => {
-		setIsActiveUIState(isActive)
-	}, [isActive])
-
 	return (
 		<>
 			<Switch
@@ -68,9 +67,17 @@ export default function ChangeAliasActivationStatusSwitch({
 						})
 
 						if (!isActiveUIState) {
-							setSuccessMessage("Alias activated successfully!")
+							setSuccessMessage(
+								t(
+									"relations.alias.mutations.success.aliasChangedToEnabled",
+								) as string,
+							)
 						} else {
-							setSuccessMessage("Alias deactivated successfully!")
+							setSuccessMessage(
+								t(
+									"relations.alias.mutations.success.aliasChangedToDisabled",
+								) as string,
+							)
 						}
 					} catch {}
 				}}

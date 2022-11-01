@@ -3,6 +3,7 @@ import {ReactElement} from "react"
 import {AxiosError} from "axios"
 import {useFormik} from "formik"
 import {MdEmail} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 
 import {useMutation} from "@tanstack/react-query"
 import {InputAdornment, TextField} from "@mui/material"
@@ -20,18 +21,18 @@ interface Form {
 	detail: string
 }
 
-const SCHEMA = yup.object().shape({
-	email: yup.string().email().required(),
-})
-
 export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
-	const {mutateAsync} = useMutation<LoginWithEmailResult, AxiosError, string>(
-		loginWithEmail,
-		{
-			onSuccess: ({sameRequestToken}) =>
-				onLogin(formik.values.email, sameRequestToken),
-		},
-	)
+	const {t} = useTranslation()
+	const SCHEMA = yup.object().shape({
+		email: yup
+			.string()
+			.email()
+			.required()
+			.label(t("routes.LoginRoute.forms.email.form.email.label")),
+	})
+	const {mutateAsync} = useMutation<LoginWithEmailResult, AxiosError, string>(loginWithEmail, {
+		onSuccess: ({sameRequestToken}) => onLogin(formik.values.email, sameRequestToken),
+	})
 	const formik = useFormik<Form>({
 		validationSchema: SCHEMA,
 		initialValues: {
@@ -51,9 +52,9 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 		<MultiStepFormElement>
 			<form onSubmit={formik.handleSubmit}>
 				<SimpleForm
-					title="Sign in"
-					description="We'll send you a verification code to your email."
-					continueActionLabel="Send code"
+					title={t("routes.LoginRoute.forms.email.title")}
+					description={t("routes.LoginRoute.forms.email.description")}
+					continueActionLabel={t("routes.LoginRoute.forms.email.continueAction")}
 					nonFieldError={formik.errors.detail}
 					isSubmitting={formik.isSubmitting}
 				>
@@ -64,17 +65,13 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 							name="email"
 							id="email"
 							label="Email"
+							placeholder={t("routes.LoginRoute.forms.email.form.email.placeholder")}
 							inputMode="email"
 							value={formik.values.email}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
-							error={
-								formik.touched.email &&
-								Boolean(formik.errors.email)
-							}
-							helperText={
-								formik.touched.email && formik.errors.email
-							}
+							error={formik.touched.email && Boolean(formik.errors.email)}
+							helperText={formik.touched.email && formik.errors.email}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">

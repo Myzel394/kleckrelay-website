@@ -14,6 +14,7 @@ import {
 } from "@mui/material"
 
 import {MultiStepFormElement, OpenMailButton} from "~/components"
+import {useTranslation} from "react-i18next"
 import ResendMailButton from "~/route-widgets/SignupRoute/YouGotMail/ResendMailButton"
 
 export interface YouGotMailProps {
@@ -21,10 +22,9 @@ export interface YouGotMailProps {
 	onGoBack: () => void
 }
 
-export default function YouGotMail({
-	email,
-	onGoBack,
-}: YouGotMailProps): ReactElement {
+export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactElement {
+	const {t} = useTranslation()
+
 	const [askToEditEmail, setAskToEditEmail] = useState<boolean>(false)
 
 	const domain = email.split("@")[1]
@@ -43,30 +43,21 @@ export default function YouGotMail({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2" align="center">
-							You got mail!
+							{t("routes.SignupRoute.forms.mailVerification.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography variant="subtitle1" component="p">
-							We sent you an email with a link to confirm your
-							email address. Please check your inbox and click on
-							the link to continue.
+							{t("routes.SignupRoute.forms.mailVerification.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
-						<Grid
-							container
-							alignItems="center"
-							direction="row"
-							spacing={2}
-						>
+						<Grid container alignItems="center" direction="row" spacing={2}>
 							<Grid item>
 								<code>{email}</code>
 							</Grid>
 							<Grid item>
-								<IconButton
-									onClick={() => setAskToEditEmail(true)}
-								>
+								<IconButton onClick={() => setAskToEditEmail(true)}>
 									<MdEdit />
 								</IconButton>
 							</Grid>
@@ -81,21 +72,21 @@ export default function YouGotMail({
 				</Grid>
 			</MultiStepFormElement>
 			<Dialog open={askToEditEmail}>
-				<DialogTitle>Edit email address?</DialogTitle>
+				<DialogTitle>
+					{t("routes.SignupRoute.forms.mailVerification.editEmail.title")}
+				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Would you like to return to the previous step and edit
-						your email address?
+						{t("routes.SignupRoute.forms.mailVerification.editEmail.description")}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button
-						startIcon={<MdCancel />}
-						onClick={() => setAskToEditEmail(false)}
-					>
-						Cancel
+					<Button startIcon={<MdCancel />} onClick={() => setAskToEditEmail(false)}>
+						{t("general.cancelLabel")}
 					</Button>
-					<Button onClick={onGoBack}>Yes, edit email</Button>
+					<Button onClick={onGoBack}>
+						{t("routes.SignupRoute.forms.mailVerification.editEmail.continueAction")}
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</>

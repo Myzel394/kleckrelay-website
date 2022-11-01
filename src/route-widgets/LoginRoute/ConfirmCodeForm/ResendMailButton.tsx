@@ -8,6 +8,7 @@ import {resendEmailLoginCode} from "~/apis"
 import {MutationStatusSnackbar, TimedButton} from "~/components"
 import {ServerSettings, SimpleDetailResponse} from "~/server-types"
 import {MdMail} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 
 export interface ResendMailButtonProps {
 	email: string
@@ -19,6 +20,7 @@ export default function ResendMailButton({
 	sameRequestToken,
 }: ResendMailButtonProps): ReactElement {
 	const settings = useLoaderData() as ServerSettings
+	const {t} = useTranslation()
 
 	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
 		resendEmailLoginCode({
@@ -35,7 +37,7 @@ export default function ResendMailButton({
 				startIcon={<MdMail />}
 				onClick={() => mutate()}
 			>
-				Resend Mail
+				{t("components.ResendMailButton.label")}
 			</TimedButton>
 			<MutationStatusSnackbar mutation={mutation} />
 		</>

@@ -1,6 +1,7 @@
 import {AxiosError} from "axios"
 import {useLoaderData} from "react-router-dom"
 import {MdMail} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {useMutation} from "@tanstack/react-query"
@@ -13,9 +14,8 @@ export interface ResendMailButtonProps {
 	email: string
 }
 
-export default function ResendMailButton({
-	email,
-}: ResendMailButtonProps): ReactElement {
+export default function ResendMailButton({email}: ResendMailButtonProps): ReactElement {
+	const {t} = useTranslation()
 	const settings = useLoaderData() as ServerSettings
 
 	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
@@ -30,7 +30,7 @@ export default function ResendMailButton({
 				startIcon={<MdMail />}
 				onClick={() => mutate()}
 			>
-				Resend Mail
+				{t("components.ResendMailButton.label")}
 			</TimedButton>
 			<MutationStatusSnackbar mutation={mutation} />
 		</>

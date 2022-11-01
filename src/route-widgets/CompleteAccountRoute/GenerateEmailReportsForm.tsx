@@ -5,6 +5,7 @@ import React, {ReactElement} from "react"
 import {Box, Button, Grid, Typography} from "@mui/material"
 import {MultiStepFormElement} from "~/components"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
+import {useTranslation} from "react-i18next"
 import Icon from "@mdi/react"
 
 export interface GenerateEmailReportsFormProps {
@@ -16,6 +17,8 @@ export default function GenerateEmailReportsForm({
 	onNo,
 	onYes,
 }: GenerateEmailReportsFormProps): ReactElement {
+	const {t} = useTranslation()
+
 	return (
 		<MultiStepFormElement>
 			<Grid
@@ -29,40 +32,26 @@ export default function GenerateEmailReportsForm({
 				justifyContent="center"
 			>
 				<Grid item>
-					<Grid
-						container
-						direction="column"
-						spacing={4}
-						alignItems="center"
-					>
+					<Grid container direction="column" spacing={4} alignItems="center">
 						<Grid item>
 							<Grid container spacing={4} direction="column">
 								<Grid item>
-									<Typography
-										variant="h6"
-										component="h2"
-										align="center"
-									>
-										Generate Email Reports?
+									<Typography variant="h6" component="h2" align="center">
+										{t(
+											"routes.CompleteAccountRoute.forms.generateReports.title",
+										)}
 									</Typography>
 								</Grid>
 								<Grid item>
 									<Box display="flex" justifyContent="center">
-										<Icon
-											path={mdiTextBoxMultiple}
-											size={2}
-										/>
+										<Icon path={mdiTextBoxMultiple} size={2} />
 									</Box>
 								</Grid>
 								<Grid item>
-									<Typography
-										variant="subtitle1"
-										component="p"
-									>
-										Would you like to create fully encrypted
-										email reports for your mails? Only you
-										will be able to access it. Not even we
-										can decrypt it.
+									<Typography variant="subtitle1" component="p">
+										{t(
+											"routes.CompleteAccountRoute.forms.generateReports.description",
+										)}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -72,12 +61,10 @@ export default function GenerateEmailReportsForm({
 				<Grid item>
 					<Grid container spacing={2} direction="row">
 						<Grid item>
-							<Button
-								startIcon={<TiCancel />}
-								color="secondary"
-								onClick={onNo}
-							>
-								No
+							<Button startIcon={<TiCancel />} color="secondary" onClick={onNo}>
+								{t(
+									"routes.CompleteAccountRoute.forms.generateReports.cancelAction",
+								)}
 							</Button>
 						</Grid>
 						<Grid item>
@@ -86,7 +73,9 @@ export default function GenerateEmailReportsForm({
 								color="primary"
 								onClick={onYes}
 							>
-								Yes
+								{t(
+									"routes.CompleteAccountRoute.forms.generateReports.continueAction",
+								)}
 							</Button>
 						</Grid>
 					</Grid>

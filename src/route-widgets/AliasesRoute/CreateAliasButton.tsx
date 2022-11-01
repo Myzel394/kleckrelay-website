@@ -21,6 +21,7 @@ import {Alias, AliasType} from "~/server-types"
 import {parseFastAPIError} from "~/utils"
 import {ErrorSnack, SuccessSnack} from "~/components"
 import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
+import {useTranslation} from "react-i18next"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
@@ -31,6 +32,7 @@ export interface CreateAliasButtonProps {
 export default function CreateAliasButton({
 	onCreated,
 }: CreateAliasButtonProps): ReactElement {
+	const {t} = useTranslation()
 	const {_encryptUsingMasterPassword, encryptionStatus} =
 		useContext(AuthContext)
 
@@ -83,7 +85,7 @@ export default function CreateAliasButton({
 						})
 					}
 				>
-					Create random alias
+					{t("routes.AliasesRoute.actions.createRandomAlias.label")}
 				</Button>
 				<Button
 					size="small"
@@ -108,7 +110,11 @@ export default function CreateAliasButton({
 						<ListItemIcon>
 							<FaPen />
 						</ListItemIcon>
-						<ListItemText primary="Create Custom Alias" />
+						<ListItemText
+							primary={t(
+								"routes.AliasesRoute.actions.createCustomAlias.label",
+							)}
+						/>
 					</MenuItem>
 				</MenuList>
 			</Menu>
@@ -123,7 +129,10 @@ export default function CreateAliasButton({
 			/>
 			<ErrorSnack message={errorMessage} />
 			<SuccessSnack
-				message={isSuccess && "Created Alias successfully!"}
+				message={
+					isSuccess &&
+					t("relations.alias.mutations.success.aliasCreation")
+				}
 			/>
 		</>
 	)

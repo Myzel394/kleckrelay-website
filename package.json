@@ -24,12 +24,17 @@
     "deep-equal": "^2.0.5",
     "formik": "^2.2.9",
     "group-array": "^1.0.0",
+    "i18next": "^22.0.4",
+    "i18next-browser-languagedetector": "^7.0.0",
+    "i18next-http-backend": "^2.0.0",
+    "i18next-localstorage-cache": "^1.1.1",
     "immutability-helper": "^3.1.1",
     "in-milliseconds": "^1.2.0",
     "in-seconds": "^1.2.0",
     "openpgp": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^12.0.0",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.4.2",
     "react-use": "^17.4.0",
@@ -37,7 +42,8 @@
     "sort-array": "^4.1.5",
     "ua-parser-js": "^1.0.2",
     "use-system-theme": "^0.1.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "yup-locales": "^1.2.10"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
@@ -62,6 +68,7 @@
     "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-ordered-imports": "^0.6.0",
     "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-i18n": "^1.0.3",
     "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"

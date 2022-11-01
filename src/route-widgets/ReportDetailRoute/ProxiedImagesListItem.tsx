@@ -2,6 +2,7 @@ import {BsImage} from "react-icons/bs"
 import {ReactElement, useState} from "react"
 import {MdLocationOn} from "react-icons/md"
 import {useLoaderData} from "react-router-dom"
+import {useTranslation} from "react-i18next"
 import addHours from "date-fns/addHours"
 import isBefore from "date-fns/isBefore"
 
@@ -17,14 +18,14 @@ import {
 } from "@mui/material"
 
 import {DecryptedReportContent, ServerSettings} from "~/server-types"
+import {isDev} from "~/constants/development"
 
 export interface ProxiedImagesListItemProps {
 	images: DecryptedReportContent["messageDetails"]["content"]["proxiedImages"]
 }
 
-export default function ProxiedImagesListItem({
-	images,
-}: ProxiedImagesListItemProps): ReactElement {
+export default function ProxiedImagesListItem({images}: ProxiedImagesListItemProps): ReactElement {
+	const {t} = useTranslation()
 	const serverSettings = useLoaderData() as ServerSettings
 	const theme = useTheme()
 
@@ -42,14 +43,18 @@ export default function ProxiedImagesListItem({
 				<ListItemIcon>
 					<BsImage />
 				</ListItemIcon>
-				<ListItemText>Proxying {images.length} images</ListItemText>
+				<ListItemText>
+					{t("routes.ReportDetailRoute.sections.trackers.results.proxiedImages.text", {
+						count: images.length,
+					})}
+				</ListItemText>
 			</ListItemButton>
 			<Collapse in={showProxiedImages}>
 				<Box bgcolor={theme.palette.background.default}>
 					<List>
 						{images.map(image => (
 							<ListItemButton
-								href={image.serverUrl}
+								href={isDev ? image.url : image.serverUrl}
 								target="_blank"
 								key={image.imageProxyId}
 							>
@@ -79,9 +84,13 @@ export default function ProxiedImagesListItem({
 																),
 															)
 														) {
-															return "Stored on Server."
+															return t(
+																"routes.ReportDetailRoute.sections.trackers.results.proxiedImages.status.isStored",
+															)
 														} else {
-															return "Proxying through Server."
+															return t(
+																"routes.ReportDetailRoute.sections.trackers.results.proxiedImages.status.isProxying",
+															)
 														}
 													})()}
 												</Grid>

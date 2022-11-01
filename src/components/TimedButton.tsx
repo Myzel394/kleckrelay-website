@@ -5,6 +5,7 @@ import {LoadingButton, LoadingButtonProps} from "@mui/lab"
 
 import {useIntervalUpdate} from "~/hooks"
 import {isDev} from "~/constants/development"
+import {useTranslation} from "react-i18next"
 
 export interface TimedButtonProps extends LoadingButtonProps {
 	interval: number
@@ -17,7 +18,10 @@ export default function TimedButton({
 	disabled: parentDisabled = false,
 	...props
 }: TimedButtonProps): ReactElement {
+	const {t} = useTranslation()
+
 	const [startDate, resetInterval] = useIntervalUpdate(1000)
+
 	const secondsPassed = differenceInSeconds(new Date(), startDate)
 	const secondsLeft = (isDev ? 3 : interval) - secondsPassed
 
@@ -30,8 +34,10 @@ export default function TimedButton({
 				onClick?.(event)
 			}}
 		>
-			<span>{children}</span>
-			{secondsLeft > 0 && <span> ({secondsLeft})</span>}
+			<span>{children} </span>
+			{secondsLeft > 0 && (
+				<span>{t("components.TimedButton.remainingTime", {count: secondsLeft})}</span>
+			)}
 		</LoadingButton>
 	)
 }

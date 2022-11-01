@@ -3,6 +3,7 @@ import {useLoaderData, useNavigate} from "react-router-dom"
 import {useAsync, useLocalStorage} from "react-use"
 import {MdCancel} from "react-icons/md"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement, useContext} from "react"
 
 import {Grid, Paper, Typography, useTheme} from "@mui/material"
@@ -18,6 +19,8 @@ const emailSchema = yup.string().email()
 export default function VerifyEmailRoute(): ReactElement {
 	const theme = useTheme()
 	const navigate = useNavigate()
+	const {t} = useTranslation()
+
 	const {login} = useContext(AuthContext)
 	const [_, setEmail] = useLocalStorage<string>("signup-form-state-email", "")
 	const {email, token} = useQueryParams<{
@@ -29,7 +32,7 @@ export default function VerifyEmailRoute(): ReactElement {
 	const tokenSchema = yup
 		.string()
 		.length(serverSettings.emailVerificationLength)
-		.test("token", "Invalid token", token => {
+		.test("token", t("routes.VerifyEmailRoute.errors.code.invalid") as string, token => {
 			if (!token) {
 				return false
 			}
@@ -38,17 +41,16 @@ export default function VerifyEmailRoute(): ReactElement {
 
 			return token.split("").every(char => chars.includes(char))
 		})
-	const {mutateAsync} = useMutation<
-		AuthenticationDetails,
-		AxiosError,
-		VerifyEmailData
-	>(verifyEmail, {
-		onSuccess: ({user}) => {
-			setEmail("")
-			login(user)
-			navigate("/auth/complete-account")
+	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyEmailData>(
+		verifyEmail,
+		{
+			onSuccess: ({user}) => {
+				setEmail("")
+				login(user)
+				navigate("/auth/complete-account")
+			},
 		},
-	})
+	)
 	const {loading} = useAsync(async () => {
 		await emailSchema.validate(email)
 		await tokenSchema.validate(token)
@@ -71,34 +73,23 @@ export default function VerifyEmailRoute(): ReactElement {
 			>
 				<Grid item>
 					<Typography variant="h5" component="h1" align="center">
-						Verify your email
+						{t("routes.VerifyEmailRoute.title")}
 					</Typography>
 				</Grid>
 				{loading ? (
 					<Grid item>
-						<Typography
-							variant="subtitle1"
-							component="p"
-							align="center"
-						>
-							Verifying your email...
+						<Typography variant="subtitle1" component="p" align="center">
+							{t("routes.VerifyEmailRoute.isLoading")}
 						</Typography>
 					</Grid>
 				) : (
 					<>
 						<Grid item>
-							<MdCancel
-								size={100}
-								color={theme.palette.error.main}
-							/>
+							<MdCancel size={100} color={theme.palette.error.main} />
 						</Grid>
 						<Grid item>
-							<Typography
-								variant="subtitle1"
-								component="p"
-								align="center"
-							>
-								Sorry, but this verification code is invalid.
+							<Typography variant="subtitle1" component="p" align="center">
+								{t("routes.VerifyEmailRoute.isCodeInvalid")}
 							</Typography>
 						</Grid>
 					</>

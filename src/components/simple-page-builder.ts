@@ -1,0 +1,5 @@
+export {default as Page} from "./SimplePage"
+export {default as Section} from "./SimpleSection"
+export {default as MultipleSections} from "./SimpleMultipleSections"
+export {default as OverlayInformation} from "./SimpleOverlayInformation"
+export {default as InformationContainer} from "./SimpleInformationContainer"

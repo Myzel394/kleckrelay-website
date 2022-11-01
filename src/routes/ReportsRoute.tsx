@@ -2,22 +2,18 @@ import {ReactElement, useState} from "react"
 import {AxiosError} from "axios"
 import {MdList} from "react-icons/md"
 import {FaMask} from "react-icons/fa"
+import {useTranslation} from "react-i18next"
 import groupArray from "group-array"
 import sortArray from "sort-array"
 
 import {useQuery} from "@tanstack/react-query"
-import {
-	InputAdornment,
-	List,
-	MenuItem,
-	TextField,
-	Typography,
-} from "@mui/material"
+import {InputAdornment, List, MenuItem, TextField, Typography} from "@mui/material"
 
 import {DecryptedReportContent, PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
 import {WithEncryptionRequired} from "~/hocs"
 import {DecryptReport} from "~/components"
+import {createEnumMapFromTranslation} from "~/utils"
 import QueryResult from "~/components/QueryResult"
 import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
 import SimplePage from "~/components/SimplePage"
@@ -27,25 +23,21 @@ enum SortingView {
 	GroupByAlias = "GroupByAlias",
 }
 
-const SORTING_VIEW_NAME_MAP: Record<SortingView, string> = {
-	[SortingView.List]: "List reports by their date",
-	[SortingView.GroupByAlias]: "Group reports by their aliases",
-}
-
 const SORTING_VIEW_ICON_MAP: Record<SortingView, ReactElement> = {
 	[SortingView.List]: <MdList />,
 	[SortingView.GroupByAlias]: <FaMask />,
 }
+const SORTING_VIEW_NAME_MAP: Record<SortingView, string> = createEnumMapFromTranslation(
+	"routes.ReportsRoute.pageActions.sort",
+	SortingView,
+)
 
 function ReportsRoute(): ReactElement {
-	const query = useQuery<PaginationResult<Report>, AxiosError>(
-		["get_reports"],
-		getReports,
-	)
+	const {t} = useTranslation()
 
-	const [sortingView, setSortingView] = useState<SortingView>(
-		SortingView.List,
-	)
+	const query = useQuery<PaginationResult<Report>, AxiosError>(["get_reports"], getReports)
+
+	const [sortingView, setSortingView] = useState<SortingView>(SortingView.List)
 
 	return (
 		<SimplePage
@@ -53,9 +45,7 @@ function ReportsRoute(): ReactElement {
 			pageOptionsActions={
 				<TextField
 					value={sortingView}
-					onChange={event =>
-						setSortingView(event.target.value as SortingView)
-					}
+					onChange={event => setSortingView(event.target.value as SortingView)}
 					label="Sorting"
 					id="sorting"
 					InputProps={{
@@ -69,7 +59,7 @@ function ReportsRoute(): ReactElement {
 				>
 					{Object.keys(SORTING_VIEW_NAME_MAP).map(name => (
 						<MenuItem key={name} value={name}>
-							{SORTING_VIEW_NAME_MAP[name as SortingView]}
+							{t(SORTING_VIEW_NAME_MAP[name as SortingView])}
 						</MenuItem>
 					))}
 				</TextField>
@@ -115,18 +105,12 @@ function ReportsRoute(): ReactElement {
 															>
 																{alias}
 															</Typography>
-															{reports.map(
-																report => (
-																	<ReportInformationItem
-																		report={
-																			report
-																		}
-																		key={
-																			report.id
-																		}
-																	/>
-																),
-															)}
+															{reports.map(report => (
+																<ReportInformationItem
+																	report={report}
+																	key={report.id}
+																/>
+															))}
 														</>
 													),
 												)

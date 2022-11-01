@@ -1,4 +1,5 @@
-import {ReactElement, useEffect, useState} from "react"
+import {ReactElement} from "react"
+import {useTranslation} from "react-i18next"
 
 import {CircularProgress, Grid, Typography} from "@mui/material"
 
@@ -6,24 +7,8 @@ export interface LoadingDataProps {
 	message?: string
 }
 
-export default function LoadingData({
-	message = "Loading",
-}: LoadingDataProps): ReactElement {
-	const [ellipsis, setEllipsis] = useState<string>("")
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setEllipsis((value: string) => {
-				if (value.length === 3) {
-					return ""
-				}
-
-				return value + "."
-			})
-		}, 300)
-
-		return () => clearInterval(interval)
-	}, [])
+export default function LoadingData({message = "Loading"}: LoadingDataProps): ReactElement {
+	const {t} = useTranslation()
 
 	return (
 		<Grid container spacing={2} direction="column" alignItems="center">
@@ -31,7 +16,7 @@ export default function LoadingData({
 				<CircularProgress />
 			</Grid>
 			<Grid item>
-				<Typography variant="caption">Loading{ellipsis}</Typography>
+				<Typography variant="caption">{t("general.loading")}</Typography>
 			</Grid>
 		</Grid>
 	)

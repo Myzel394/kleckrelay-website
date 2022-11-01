@@ -14,6 +14,7 @@ import {
 
 import {DecryptedReportContent} from "~/server-types"
 import {BsShieldShaded} from "react-icons/bs"
+import {useTranslation} from "react-i18next"
 
 export interface SinglePixelImageTrackersListItemProps {
 	images: DecryptedReportContent["messageDetails"]["content"]["singlePixelImages"]
@@ -22,6 +23,7 @@ export interface SinglePixelImageTrackersListItemProps {
 export default function SinglePixelImageTrackersListItem({
 	images,
 }: SinglePixelImageTrackersListItemProps): ReactElement {
+	const {t} = useTranslation()
 	const theme = useTheme()
 
 	const [showImageTrackers, setShowImageTrackers] = useState<boolean>(false)
@@ -45,30 +47,24 @@ export default function SinglePixelImageTrackersListItem({
 					<BsShieldShaded />
 				</ListItemIcon>
 				<ListItemText>
-					Removed {images.length} image trackers
+					{t("routes.ReportDetailRoute.sections.trackers.results.imageTrackers.text", {
+						count: images.length,
+					})}
 				</ListItemText>
 			</ListItemButton>
 			<Collapse in={showImageTrackers}>
 				<Box bgcolor={theme.palette.background.default}>
 					<List>
-						{Object.entries(imagesPerTracker).map(
-							([trackerName, images]) => (
-								<>
-									<Typography
-										variant="caption"
-										component="h3"
-										ml={1}
-									>
-										{trackerName}
-									</Typography>
-									{images.map(image => (
-										<ListItem key={image.source}>
-											{image.source}
-										</ListItem>
-									))}
-								</>
-							),
-						)}
+						{Object.entries(imagesPerTracker).map(([trackerName, images]) => (
+							<>
+								<Typography variant="caption" component="h3" ml={1}>
+									{trackerName}
+								</Typography>
+								{images.map(image => (
+									<ListItem key={image.source}>{image.source}</ListItem>
+								))}
+							</>
+						))}
 					</List>
 				</Box>
 			</Collapse>

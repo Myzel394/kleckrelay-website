@@ -1,13 +1,13 @@
 import * as yup from "yup"
 import {ReactElement, useContext} from "react"
-import {useLocation, useNavigate} from "react-router-dom"
 import {useFormik} from "formik"
 import {MdLock} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 
 import {InputAdornment} from "@mui/material"
 
 import {buildEncryptionPassword} from "~/utils"
-import {useUser} from "~/hooks"
+import {useNavigateToNext, useUser} from "~/hooks"
 import {PasswordField, SimpleForm} from "~/components"
 import AuthContext from "~/AuthContext/AuthContext"
 
@@ -20,8 +20,8 @@ const schema = yup.object().shape({
 })
 
 export default function EnterDecryptionPassword(): ReactElement {
-	const navigate = useNavigate()
-	const location = useLocation()
+	const {t} = useTranslation()
+	const navigateToNext = useNavigateToNext()
 	const user = useUser()
 	const {_setDecryptionPassword} = useContext(AuthContext)
 
@@ -37,11 +37,13 @@ export default function EnterDecryptionPassword(): ReactElement {
 			)
 
 			if (!_setDecryptionPassword(decryptionPassword)) {
-				setErrors({password: "Password is invalid."})
+				setErrors({
+					password: t(
+						"components.EnterDecryptionPassword.form.password.errors.invalidPassword",
+					),
+				})
 			} else {
-				const nextUrl =
-					new URLSearchParams(location.search).get("next") || "/"
-				setTimeout(() => navigate(nextUrl), 0)
+				navigateToNext()
 			}
 		},
 	})
@@ -49,10 +51,16 @@ export default function EnterDecryptionPassword(): ReactElement {
 	return (
 		<form onSubmit={formik.handleSubmit}>
 			<SimpleForm
-				title="Decrypt reports"
-				description="Please enter your password so that your reports can de decrypted."
-				cancelActionLabel="Don't decrypt"
-				continueActionLabel="Continue"
+				title={t("components.EnterDecryptionPassword.title")}
+				description={t(
+					"components.EnterDecryptionPassword.description",
+				)}
+				cancelActionLabel={t(
+					"components.EnterDecryptionPassword.cancelAction",
+				)}
+				continueActionLabel={t(
+					"components.EnterDecryptionPassword.continueAction",
+				)}
 				isSubmitting={formik.isSubmitting}
 			>
 				{[
@@ -61,7 +69,12 @@ export default function EnterDecryptionPassword(): ReactElement {
 						fullWidth
 						name="password"
 						id="password"
-						label="Password"
+						label={t(
+							"components.EnterDecryptionPassword.form.password.label",
+						)}
+						placeholder={t(
+							"components.EnterDecryptionPassword.form.password.placeholder",
+						)}
 						value={formik.values.password}
 						onChange={formik.handleChange}
 						disabled={formik.isSubmitting}

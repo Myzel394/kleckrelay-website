@@ -2,6 +2,7 @@ import * as yup from "yup"
 import {AxiosError} from "axios"
 import {useFormik} from "formik"
 import {MdCheckCircle, MdImage} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement, useContext} from "react"
 
 import {useMutation} from "@tanstack/react-query"
@@ -21,11 +22,7 @@ import {
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {
-	ImageProxyFormatType,
-	ProxyUserAgentType,
-	SimpleDetailResponse,
-} from "~/server-types"
+import {ImageProxyFormatType, ProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
 import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useUser} from "~/hooks"
 import {parseFastAPIError} from "~/utils"
@@ -33,7 +30,7 @@ import {SuccessSnack} from "~/components"
 import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
 	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
-} from "~/constants/enum_mappings"
+} from "~/constants/enum-mappings"
 import AuthContext from "~/AuthContext/AuthContext"
 import ErrorSnack from "~/components/ErrorSnack"
 
@@ -47,23 +44,26 @@ interface Form {
 	detail?: string
 }
 
-const SCHEMA = yup.object().shape({
-	removeTrackers: yup.boolean(),
-	createMailReport: yup.boolean(),
-	proxyImages: yup.boolean(),
-	imageProxyFormat: yup
-		.mixed<ImageProxyFormatType>()
-		.oneOf(Object.values(ImageProxyFormatType))
-		.required(),
-	imageProxyUserAgent: yup
-		.mixed<ProxyUserAgentType>()
-		.oneOf(Object.values(ProxyUserAgentType))
-		.required(),
-})
-
 export default function AliasesPreferencesForm(): ReactElement {
 	const {_updateUser} = useContext(AuthContext)
 	const user = useUser()
+	const {t} = useTranslation()
+	const SCHEMA = yup.object().shape({
+		removeTrackers: yup.boolean().label(t("relations.alias.settings.removeTrackers.label")),
+		createMailReport: yup.boolean().label(t("relations.alias.settings.createMailReport.label")),
+		proxyImages: yup.boolean().label(t("relations.alias.settings.proxyImages.label")),
+		imageProxyFormat: yup
+			.mixed<ImageProxyFormatType>()
+			.oneOf(Object.values(ImageProxyFormatType))
+			.required()
+			.label(t("relations.alias.settings.imageProxyFormat.label")),
+		imageProxyUserAgent: yup
+			.mixed<ProxyUserAgentType>()
+			.oneOf(Object.values(ProxyUserAgentType))
+			.required()
+			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
+	})
+
 	const {mutateAsync, data} = useMutation<
 		SimpleDetailResponse,
 		AxiosError,
@@ -110,22 +110,15 @@ export default function AliasesPreferencesForm(): ReactElement {
 	return (
 		<>
 			<form onSubmit={formik.handleSubmit}>
-				<Grid
-					container
-					spacing={4}
-					flexDirection="column"
-					alignItems="center"
-				>
+				<Grid container spacing={4} flexDirection="column" alignItems="center">
 					<Grid item>
 						<Typography variant="h6" component="h3">
-							Aliases Preferences
+							{t("routes.SettingsRoute.forms.aliasPreferences.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography variant="body1" component="p">
-							Select the default behavior for your aliases. This
-							will only affect aliases that do not have a custom
-							behavior set.
+							{t("routes.SettingsRoute.forms.aliasPreferences.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -136,7 +129,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 							spacing={4}
 							alignItems="flex-end"
 						>
-							<Grid item md={6}>
+							<Grid item md={6} xs={12}>
 								<FormGroup>
 									<FormControlLabel
 										disabled={formik.isSubmitting}
@@ -144,9 +137,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 											<Checkbox
 												name="removeTrackers"
 												id="removeTrackers"
-												checked={
-													formik.values.removeTrackers
-												}
+												checked={formik.values.removeTrackers}
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
 											/>
@@ -162,11 +153,11 @@ export default function AliasesPreferencesForm(): ReactElement {
 									>
 										{(formik.touched.createMailReport &&
 											formik.errors.createMailReport) ||
-											"Remove single-pixel image trackers as well as url trackers."}
+											t("relations.alias.settings.removeTrackers.helperText")}
 									</FormHelperText>
 								</FormGroup>
 							</Grid>
-							<Grid item md={6}>
+							<Grid item md={6} xs={12}>
 								<FormGroup>
 									<FormControlLabel
 										disabled={formik.isSubmitting}
@@ -174,10 +165,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 											<Checkbox
 												name="createMailReport"
 												id="createMailReport"
-												checked={
-													formik.values
-														.createMailReport
-												}
+												checked={formik.values.createMailReport}
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
 											/>
@@ -193,7 +181,9 @@ export default function AliasesPreferencesForm(): ReactElement {
 									>
 										{(formik.touched.createMailReport &&
 											formik.errors.createMailReport) ||
-											"Create reports of emails sent to aliases. Reports are end-to-end encrypted. Only you can access them."}
+											t(
+												"relations.alias.settings.createMailReports.helperText",
+											)}
 									</FormHelperText>
 								</FormGroup>
 							</Grid>
@@ -205,9 +195,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 											<Checkbox
 												name="proxyImages"
 												id="proxyImages"
-												checked={
-													formik.values.proxyImages
-												}
+												checked={formik.values.proxyImages}
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
 											/>
@@ -217,29 +205,24 @@ export default function AliasesPreferencesForm(): ReactElement {
 									/>
 									<FormHelperText
 										error={Boolean(
-											formik.touched.proxyImages &&
-												formik.errors.proxyImages,
+											formik.touched.proxyImages && formik.errors.proxyImages,
 										)}
 									>
 										{(formik.touched.proxyImages &&
 											formik.errors.proxyImages) ||
-											"Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the original server has no idea you have opened the mail. After the cache time, the image is loaded from the original server, but it gets proxied by us. This means the original server will not be able to access neither your IP address nor your user agent."}
+											t("relations.alias.settings.proxyImages.helperText")}
 									</FormHelperText>
 								</FormGroup>
 								<Collapse in={formik.values.proxyImages}>
 									<Grid
 										display="flex"
-										flexDirection={
-											isLarge ? "row" : "column"
-										}
+										flexDirection={isLarge ? "row" : "column"}
 										container
 										marginY={2}
 										spacing={4}
-										alignItems={
-											isLarge ? "flex-start" : "flex-end"
-										}
+										alignItems={isLarge ? "flex-start" : "flex-end"}
 									>
-										<Grid item md={6}>
+										<Grid item md={6} xs={12}>
 											<FormGroup>
 												<TextField
 													fullWidth
@@ -254,62 +237,38 @@ export default function AliasesPreferencesForm(): ReactElement {
 													name="imageProxyFormat"
 													id="imageProxyFormat"
 													label="Image File Type"
-													value={
-														formik.values
-															.imageProxyFormat
-													}
-													onChange={
-														formik.handleChange
-													}
-													disabled={
-														formik.isSubmitting
-													}
+													value={formik.values.imageProxyFormat}
+													onChange={formik.handleChange}
+													disabled={formik.isSubmitting}
 													error={
-														formik.touched
-															.imageProxyFormat &&
-														Boolean(
-															formik.errors
-																.imageProxyFormat,
-														)
+														formik.touched.imageProxyFormat &&
+														Boolean(formik.errors.imageProxyFormat)
 													}
 													helperText={
-														formik.touched
-															.imageProxyFormat &&
-														formik.errors
-															.imageProxyFormat
+														formik.touched.imageProxyFormat &&
+														formik.errors.imageProxyFormat
 													}
 												>
 													{Object.entries(
-														ImageProxyFormatType,
-													).map(([key, value]) => (
-														<MenuItem
-															key={key}
-															value={value}
-														>
-															{
-																IMAGE_PROXY_FORMAT_TYPE_NAME_MAP[
-																	value
-																] as string
-															}
+														IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
+													).map(([value, translationString]) => (
+														<MenuItem key={value} value={value}>
+															{t(translationString)}
 														</MenuItem>
 													))}
 												</TextField>
 												<FormHelperText
 													error={Boolean(
-														formik.touched
-															.imageProxyFormat &&
-															formik.errors
-																.imageProxyFormat,
+														formik.touched.imageProxyFormat &&
+															formik.errors.imageProxyFormat,
 													)}
 												>
-													{formik.touched
-														.imageProxyFormat &&
-														formik.errors
-															.imageProxyFormat}
+													{formik.touched.imageProxyFormat &&
+														formik.errors.imageProxyFormat}
 												</FormHelperText>
 											</FormGroup>
 										</Grid>
-										<Grid item md={6}>
+										<Grid item md={6} xs={12}>
 											<FormGroup>
 												<TextField
 													fullWidth
@@ -317,59 +276,37 @@ export default function AliasesPreferencesForm(): ReactElement {
 													name="imageProxyUserAgent"
 													id="imageProxyUserAgent"
 													label="Image Proxy User Agent"
-													value={
-														formik.values
-															.imageProxyUserAgent
-													}
-													onChange={
-														formik.handleChange
-													}
-													disabled={
-														formik.isSubmitting
-													}
+													value={formik.values.imageProxyUserAgent}
+													onChange={formik.handleChange}
+													disabled={formik.isSubmitting}
 													error={
-														formik.touched
-															.imageProxyUserAgent &&
-														Boolean(
-															formik.errors
-																.imageProxyUserAgent,
-														)
+														formik.touched.imageProxyUserAgent &&
+														Boolean(formik.errors.imageProxyUserAgent)
 													}
 													helperText={
-														formik.touched
-															.imageProxyUserAgent &&
-														formik.errors
-															.imageProxyUserAgent
+														formik.touched.imageProxyUserAgent &&
+														formik.errors.imageProxyUserAgent
 													}
 												>
 													{Object.entries(
-														ProxyUserAgentType,
-													).map(([key, value]) => (
-														<MenuItem
-															key={key}
-															value={value}
-														>
-															{
-																IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP[
-																	value
-																] as string
-															}
+														IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+													).map(([value, translationString]) => (
+														<MenuItem key={value} value={value}>
+															{t(translationString)}
 														</MenuItem>
 													))}
 												</TextField>
 												<FormHelperText
 													error={Boolean(
-														formik.touched
-															.imageProxyUserAgent &&
-															formik.errors
-																.imageProxyUserAgent,
+														formik.touched.imageProxyUserAgent &&
+															formik.errors.imageProxyUserAgent,
 													)}
 												>
-													{(formik.touched
-														.imageProxyUserAgent &&
-														formik.errors
-															.imageProxyUserAgent) ||
-														"An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used by the proxy. User Agents are kept up-to-date."}
+													{(formik.touched.imageProxyUserAgent &&
+														formik.errors.imageProxyUserAgent) ||
+														t(
+															"relations.alias.settings.imageProxyUserAgent.helperText",
+														)}
 												</FormHelperText>
 											</FormGroup>
 										</Grid>

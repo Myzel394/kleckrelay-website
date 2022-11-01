@@ -1,0 +1,334 @@
+{
+    "general": {
+        "cancelLabel": "Cancel",
+        "emptyValue": "-",
+        "emptyUnavailableValue": "Unavailable",
+
+        "defaultValueSelection": "Default <{{value}}>",
+        "defaultValueSelectionRaw": "<{{value}}>",
+        "booleanSelection": {
+            "true": "Yes",
+            "false": "No"
+        },
+        "defaultError": "An error occurred.",
+        "defaultSuccess": "Success!",
+        "loading": "Loading..."
+    },
+
+    "routes": {
+        "LoginRoute": {
+            "forms": {
+                "email": {
+                    "title": "Sign in",
+                    "description": "We'll send you a verification code to your email.",
+                    "continueAction": "Send Code",
+                    "form": {
+                        "email": {
+                            "label": "Email",
+                            "placeholder": "johndoe@example.com"
+                        }
+                    }
+                },
+                "confirmCode": {
+                    "title": "You got mail!",
+                    "description": "We sent you a code to your email. Enter it below to login",
+                    "continueAction": "Log in",
+                    "form": {
+                        "code": {
+                            "label": "Verification Code",
+                            "errors": {
+                                "invalidChars": "Invalid verification code"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "SignupRoute": {
+            "forms": {
+                "email": {
+                    "title": "Sign up",
+                    "description": "We only need your email and you are ready to go!",
+                    "continueAction": "Continue",
+                    "form": {
+                        "email": {
+                            "label": "Email",
+                            "placeholder": "johndoe@example.com"
+                        }
+                    }
+                },
+                "mailVerification": {
+                    "title": "You got mail!",
+                    "description": "We sent you an email with a link to confirm your email address. Please check your inbox and click on the link to continue.",
+                    "editEmail": {
+                        "title": "Edit email address?",
+                        "description": "Would you like to return to the previous step and edit your email address?",
+                        "continueAction": "Yes, edit email"
+                    }
+                }
+            }
+        },
+        "VerifyEmailRoute": {
+            "title": "Verify your email",
+            "isLoading": "Verifying your email...",
+            "isCodeInvalid": "Sorry, but this verification code is invalid.",
+            "errors": {
+                "code": {
+                    "invalid": "The verification code is invalid."
+                }
+            }
+        },
+        "CompleteAccountRoute": {
+            "forms": {
+                "generateReports": {
+                    "title": "Generate Email Reports?",
+                    "description": "Would you like to create fully encrypted email reports for your mails? Only you will be able to access it. Not even we can decrypt it.",
+                    "continueAction": "Yes",
+                    "cancelAction": "No"
+                },
+                "password": {
+                    "title": "Set up your password",
+                    "description": "Please enter a safe password so that we can encrypt your data.",
+                    "continueAction": "Continue",
+                    "form": {
+                        "password": {
+                            "label": "Password",
+                            "placeholder": "********"
+                        },
+                        "passwordConfirm": {
+                            "label": "Confirm Password",
+                            "placeholder": "Re-enter your password",
+                            "mustMatchHelperText": "Passwords do not match."
+                        }
+                    }
+                },
+                "available": {
+                    "title": "Encryption already enabled",
+                    "description": "You already have encryption enabled. Changing passwords is currently not supported."
+                }
+            }
+        },
+        "AliasesRoute": {
+            "title": "Aliases",
+            "pageActions": {
+                "search": {
+                    "label": "Search",
+                    "placeholder": "Search for names"
+                }
+            },
+            "actions": {
+                "createRandomAlias": {
+                    "label": "Create Random Alias"
+                },
+                "createCustomAlias": {
+                    "label": "Create Custom Alias",
+                    "description": "You can define your own custom alias. Note that a random suffix will be added at the end to avoid duplicates.",
+                    "continueAction": "Create Alias",
+                    "form": {
+                        "address": {
+                            "label": "Address",
+                            "placeholder": "awesome-fish"
+                        }
+                    }
+                }
+            }
+        },
+        "AliasDetailRoute": {
+            "title": "Alias Details",
+            "sections": {
+                "settings": {
+                    "title": "Settings",
+                    "description": "These settings apply to this alias only. You can either set a value manually or refer to your default settings. Note that this does change in behavior. When you set a value to refer to your default setting, the alias will always use the latest value. So when you change your default setting, the alias will automatically use the new value."
+                },
+                "notes": {
+                    "title": "Notes",
+                    "form": {
+                        "createdAt": {
+                            "label": "Created at",
+                            "empty": "Unavailable"
+                        },
+                        "personalNotes": {
+                            "label": "Personal Notes",
+                            "empty": "-",
+                            "helperText": "You can enter personal notes for this alias here. Notes are encrypted."
+                        },
+                        "websites": {
+                            "label": "Websites",
+                            "emptyText": "You haven't used this alias on any site yet.",
+                            "placeholder": "https://example.com",
+                            "helperText": "Add a website to this alias. Used to autofill."
+                        }
+                    }
+                }
+            }
+        },
+        "ReportsRoute": {
+            "title": "Reports",
+            "pageActions": {
+                "sort": {
+                    "List": "List reports by their date",
+                    "GroupByAlias": "Group reports by their alias"
+                }
+            }
+        },
+        "ReportDetailRoute": {
+            "title": "Report Details",
+            "sections": {
+                "information": {
+                    "title": "Email Information",
+                    "form": {
+                        "from": {
+                            "label": "From"
+                        },
+                        "to": {
+                            "label": "To"
+                        },
+                        "subject": {
+                            "label": "Subject"
+                        }
+                    }
+                },
+                "trackers": {
+                    "title": "Trackers",
+                    "results": {
+                        "imageTrackers": {
+                            "text_zero": "No image trackers found",
+                            "text_one": "Removed 1 image tracker",
+                            "text_other": "Removed {{count}} image trackers"
+                        },
+                        "proxiedImages": {
+                            "text_zero": "No images found",
+                            "text_one": "Proxying 1 image",
+                            "text_other": "Proxying {{count}} images",
+                            "status": {
+                                "isStored": "Stored on Server",
+                                "isProxying": "Proxying image"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "SettingsRoute": {
+            "title": "Settings",
+            "forms": {
+                "aliasPreferences": {
+                    "title": "Alias Preferences",
+                    "description": "Select the default behavior for your aliases. This will only affect aliases that do not have a custom behavior set."
+                }
+            }
+        }
+    },
+
+    "components": {
+        "NavigationButton": {
+            "overview": "Overview",
+            "aliases": "Aliases",
+            "reports": "Reports",
+            "settings": "Settings"
+        },
+        "AuthenticateRoute": {
+            "signup": "Sign up",
+            "login": "Log in"
+        },
+        "EnterDecryptionPassword": {
+            "title": "Decrypt Reports",
+            "description": "Please enter your password so that your reports can de decrypted.",
+            "cancelAction": "Decrypt later",
+            "continueAction": "Continue",
+            "form": {
+                "password": {
+                    "label": "Password",
+                    "placeholder": "********",
+                    "errors": {
+                        "invalidPassword": "Password is invalid"
+                    }
+                }
+            }
+        },
+        "ResendMailButton": {
+            "label": "Resend Mail"
+        },
+        "OpenMailButton": {
+            "label": "Open Mail"
+        },
+        "DecryptionPasswordMissingAlert": {
+            "unavailable": {
+                "title": "Encryption required",
+                "description": "You need to set up encryption to use this feature.",
+                "continueAction": "Set up encryption"
+            },
+            "passwordRequired": {
+                "title": "Password required",
+                "description": "Your decryption password is required to view this section.",
+                "continueAction": "Enter password"
+            }
+        },
+        "TimedButton": {
+            "remainingTime_one": "({{count}})",
+            "remainingTime_other": "({{count}})"
+        },
+        "ErrorLoadingDataMessage": {
+            "tryAgain": "Try Again"
+        },
+        "AliasTypeIndicator": {
+            "random": "This is a randomly generated alias",
+            "custom": "This is a custom-made alias"
+        }
+    },
+
+    "relations": {
+        "alias": {
+            "mutations": {
+                "success": {
+                    "aliasCreation": "Created Alias successfully!",
+                    "aliasUpdated": "Updated Alias successfully!",
+                    "notesUpdated": "Updated & encrypted notes successfully!",
+                    "aliasChangedToEnabled": "Alias has been enabled",
+                    "aliasChangedToDisabled": "Alias has been disabled"
+                }
+            },
+            "settings": {
+                "removeTrackers": {
+                    "label": "Remove Trackers",
+                    "helperText": "Remove single-pixel image trackers as well as url trackers."
+                },
+                "createMailReports": {
+                    "label": "Create Mail Reports",
+                    "helperText": "Create reports of emails sent to aliases. Reports are end-to-end encrypted. Only you can access them."
+                },
+                "proxyImages": {
+                    "label": "Proxy Images",
+                    "helperText": "Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the original server has no idea you have opened the mail. After the cache time, the image is loaded from the original server, but it gets proxied by us. This means the original server will not be able to access neither your IP address nor your user agent."
+                },
+                "imageProxyFormat": {
+                    "label": "Image File Type",
+                    "enumTexts": {
+                        "jpeg": "JPEG",
+                        "png": "PNG",
+                        "webp": "WEBP"
+                    }
+                },
+                "imageProxyUserAgent": {
+                    "label": "Image Proxy User Agent",
+                    "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used by the proxy. User Agents are kept up-to-date.",
+                    "enumTexts": {
+                        "apple-mail": "Apple Mail",
+                        "google-mail": "Google Mail",
+                        "outlook-windows": "Outlook / Windows",
+                        "outlook-macos": "Outlook / MacOS",
+                        "firefox": "Firefox Browser",
+                        "chrome": "Chrome Browser"
+                    }
+                },
+                "saveAction": "Save Settings"
+            }
+        },
+        "report": {
+            "emailMeta": {
+                "flow": "{{from}} -> {{to}}",
+                "emptySubject": "<No Subject>"
+            }
+        }
+    }
+}

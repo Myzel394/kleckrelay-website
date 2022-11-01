@@ -2,6 +2,8 @@ import * as yup from "yup"
 import {useFormik} from "formik"
 import {MdCheckCircle, MdChevronRight, MdLock} from "react-icons/md"
 import {generateKey, readKey} from "openpgp"
+import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement, useContext, useMemo} from "react"
 import passwordGenerator from "secure-random-password"
 
@@ -17,7 +19,6 @@ import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 import {AuthenticationDetails, UserNote} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
 import {encryptUserNote} from "~/utils/encrypt-user-note"
-import {AxiosError} from "axios"
 import AuthContext from "~/AuthContext/AuthContext"
 
 export interface PasswordFormProps {
@@ -30,19 +31,24 @@ interface Form {
 	detail?: string
 }
 
-const schema = yup.object().shape({
-	password: yup.string().required(),
-	passwordConfirmation: yup
-		.string()
-		.required()
-		.oneOf([yup.ref("password"), null], "Passwords must match"),
-})
-
-export default function PasswordForm({
-	onDone,
-}: PasswordFormProps): ReactElement {
+export default function PasswordForm({onDone}: PasswordFormProps): ReactElement {
+	const {t} = useTranslation()
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
+
+	const schema = yup.object().shape({
+		password: yup.string().required(),
+		passwordConfirmation: yup
+			.string()
+			.required()
+			.oneOf(
+				[yup.ref("password"), null],
+				t(
+					"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.mustMatchHelperText",
+				) as string,
+			)
+			.label(t("routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label")),
+	})
 
 	const {_setDecryptionPassword, login} = useContext(AuthContext)
 
@@ -57,16 +63,15 @@ export default function PasswordForm({
 			}),
 		[],
 	)
-	const {mutateAsync} = useMutation<
-		AuthenticationDetails,
-		AxiosError,
-		UpdateAccountData
-	>(updateAccount, {
-		onSuccess: ({user}) => {
-			login(user)
-			onDone()
+	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, UpdateAccountData>(
+		updateAccount,
+		{
+			onSuccess: ({user}) => {
+				login(user)
+				onDone()
+			},
 		},
-	})
+	)
 	const formik = useFormik<Form>({
 		validationSchema: schema,
 		initialValues: {
@@ -85,10 +90,7 @@ export default function PasswordForm({
 					values.password,
 					user.email.address,
 				)
-				const encryptedMasterPassword = encryptString(
-					masterPassword,
-					encryptionPassword,
-				)
+				const encryptedMasterPassword = encryptString(masterPassword, encryptionPassword)
 				const note: UserNote = {
 					theme,
 					privateKey: keyPair.privateKey,
@@ -109,7 +111,7 @@ export default function PasswordForm({
 					encryptedNotes,
 				})
 			} catch (error) {
-				setErrors({detail: "An error occurred"})
+				setErrors({detail: t("general.defaultError")})
 			}
 		},
 	})
@@ -128,18 +130,13 @@ export default function PasswordForm({
 					<Grid item>
 						<Grid container spacing={2} direction="column">
 							<Grid item>
-								<Typography
-									variant="h6"
-									component="h2"
-									align="center"
-								>
-									Set up your password
+								<Typography variant="h6" component="h2" align="center">
+									{t("routes.CompleteAccountRoute.forms.password.title")}
 								</Typography>
 							</Grid>
 							<Grid item>
 								<Typography variant="subtitle1" component="p">
-									Please enter a safe password so that we can
-									encrypt your data.
+									{t("routes.CompleteAccountRoute.forms.password.description")}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -151,19 +148,20 @@ export default function PasswordForm({
 									fullWidth
 									id="password"
 									name="password"
-									label="Password"
+									label={t(
+										"routes.CompleteAccountRoute.forms.password.form.password.label",
+									)}
+									placeholder={t(
+										"routes.CompleteAccountRoute.forms.password.form.password.placeholder",
+									)}
 									autoComplete="new-password"
 									value={formik.values.password}
 									onChange={formik.handleChange}
 									disabled={formik.isSubmitting}
 									error={
-										formik.touched.password &&
-										Boolean(formik.errors.password)
+										formik.touched.password && Boolean(formik.errors.password)
 									}
-									helperText={
-										formik.touched.password &&
-										formik.errors.password
-									}
+									helperText={formik.touched.password && formik.errors.password}
 									InputProps={{
 										startAdornment: (
 											<InputAdornment position="start">
@@ -178,15 +176,18 @@ export default function PasswordForm({
 									fullWidth
 									id="passwordConfirmation"
 									name="passwordConfirmation"
-									label="Confirm Password"
+									label={t(
+										"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label",
+									)}
+									placeholder={t(
+										"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.placeholder",
+									)}
 									value={formik.values.passwordConfirmation}
 									onChange={formik.handleChange}
 									disabled={formik.isSubmitting}
 									error={
 										formik.touched.passwordConfirmation &&
-										Boolean(
-											formik.errors.passwordConfirmation,
-										)
+										Boolean(formik.errors.passwordConfirmation)
 									}
 									helperText={
 										formik.touched.passwordConfirmation &&
@@ -210,7 +211,7 @@ export default function PasswordForm({
 							loading={formik.isSubmitting}
 							startIcon={<MdChevronRight />}
 						>
-							Continue
+							{t("routes.CompleteAccountRoute.forms.password.continueAction")}
 						</LoadingButton>
 					</Grid>
 				</Grid>

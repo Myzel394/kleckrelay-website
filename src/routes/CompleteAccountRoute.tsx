@@ -1,4 +1,5 @@
 import {ReactElement, useContext, useState} from "react"
+import {useTranslation} from "react-i18next"
 
 import {Grid, Paper, Typography} from "@mui/material"
 
@@ -9,16 +10,15 @@ import GenerateEmailReportsForm from "~/route-widgets/CompleteAccountRoute/Gener
 import PasswordForm from "~/route-widgets/CompleteAccountRoute/PasswordForm"
 
 export default function CompleteAccountRoute(): ReactElement {
+	const {t} = useTranslation()
 	const {encryptionStatus} = useContext(AuthContext)
 	const navigateToNext = useNavigateToNext()
 
 	// If query `setup` is `true`, skip directly to the setup
-	const [showGenerationReportForm, setShowGenerationReportForm] = useState(
-		() => {
-			const searchParams = new URLSearchParams(location.search)
-			return searchParams.get("setup") === "true"
-		},
-	)
+	const [showGenerationReportForm, setShowGenerationReportForm] = useState(() => {
+		const searchParams = new URLSearchParams(location.search)
+		return searchParams.get("setup") === "true"
+	})
 
 	if (encryptionStatus === EncryptionStatus.Unavailable) {
 		return (
@@ -29,10 +29,7 @@ export default function CompleteAccountRoute(): ReactElement {
 						onYes={() => setShowGenerationReportForm(true)}
 						onNo={navigateToNext}
 					/>,
-					<PasswordForm
-						onDone={navigateToNext}
-						key="password_form"
-					/>,
+					<PasswordForm onDone={navigateToNext} key="password_form" />,
 				]}
 				index={showGenerationReportForm ? 1 : 0}
 			/>
@@ -51,13 +48,12 @@ export default function CompleteAccountRoute(): ReactElement {
 			>
 				<Grid item>
 					<Typography variant="h6" component="h1" align="center">
-						Encryption already enabled
+						{t("routes.CompleteAccountRoute.forms.available.title")}
 					</Typography>
 				</Grid>
 				<Grid item>
 					<Typography variant="body1">
-						You already have encryption enabled. Changing passwords
-						is currently not supported.
+						{t("routes.CompleteAccountRoute.forms.available.description")}
 					</Typography>
 				</Grid>
 			</Grid>

@@ -6,6 +6,7 @@ import {Link as RouterLink, useLocation} from "react-router-dom"
 
 import {Button} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
+import {useTranslation} from "react-i18next"
 import Icon from "@mdi/react"
 import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
 
@@ -28,10 +29,10 @@ const SECTION_ICON_MAP: Record<NavigationSection, ReactElement> = {
 }
 
 const SECTION_TEXT_MAP: Record<NavigationSection, string> = {
-	[NavigationSection.Overview]: "Overview",
-	[NavigationSection.Aliases]: "Aliases",
-	[NavigationSection.Reports]: "Reports",
-	[NavigationSection.Settings]: "Settings",
+	[NavigationSection.Overview]: "components.NavigationButton.overview",
+	[NavigationSection.Aliases]: "components.NavigationButton.aliases",
+	[NavigationSection.Reports]: "components.NavigationButton.reports",
+	[NavigationSection.Settings]: "components.NavigationButton.settings",
 }
 
 const PATH_SECTION_MAP: Record<string, NavigationSection> = {
@@ -44,12 +45,13 @@ const PATH_SECTION_MAP: Record<string, NavigationSection> = {
 export default function NavigationButton({
 	section,
 }: NavigationButtonProps): ReactElement {
+	const {t} = useTranslation()
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const location = useLocation()
 
 	const currentSection = PATH_SECTION_MAP[location.pathname.split("/")[1]]
 	const Icon = SECTION_ICON_MAP[section]
-	const text = SECTION_TEXT_MAP[section]
+	const text = t(SECTION_TEXT_MAP[section])
 
 	return (
 		<Button

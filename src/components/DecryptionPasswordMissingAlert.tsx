@@ -1,6 +1,7 @@
 import {useContext} from "react"
 import {MdLock} from "react-icons/md"
 import {Link as RouterLink} from "react-router-dom"
+import {useTranslation} from "react-i18next"
 
 import {Button, Grid, Typography, useTheme} from "@mui/material"
 
@@ -14,6 +15,7 @@ export interface WithEncryptionRequiredProps {
 export default function DecryptionPasswordMissingAlert({
 	children = <></>,
 }: WithEncryptionRequiredProps): JSX.Element {
+	const {t} = useTranslation()
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const {encryptionStatus} = useContext(AuthContext)
 	const theme = useTheme()
@@ -22,7 +24,7 @@ export default function DecryptionPasswordMissingAlert({
 		case EncryptionStatus.Unavailable: {
 			return (
 				<Grid
-					paddingY={2}
+					padding={4}
 					bgcolor={theme.palette.background.default}
 					container
 					gap={2}
@@ -31,12 +33,12 @@ export default function DecryptionPasswordMissingAlert({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2">
-							Encryption required
+							{t("components.DecryptionPasswordMissingAlert.unavailable.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography>
-							You need to set up encryption to use this feature.
+							{t("components.DecryptionPasswordMissingAlert.unavailable.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -47,7 +49,9 @@ export default function DecryptionPasswordMissingAlert({
 							startIcon={<MdLock />}
 							onClick={handleAnchorClick}
 						>
-							Setup encryption
+							{t(
+								"components.DecryptionPasswordMissingAlert.unavailable.continueAction",
+							)}
 						</Button>
 					</Grid>
 				</Grid>
@@ -57,7 +61,7 @@ export default function DecryptionPasswordMissingAlert({
 		case EncryptionStatus.PasswordRequired: {
 			return (
 				<Grid
-					paddingY={2}
+					padding={4}
 					bgcolor={theme.palette.background.default}
 					container
 					gap={2}
@@ -66,13 +70,14 @@ export default function DecryptionPasswordMissingAlert({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2">
-							Password required
+							{t("components.DecryptionPasswordMissingAlert.passwordRequired.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography>
-							Your decryption password is required to view this
-							section.
+							{t(
+								"components.DecryptionPasswordMissingAlert.passwordRequired.description",
+							)}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -82,7 +87,9 @@ export default function DecryptionPasswordMissingAlert({
 							startIcon={<MdLock />}
 							onClick={handleAnchorClick}
 						>
-							Enter Password
+							{t(
+								"components.DecryptionPasswordMissingAlert.passwordRequired.continueAction",
+							)}
 						</Button>
 					</Grid>
 				</Grid>

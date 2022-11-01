@@ -1,6 +1,7 @@
 {
   "extends": [
     "plugin:react/recommended",
+    "plugin:react-i18n/recommended",
     "plugin:compat/recommended",
     "prettier"
   ],
@@ -17,7 +18,7 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["ordered-imports", "react", "@typescript-eslint"],
+  "plugins": ["react-i18n", "ordered-imports", "react", "@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "compat/compat": "error",

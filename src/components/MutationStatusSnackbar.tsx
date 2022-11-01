@@ -1,12 +1,12 @@
 import {AxiosError} from "axios"
 import {ReactElement, useEffect, useLayoutEffect, useRef, useState} from "react"
+import {useTranslation} from "react-i18next"
 
 import {UseMutationResult} from "@tanstack/react-query"
 import {Alert, AlertProps, Snackbar} from "@mui/material"
 
 import {FastAPIError} from "~/utils"
 import {SimpleDetailResponse} from "~/server-types"
-import getErrorMessage from "~/utils/get-error-message"
 
 export interface MutationStatusSnackbarProps<
 	TData = unknown,
@@ -29,12 +29,9 @@ export default function MutationStatusSnackbar<
 	mutation,
 	successMessage,
 	errorMessage,
-}: MutationStatusSnackbarProps<
-	TData,
-	TError,
-	TVariables,
-	TContext
->): ReactElement {
+}: MutationStatusSnackbarProps<TData, TError, TVariables, TContext>): ReactElement {
+	const {t} = useTranslation()
+
 	const $severity = useRef<AlertProps["severity"]>()
 	const $message = useRef<string>()
 
@@ -60,22 +57,22 @@ export default function MutationStatusSnackbar<
 			$message.current = (() => {
 				if (mutation.isError) {
 					// @ts-ignore
-					return errorMessage ?? getErrorMessage(mutation.error)
+					return (
+						errorMessage ||
+						(mutation.error.response?.data as any).detail ||
+						t("general.defaultError")
+					)
 				}
 
 				if (mutation.isSuccess) {
-					return successMessage ?? mutation.data?.detail ?? "Success!"
+					return successMessage ?? mutation.data?.detail ?? t("general.defaultSuccess")
 				}
 			})()
 		}
 	}, [mutation.isSuccess, mutation.isError])
 
 	return (
-		<Snackbar
-			open={open}
-			onClose={() => setOpen(false)}
-			autoHideDuration={5000}
-		>
+		<Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={5000}>
 			<Alert severity={$severity.current} variant="filled">
 				{$message.current}
 			</Alert>

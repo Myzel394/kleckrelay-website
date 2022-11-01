@@ -26,9 +26,10 @@ import {
 } from "@mui/material"
 
 import {parseFastAPIError} from "~/utils"
-import {ErrorSnack, FaviconImage, SuccessSnack} from "~/components"
+import {ErrorSnack, FaviconImage, SimpleOverlayInformation, SuccessSnack} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
+import {useTranslation} from "react-i18next"
 import AddWebsiteField from "~/route-widgets/AliasDetailRoute/AddWebsiteField"
 import AuthContext from "~/AuthContext/AuthContext"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
@@ -57,27 +58,22 @@ const SCHEMA = yup.object().shape({
 	),
 })
 
-export default function AliasNotesForm({
-	id,
-	notes,
-	onChanged,
-}: AliasNotesFormProps): ReactElement {
-	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} =
-		useContext(AuthContext)
-	const {mutateAsync, isSuccess} = useMutation<
-		Alias,
-		AxiosError,
-		UpdateAliasData
-	>(values => updateAlias(id, values), {
-		onSuccess: newAlias => {
-			;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
-				newAlias.encryptedNotes,
-				_decryptUsingMasterPassword,
-			)
+export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormProps): ReactElement {
+	const {t} = useTranslation()
+	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} = useContext(AuthContext)
+	const {mutateAsync, isSuccess} = useMutation<Alias, AxiosError, UpdateAliasData>(
+		values => updateAlias(id, values),
+		{
+			onSuccess: newAlias => {
+				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+					newAlias.encryptedNotes,
+					_decryptUsingMasterPassword,
+				)
 
-			onChanged(newAlias as any as DecryptedAlias)
+				onChanged(newAlias as any as DecryptedAlias)
+			},
 		},
-	})
+	)
 	const initialValues = useMemo(
 		() => ({
 			personalNotes: notes.data.personalNotes,
@@ -101,9 +97,7 @@ export default function AliasNotesForm({
 					},
 				})
 
-				const data = _encryptUsingMasterPassword(
-					JSON.stringify(newNotes),
-				)
+				const data = _encryptUsingMasterPassword(JSON.stringify(newNotes))
 				await mutateAsync({
 					encryptedNotes: data,
 				})
@@ -118,12 +112,12 @@ export default function AliasNotesForm({
 	return (
 		<>
 			<form onSubmit={formik.handleSubmit}>
-				<Grid container direction="column" spacing={4}>
+				<Grid container direction="column" spacing={1}>
 					<Grid item>
 						<Grid container spacing={1} direction="row">
 							<Grid item>
 								<Typography variant="h6" component="h3">
-									Notes
+									{t("routes.AliasDetailRoute.sections.notes.title")}
 								</Typography>
 							</Grid>
 							<Grid item>
@@ -133,13 +127,9 @@ export default function AliasNotesForm({
 									onClick={async () => {
 										if (
 											isInEditMode &&
-											!deepEqual(
-												initialValues,
-												formik.values,
-												{
-													strict: true,
-												},
-											)
+											!deepEqual(initialValues, formik.values, {
+												strict: true,
+											})
 										) {
 											await formik.submitForm()
 										}
@@ -147,117 +137,93 @@ export default function AliasNotesForm({
 										setIsInEditMode(!isInEditMode)
 									}}
 								>
-									{isInEditMode ? (
-										<MdCheckCircle />
-									) : (
-										<FaPen />
-									)}
+									{isInEditMode ? <MdCheckCircle /> : <FaPen />}
 								</IconButton>
 							</Grid>
 						</Grid>
 					</Grid>
 					<Grid item>
-						<Grid container spacing={4} direction="column">
+						<Grid container spacing={2} direction="column">
 							{notes.data.createdAt && (
 								<Grid item>
-									<Grid
-										container
-										spacing={1}
-										flexDirection="row"
-										alignItems="center"
+									<SimpleOverlayInformation
+										emptyText={t("general.emptyUnavailableValue")}
+										icon={<MdEditCalendar />}
+										label={t(
+											"routes.AliasDetailRoute.sections.notes.form.createdAt.label",
+										)}
 									>
-										<Grid item>
-											<MdEditCalendar />
-										</Grid>
-										<Grid item>
-											<Tooltip
-												title={notes.data.createdAt.toISOString()}
-											>
+										{notes.data.createdAt && (
+											<Tooltip title={notes.data.createdAt.toISOString()}>
 												<Typography variant="body1">
-													{format(
-														notes.data.createdAt,
-														"Pp",
-													)}
+													{format(notes.data.createdAt, "Pp")}
 												</Typography>
 											</Tooltip>
-										</Grid>
-									</Grid>
+										)}
+									</SimpleOverlayInformation>
 								</Grid>
 							)}
 							<Grid item>
-								<Grid container spacing={1} direction="column">
-									<Grid item>
-										<Typography variant="overline">
-											Personal Notes
-										</Typography>
-									</Grid>
-									<Grid item>
-										{isInEditMode ? (
-											<TextField
-												label="Personal Notes"
-												multiline
-												fullWidth
-												key="personalNotes"
-												id="personalNotes"
-												name="personalNotes"
-												value={
-													formik.values.personalNotes
-												}
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												disabled={formik.isSubmitting}
-												error={
-													formik.touched
-														.personalNotes &&
-													Boolean(
-														formik.errors
-															.personalNotes,
-													)
-												}
-												helperText={
-													(formik.touched
-														.personalNotes &&
-														formik.errors
-															.personalNotes) ||
-													"You can enter personal notes for this alias here. Notes are encrypted."
-												}
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<RiStickyNoteFill />
-														</InputAdornment>
-													),
-												}}
-											/>
-										) : (
-											<Typography>
-												{notes.data.personalNotes}
-											</Typography>
-										)}
-									</Grid>
-								</Grid>
+								<SimpleOverlayInformation
+									label={t(
+										"routes.AliasDetailRoute.sections.notes.form.personalNotes.label",
+									)}
+								>
+									{isInEditMode ? (
+										<TextField
+											label="Personal Notes"
+											multiline
+											fullWidth
+											key="personalNotes"
+											id="personalNotes"
+											name="personalNotes"
+											value={formik.values.personalNotes}
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											disabled={formik.isSubmitting}
+											error={
+												formik.touched.personalNotes &&
+												Boolean(formik.errors.personalNotes)
+											}
+											helperText={
+												(formik.touched.personalNotes &&
+													formik.errors.personalNotes) ||
+												t(
+													"routes.AliasDetailRoute.sections.notes.form.personalNotes.helperText",
+												)
+											}
+											InputProps={{
+												startAdornment: (
+													<InputAdornment position="start">
+														<RiStickyNoteFill />
+													</InputAdornment>
+												),
+											}}
+										/>
+									) : (
+										notes.data.personalNotes
+									)}
+								</SimpleOverlayInformation>
 							</Grid>
 							<Grid item>
-								<Grid container spacing={1} direction="column">
-									<Grid item>
-										<Typography variant="overline">
-											Websites
-										</Typography>
-									</Grid>
+								<SimpleOverlayInformation
+									label={t(
+										"routes.AliasDetailRoute.sections.notes.form.websites.label",
+									)}
+									emptyText={t(
+										"routes.AliasDetailRoute.sections.notes.form.websites.emptyText",
+									)}
+								>
 									{isInEditMode ? (
 										<Grid item>
 											<AddWebsiteField
 												onAdd={async website => {
-													await formik.setFieldValue(
-														"websites",
-														[
-															...formik.values
-																.websites,
-															{
-																url: website,
-															},
-														],
-													)
+													await formik.setFieldValue("websites", [
+														...formik.values.websites,
+														{
+															url: website,
+														},
+													])
 												}}
 												isLoading={formik.isSubmitting}
 											/>
@@ -267,26 +233,15 @@ export default function AliasNotesForm({
 													render={arrayHelpers => (
 														<List>
 															{formik.values.websites.map(
-																(
-																	website,
-																	index,
-																) => (
-																	<ListItem
-																		key={
-																			website.url
-																		}
-																	>
+																(website, index) => (
+																	<ListItem key={website.url}>
 																		<ListItemIcon>
 																			<FaviconImage
-																				url={
-																					website.url
-																				}
+																				url={website.url}
 																			/>
 																		</ListItemIcon>
 																		<ListItemText>
-																			{
-																				website.url
-																			}
+																			{website.url}
 																		</ListItemText>
 																		<ListItemSecondaryAction>
 																			<IconButton
@@ -309,45 +264,24 @@ export default function AliasNotesForm({
 												/>
 											</FormikProvider>
 										</Grid>
-									) : (
+									) : notes.data.websites.length ? (
 										<Grid item>
-											{notes.data.websites.length ? (
-												<List>
-													{notes.data.websites.map(
-														website => (
-															<ListItem
-																key={
-																	website.url
-																}
-															>
-																<ListItemIcon>
-																	<FaviconImage
-																		width={
-																			20
-																		}
-																		url={
-																			website.url
-																		}
-																	/>
-																</ListItemIcon>
-																<ListItemText>
-																	{
-																		website.url
-																	}
-																</ListItemText>
-															</ListItem>
-														),
-													)}
-												</List>
-											) : (
-												<Typography variant="body2">
-													You haven&apos;t used this
-													alias on any site yet.
-												</Typography>
-											)}
+											<List>
+												{notes.data.websites.map(website => (
+													<ListItem key={website.url}>
+														<ListItemIcon>
+															<FaviconImage
+																width={20}
+																url={website.url}
+															/>
+														</ListItemIcon>
+														<ListItemText>{website.url}</ListItemText>
+													</ListItem>
+												))}
+											</List>
 										</Grid>
-									)}
-								</Grid>
+									) : null}
+								</SimpleOverlayInformation>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -355,7 +289,7 @@ export default function AliasNotesForm({
 			</form>
 			<ErrorSnack message={formik.errors.detail} />
 			<SuccessSnack
-				message={isSuccess && "Updated notes successfully!"}
+				message={isSuccess && t("relations.alias.mutations.success.notesUpdated")}
 			/>
 		</>
 	)
