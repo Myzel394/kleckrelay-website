@@ -6,6 +6,7 @@ import {MdCheckCircle, MdEditCalendar} from "react-icons/md"
 import {RiStickyNoteFill} from "react-icons/ri"
 import {FieldArray, FormikProvider, useFormik} from "formik"
 import {FaPen} from "react-icons/fa"
+import {useTranslation} from "react-i18next"
 import deepEqual from "deep-equal"
 import format from "date-fns/format"
 import update from "immutability-helper"
@@ -26,12 +27,13 @@ import {
 } from "@mui/material"
 
 import {parseFastAPIError} from "~/utils"
-import {ErrorSnack, FaviconImage, SimpleOverlayInformation, SuccessSnack} from "~/components"
+import {FaviconImage, SimpleOverlayInformation} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {useTranslation} from "react-i18next"
+import {useErrorSuccessSnacks} from "~/hooks"
 import AddWebsiteField from "~/route-widgets/AliasDetailRoute/AddWebsiteField"
 import AuthContext from "~/AuthContext/AuthContext"
+import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface AliasNotesFormProps {
@@ -60,8 +62,9 @@ const SCHEMA = yup.object().shape({
 
 export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormProps): ReactElement {
 	const {t} = useTranslation()
+	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} = useContext(AuthContext)
-	const {mutateAsync, isSuccess} = useMutation<Alias, AxiosError, UpdateAliasData>(
+	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		values => updateAlias(id, values),
 		{
 			onSuccess: newAlias => {
@@ -70,8 +73,11 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 					_decryptUsingMasterPassword,
 				)
 
+				showSuccess(t("relations.alias.mutations.success.notesUpdated"))
+
 				onChanged(newAlias as any as DecryptedAlias)
 			},
+			onError: showError,
 		},
 	)
 	const initialValues = useMemo(
@@ -287,10 +293,7 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 					</Grid>
 				</Grid>
 			</form>
-			<ErrorSnack message={formik.errors.detail} />
-			<SuccessSnack
-				message={isSuccess && t("relations.alias.mutations.success.notesUpdated")}
-			/>
+			<FormikAutoLockNavigation formik={formik} />
 		</>
 	)
 }

@@ -12,3 +12,5 @@ export const DEFAULT_ALIAS_NOTE: AliasNote = {
 		websites: [],
 	},
 }
+export const ERROR_SNACKBAR_SHOW_DURATION = 5000
+export const SUCCESS_SNACKBAR_SHOW_DURATION = 2000

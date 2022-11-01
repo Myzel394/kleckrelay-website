@@ -1,12 +1,13 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
+import {SnackbarProvider} from "notistack"
 import React, {ReactElement} from "react"
 
 import {QueryClientProvider} from "@tanstack/react-query"
 import {CssBaseline, ThemeProvider} from "@mui/material"
 
 import {queryClient} from "~/constants/react-query"
-import {lightTheme} from "~/constants/themes"
 import {getServerSettings} from "~/apis"
+import {lightTheme} from "~/constants/themes"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
 import AuthContextProvider from "~/AuthContext/AuthContextProvider"
@@ -96,10 +97,12 @@ export default function App(): ReactElement {
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={lightTheme}>
-					<AuthContextProvider>
-						<CssBaseline />
-						<RouterProvider router={router} />
-					</AuthContextProvider>
+					<SnackbarProvider>
+						<AuthContextProvider>
+							<CssBaseline />
+							<RouterProvider router={router} />
+						</AuthContextProvider>
+					</SnackbarProvider>
 				</ThemeProvider>
 			</QueryClientProvider>
 		</React.StrictMode>

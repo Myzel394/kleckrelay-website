@@ -1,8 +1,10 @@
-import {ReactElement, useContext, useState} from "react"
+import {ReactElement, useContext, useRef, useState} from "react"
 import {MdArrowDropDown} from "react-icons/md"
 import {BsArrowClockwise} from "react-icons/bs"
 import {FaPen} from "react-icons/fa"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
+import {SnackbarKey} from "notistack"
 import update from "immutability-helper"
 
 import {
@@ -18,10 +20,8 @@ import {useMutation} from "@tanstack/react-query"
 
 import {CreateAliasData, createAlias} from "~/apis"
 import {Alias, AliasType} from "~/server-types"
-import {parseFastAPIError} from "~/utils"
-import {ErrorSnack, SuccessSnack} from "~/components"
 import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
-import {useTranslation} from "react-i18next"
+import {useErrorSuccessSnacks} from "~/hooks"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
@@ -29,20 +29,14 @@ export interface CreateAliasButtonProps {
 	onCreated: (alias: Alias) => void
 }
 
-export default function CreateAliasButton({
-	onCreated,
-}: CreateAliasButtonProps): ReactElement {
+export default function CreateAliasButton({onCreated}: CreateAliasButtonProps): ReactElement {
 	const {t} = useTranslation()
-	const {_encryptUsingMasterPassword, encryptionStatus} =
-		useContext(AuthContext)
+	const {showSuccess, showError} = useErrorSuccessSnacks()
+	const {_encryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 
-	const [errorMessage, setErrorMessage] = useState<string>("")
+	const $errorSnackbarId = useRef<SnackbarKey | null>(null)
 
-	const {mutateAsync, isLoading, isSuccess} = useMutation<
-		Alias,
-		AxiosError,
-		CreateAliasData
-	>(
+	const {mutateAsync, isLoading, isSuccess} = useMutation<Alias, AxiosError, CreateAliasData>(
 		async values => {
 			if (encryptionStatus === EncryptionStatus.Available) {
 				values.encryptedNotes = await _encryptUsingMasterPassword(
@@ -61,14 +55,15 @@ export default function CreateAliasButton({
 			return createAlias(values)
 		},
 		{
-			onSuccess: onCreated,
-			onError: error =>
-				setErrorMessage(parseFastAPIError(error).detail as string),
+			onSuccess: alias => {
+				onCreated(alias)
+				showSuccess(t("relations.alias.mutations.success.aliasCreation"))
+			},
+			onError: showError,
 		},
 	)
 
-	const [showCustomCreateDialog, setShowCustomCreateDialog] =
-		useState<boolean>(false)
+	const [showCustomCreateDialog, setShowCustomCreateDialog] = useState<boolean>(false)
 
 	const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
 	const open = Boolean(anchorElement)
@@ -87,18 +82,11 @@ export default function CreateAliasButton({
 				>
 					{t("routes.AliasesRoute.actions.createRandomAlias.label")}
 				</Button>
-				<Button
-					size="small"
-					onClick={event => setAnchorElement(event.currentTarget)}
-				>
+				<Button size="small" onClick={event => setAnchorElement(event.currentTarget)}>
 					<MdArrowDropDown />
 				</Button>
 			</ButtonGroup>
-			<Menu
-				anchorEl={anchorElement}
-				open={open}
-				onClose={() => setAnchorElement(null)}
-			>
+			<Menu anchorEl={anchorElement} open={open} onClose={() => setAnchorElement(null)}>
 				<MenuList>
 					<MenuItem
 						disabled={isLoading}
@@ -111,9 +99,7 @@ export default function CreateAliasButton({
 							<FaPen />
 						</ListItemIcon>
 						<ListItemText
-							primary={t(
-								"routes.AliasesRoute.actions.createCustomAlias.label",
-							)}
+							primary={t("routes.AliasesRoute.actions.createCustomAlias.label")}
 						/>
 					</MenuItem>
 				</MenuList>
@@ -126,13 +112,6 @@ export default function CreateAliasButton({
 					setShowCustomCreateDialog(false)
 				}}
 				onClose={() => setShowCustomCreateDialog(false)}
-			/>
-			<ErrorSnack message={errorMessage} />
-			<SuccessSnack
-				message={
-					isSuccess &&
-					t("relations.alias.mutations.success.aliasCreation")
-				}
 			/>
 		</>
 	)

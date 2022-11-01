@@ -1,4 +1,4 @@
-import {ReactElement, useContext, useState} from "react"
+import {ReactElement, useContext} from "react"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 
@@ -7,9 +7,7 @@ import {useMutation} from "@tanstack/react-query"
 
 import {Alias, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {parseFastAPIError} from "~/utils"
-import {ErrorSnack, SuccessSnack} from "~/components"
-import {useUIState} from "~/hooks"
+import {useErrorSuccessSnacks, useUIState} from "~/hooks"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
@@ -26,64 +24,47 @@ export default function ChangeAliasActivationStatusSwitch({
 	onChanged,
 }: ChangeAliasActivationStatusSwitchProps): ReactElement {
 	const {t} = useTranslation()
-	const {_decryptUsingMasterPassword, encryptionStatus} =
-		useContext(AuthContext)
+	const {showError, showSuccess} = useErrorSuccessSnacks()
+	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 
 	const [isActiveUIState, setIsActiveUIState] = useUIState<boolean>(isActive)
 
-	const [successMessage, setSuccessMessage] = useState<string>("")
-	const [errorMessage, setErrorMessage] = useState<string>("")
+	const {mutateAsync, isLoading} = useMutation<Alias, AxiosError, UpdateAliasData>(
+		values => updateAlias(id, values),
+		{
+			onSuccess: newAlias => {
+				if (encryptionStatus === EncryptionStatus.Available) {
+					;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+						newAlias.encryptedNotes,
+						_decryptUsingMasterPassword,
+					)
+				}
 
-	const {mutateAsync, isLoading} = useMutation<
-		Alias,
-		AxiosError,
-		UpdateAliasData
-	>(values => updateAlias(id, values), {
-		onSuccess: newAlias => {
-			if (encryptionStatus === EncryptionStatus.Available) {
-				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
-					newAlias.encryptedNotes,
-					_decryptUsingMasterPassword,
-				)
-			}
-
-			onChanged(newAlias)
+				onChanged(newAlias)
+			},
+			onError: showError,
 		},
-		onError: error =>
-			setErrorMessage(parseFastAPIError(error).detail as string),
-	})
+	)
 
 	return (
-		<>
-			<Switch
-				checked={isActiveUIState}
-				disabled={isActiveUIState === null || isLoading}
-				onChange={async () => {
-					setIsActiveUIState(!isActiveUIState)
+		<Switch
+			checked={isActiveUIState}
+			disabled={isActiveUIState === null || isLoading}
+			onChange={async () => {
+				setIsActiveUIState(!isActiveUIState)
 
-					try {
-						await mutateAsync({
-							isActive: !isActiveUIState,
-						})
+				try {
+					await mutateAsync({
+						isActive: !isActiveUIState,
+					})
 
-						if (!isActiveUIState) {
-							setSuccessMessage(
-								t(
-									"relations.alias.mutations.success.aliasChangedToEnabled",
-								) as string,
-							)
-						} else {
-							setSuccessMessage(
-								t(
-									"relations.alias.mutations.success.aliasChangedToDisabled",
-								) as string,
-							)
-						}
-					} catch {}
-				}}
-			/>
-			<SuccessSnack message={successMessage} />
-			<ErrorSnack message={errorMessage} />
-		</>
+					showSuccess(
+						isActiveUIState
+							? t("relations.alias.mutations.success.aliasChangedToDisabled")
+							: t("relations.alias.mutations.success.aliasChangedToEnabled"),
+					)
+				} catch {}
+			}}
+		/>
 	)
 }

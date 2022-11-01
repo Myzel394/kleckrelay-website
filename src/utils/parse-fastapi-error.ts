@@ -20,7 +20,7 @@ export default function parseFastAPIError(
 
 		if (typeof error === "undefined") {
 			return {
-				detail: "There was an error",
+				detail: undefined,
 			}
 		}
 

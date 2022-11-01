@@ -1,5 +1,7 @@
 import {FormikContextType} from "formik"
-import {useContext, useEffect} from "react"
+import {useContext} from "react"
+import {useDeepCompareEffect} from "react-use"
+import deepEqual from "deep-equal"
 
 import LockNavigationContext from "./LockNavigationContext"
 
@@ -12,16 +14,14 @@ export default function FormikAutoLockNavigation({
 }: LockNavigationContextProviderProps): null {
 	const {lock, release} = useContext(LockNavigationContext)
 
-	const valuesStringified = JSON.stringify(formik.values)
-	const initialValuesStringified = JSON.stringify(formik.initialValues)
-
-	useEffect(() => {
-		if (valuesStringified !== initialValuesStringified) {
+	// TODO: Not working yet
+	useDeepCompareEffect(() => {
+		if (!deepEqual(formik.values, formik.initialValues)) {
 			lock()
 		} else {
 			release()
 		}
-	}, [lock, release, valuesStringified, initialValuesStringified])
+	}, [lock, release, formik.values, formik.initialValues])
 
 	return null
 }

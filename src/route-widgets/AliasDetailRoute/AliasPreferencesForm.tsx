@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import {ReactElement} from "react"
+import {ReactElement, useContext} from "react"
 import {BsImage, BsShieldShaded} from "react-icons/bs"
 import {useFormik} from "formik"
 import {FaFile} from "react-icons/fa"
@@ -15,14 +15,16 @@ import Icon from "@mdi/react"
 
 import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {ErrorSnack, SuccessSnack} from "~/components"
 import {parseFastAPIError} from "~/utils"
 import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
 	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
+import {useErrorSuccessSnacks} from "~/hooks"
+import AuthContext from "~/AuthContext/AuthContext"
 import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
+import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface AliasPreferencesFormProps {
 	alias: Alias | DecryptedAlias
@@ -45,6 +47,8 @@ export default function AliasPreferencesForm({
 	onChanged,
 }: AliasPreferencesFormProps): ReactElement {
 	const {t} = useTranslation()
+	const {showSuccess, showError} = useErrorSuccessSnacks()
+	const {_decryptUsingMasterPassword} = useContext(AuthContext)
 	const SCHEMA = yup.object().shape({
 		removeTrackers: yup
 			.mixed<boolean | null>()
@@ -64,10 +68,19 @@ export default function AliasPreferencesForm({
 			.oneOf([null, ...Object.values(ProxyUserAgentType)])
 			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})
-	const {mutateAsync, isSuccess} = useMutation<Alias, AxiosError, UpdateAliasData>(
+	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		data => updateAlias(alias.id, data),
 		{
-			onSuccess: onChanged,
+			onSuccess: alias => {
+				showSuccess(t("relations.alias.mutations.success.aliasUpdated"))
+				;(alias as any as DecryptedAlias).notes = decryptAliasNotes(
+					alias.encryptedNotes,
+					_decryptUsingMasterPassword,
+				)
+
+				onChanged(alias)
+			},
+			onError: showError,
 		},
 	)
 	const formik = useFormik<Form>({
@@ -186,10 +199,6 @@ export default function AliasPreferencesForm({
 				</Grid>
 			</form>
 			<FormikAutoLockNavigation formik={formik} />
-			<ErrorSnack message={formik.errors.detail} />
-			<SuccessSnack
-				message={isSuccess && t("relations.alias.mutations.success.aliasUpdated")}
-			/>
 		</>
 	)
 }
