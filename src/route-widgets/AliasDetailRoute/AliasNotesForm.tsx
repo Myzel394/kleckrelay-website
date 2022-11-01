@@ -293,7 +293,7 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 					</Grid>
 				</Grid>
 			</form>
-			<FormikAutoLockNavigation formik={formik} />
+			<FormikAutoLockNavigation active={isInEditMode} formik={formik} />
 		</>
 	)
 }
