@@ -285,7 +285,8 @@
                     "aliasUpdated": "Updated Alias successfully!",
                     "notesUpdated": "Updated & encrypted notes successfully!",
                     "aliasChangedToEnabled": "Alias has been enabled",
-                    "aliasChangedToDisabled": "Alias has been disabled"
+                    "aliasChangedToDisabled": "Alias has been disabled",
+                    "addressCopiedToClipboard": "Address has been copied to your clipboard!"
                 }
             },
             "settings": {

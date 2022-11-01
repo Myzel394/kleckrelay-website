@@ -1,14 +1,15 @@
+import {usePrevious} from "react-use"
 import React, {ReactElement, useEffect, useState} from "react"
 
 import {Alert, Snackbar} from "@mui/material"
 
 export interface SuccessSnackProps {
 	message?: string | null | boolean
+	onClose?: () => void
 }
 
-export default function SuccessSnack({
-	message,
-}: SuccessSnackProps): ReactElement {
+export default function SuccessSnack({message, onClose}: SuccessSnackProps): ReactElement {
+	const previousMessage = usePrevious(message)
 	const [open, setOpen] = useState<boolean>(true)
 
 	useEffect(() => {
@@ -20,10 +21,13 @@ export default function SuccessSnack({
 		<Snackbar
 			open={open}
 			autoHideDuration={2000}
-			onClose={() => setOpen(false)}
+			onClose={() => {
+				setOpen(false)
+				onClose?.()
+			}}
 		>
 			<Alert severity="success" variant="filled">
-				{message}
+				{message || previousMessage}
 			</Alert>
 		</Snackbar>
 	)
