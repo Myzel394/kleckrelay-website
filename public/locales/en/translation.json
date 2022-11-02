@@ -350,6 +350,11 @@
             }
         },
         "report": {
+            "mutations": {
+                "success": {
+                    "reportDeleted": "Report has been deleted!"
+                }
+            },
             "emailMeta": {
                 "flow": "{{from}} -> {{to}}",
                 "emptySubject": "<No Subject>"
