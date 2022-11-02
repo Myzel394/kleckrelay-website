@@ -13,7 +13,8 @@
         "defaultError": "An error occurred.",
         "defaultSuccess": "Success!",
         "loading": "Loading...",
-        "actionNotUndoable": "This action cannot be undone!"
+        "actionNotUndoable": "This action cannot be undone!",
+        "copyError": "Copying to clipboard did not work. Please copy the text manually."
     },
 
     "routes": {
@@ -111,6 +112,7 @@
         },
         "AliasesRoute": {
             "title": "Aliases",
+            "isInCopyMode": "You are in copy mode. Click on an alias to copy it to your clipboard.",
             "emptyState": {
                 "title": "Welcome to your Aliases!",
                 "description": "Create your first Alias to get started."

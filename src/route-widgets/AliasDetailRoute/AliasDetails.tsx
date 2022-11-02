@@ -1,16 +1,14 @@
 import {useParams} from "react-router"
 import {ReactElement, useContext} from "react"
 import {useTranslation} from "react-i18next"
-import {MdContentCopy} from "react-icons/md"
 import {useSnackbar} from "notistack"
-import copy from "copy-to-clipboard"
 
-import {Button, Grid} from "@mui/material"
+import {Grid} from "@mui/material"
 
 import {AliasTypeIndicator, DecryptionPasswordMissingAlert, SimplePageBuilder} from "~/components"
 import {Alias, DecryptedAlias} from "~/server-types"
 import {useUIState} from "~/hooks"
-import {SUCCESS_SNACKBAR_SHOW_DURATION} from "~/constants/values"
+import AliasAddress from "~/route-widgets/AliasDetailRoute/AliasAddress"
 import AliasNotesForm from "~/route-widgets/AliasDetailRoute/AliasNotesForm"
 import AliasPreferencesForm from "~/route-widgets/AliasDetailRoute/AliasPreferencesForm"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
@@ -37,25 +35,7 @@ export default function AliasDetails({alias: aliasValue}: AliasDetailsProps): Re
 						<AliasTypeIndicator type={aliasUIState.type} />
 					</Grid>
 					<Grid item>
-						<Button
-							endIcon={<MdContentCopy />}
-							variant="text"
-							color="inherit"
-							onClick={() => {
-								copy(address)
-
-								enqueueSnackbar(
-									t("relations.alias.mutations.success.addressCopiedToClipboard"),
-									{
-										variant: "success",
-										autoHideDuration: SUCCESS_SNACKBAR_SHOW_DURATION,
-									},
-								)
-							}}
-							sx={{textTransform: "none", fontWeight: "normal"}}
-						>
-							{address}
-						</Button>
+						<AliasAddress address={address} />
 					</Grid>
 					<Grid item>
 						<ChangeAliasActivationStatusSwitch

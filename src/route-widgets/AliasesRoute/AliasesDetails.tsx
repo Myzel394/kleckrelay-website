@@ -1,90 +1,76 @@
-import {ReactElement} from "react"
+import {ReactElement, useState} from "react"
 import {useTranslation} from "react-i18next"
-import {useKeyPress} from "react-use"
-import {MdContentCopy} from "react-icons/md"
-import {useSnackbar} from "notistack"
-import {Link as RouterLink} from "react-router-dom"
-import copy from "copy-to-clipboard"
+import {useCopyToClipboard, useKeyPress, useUpdateEffect} from "react-use"
 
-import {
-	Grid,
-	List,
-	ListItemButton,
-	ListItemIcon,
-	ListItemSecondaryAction,
-	ListItemText,
-} from "@mui/material"
+import {Alert, Grid, List, Snackbar} from "@mui/material"
 
-import {AliasTypeIndicator} from "~/components"
 import {AliasList} from "~/server-types"
 import {useIsAnyInputFocused, useUIState} from "~/hooks"
-import {SUCCESS_SNACKBAR_SHOW_DURATION} from "~/constants/values"
+import {ErrorSnack, SuccessSnack} from "~/components"
+import AliasesListItem from "~/route-widgets/AliasesRoute/AliasesListItem"
 import CreateAliasButton from "~/route-widgets/AliasesRoute/CreateAliasButton"
 
 export interface AliasesDetailsProps {
 	aliases: AliasList[]
 }
 
-const getAddress = (alias: AliasList): string => `${alias.local}@${alias.domain}`
-
 export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactElement {
 	const {t} = useTranslation()
-	const {enqueueSnackbar} = useSnackbar()
+	const [{value, error}, copyToClipboard] = useCopyToClipboard()
 	const [isPressingControl] = useKeyPress("Control")
 	const isAnyInputFocused = useIsAnyInputFocused()
 
 	const [aliasesUIState, setAliasesUIState] = useUIState<AliasList[]>(aliases)
 
-	const isInCopyAddressMode = !isAnyInputFocused && isPressingControl
+	const [lockDisabledCopyMode, setLockDisabledCopyMode] = useState<boolean>(false)
+
+	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingControl
+
+	useUpdateEffect(() => {
+		if (!isPressingControl) {
+			setLockDisabledCopyMode(false)
+		}
+	}, [isPressingControl])
 
 	return (
-		<Grid container spacing={4} direction="column">
-			<Grid item>
-				<List>
-					{aliasesUIState.map(alias => (
-						<ListItemButton
-							component={RouterLink}
-							key={alias.id}
-							onClick={event => {
-								if (isInCopyAddressMode) {
-									event.preventDefault()
-									event.stopPropagation()
-
-									copy(getAddress(alias))
-
-									enqueueSnackbar(
-										t(
-											"relations.alias.mutations.success.addressCopiedToClipboard",
-										),
-										{
-											variant: "success",
-											autoHideDuration: SUCCESS_SNACKBAR_SHOW_DURATION,
-										},
-									)
+		<>
+			<Grid container spacing={4} direction="column">
+				<Grid item>
+					<List>
+						{aliasesUIState.map(alias => (
+							<AliasesListItem
+								alias={alias}
+								key={alias.id}
+								onCopy={
+									isInCopyAddressMode
+										? alias => {
+												copyToClipboard(alias)
+												setLockDisabledCopyMode(true)
+										  }
+										: undefined
 								}
-							}}
-							to={`/aliases/${btoa(getAddress(alias))}`}
-						>
-							<ListItemIcon>
-								<AliasTypeIndicator type={alias.type} />
-							</ListItemIcon>
-							<ListItemText primary={getAddress(alias)} />
-							{isInCopyAddressMode && (
-								<ListItemSecondaryAction>
-									<MdContentCopy />
-								</ListItemSecondaryAction>
-							)}
-						</ListItemButton>
-					))}
-				</List>
+							/>
+						))}
+					</List>
+				</Grid>
+				<Grid item>
+					<CreateAliasButton
+						onCreated={alias =>
+							setAliasesUIState(currentAliases => [alias, ...currentAliases])
+						}
+					/>
+				</Grid>
 			</Grid>
-			<Grid item>
-				<CreateAliasButton
-					onCreated={alias =>
-						setAliasesUIState(currentAliases => [alias, ...currentAliases])
-					}
-				/>
-			</Grid>
-		</Grid>
+			<SuccessSnack
+				key={value}
+				message={value && t("relations.alias.mutations.success.addressCopiedToClipboard")}
+			/>
+			<ErrorSnack message={error && t("general.copyError")} />
+			<Snackbar open={isInCopyAddressMode} autoHideDuration={null}>
+				<Alert variant="standard" severity="info">
+					{t("routes.AliasesRoute.isInCopyMode")}
+				</Alert>
+			</Snackbar>
+		</>
 	)
 }
