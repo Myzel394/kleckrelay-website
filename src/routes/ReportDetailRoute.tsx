@@ -4,12 +4,15 @@ import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {useQuery} from "@tanstack/react-query"
-import {List} from "@mui/material"
+import {Button, List} from "@mui/material"
 
 import {DecryptedReportContent, Report} from "~/server-types"
 import {getReport} from "~/apis"
 import {DecryptReport, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
 import {WithEncryptionRequired} from "~/hocs"
+import {BsTrash} from "react-icons/bs"
+import {MdDelete} from "react-icons/md"
+import DeleteButton from "~/route-widgets/ReportDetailRoute/DeleteButton"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
 import QueryResult from "~/components/QueryResult"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
@@ -23,7 +26,10 @@ function ReportDetailRoute(): ReactElement {
 	)
 
 	return (
-		<SimplePageBuilder.Page title="Report Details">
+		<SimplePageBuilder.Page
+			title="Report Details"
+			actions={query.data && <DeleteButton id={query.data.id} />}
+		>
 			<QueryResult<Report> query={query}>
 				{encryptedReport => (
 					<DecryptReport encryptedContent={encryptedReport.encryptedContent}>

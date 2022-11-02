@@ -12,7 +12,8 @@
         },
         "defaultError": "An error occurred.",
         "defaultSuccess": "Success!",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "actionNotUndoable": "This action cannot be undone!"
     },
 
     "routes": {
@@ -181,6 +182,13 @@
         },
         "ReportDetailRoute": {
             "title": "Report Details",
+            "actions": {
+                "delete": {
+                    "label": "Delete Report",
+                    "description": "Are you sure you want to delete this report?",
+                    "continueAction": "Delete Report"
+                }
+            },
             "sections": {
                 "information": {
                     "title": "Email Information",
