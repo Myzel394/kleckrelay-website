@@ -34,5 +34,7 @@ export * from "./SimpleOverlayInformation"
 export {default as SimpleOverlayInformation} from "./SimpleOverlayInformation"
 export * from "./SimpleInformationContainer"
 export {default as SimpleInformationContainer} from "./SimpleInformationContainer"
+export * from "./NoSearchResults"
+export {default as NoSearchResults} from "./NoSearchResults"
 
 export * as SimplePageBuilder from "./simple-page-builder"

@@ -7,7 +7,7 @@ import {useQuery} from "@tanstack/react-query"
 import {InputAdornment, TextField} from "@mui/material"
 
 import {AliasList, PaginationResult} from "~/server-types"
-import {QueryResult, SimplePage} from "~/components"
+import {NoSearchResults, QueryResult, SimplePage} from "~/components"
 import AliasesDetails from "~/route-widgets/AliasesRoute/AliasesDetails"
 import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
 import getAliases from "~/apis/get-aliases"
@@ -18,6 +18,7 @@ export default function AliasesRoute(): ReactElement {
 	const [searchValue, setSearchValue] = useState<string>("")
 	const [queryValue, setQueryValue] = useState<string>("")
 	const [, startTransition] = useTransition()
+	const [showSearch, setShowSearch] = useState<boolean>(false)
 
 	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
 		["get_aliases", queryValue],
@@ -25,14 +26,22 @@ export default function AliasesRoute(): ReactElement {
 			getAliases({
 				query: queryValue,
 			}),
+		{
+			onSuccess: ({items}) => {
+				if (items.length) {
+					setShowSearch(true)
+				}
+			},
+		},
 	)
 
 	return (
 		<SimplePage
 			title={t("routes.AliasesRoute.title")}
 			pageOptionsActions={
-				(query.data?.items?.length || 0) > 0 && (
+				showSearch && (
 					<TextField
+						key="search"
 						value={searchValue}
 						onChange={event => {
 							setSearchValue(event.target.value)
@@ -55,7 +64,19 @@ export default function AliasesRoute(): ReactElement {
 			}
 		>
 			<QueryResult<PaginationResult<AliasList>, AxiosError> query={query}>
-				{result => <AliasesDetails aliases={result.items} />}
+				{result =>
+					(() => {
+						if (result.items.length === 0) {
+							if (searchValue === "") {
+								return <EmptyStateScreen />
+							} else {
+								return <NoSearchResults />
+							}
+						}
+
+						return <AliasesDetails aliases={result.items} />
+					})()
+				}
 			</QueryResult>
 		</SimplePage>
 	)

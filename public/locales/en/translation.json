@@ -298,6 +298,10 @@
         "AliasTypeIndicator": {
             "random": "This is a randomly generated alias",
             "custom": "This is a custom-made alias"
+        },
+        "NoSearchResults": {
+            "title": "Nothing found",
+            "description": "We couldn't find anything for your search query. Try again with a different query."
         }
     },
 

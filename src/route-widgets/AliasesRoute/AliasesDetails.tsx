@@ -17,10 +17,9 @@ import {
 
 import {AliasTypeIndicator} from "~/components"
 import {AliasList} from "~/server-types"
-import {useUIState} from "~/hooks"
+import {useIsAnyInputFocused, useUIState} from "~/hooks"
 import {SUCCESS_SNACKBAR_SHOW_DURATION} from "~/constants/values"
 import CreateAliasButton from "~/route-widgets/AliasesRoute/CreateAliasButton"
-import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
 
 export interface AliasesDetailsProps {
 	aliases: AliasList[]
@@ -31,54 +30,53 @@ const getAddress = (alias: AliasList): string => `${alias.local}@${alias.domain}
 export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactElement {
 	const {t} = useTranslation()
 	const {enqueueSnackbar} = useSnackbar()
-	const [isInCopyAddressMode] = useKeyPress("Control")
+	const [isPressingControl] = useKeyPress("Control")
+	const isAnyInputFocused = useIsAnyInputFocused()
 
 	const [aliasesUIState, setAliasesUIState] = useUIState<AliasList[]>(aliases)
+
+	const isInCopyAddressMode = !isAnyInputFocused && isPressingControl
 
 	return (
 		<Grid container spacing={4} direction="column">
 			<Grid item>
-				{aliasesUIState.length > 0 ? (
-					<List>
-						{aliasesUIState.map(alias => (
-							<ListItemButton
-								component={RouterLink}
-								key={alias.id}
-								onClick={event => {
-									if (isInCopyAddressMode) {
-										event.preventDefault()
-										event.stopPropagation()
+				<List>
+					{aliasesUIState.map(alias => (
+						<ListItemButton
+							component={RouterLink}
+							key={alias.id}
+							onClick={event => {
+								if (isInCopyAddressMode) {
+									event.preventDefault()
+									event.stopPropagation()
 
-										copy(getAddress(alias))
+									copy(getAddress(alias))
 
-										enqueueSnackbar(
-											t(
-												"relations.alias.mutations.success.addressCopiedToClipboard",
-											),
-											{
-												variant: "success",
-												autoHideDuration: SUCCESS_SNACKBAR_SHOW_DURATION,
-											},
-										)
-									}
-								}}
-								to={`/aliases/${btoa(getAddress(alias))}`}
-							>
-								<ListItemIcon>
-									<AliasTypeIndicator type={alias.type} />
-								</ListItemIcon>
-								<ListItemText primary={getAddress(alias)} />
-								{isInCopyAddressMode && (
-									<ListItemSecondaryAction>
-										<MdContentCopy />
-									</ListItemSecondaryAction>
-								)}
-							</ListItemButton>
-						))}
-					</List>
-				) : (
-					<EmptyStateScreen />
-				)}
+									enqueueSnackbar(
+										t(
+											"relations.alias.mutations.success.addressCopiedToClipboard",
+										),
+										{
+											variant: "success",
+											autoHideDuration: SUCCESS_SNACKBAR_SHOW_DURATION,
+										},
+									)
+								}
+							}}
+							to={`/aliases/${btoa(getAddress(alias))}`}
+						>
+							<ListItemIcon>
+								<AliasTypeIndicator type={alias.type} />
+							</ListItemIcon>
+							<ListItemText primary={getAddress(alias)} />
+							{isInCopyAddressMode && (
+								<ListItemSecondaryAction>
+									<MdContentCopy />
+								</ListItemSecondaryAction>
+							)}
+						</ListItemButton>
+					))}
+				</List>
 			</Grid>
 			<Grid item>
 				<CreateAliasButton
