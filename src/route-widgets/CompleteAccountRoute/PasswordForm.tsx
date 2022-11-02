@@ -11,7 +11,7 @@ import {LoadingButton} from "@mui/lab"
 import {Box, Grid, InputAdornment, Typography} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {PasswordField} from "~/components"
+import {PasswordField, SimpleForm} from "~/components"
 import {buildEncryptionPassword, encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
 import {useSystemPreferredTheme, useUser} from "~/hooks"
@@ -68,7 +68,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 		{
 			onSuccess: ({user}) => {
 				login(user)
-				onDone()
+				setTimeout(onDone, 0)
 			},
 		},
 	)
@@ -119,102 +119,72 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	return (
 		<Box width="80vw">
 			<form onSubmit={formik.handleSubmit}>
-				<Grid
-					container
-					spacing={4}
-					paddingX={2}
-					paddingY={4}
-					alignItems="center"
-					justifyContent="center"
+				<SimpleForm
+					title={t("routes.CompleteAccountRoute.forms.password.title")}
+					description={t("routes.CompleteAccountRoute.forms.password.description")}
+					continueActionLabel={t(
+						"routes.CompleteAccountRoute.forms.password.continueAction",
+					)}
+					nonFieldError={formik.errors.detail}
 				>
-					<Grid item>
-						<Grid container spacing={2} direction="column">
-							<Grid item>
-								<Typography variant="h6" component="h2" align="center">
-									{t("routes.CompleteAccountRoute.forms.password.title")}
-								</Typography>
-							</Grid>
-							<Grid item>
-								<Typography variant="subtitle1" component="p">
-									{t("routes.CompleteAccountRoute.forms.password.description")}
-								</Typography>
-							</Grid>
-						</Grid>
-					</Grid>
-					<Grid item>
-						<Grid container spacing={2} justifyContent="center">
-							<Grid item>
-								<PasswordField
-									fullWidth
-									id="password"
-									name="password"
-									label={t(
-										"routes.CompleteAccountRoute.forms.password.form.password.label",
-									)}
-									placeholder={t(
-										"routes.CompleteAccountRoute.forms.password.form.password.placeholder",
-									)}
-									autoComplete="new-password"
-									value={formik.values.password}
-									onChange={formik.handleChange}
-									disabled={formik.isSubmitting}
-									error={
-										formik.touched.password && Boolean(formik.errors.password)
-									}
-									helperText={formik.touched.password && formik.errors.password}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<MdLock />
-											</InputAdornment>
-										),
-									}}
-								/>
-							</Grid>
-							<Grid item>
-								<PasswordField
-									fullWidth
-									id="passwordConfirmation"
-									name="passwordConfirmation"
-									label={t(
-										"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label",
-									)}
-									placeholder={t(
-										"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.placeholder",
-									)}
-									value={formik.values.passwordConfirmation}
-									onChange={formik.handleChange}
-									disabled={formik.isSubmitting}
-									error={
-										formik.touched.passwordConfirmation &&
-										Boolean(formik.errors.passwordConfirmation)
-									}
-									helperText={
-										formik.touched.passwordConfirmation &&
-										formik.errors.passwordConfirmation
-									}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<MdCheckCircle />
-											</InputAdornment>
-										),
-									}}
-								/>
-							</Grid>
-						</Grid>
-					</Grid>
-					<Grid item>
-						<LoadingButton
-							type="submit"
-							variant="contained"
-							loading={formik.isSubmitting}
-							startIcon={<MdChevronRight />}
-						>
-							{t("routes.CompleteAccountRoute.forms.password.continueAction")}
-						</LoadingButton>
-					</Grid>
-				</Grid>
+					{[
+						<PasswordField
+							key="password"
+							fullWidth
+							id="password"
+							name="password"
+							label={t(
+								"routes.CompleteAccountRoute.forms.password.form.password.label",
+							)}
+							placeholder={t(
+								"routes.CompleteAccountRoute.forms.password.form.password.placeholder",
+							)}
+							autoComplete="new-password"
+							value={formik.values.password}
+							onChange={formik.handleChange}
+							disabled={formik.isSubmitting}
+							error={formik.touched.password && Boolean(formik.errors.password)}
+							helperText={formik.touched.password && formik.errors.password}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<MdLock />
+									</InputAdornment>
+								),
+							}}
+						/>,
+						<PasswordField
+							key="passwordConfirmation"
+							fullWidth
+							id="passwordConfirmation"
+							name="passwordConfirmation"
+							label={t(
+								"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label",
+							)}
+							placeholder={t(
+								"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.placeholder",
+							)}
+							value={formik.values.passwordConfirmation}
+							onChange={formik.handleChange}
+							disabled={formik.isSubmitting}
+							error={
+								formik.touched.passwordConfirmation &&
+								Boolean(formik.errors.passwordConfirmation)
+							}
+							helperText={
+								formik.touched.passwordConfirmation &&
+								formik.errors.passwordConfirmation
+							}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<MdCheckCircle />
+									</InputAdornment>
+								),
+							}}
+						/>,
+					]}
+				</SimpleForm>
 			</form>
 		</Box>
 	)

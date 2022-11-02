@@ -29,7 +29,10 @@ export default function CompleteAccountRoute(): ReactElement {
 						onYes={() => setShowGenerationReportForm(true)}
 						onNo={navigateToNext}
 					/>,
-					<PasswordForm onDone={navigateToNext} key="password_form" />,
+					<PasswordForm
+						onDone={() => setTimeout(navigateToNext, 0)}
+						key="password_form"
+					/>,
 				]}
 				index={showGenerationReportForm ? 1 : 0}
 			/>

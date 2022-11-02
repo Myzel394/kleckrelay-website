@@ -16,6 +16,7 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
 import LoginRoute from "~/routes/LoginRoute"
+import LogoutRoute from "~/routes/LogoutRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import RootRoute from "~/routes/Root"
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
 					{
 						path: "/auth/complete-account",
 						element: <CompleteAccountRoute />,
+					},
+					{
+						path: "/auth/logout",
+						element: <LogoutRoute />,
 					},
 				],
 			},

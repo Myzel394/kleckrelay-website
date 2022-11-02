@@ -2,16 +2,12 @@ import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
 import {useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
+import {useNavigate} from "react-router-dom"
 
 import {useMutation} from "@tanstack/react-query"
 
 import {ServerUser, User} from "~/server-types"
-import {
-	REFRESH_TOKEN_URL,
-	RefreshTokenResult,
-	logout as logoutUser,
-	refreshToken,
-} from "~/apis"
+import {REFRESH_TOKEN_URL, RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
 
@@ -21,20 +17,15 @@ export interface AuthContextProviderProps {
 	children: ReactNode
 }
 
-export default function AuthContextProvider({
-	children,
-}: AuthContextProviderProps): ReactElement {
-	const {mutateAsync: refresh} = useMutation<
-		RefreshTokenResult,
-		AxiosError,
-		void
-	>(refreshToken, {
+export default function AuthContextProvider({children}: AuthContextProviderProps): ReactElement {
+	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
 		onError: () => logout(false),
 	})
 
-	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<
-		string | null
-	>("_global-context-auth-decryption-password", null)
+	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
+		"_global-context-auth-decryption-password",
+		null,
+	)
 	const [user, setUser] = useLocalStorage<ServerUser | User | null>(
 		"_global-context-auth-user",
 		null,
@@ -115,10 +106,7 @@ export default function AuthContextProvider({
 
 			try {
 				// Check if the password is correct
-				const masterPassword = decryptString(
-					user.encryptedPassword,
-					password,
-				)
+				const masterPassword = decryptString(user.encryptedPassword, password)
 				JSON.parse(decryptString(user.encryptedNotes, masterPassword))
 			} catch {
 				return false
@@ -162,15 +150,8 @@ export default function AuthContextProvider({
 
 	// Decrypt user notes
 	useEffect(() => {
-		if (
-			user &&
-			!user.isDecrypted &&
-			user.encryptedPassword &&
-			masterPassword
-		) {
-			const note = JSON.parse(
-				decryptUsingMasterPassword(user.encryptedNotes!),
-			)
+		if (user && !user.isDecrypted && user.encryptedPassword && masterPassword) {
+			const note = JSON.parse(decryptUsingMasterPassword(user.encryptedNotes!))
 
 			const newUser: User = {
 				...user,

@@ -54,7 +54,8 @@ export default function ConfirmCodeForm({
 
 					return code.split("").every(char => chars.includes(char))
 				},
-			),
+			)
+			.label(t("routes.LoginRoute.forms.confirmCode.form.code.label")),
 	})
 	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyLoginWithEmailData>(
 		verifyLoginWithEmail,

@@ -31,10 +31,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 			password: "",
 		},
 		onSubmit: async ({password}, {setErrors}) => {
-			const decryptionPassword = buildEncryptionPassword(
-				password,
-				user.email.address,
-			)
+			const decryptionPassword = buildEncryptionPassword(password, user.email.address)
 
 			if (!_setDecryptionPassword(decryptionPassword)) {
 				setErrors({
@@ -43,7 +40,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 					),
 				})
 			} else {
-				navigateToNext()
+				setTimeout(navigateToNext, 0)
 			}
 		},
 	})
@@ -52,15 +49,9 @@ export default function EnterDecryptionPassword(): ReactElement {
 		<form onSubmit={formik.handleSubmit}>
 			<SimpleForm
 				title={t("components.EnterDecryptionPassword.title")}
-				description={t(
-					"components.EnterDecryptionPassword.description",
-				)}
-				cancelActionLabel={t(
-					"components.EnterDecryptionPassword.cancelAction",
-				)}
-				continueActionLabel={t(
-					"components.EnterDecryptionPassword.continueAction",
-				)}
+				description={t("components.EnterDecryptionPassword.description")}
+				cancelActionLabel={t("components.EnterDecryptionPassword.cancelAction")}
+				continueActionLabel={t("components.EnterDecryptionPassword.continueAction")}
 				isSubmitting={formik.isSubmitting}
 			>
 				{[
@@ -69,22 +60,15 @@ export default function EnterDecryptionPassword(): ReactElement {
 						fullWidth
 						name="password"
 						id="password"
-						label={t(
-							"components.EnterDecryptionPassword.form.password.label",
-						)}
+						label={t("components.EnterDecryptionPassword.form.password.label")}
 						placeholder={t(
 							"components.EnterDecryptionPassword.form.password.placeholder",
 						)}
 						value={formik.values.password}
 						onChange={formik.handleChange}
 						disabled={formik.isSubmitting}
-						error={
-							formik.touched.password &&
-							Boolean(formik.errors.password)
-						}
-						helperText={
-							formik.touched.password && formik.errors.password
-						}
+						error={formik.touched.password && Boolean(formik.errors.password)}
+						helperText={formik.touched.password && formik.errors.password}
 						InputProps={{
 							startAdornment: (
 								<InputAdornment position="start">

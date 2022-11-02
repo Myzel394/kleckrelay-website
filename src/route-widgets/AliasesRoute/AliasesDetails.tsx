@@ -2,6 +2,8 @@ import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {useKeyPress} from "react-use"
 import {MdContentCopy} from "react-icons/md"
+import {useSnackbar} from "notistack"
+import {Link as RouterLink} from "react-router-dom"
 import copy from "copy-to-clipboard"
 
 import {
@@ -16,7 +18,6 @@ import {
 import {AliasTypeIndicator} from "~/components"
 import {AliasList} from "~/server-types"
 import {useUIState} from "~/hooks"
-import {useSnackbar} from "notistack"
 import {SUCCESS_SNACKBAR_SHOW_DURATION} from "~/constants/values"
 import CreateAliasButton from "~/route-widgets/AliasesRoute/CreateAliasButton"
 import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
@@ -41,6 +42,7 @@ export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactEle
 					<List>
 						{aliasesUIState.map(alias => (
 							<ListItemButton
+								component={RouterLink}
 								key={alias.id}
 								onClick={event => {
 									if (isInCopyAddressMode) {
@@ -60,7 +62,7 @@ export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactEle
 										)
 									}
 								}}
-								href={`/aliases/${btoa(getAddress(alias))}`}
+								to={`/aliases/${btoa(getAddress(alias))}`}
 							>
 								<ListItemIcon>
 									<AliasTypeIndicator type={alias.type} />

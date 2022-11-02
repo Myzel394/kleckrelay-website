@@ -16,7 +16,7 @@ export default function EmptyStateScreen(): ReactElement {
 				</Typography>
 			</Grid>
 			<Grid item>
-				<Icon path={mdiTextBoxMultiple} size={2.5} />,
+				<Icon path={mdiTextBoxMultiple} size={2.5} />
 			</Grid>
 			<Grid item>
 				<Typography variant="body1">

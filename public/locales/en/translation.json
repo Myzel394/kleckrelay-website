@@ -226,6 +226,10 @@
                     "saveAction": "Save preferences"
                 }
             }
+        },
+        "LogoutRoute": {
+            "title": "Log out",
+            "description": "We are logging you out..."
         }
     },
 
@@ -239,6 +243,9 @@
         "AuthenticateRoute": {
             "signup": "Sign up",
             "login": "Log in"
+        },
+        "AuthenticatedRoute": {
+            "logout": "Logout"
         },
         "EnterDecryptionPassword": {
             "title": "Decrypt Reports",
