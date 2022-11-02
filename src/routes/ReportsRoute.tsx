@@ -14,6 +14,7 @@ import {getReports} from "~/apis"
 import {WithEncryptionRequired} from "~/hocs"
 import {DecryptReport} from "~/components"
 import {createEnumMapFromTranslation} from "~/utils"
+import EmptyStateScreen from "~/route-widgets/ReportsRoute/EmptyStateScreen"
 import QueryResult from "~/components/QueryResult"
 import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
 import SimplePage from "~/components/SimplePage"
@@ -43,26 +44,28 @@ function ReportsRoute(): ReactElement {
 		<SimplePage
 			title="Reports"
 			pageOptionsActions={
-				<TextField
-					value={sortingView}
-					onChange={event => setSortingView(event.target.value as SortingView)}
-					label="Sorting"
-					id="sorting"
-					InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								{SORTING_VIEW_ICON_MAP[sortingView]}
-							</InputAdornment>
-						),
-					}}
-					select
-				>
-					{Object.keys(SORTING_VIEW_NAME_MAP).map(name => (
-						<MenuItem key={name} value={name}>
-							{t(SORTING_VIEW_NAME_MAP[name as SortingView])}
-						</MenuItem>
-					))}
-				</TextField>
+				(query.data?.items?.length || 0) > 0 && (
+					<TextField
+						value={sortingView}
+						onChange={event => setSortingView(event.target.value as SortingView)}
+						label="Sorting"
+						id="sorting"
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									{SORTING_VIEW_ICON_MAP[sortingView]}
+								</InputAdornment>
+							),
+						}}
+						select
+					>
+						{Object.keys(SORTING_VIEW_NAME_MAP).map(name => (
+							<MenuItem key={name} value={name}>
+								{t(SORTING_VIEW_NAME_MAP[name as SortingView])}
+							</MenuItem>
+						))}
+					</TextField>
+				)
 			}
 		>
 			<QueryResult<PaginationResult<Report>> query={query}>
@@ -72,6 +75,10 @@ function ReportsRoute(): ReactElement {
 							{reports => (
 								<>
 									{(() => {
+										if (result.items.length === 0) {
+											return <EmptyStateScreen />
+										}
+
 										switch (sortingView) {
 											case SortingView.List:
 												return sortArray(

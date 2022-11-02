@@ -168,6 +168,10 @@
         },
         "ReportsRoute": {
             "title": "Reports",
+            "emptyState": {
+                "title": "Welcome to your Reports!",
+                "description": "Here you will find your email reports. Currently, you don't have any reports. Wait until you receive an email"
+            },
             "pageActions": {
                 "sort": {
                     "List": "List reports by their date",
