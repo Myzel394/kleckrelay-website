@@ -2,18 +2,18 @@ import * as yup from "yup"
 import {useFormik} from "formik"
 import {MdEmail} from "react-icons/md"
 import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {InputAdornment, TextField} from "@mui/material"
-
 import {useMutation} from "@tanstack/react-query"
-import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 import {MultiStepFormElement, SimpleForm} from "~/components"
 import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {ServerSettings} from "~/server-types"
-import {useTranslation} from "react-i18next"
+
+import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 export interface EmailFormProps {
 	serverSettings: ServerSettings
@@ -27,7 +27,8 @@ interface Form {
 
 export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): ReactElement {
 	const {t} = useTranslation()
-	const SCHEMA = yup.object().shape({
+
+	const schema = yup.object().shape({
 		email: yup
 			.string()
 			.email()
@@ -39,7 +40,7 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 		onSuccess: ({normalizedEmail}) => onSignUp(normalizedEmail),
 	})
 	const formik = useFormik<Form>({
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		initialValues: {
 			email: "",
 		},

@@ -15,15 +15,18 @@ interface Form {
 	password: string
 }
 
-const schema = yup.object().shape({
-	password: yup.string().required(),
-})
-
 export default function EnterDecryptionPassword(): ReactElement {
 	const {t} = useTranslation()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
 	const {_setDecryptionPassword} = useContext(AuthContext)
+
+	const schema = yup.object().shape({
+		password: yup
+			.string()
+			.required()
+			.label(t("components.EnterDecryptionPassword.form.password.label")),
+	})
 
 	const formik = useFormik<Form>({
 		validationSchema: schema,

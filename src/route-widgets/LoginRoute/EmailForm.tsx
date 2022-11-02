@@ -23,18 +23,20 @@ interface Form {
 
 export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 	const {t} = useTranslation()
-	const SCHEMA = yup.object().shape({
+
+	const schema = yup.object().shape({
 		email: yup
 			.string()
 			.email()
 			.required()
 			.label(t("routes.LoginRoute.forms.email.form.email.label")),
 	})
+
 	const {mutateAsync} = useMutation<LoginWithEmailResult, AxiosError, string>(loginWithEmail, {
 		onSuccess: ({sameRequestToken}) => onLogin(formik.values.email, sameRequestToken),
 	})
 	const formik = useFormik<Form>({
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		initialValues: {
 			email: "",
 			detail: "",

@@ -53,7 +53,8 @@ export default function CustomAliasDialog({
 			.matches(LOCAL_REGEX)
 			.required()
 			.min(1)
-			.max(64 - serverSettings.customAliasSuffixLength - 1),
+			.max(64 - serverSettings.customAliasSuffixLength - 1)
+			.label(t("routes.AliasesRoute.actions.createCustomAlias.form.address.label")),
 	})
 
 	const formik = useFormik<Form>({
@@ -82,9 +83,7 @@ export default function CustomAliasDialog({
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						{t(
-							"routes.AliasesRoute.actions.createCustomAlias.description",
-						)}
+						{t("routes.AliasesRoute.actions.createCustomAlias.description")}
 					</DialogContentText>
 					<Box paddingY={4}>
 						<TextField
@@ -102,27 +101,18 @@ export default function CustomAliasDialog({
 							value={formik.values.local}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
-							error={
-								formik.touched.local &&
-								Boolean(formik.errors.local)
-							}
-							helperText={
-								formik.touched.local && formik.errors.local
-							}
+							error={formik.touched.local && Boolean(formik.errors.local)}
+							helperText={formik.touched.local && formik.errors.local}
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end">
 										<Typography variant="body2">
 											<span>
-												{Array(
-													serverSettings.customAliasSuffixLength,
-												)
+												{Array(serverSettings.customAliasSuffixLength)
 													.fill("#")
 													.join("")}
 											</span>
-											<span>
-												@{serverSettings.mailDomain}
-											</span>
+											<span>@{serverSettings.mailDomain}</span>
 										</Typography>
 									</InputAdornment>
 								),
@@ -141,9 +131,7 @@ export default function CustomAliasDialog({
 						variant="contained"
 						type="submit"
 					>
-						{t(
-							"routes.AliasesRoute.actions.createCustomAlias.continueAction",
-						)}
+						{t("routes.AliasesRoute.actions.createCustomAlias.continueAction")}
 					</Button>
 				</DialogActions>
 			</form>

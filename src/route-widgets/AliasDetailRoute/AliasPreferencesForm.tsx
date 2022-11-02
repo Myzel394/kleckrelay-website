@@ -8,7 +8,7 @@ import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 
 import {LoadingButton} from "@mui/lab"
-import {Collapse, Grid, Typography} from "@mui/material"
+import {Box, Collapse, Grid, Typography} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
@@ -49,7 +49,8 @@ export default function AliasPreferencesForm({
 	const {t} = useTranslation()
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_decryptUsingMasterPassword} = useContext(AuthContext)
-	const SCHEMA = yup.object().shape({
+
+	const schema = yup.object().shape({
 		removeTrackers: yup
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
@@ -68,6 +69,7 @@ export default function AliasPreferencesForm({
 			.oneOf([null, ...Object.values(ProxyUserAgentType)])
 			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})
+
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		data => updateAlias(alias.id, data),
 		{
@@ -92,7 +94,7 @@ export default function AliasPreferencesForm({
 			imageProxyFormat: alias.prefImageProxyFormat,
 			imageProxyUserAgent: alias.prefImageProxyUserAgent,
 		},
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		onSubmit: async (values, {setErrors}) => {
 			try {
 				await mutateAsync({
@@ -111,92 +113,92 @@ export default function AliasPreferencesForm({
 	return (
 		<>
 			<form onSubmit={formik.handleSubmit}>
-				<Grid
-					container
-					marginTop={1}
-					spacing={4}
-					flexDirection="column"
-					alignItems="center"
-				>
-					<Grid item>
-						<Grid container spacing={4}>
-							<Grid item xs={12} sm={6}>
-								<SelectField
-									label={t("relations.alias.settings.removeTrackers.label")}
-									formik={formik}
-									icon={<BsShieldShaded />}
-									name="removeTrackers"
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<SelectField
-									label={t("relations.alias.settings.createMailReports.label")}
-									formik={formik}
-									icon={<Icon path={mdiTextBoxMultiple} size={0.8} />}
-									name="createMailReport"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<Grid container spacing={2}>
-									<Grid item xs={12}>
-										<SelectField
-											label={t("relations.alias.settings.proxyImages.label")}
-											formik={formik}
-											icon={<BsImage />}
-											name="proxyImages"
-										/>
-									</Grid>
-									<Grid item xs={12}>
-										<Collapse in={formik.values.proxyImages !== false}>
-											<Grid container spacing={4}>
-												<Grid item xs={12} sm={6}>
-													<SelectField
-														label={t(
-															"relations.alias.settings.imageProxyFormat.label",
-														)}
-														formik={formik}
-														icon={<FaFile />}
-														name="imageProxyFormat"
-														valueTextMap={
-															IMAGE_PROXY_FORMAT_TYPE_NAME_MAP
-														}
-													/>
+				<Box marginTop={1}>
+					<Grid container spacing={4} flexDirection="column" alignItems="center">
+						<Grid item>
+							<Grid container spacing={4}>
+								<Grid item xs={12} sm={6}>
+									<SelectField
+										label={t("relations.alias.settings.removeTrackers.label")}
+										formik={formik}
+										icon={<BsShieldShaded />}
+										name="removeTrackers"
+									/>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<SelectField
+										label={t(
+											"relations.alias.settings.createMailReports.label",
+										)}
+										formik={formik}
+										icon={<Icon path={mdiTextBoxMultiple} size={0.8} />}
+										name="createMailReport"
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Grid container spacing={2}>
+										<Grid item xs={12}>
+											<SelectField
+												label={t(
+													"relations.alias.settings.proxyImages.label",
+												)}
+												formik={formik}
+												icon={<BsImage />}
+												name="proxyImages"
+											/>
+										</Grid>
+										<Grid item xs={12}>
+											<Collapse in={formik.values.proxyImages !== false}>
+												<Grid container spacing={4}>
+													<Grid item xs={12} sm={6}>
+														<SelectField
+															label={t(
+																"relations.alias.settings.imageProxyFormat.label",
+															)}
+															formik={formik}
+															icon={<FaFile />}
+															name="imageProxyFormat"
+															valueTextMap={
+																IMAGE_PROXY_FORMAT_TYPE_NAME_MAP
+															}
+														/>
+													</Grid>
+													<Grid item xs={12} sm={6}>
+														<SelectField
+															label={t(
+																"relations.alias.settings.imageProxyUserAgent.label",
+															)}
+															formik={formik}
+															name="imageProxyUserAgent"
+															valueTextMap={
+																IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP
+															}
+														/>
+													</Grid>
 												</Grid>
-												<Grid item xs={12} sm={6}>
-													<SelectField
-														label={t(
-															"relations.alias.settings.imageProxyUserAgent.label",
-														)}
-														formik={formik}
-														name="imageProxyUserAgent"
-														valueTextMap={
-															IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP
-														}
-													/>
-												</Grid>
-											</Grid>
-										</Collapse>
+											</Collapse>
+										</Grid>
 									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
+						<Grid item>
+							<LoadingButton
+								loading={formik.isSubmitting}
+								variant="contained"
+								type="submit"
+								startIcon={<MdCheckCircle />}
+							>
+								{t("relations.alias.settings.saveAction")}
+							</LoadingButton>
+						</Grid>
+						<Grid item>
+							<Typography variant="body2">
+								{t("routes.AliasDetailRoute.sections.settings.description")}
+							</Typography>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<LoadingButton
-							loading={formik.isSubmitting}
-							variant="contained"
-							type="submit"
-							startIcon={<MdCheckCircle />}
-						>
-							{t("relations.alias.settings.saveAction")}
-						</LoadingButton>
-					</Grid>
-					<Grid item>
-						<Typography variant="body2">
-							{t("routes.AliasDetailRoute.sections.settings.description")}
-						</Typography>
-					</Grid>
-				</Grid>
+				</Box>
 			</form>
 			<FormikAutoLockNavigation formik={formik} />
 		</>

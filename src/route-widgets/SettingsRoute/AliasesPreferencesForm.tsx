@@ -47,7 +47,8 @@ export default function AliasesPreferencesForm(): ReactElement {
 	const user = useUser()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {t} = useTranslation()
-	const SCHEMA = yup.object().shape({
+
+	const schema = yup.object().shape({
 		removeTrackers: yup.boolean().label(t("relations.alias.settings.removeTrackers.label")),
 		createMailReport: yup.boolean().label(t("relations.alias.settings.createMailReport.label")),
 		proxyImages: yup.boolean().label(t("relations.alias.settings.proxyImages.label")),
@@ -63,30 +64,29 @@ export default function AliasesPreferencesForm(): ReactElement {
 			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})
 
-	const {mutateAsync, data} = useMutation<
-		SimpleDetailResponse,
-		AxiosError,
-		UpdatePreferencesData
-	>(updatePreferences, {
-		onSuccess: (response, values) => {
-			const newUser = {
-				...user,
-				preferences: {
-					...user.preferences,
-					...values,
-				},
-			}
+	const {mutateAsync} = useMutation<SimpleDetailResponse, AxiosError, UpdatePreferencesData>(
+		updatePreferences,
+		{
+			onSuccess: (response, values) => {
+				const newUser = {
+					...user,
+					preferences: {
+						...user.preferences,
+						...values,
+					},
+				}
 
-			if (response.detail) {
-				showSuccess(response?.detail)
-			}
+				if (response.detail) {
+					showSuccess(response?.detail)
+				}
 
-			_updateUser(newUser)
+				_updateUser(newUser)
+			},
+			onError: showError,
 		},
-		onError: showError,
-	})
+	)
 	const formik = useFormik<Form>({
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		initialValues: {
 			removeTrackers: user.preferences.aliasRemoveTrackers,
 			createMailReport: user.preferences.aliasCreateMailReport,

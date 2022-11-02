@@ -50,20 +50,25 @@ interface Form {
 	detail?: string
 }
 
-const SCHEMA = yup.object().shape({
-	personalNotes: yup.string(),
-	websites: yup.array().of(
-		yup.object().shape({
-			url: yup.string().url(),
-			createdAt: yup.date(),
-		}),
-	),
-})
-
 export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormProps): ReactElement {
 	const {t} = useTranslation()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} = useContext(AuthContext)
+
+	const schema = yup.object().shape({
+		personalNotes: yup
+			.string()
+			.label(t("routes.AliasDetailRoute.sections.notes.form.personalNotes.label")),
+		websites: yup.array().of(
+			yup
+				.object()
+				.shape({
+					url: yup.string().url(),
+				})
+				.label(t("routes.AliasDetailRoute.sections.notes.form.websites.label")),
+		),
+	})
+
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		values => updateAlias(id, values),
 		{
@@ -88,7 +93,7 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 		[notes.data.personalNotes, notes.data.websites],
 	)
 	const formik = useFormik<Form>({
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		initialValues,
 		onSubmit: async (values, {setErrors}) => {
 			try {

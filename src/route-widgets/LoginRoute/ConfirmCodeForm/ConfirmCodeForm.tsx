@@ -4,10 +4,8 @@ import {ReactElement} from "react"
 import {useFormik} from "formik"
 import {FaHashtag} from "react-icons/fa"
 import {MdChevronRight, MdMail} from "react-icons/md"
-
 import {useLoaderData} from "react-router-dom"
 import {useTranslation} from "react-i18next"
-import ResendMailButton from "./ResendMailButton"
 
 import {useMutation} from "@tanstack/react-query"
 import {Box, Grid, InputAdornment, TextField, Typography} from "@mui/material"
@@ -17,6 +15,8 @@ import {AuthenticationDetails, ServerSettings, ServerUser} from "~/server-types"
 import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
 import {parseFastAPIError} from "~/utils"
+
+import ResendMailButton from "./ResendMailButton"
 
 export interface ConfirmCodeFormProps {
 	onConfirm: (user: ServerUser) => void
@@ -36,7 +36,8 @@ export default function ConfirmCodeForm({
 }: ConfirmCodeFormProps): ReactElement {
 	const settings = useLoaderData() as ServerSettings
 	const {t} = useTranslation()
-	const SCHEMA = yup.object().shape({
+
+	const schema = yup.object().shape({
 		code: yup
 			.string()
 			.required()
@@ -57,6 +58,7 @@ export default function ConfirmCodeForm({
 			)
 			.label(t("routes.LoginRoute.forms.confirmCode.form.code.label")),
 	})
+
 	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyLoginWithEmailData>(
 		verifyLoginWithEmail,
 		{
@@ -64,7 +66,7 @@ export default function ConfirmCodeForm({
 		},
 	)
 	const formik = useFormik<Form>({
-		validationSchema: SCHEMA,
+		validationSchema: schema,
 		initialValues: {
 			code: "",
 			detail: "",
