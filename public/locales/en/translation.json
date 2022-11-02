@@ -110,6 +110,10 @@
         },
         "AliasesRoute": {
             "title": "Aliases",
+            "emptyState": {
+                "title": "Welcome to your Aliases!",
+                "description": "Create your first Alias to get started."
+            },
             "pageActions": {
                 "search": {
                     "label": "Search",
@@ -214,7 +218,8 @@
             "forms": {
                 "aliasPreferences": {
                     "title": "Alias Preferences",
-                    "description": "Select the default behavior for your aliases. This will only affect aliases that do not have a custom behavior set."
+                    "description": "Select the default behavior for your aliases. This will only affect aliases that do not have a custom behavior set.",
+                    "saveAction": "Save preferences"
                 }
             }
         }

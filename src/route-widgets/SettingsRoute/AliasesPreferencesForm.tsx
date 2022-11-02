@@ -322,7 +322,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 						type="submit"
 						startIcon={<MdCheckCircle />}
 					>
-						Save Preferences
+						{t("routes.SettingsRoute.forms.aliasPreferences.saveAction")}
 					</LoadingButton>
 				</Grid>
 			</Grid>

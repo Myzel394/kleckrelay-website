@@ -34,9 +34,7 @@ export default function CreateAliasButton({onCreated}: CreateAliasButtonProps): 
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 
-	const $errorSnackbarId = useRef<SnackbarKey | null>(null)
-
-	const {mutateAsync, isLoading, isSuccess} = useMutation<Alias, AxiosError, CreateAliasData>(
+	const {mutateAsync, isLoading} = useMutation<Alias, AxiosError, CreateAliasData>(
 		async values => {
 			if (encryptionStatus === EncryptionStatus.Available) {
 				values.encryptedNotes = await _encryptUsingMasterPassword(

@@ -1,9 +1,4 @@
-import {
-	Alias,
-	AliasType,
-	ImageProxyFormatType,
-	ProxyUserAgentType,
-} from "~/server-types"
+import {Alias, AliasType, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 interface CreateAliasDataOther {
@@ -32,20 +27,12 @@ interface CreateAliasDataCustomType extends CreateAliasDataBase {
 	local: string
 }
 
-export type CreateAliasData =
-	| CreateAliasDataRandomType
-	| CreateAliasDataCustomType
+export type CreateAliasData = CreateAliasDataRandomType | CreateAliasDataCustomType
 
-export default async function createAlias(
-	aliasData: CreateAliasData,
-): Promise<Alias> {
-	const {data} = await client.post(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/alias`,
-		aliasData,
-		{
-			withCredentials: true,
-		},
-	)
+export default async function createAlias(aliasData: CreateAliasData): Promise<Alias> {
+	const {data} = await client.post(`${import.meta.env.VITE_SERVER_BASE_URL}/alias`, aliasData, {
+		withCredentials: true,
+	})
 
 	return data
 }

@@ -2,14 +2,7 @@ import {MdChevronRight} from "react-icons/md"
 import {TiCancel} from "react-icons/ti"
 import React, {ReactElement, useEffect, useState} from "react"
 
-import {
-	Alert,
-	Button,
-	Grid,
-	Snackbar,
-	Typography,
-	TypographyProps,
-} from "@mui/material"
+import {Alert, Button, Grid, Snackbar, Typography, TypographyProps} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import {OverrideProps} from "@mui/types"
 
@@ -52,6 +45,7 @@ export default function SimpleForm({
 				spacing={4}
 				paddingX={2}
 				paddingY={4}
+				direction="column"
 				alignItems="center"
 				justifyContent="center"
 			>
@@ -85,12 +79,7 @@ export default function SimpleForm({
 					</Grid>
 				)}
 				<Grid item>
-					<Grid
-						container
-						justifyContent={
-							cancelActionLabel ? "space-between" : "center"
-						}
-					>
+					<Grid container justifyContent={cancelActionLabel ? "space-between" : "center"}>
 						{cancelActionLabel && (
 							<Grid item>
 								<Button
