@@ -13,7 +13,7 @@ import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
-import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
+import {Alias, DecryptedAlias, ImageProxyFormatType, ImageProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {
@@ -37,7 +37,7 @@ interface Form {
 	createMailReport: boolean | null
 	proxyImages: boolean | null
 	imageProxyFormat: ImageProxyFormatType | null
-	imageProxyUserAgent: ProxyUserAgentType | null
+	imageProxyUserAgent: ImageProxyUserAgentType | null
 
 	detail?: string
 }
@@ -65,8 +65,8 @@ export default function AliasPreferencesForm({
 			.oneOf([null, ...Object.values(ImageProxyFormatType)])
 			.label(t("relations.alias.settings.imageProxyFormat.label")),
 		imageProxyUserAgent: yup
-			.mixed<ProxyUserAgentType>()
-			.oneOf([null, ...Object.values(ProxyUserAgentType)])
+			.mixed<ImageProxyUserAgentType>()
+			.oneOf([null, ...Object.values(ImageProxyUserAgentType)])
 			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})
 

@@ -1,4 +1,4 @@
-import {ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
+import {ImageProxyFormatType, ImageProxyUserAgentType} from "~/server-types"
 import {createEnumMapFromTranslation} from "~/utils"
 
 export const IMAGE_PROXY_FORMAT_TYPE_NAME_MAP = createEnumMapFromTranslation(
@@ -7,5 +7,5 @@ export const IMAGE_PROXY_FORMAT_TYPE_NAME_MAP = createEnumMapFromTranslation(
 )
 export const IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP = createEnumMapFromTranslation(
 	"relations.alias.settings.imageProxyUserAgent.enumTexts",
-	ProxyUserAgentType,
+	ImageProxyUserAgentType,
 )

@@ -22,7 +22,7 @@ import {
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {ImageProxyFormatType, ProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
+import {ImageProxyFormatType, ImageProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
 import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useErrorSuccessSnacks, useUser} from "~/hooks"
 import {parseFastAPIError} from "~/utils"
@@ -37,7 +37,7 @@ interface Form {
 	createMailReport: boolean
 	proxyImages: boolean
 	imageProxyFormat: ImageProxyFormatType
-	imageProxyUserAgent: ProxyUserAgentType
+	imageProxyUserAgent: ImageProxyUserAgentType
 
 	detail?: string
 }
@@ -58,8 +58,8 @@ export default function AliasesPreferencesForm(): ReactElement {
 			.required()
 			.label(t("relations.alias.settings.imageProxyFormat.label")),
 		imageProxyUserAgent: yup
-			.mixed<ProxyUserAgentType>()
-			.oneOf(Object.values(ProxyUserAgentType))
+			.mixed<ImageProxyUserAgentType>()
+			.oneOf(Object.values(ImageProxyUserAgentType))
 			.required()
 			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
 	})

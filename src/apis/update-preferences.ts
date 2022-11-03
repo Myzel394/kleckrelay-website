@@ -1,8 +1,4 @@
-import {
-	ImageProxyFormatType,
-	ProxyUserAgentType,
-	SimpleDetailResponse,
-} from "~/server-types"
+import {ImageProxyFormatType, ImageProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 export interface UpdatePreferencesData {
@@ -10,7 +6,7 @@ export interface UpdatePreferencesData {
 	aliasCreateMailReport?: boolean
 	aliasProxyImages?: boolean
 	aliasImageProxyFormat?: ImageProxyFormatType
-	aliasImageProxyUserAgent?: ProxyUserAgentType
+	aliasImageProxyUserAgent?: ImageProxyUserAgentType
 }
 
 export default async function updatePreferences(

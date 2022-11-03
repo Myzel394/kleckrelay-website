@@ -1,4 +1,4 @@
-import {Alias, AliasType, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
+import {Alias, AliasType, ImageProxyFormatType, ImageProxyUserAgentType} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 interface CreateAliasDataOther {
@@ -9,7 +9,7 @@ interface CreateAliasDataOther {
 	prefCreateMailReport?: boolean
 	prefProxyImages?: boolean
 	prefImageProxyFormat?: ImageProxyFormatType
-	prefImageProxyUserAgent?: ProxyUserAgentType
+	prefImageProxyUserAgent?: ImageProxyUserAgentType
 }
 
 interface CreateAliasDataBase extends CreateAliasDataOther {

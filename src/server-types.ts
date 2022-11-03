@@ -4,7 +4,7 @@ export enum ImageProxyFormatType {
 	JPEG = "jpeg",
 }
 
-export enum ProxyUserAgentType {
+export enum ImageProxyUserAgentType {
 	APPLE_MAIL = "apple-mail",
 	GOOGLE_MAIL = "google-mail",
 	OUTLOOK_WINDOWS = "outlook-windows",
@@ -48,7 +48,7 @@ export interface ServerUser {
 		aliasCreateMailReport: boolean
 		aliasProxyImages: boolean
 		aliasImageProxyFormat: ImageProxyFormatType
-		aliasImageProxyUserAgent: ProxyUserAgentType
+		aliasImageProxyUserAgent: ImageProxyUserAgentType
 	}
 }
 
@@ -89,7 +89,7 @@ export interface Alias {
 	prefCreateMailReport: boolean | null
 	prefProxyImages: boolean | null
 	prefImageProxyFormat: ImageProxyFormatType | null
-	prefImageProxyUserAgent: ProxyUserAgentType | null
+	prefImageProxyUserAgent: ImageProxyUserAgentType | null
 }
 
 export interface AliasNote {
