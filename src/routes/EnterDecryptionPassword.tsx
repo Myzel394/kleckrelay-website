@@ -61,6 +61,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 					<PasswordField
 						key="password"
 						fullWidth
+						autoFocus
 						name="password"
 						id="password"
 						label={t("components.EnterDecryptionPassword.form.password.label")}
