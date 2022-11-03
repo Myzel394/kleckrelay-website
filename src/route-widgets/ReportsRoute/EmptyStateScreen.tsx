@@ -9,7 +9,15 @@ export default function EmptyStateScreen(): ReactElement {
 	const {t} = useTranslation()
 
 	return (
-		<Grid container spacing={4} direction="column" alignItems="center">
+		<Grid
+			container
+			spacing={4}
+			direction="column"
+			alignItems="center"
+			maxWidth="60%"
+			alignSelf="center"
+			marginX="auto"
+		>
 			<Grid item>
 				<Typography variant="h6" component="h2">
 					{t("routes.ReportsRoute.emptyState.title")}
