@@ -41,6 +41,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 
 	const logout = useCallback(async (forceLogout = true) => {
 		setUser(null)
+		setDecryptionPassword(null)
 
 		if (forceLogout) {
 			await logoutUser()
