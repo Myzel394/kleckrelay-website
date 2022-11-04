@@ -3,12 +3,15 @@ import {useNavigate} from "react-router-dom"
 import {useUpdateEffect} from "react-use"
 
 import {MultiStepForm} from "~/components"
+import {useQueryParams} from "~/hooks"
 import AuthContext from "~/AuthContext/AuthContext"
 import ConfirmCodeForm from "~/route-widgets/LoginRoute/ConfirmCodeForm/ConfirmCodeForm"
+import ConfirmFromDifferentDevice from "~/route-widgets/LoginRoute/ConfirmFromDifferentDevice"
 import EmailForm from "~/route-widgets/LoginRoute/EmailForm"
 
 export default function LoginRoute(): ReactElement {
 	const navigate = useNavigate()
+	const {token, email: queryEmail} = useQueryParams<{token: string; email: string}>()
 	const {login, user} = useContext(AuthContext)
 
 	const [email, setEmail] = useState<string>("")
@@ -25,6 +28,10 @@ export default function LoginRoute(): ReactElement {
 			navigate("/")
 		}
 	}, [user?.encryptedPassword])
+
+	if (token && queryEmail) {
+		return <ConfirmFromDifferentDevice email={queryEmail} token={token} onConfirm={login} />
+	}
 
 	return (
 		<MultiStepForm

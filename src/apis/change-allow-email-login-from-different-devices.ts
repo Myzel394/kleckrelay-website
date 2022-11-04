@@ -15,7 +15,7 @@ export default async function changeAllowEmailLoginFromDifferentDevices({
 	const {data} = await client.patch(
 		`${
 			import.meta.env.VITE_SERVER_BASE_URL
-		}/auth/login/email-token/allow-email-login-from-different-devices`,
+		}/auth/login/email-token/allow-login-from-different-devices`,
 		{
 			email,
 			sameRequestToken,

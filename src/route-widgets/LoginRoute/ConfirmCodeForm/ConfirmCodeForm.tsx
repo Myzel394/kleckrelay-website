@@ -1,6 +1,6 @@
 import * as yup from "yup"
 import {AxiosError} from "axios"
-import {ReactElement} from "react"
+import {ReactElement, useState} from "react"
 import {useFormik} from "formik"
 import {FaHashtag} from "react-icons/fa"
 import {MdChevronRight, MdMail} from "react-icons/md"
@@ -8,13 +8,27 @@ import {useLoaderData} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 
 import {useMutation} from "@tanstack/react-query"
-import {Box, Grid, InputAdornment, TextField, Typography} from "@mui/material"
+import {
+	Box,
+	FormControlLabel,
+	Grid,
+	InputAdornment,
+	Switch,
+	TextField,
+	Typography,
+} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {AuthenticationDetails, ServerSettings, ServerUser} from "~/server-types"
+import {
+	AuthenticationDetails,
+	ServerSettings,
+	ServerUser,
+	SimpleDetailResponse,
+} from "~/server-types"
 import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
 import {parseFastAPIError} from "~/utils"
+import changeAllowEmailLoginFromDifferentDevices from "~/apis/change-allow-email-login-from-different-devices"
 
 import ResendMailButton from "./ResendMailButton"
 
@@ -84,6 +98,25 @@ export default function ConfirmCodeForm({
 			}
 		},
 	})
+	const [allowLoginFromDifferentDevices, setAllowLoginFromDifferentDevices] =
+		useState<boolean>(false)
+	const {mutateAsync: changeAllowLoginFromDifferentDevice, isLoading} = useMutation<
+		SimpleDetailResponse,
+		AxiosError,
+		boolean
+	>(
+		allow =>
+			changeAllowEmailLoginFromDifferentDevices({
+				allow,
+				email,
+				sameRequestToken,
+			}),
+		{
+			onSuccess: (_, allow) => {
+				setAllowLoginFromDifferentDevices(allow)
+			},
+		},
+	)
 
 	return (
 		<MultiStepFormElement>
@@ -111,25 +144,49 @@ export default function ConfirmCodeForm({
 						</Typography>
 					</Grid>
 					<Grid item>
-						<TextField
-							key="code"
-							fullWidth
-							name="code"
-							id="code"
-							label={t("routes.LoginRoute.forms.confirmCode.form.code.label")}
-							value={formik.values.code}
-							onChange={formik.handleChange}
-							disabled={formik.isSubmitting}
-							error={formik.touched.code && Boolean(formik.errors.code)}
-							helperText={formik.touched.code && formik.errors.code}
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<FaHashtag />
-									</InputAdornment>
-								),
-							}}
-						/>
+						<Grid container spacing={2} direction="column">
+							<Grid item>
+								<FormControlLabel
+									disabled={isLoading}
+									control={
+										<Switch
+											disabled={isLoading}
+											checked={allowLoginFromDifferentDevices}
+											onChange={() =>
+												changeAllowLoginFromDifferentDevice(
+													!allowLoginFromDifferentDevices,
+												)
+											}
+										/>
+									}
+									labelPlacement="end"
+									label={t(
+										"routes.LoginRoute.forms.confirmCode.allowLoginFromDifferentDevices",
+									)}
+								/>
+							</Grid>
+							<Grid item>
+								<TextField
+									key="code"
+									fullWidth
+									name="code"
+									id="code"
+									label={t("routes.LoginRoute.forms.confirmCode.form.code.label")}
+									value={formik.values.code}
+									onChange={formik.handleChange}
+									disabled={formik.isSubmitting}
+									error={formik.touched.code && Boolean(formik.errors.code)}
+									helperText={formik.touched.code && formik.errors.code}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<FaHashtag />
+											</InputAdornment>
+										),
+									}}
+								/>
+							</Grid>
+						</Grid>
 					</Grid>
 					<Grid item>
 						<Grid width="100%" container display="flex" justifyContent="space-between">

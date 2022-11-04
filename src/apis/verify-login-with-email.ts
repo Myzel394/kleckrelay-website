@@ -5,7 +5,7 @@ import parseUser from "~/apis/helpers/parse-user"
 export interface VerifyLoginWithEmailData {
 	email: string
 	token: string
-	sameRequestToken: string
+	sameRequestToken?: string
 }
 
 export default async function verifyLoginWithEmail({

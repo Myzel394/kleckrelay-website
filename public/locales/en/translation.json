@@ -35,6 +35,7 @@
                     "title": "You got mail!",
                     "description": "We sent you a code to your email. Enter it below to login",
                     "continueAction": "Log in",
+                    "allowLoginFromDifferentDevices": "Allow login from different devices",
                     "form": {
                         "code": {
                             "label": "Verification Code",
@@ -43,6 +44,10 @@
                             }
                         }
                     }
+                },
+                "confirmFromDifferentDevice": {
+                    "title": "Login failed",
+                    "description": "You could not be logged in. This could either be because you are not allowed to login from different devices or the verification code is invalid or expired."
                 }
             }
         },
