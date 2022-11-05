@@ -56,6 +56,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 				cancelActionLabel={t("components.EnterDecryptionPassword.cancelAction")}
 				continueActionLabel={t("components.EnterDecryptionPassword.continueAction")}
 				isSubmitting={formik.isSubmitting}
+				onCancel={navigateToNext}
 			>
 				{[
 					<PasswordField

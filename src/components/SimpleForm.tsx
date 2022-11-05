@@ -17,6 +17,7 @@ export interface SimpleFormProps {
 	titleVariant?: TypographyProps["variant"]
 	titleComponent?: OverrideProps<any, any>["component"]
 	nonFieldError?: string
+	onCancel?: () => void
 }
 
 export default function SimpleForm({
@@ -26,6 +27,7 @@ export default function SimpleForm({
 	continueActionLabel,
 	cancelActionLabel,
 	nonFieldError,
+	onCancel,
 	titleVariant = "h4",
 	titleComponent = "h1",
 	isSubmitting = false,
@@ -80,12 +82,13 @@ export default function SimpleForm({
 				)}
 				<Grid item>
 					<Grid container justifyContent={cancelActionLabel ? "space-between" : "center"}>
-						{cancelActionLabel && (
+						{cancelActionLabel && onCancel && (
 							<Grid item>
 								<Button
 									disabled={isSubmitting}
 									startIcon={<TiCancel />}
 									color="secondary"
+									onClick={onCancel}
 								>
 									{cancelActionLabel}
 								</Button>
