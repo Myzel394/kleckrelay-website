@@ -13,7 +13,7 @@ export default async function updatePreferences(
 	updateData: UpdatePreferencesData,
 ): Promise<SimpleDetailResponse> {
 	const {data} = await client.patch(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/preferences`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/preferences`,
 		updateData,
 		{
 			withCredentials: true,

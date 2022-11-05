@@ -11,9 +11,7 @@ export default async function resendEmailLoginCode({
 	sameRequestToken,
 }: ResendEmailLoginCodeData): Promise<SimpleDetailResponse> {
 	const {data} = await client.post(
-		`${
-			import.meta.env.VITE_SERVER_BASE_URL
-		}/auth/login/email-token/resend-email`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/login/email-token/resend-email`,
 		{
 			email,
 			sameRequestToken,

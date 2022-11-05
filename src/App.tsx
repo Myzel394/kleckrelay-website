@@ -24,6 +24,7 @@ import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
+import OverviewRoute from "~/routes/OverviewRoute"
 import "./init-i18n"
 
 const router = createBrowserRouter([
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
 				path: "/",
 				element: <AuthenticatedRoute />,
 				children: [
+					{
+						path: "/",
+						element: <OverviewRoute />,
+					},
 					{
 						loader: getServerSettings,
 						path: "/aliases",

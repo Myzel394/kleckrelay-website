@@ -14,7 +14,7 @@ export default async function verifyLoginWithEmail({
 	sameRequestToken,
 }: VerifyLoginWithEmailData): Promise<AuthenticationDetails> {
 	const {data} = await client.post(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/login/email-token/verify`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/login/email-token/verify`,
 		{
 			email,
 			token,

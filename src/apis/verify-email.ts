@@ -12,7 +12,7 @@ export default async function verifyEmail({
 	token,
 }: VerifyEmailData): Promise<AuthenticationDetails> {
 	const {data} = await client.post(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/verify-email`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/verify-email`,
 		{
 			email: email,
 			token: token,

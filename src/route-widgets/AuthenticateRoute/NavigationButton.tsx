@@ -3,11 +3,12 @@ import {BiStats} from "react-icons/bi"
 import {MdSettings} from "react-icons/md"
 import {FaMask} from "react-icons/fa"
 import {Link as RouterLink, useLocation} from "react-router-dom"
+import {useTranslation} from "react-i18next"
 
 import {Button} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import {useTranslation} from "react-i18next"
 import Icon from "@mdi/react"
+
 import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
 
 export enum NavigationSection {
@@ -42,9 +43,7 @@ const PATH_SECTION_MAP: Record<string, NavigationSection> = {
 	settings: NavigationSection.Settings,
 }
 
-export default function NavigationButton({
-	section,
-}: NavigationButtonProps): ReactElement {
+export default function NavigationButton({section}: NavigationButtonProps): ReactElement {
 	const {t} = useTranslation()
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const location = useLocation()
@@ -61,9 +60,8 @@ export default function NavigationButton({
 			startIcon={Icon}
 			component={RouterLink}
 			to={
-				Object.keys(PATH_SECTION_MAP).find(
-					path => PATH_SECTION_MAP[path] === section,
-				) ?? "/"
+				Object.keys(PATH_SECTION_MAP).find(path => PATH_SECTION_MAP[path] === section) ??
+				"/"
 			}
 			onClick={handleAnchorClick}
 		>

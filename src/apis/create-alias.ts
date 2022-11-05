@@ -30,9 +30,13 @@ interface CreateAliasDataCustomType extends CreateAliasDataBase {
 export type CreateAliasData = CreateAliasDataRandomType | CreateAliasDataCustomType
 
 export default async function createAlias(aliasData: CreateAliasData): Promise<Alias> {
-	const {data} = await client.post(`${import.meta.env.VITE_SERVER_BASE_URL}/alias`, aliasData, {
-		withCredentials: true,
-	})
+	const {data} = await client.post(
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/alias`,
+		aliasData,
+		{
+			withCredentials: true,
+		},
+	)
 
 	return data
 }

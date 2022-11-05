@@ -13,7 +13,7 @@ export default async function updateAccount(
 	updateData: UpdateAccountData,
 ): Promise<AuthenticationDetails> {
 	const {data} = await client.patch(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/account`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/account`,
 		updateData,
 		{
 			withCredentials: true,

@@ -1,10 +1,8 @@
-import {MinimumServerResponse} from "~/server-types"
 import {client} from "~/constants/axios-client"
+import {SimpleDetailResponse} from "~/server-types"
 
 export default async function logout(): Promise<SimpleDetailResponse> {
-	const {data} = await client.post(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/logout`,
-	)
+	const {data} = await client.post(`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/logout`)
 
 	return data
 }

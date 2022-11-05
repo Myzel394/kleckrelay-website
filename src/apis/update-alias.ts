@@ -13,7 +13,7 @@ export interface UpdateAliasData {
 
 export default async function updateAlias(id: string, updateData: UpdateAliasData): Promise<Alias> {
 	const {data} = await client.patch(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/alias/${id}`,
+		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/alias/${id}`,
 		updateData,
 		{
 			withCredentials: true,

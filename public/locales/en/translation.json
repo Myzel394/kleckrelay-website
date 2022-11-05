@@ -18,6 +18,10 @@
     },
 
     "routes": {
+        "OverviewRoute": {
+            "title": "Overview",
+            "description": "Not much to see here, yet."
+        },
         "LoginRoute": {
             "forms": {
                 "email": {

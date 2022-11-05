@@ -5,12 +5,9 @@ export interface SignupResult {
 }
 
 export default async function signup(email: string): Promise<SignupResult> {
-	const {data} = await client.post(
-		`${import.meta.env.VITE_SERVER_BASE_URL}/auth/signup`,
-		{
-			email,
-		},
-	)
+	const {data} = await client.post(`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/signup`, {
+		email,
+	})
 
 	return data
 }
