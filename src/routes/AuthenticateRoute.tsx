@@ -5,6 +5,8 @@ import {useTranslation} from "react-i18next"
 
 import {Box, Button, Grid} from "@mui/material"
 
+import {LanguageButton} from "~/components"
+
 export default function AuthenticateRoute(): ReactElement {
 	const {t} = useTranslation()
 
@@ -18,7 +20,13 @@ export default function AuthenticateRoute(): ReactElement {
 		>
 			<div />
 			<Outlet />
-			<Grid container spacing={2} justifyContent="center" marginBottom={2}>
+			<Grid
+				container
+				spacing={2}
+				justifyContent="center"
+				alignItems="center"
+				marginBottom={2}
+			>
 				<Grid item>
 					<Button
 						component={RouterLink}
@@ -40,6 +48,9 @@ export default function AuthenticateRoute(): ReactElement {
 					>
 						{t("components.AuthenticateRoute.login")}
 					</Button>
+				</Grid>
+				<Grid item>
+					<LanguageButton />
 				</Grid>
 			</Grid>
 		</Box>

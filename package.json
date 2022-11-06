@@ -34,6 +34,7 @@
     "notistack": "^2.0.8",
     "openpgp": "^5.5.0",
     "react": "^18.2.0",
+    "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
     "react-icons": "^4.4.0",

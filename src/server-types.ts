@@ -19,7 +19,8 @@ export enum AliasType {
 }
 
 export enum Language {
-	EN_US = "en_US",
+	EN_US = "en-US",
+	DE_DE = "de-DE",
 }
 
 export enum Theme {
@@ -159,8 +160,7 @@ export interface UserNote {
 	privateKey: string
 }
 
-export interface User
-	extends Omit<ServerUser, "encryptedNotes" | "isDecrypted"> {
+export interface User extends Omit<ServerUser, "encryptedNotes" | "isDecrypted"> {
 	notes: UserNote
 	isDecrypted: true
 }

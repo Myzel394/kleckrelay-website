@@ -1,7 +1,10 @@
 import {TiCancel} from "react-icons/ti"
-import {ReactNode, useMemo, useState} from "react"
+import {ReactNode, useMemo, useRef, useState} from "react"
 import {useNavigate} from "react-router-dom"
 import {MdLogout} from "react-icons/md"
+
+import {useTranslation} from "react-i18next"
+import LockNavigationContext, {LockNavigationContextType} from "./LockNavigationContext"
 
 import {
 	Button,
@@ -12,10 +15,6 @@ import {
 	DialogTitle,
 } from "@mui/material"
 
-import LockNavigationContext, {
-	LockNavigationContextType,
-} from "./LockNavigationContext"
-
 export interface LockNavigationContextProviderProps {
 	children: ReactNode
 }
@@ -23,12 +22,39 @@ export interface LockNavigationContextProviderProps {
 export default function LockNavigationContextProvider({
 	children,
 }: LockNavigationContextProviderProps): JSX.Element {
+	const {t} = useTranslation()
 	const navigate = useNavigate()
 
 	const [isLocked, setIsLocked] = useState<boolean>(false)
 	const [nextPath, setNextPath] = useState<string | null>(null)
+	const [showDialog, setShowDialog] = useState<boolean>(false)
 
-	const showDialog = Boolean(nextPath)
+	const $continueFunction = useRef<(() => void) | null>(null)
+	const $cancelFunction = useRef<(() => void) | null>(null)
+
+	const cancel = () => {
+		setNextPath(null)
+		setShowDialog(false)
+
+		$cancelFunction.current?.()
+		$continueFunction.current = null
+		$cancelFunction.current = null
+	}
+	const leave = () => {
+		setShowDialog(false)
+		setIsLocked(false)
+
+		$continueFunction.current?.()
+		$continueFunction.current = null
+		$cancelFunction.current = null
+
+		if (nextPath) {
+			const path = new URL(nextPath as string).pathname
+			navigate(path)
+		}
+
+		setNextPath(null)
+	}
 
 	const value = useMemo(
 		(): LockNavigationContextType => ({
@@ -36,8 +62,10 @@ export default function LockNavigationContextProvider({
 			navigate: (path: string) => {
 				if (isLocked) {
 					setNextPath(path)
+					setShowDialog(true)
 				} else {
 					setNextPath(null)
+					setShowDialog(false)
 					navigate(path)
 				}
 			},
@@ -45,10 +73,20 @@ export default function LockNavigationContextProvider({
 				if (isLocked) {
 					event.preventDefault()
 					setNextPath(event.currentTarget.href)
+					setShowDialog(true)
 				}
 			},
 			lock: () => setIsLocked(true),
-			release: () => setIsLocked(false),
+			release: () => {
+				setIsLocked(false)
+				setShowDialog(false)
+			},
+			showDialog: () =>
+				new Promise((resolve, reject) => {
+					setShowDialog(true)
+					$continueFunction.current = resolve
+					$cancelFunction.current = reject
+				}),
 		}),
 		[isLocked],
 	)
@@ -58,31 +96,19 @@ export default function LockNavigationContextProvider({
 			<LockNavigationContext.Provider value={value}>
 				{children}
 			</LockNavigationContext.Provider>
-			<Dialog open={showDialog} onClose={() => setNextPath(null)}>
-				<DialogTitle>Are you sure you want to go?</DialogTitle>
+			<Dialog open={showDialog} onClose={cancel}>
+				<DialogTitle>{t("components.LockNavigationContextProvider.title")}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						You have unsaved changes. If you leave this page, your
-						changes will be lost.
+						{t("components.LockNavigationContextProvider.description")}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button
-						startIcon={<TiCancel />}
-						onClick={() => setNextPath(null)}
-					>
-						Cancel
+					<Button startIcon={<TiCancel />} onClick={cancel}>
+						{t("general.cancelLabel")}
 					</Button>
-					<Button
-						startIcon={<MdLogout />}
-						onClick={() => {
-							const path = new URL(nextPath as string).pathname
-							setNextPath(null)
-							setIsLocked(false)
-							navigate(path)
-						}}
-					>
-						Leave
+					<Button startIcon={<MdLogout />} onClick={leave}>
+						{t("components.LockNavigationContextProvider.continueLabel")}
 					</Button>
 				</DialogActions>
 			</Dialog>

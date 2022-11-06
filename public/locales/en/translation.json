@@ -182,7 +182,7 @@
             "title": "Reports",
             "emptyState": {
                 "title": "Welcome to your Reports!",
-                "description": "Here you will find your email reports. Currently, you don't have any reports. Wait until you receive an email"
+                "description": "Here you will find your email reports. Currently, you don't have any reports. Wait until you receive an email."
             },
             "pageActions": {
                 "sort": {
@@ -225,11 +225,11 @@
                         },
                         "proxiedImages": {
                             "text_zero": "No images found",
-                            "text_one": "Proxying 1 image",
-                            "text_other": "Proxying {{count}} images",
+                            "text_one": "Forwarding 1 image",
+                            "text_other": "Forwarding {{count}} images",
                             "status": {
                                 "isStored": "Stored on Server",
-                                "isProxying": "Proxying image"
+                                "isProxying": "Being forwarded"
                             }
                         }
                     }
@@ -241,7 +241,7 @@
             "forms": {
                 "aliasPreferences": {
                     "title": "Alias Preferences",
-                    "description": "Select the default behavior for your aliases. This will only affect aliases that do not have a custom behavior set.",
+                    "description": "Select default values for your aliases. This only affects aliases you haven't set a custom value for.",
                     "saveAction": "Save preferences"
                 }
             }
@@ -313,6 +313,11 @@
         "NoSearchResults": {
             "title": "Nothing found",
             "description": "We couldn't find anything for your search query. Try again with a different query."
+        },
+        "LockNavigationContextProvider": {
+            "title": "Are you sure you want to leave?",
+            "description": "You have unsaved changes. If you leave, your changes will be lost.",
+            "continueLabel": "Leave"
         }
     },
 
@@ -339,7 +344,7 @@
                 },
                 "proxyImages": {
                     "label": "Proxy Images",
-                    "helperText": "Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the original server has no idea you have opened the mail. After the cache time, the image is loaded from the original server, but it gets proxied by us. This means the original server will not be able to access neither your IP address nor your user agent."
+                    "helperText": "Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the sender has no idea you have opened the mail. After the cache time, the image is loaded from the sender, but it will be forwarded by us. This means the sender will not be able to access your IP address nor your browser data."
                 },
                 "imageProxyFormat": {
                     "label": "Image File Type",
@@ -351,7 +356,7 @@
                 },
                 "imageProxyUserAgent": {
                     "label": "Image Proxy User Agent",
-                    "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used by the proxy. User Agents are kept up-to-date.",
+                    "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used when we forward it. User Agents are kept up-to-date.",
                     "enumTexts": {
                         "apple-mail": "Apple Mail",
                         "google-mail": "Google Mail",

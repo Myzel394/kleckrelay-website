@@ -6,6 +6,7 @@ export interface LockNavigationContextType {
 	release: () => void
 	navigate: (path: string) => void
 	handleAnchorClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
+	showDialog: () => Promise<void>
 }
 
 const LockNavigationContext = createContext<LockNavigationContextType>({
@@ -21,6 +22,9 @@ const LockNavigationContext = createContext<LockNavigationContextType>({
 	},
 	handleAnchorClick: () => {
 		throw new Error("handleAnchorClick() not implemented")
+	},
+	showDialog: () => {
+		throw new Error("showDialog() not implemented")
 	},
 })
 

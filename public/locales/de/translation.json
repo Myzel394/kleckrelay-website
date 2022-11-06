@@ -1,0 +1,384 @@
+{
+    "general": {
+        "cancelLabel": "Abbrechen",
+        "emptyValue": "-",
+        "emptyUnavailableValue": "Nicht verfügbar",
+
+        "defaultValueSelection": "Standard <{{value}}>",
+        "defaultValueSelectionRaw": "<{{value}}>",
+        "booleanSelection": {
+            "true": "Ja",
+            "false": "Nein"
+        },
+        "defaultError": "Ein Fehler ist aufgetreten.",
+        "defaultSuccess": "Erfolgreich übernommen!",
+        "loading": "Lädt...",
+        "actionNotUndoable": "Diese Aktion kann nicht rückgängig gemacht werden!",
+        "copyError": "Konnte nicht in Zwischenable kopieren. Bitte kopiere den Text manuell."
+    },
+
+    "routes": {
+        "OverviewRoute": {
+            "title": "Überblick",
+            "description": "Nicht viel zu sehen hier, bisher."
+        },
+        "LoginRoute": {
+            "forms": {
+                "email": {
+                    "title": "Anmelden",
+                    "description": "Wir senden dir einen Verifizierungscode an deine E-Mail Adresse.",
+                    "continueAction": "Code senden",
+                    "form": {
+                        "email": {
+                            "label": "E-Mail",
+                            "placeholder": "maxmustermann@example.com"
+                        }
+                    }
+                },
+                "confirmCode": {
+                    "title": "Du hast Mail!",
+                    "description": "Wir haben einen Code an deine E-Mail gesendet. Gib ihn hier ein, um dich anzumelden.",
+                    "continueAction": "Anmelden",
+                    "allowLoginFromDifferentDevices": "Anmelden von anderen Geräten erlauben",
+                    "form": {
+                        "code": {
+                            "label": "Verifizierungscode",
+                            "errors": {
+                                "invalidChars": "Ungültiger Verifizierungscode"
+                            }
+                        }
+                    }
+                },
+                "confirmFromDifferentDevice": {
+                    "title": "Anmelden fehlgeschlagen",
+                    "description": "Du konntest nicht angemeldet werden. Dies könnte daran legen, dass du Anmeldeungen aus anderen Geräten nicht aktiviert hast oder der Verifizierungscode inkorrekt oder abgelaufen ist."
+                }
+            }
+        },
+        "SignupRoute": {
+            "forms": {
+                "email": {
+                    "title": "Registrieren",
+                    "description": "Wir brauchen nur deine E-Mail und du kannst direkt loslegen!",
+                    "continueAction": "Weiter",
+                    "form": {
+                        "email": {
+                            "label": "E-Mail",
+                            "placeholder": "maxmustermann@example.com"
+                        }
+                    }
+                },
+                "mailVerification": {
+                    "title": "Du hast Mail!",
+                    "description": "Wir haben dir eine E-Mail mit einem Link geschickt, um deinen Account zu verifizieren. Bitte überprüfe deine E-Mails und klicke auf den Link, um fortzufahren.",
+                    "editEmail": {
+                        "title": "E-Mail ändern?",
+                        "description": "Möchtest du einen Schritt zurückgehen um deine E-Mail zu ändern?",
+                        "continueAction": "Ja, E-Mail ändern"
+                    }
+                }
+            }
+        },
+        "VerifyEmailRoute": {
+            "title": "Bestätige deine E-Mail",
+            "isLoading": "Deine E-Mail wird bestätigt...",
+            "isCodeInvalid": "Der Verifizierungscode ist ungültig oder abgelaufen.",
+            "errors": {
+                "code": {
+                    "invalid": "Dieser Verifizierungscode ist ungültig"
+                }
+            }
+        },
+        "CompleteAccountRoute": {
+            "forms": {
+                "generateReports": {
+                    "title": "E-Mail-Berichte aktivieren?",
+                    "description": "Möchtest du vollständig verschlüsselte Berichte für deine E-Mails erstellen lassen? Nur du wirst sie entschlüsseln können. Selbst wir können sie nicht entschlüsseln.",
+                    "continueAction": "Ja",
+                    "cancelAction": "Nein"
+                },
+                "password": {
+                    "title": "Passwort festlegen",
+                    "description": "Bitte gib ein sicheres Passwort ein, damit wir deine Berichte verschlüsseln können.",
+                    "continueAction": "Weiter",
+                    "form": {
+                        "password": {
+                            "label": "Passwort",
+                            "placeholder": "********"
+                        },
+                        "passwordConfirm": {
+                            "label": "Passwort bestätigen",
+                            "placeholder": "Gib dein Passwort erneut ein",
+                            "mustMatchHelperText": "Passwörter stimmen nicht überein."
+                        }
+                    }
+                },
+                "available": {
+                    "title": "Verschlüsselung bereits eingestellt",
+                    "description": "Du hast die Verschlüsselung bereits eingestellt. Passwörter können momentan noch nicht geändert werden."
+                }
+            }
+        },
+        "AliasesRoute": {
+            "title": "Aliase",
+            "isInCopyMode": "Du bist im Kopier-Modus. Klicke auf einen Alias um ihn in deine Zwischenablage zu kopieren.",
+            "emptyState": {
+                "title": "Willkommen zu deinen Aliases!",
+                "description": "Erstelle dein erstes Alias, um loszulegen."
+            },
+            "pageActions": {
+                "search": {
+                    "label": "Suche",
+                    "placeholder": "Suche nach Namen"
+                }
+            },
+            "actions": {
+                "createRandomAlias": {
+                    "label": "Zufälliges Alias erstellen"
+                },
+                "createCustomAlias": {
+                    "label": "Eigenes Alias erstellen",
+                    "description": "Du kannst dein eigenes Alias erstellen. Beachte das ein zufälliges Suffix angehangen wird, um Duplikate zu vermeiden.",
+                    "continueAction": "Alias erstellen",
+                    "form": {
+                        "address": {
+                            "label": "Adresse",
+                            "placeholder": "awesome-fish"
+                        }
+                    }
+                }
+            }
+        },
+        "AliasDetailRoute": {
+            "title": "Alias-Details",
+            "sections": {
+                "settings": {
+                    "title": "Einstellungen",
+                    "description": "Diese Einstellungen gelten nur für dieses Alias. Du kannst entweder einen manuellen Wert einstellen oder auf deine Standard-Werte verweisen. Beachte das dieser Wert das Verhalten ändert. Wenn du auf einen Standard-Wert verweist, verwendet dein Alias immer den aktuellsten Wert. Wenn du also deine Standard-Werte änderst, übernimmt dein Alias diese Änderungen."
+                },
+                "notes": {
+                    "title": "Notizen",
+                    "form": {
+                        "createdAt": {
+                            "label": "Erstellungsdatum",
+                            "empty": "Nicht verfügbar"
+                        },
+                        "personalNotes": {
+                            "label": "Persönliche Notizen",
+                            "empty": "-",
+                            "helperText": "Hier kannst du persönliche Notizen für dieses Alias eingeben. Notizen sind verschlüsselt."
+                        },
+                        "websites": {
+                            "label": "Webseiten",
+                            "emptyText": "Du hast dieses Alias auf keiner Webseite bisher genutzt.",
+                            "placeholder": "https://example.com",
+                            "helperText": "Füge eine Webseite zu diesem Alias hinzu. Wird verwendet um automatisch E-Mail-Felder auszufüllen."
+                        }
+                    }
+                }
+            }
+        },
+        "ReportsRoute": {
+            "title": "Berichte",
+            "emptyState": {
+                "title": "Willkommen zu deinen Berichten!",
+                "description": "Hier kannst du deine E-Mail-Berichte finden. Momentan sind noch keine Berichte verfügbar. Warte, bis du eine E-Mail erhalten hast."
+            },
+            "pageActions": {
+                "sort": {
+                    "List": "Berichte anhand ihrer Daten auflisten",
+                    "GroupByAlias": "Berichte nach Alias gruppieren"
+                }
+            }
+        },
+        "ReportDetailRoute": {
+            "title": "Bericht-Details",
+            "actions": {
+                "delete": {
+                    "label": "Bericht löschen",
+                    "description": "Bist du dir sicher, dass du diesen Bericht löschen möchtest?",
+                    "continueAction": "Bericht löschen"
+                }
+            },
+            "sections": {
+                "information": {
+                    "title": "Email-Informationen",
+                    "form": {
+                        "from": {
+                            "label": "Von"
+                        },
+                        "to": {
+                            "label": "Zu"
+                        },
+                        "subject": {
+                            "label": "Betreff"
+                        }
+                    }
+                },
+                "trackers": {
+                    "title": "Tracker",
+                    "results": {
+                        "imageTrackers": {
+                            "text_zero": "Keine Bild-Tracker gefunden",
+                            "text_one": "Ein Bild-Tracker entfernt",
+                            "text_other": "{{count}} Bild-Tracker entfernt"
+                        },
+                        "proxiedImages": {
+                            "text_zero": "Keine Bilder gefunden",
+                            "text_one": "Ein Bild wird weitergeleitet",
+                            "text_other": "{{count}} Bilder werden weitergeleitet",
+                            "status": {
+                                "isStored": "Auf Server gespeichert",
+                                "isProxying": "Wird weitergeleitet"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "SettingsRoute": {
+            "title": "Einstellungen",
+            "forms": {
+                "aliasPreferences": {
+                    "title": "Alias-Präferenzen",
+                    "description": "Wähle die Standard-Werte für deine Aliase aus. Dies betrifft nur Aliase, bei denen du keinen manuellen Wert gesetzt hast.",
+                    "saveAction": "Präferenzen speichern"
+                }
+            }
+        },
+        "LogoutRoute": {
+            "title": "Abmelden",
+            "description": "Wir sind dich am abmelden..."
+        }
+    },
+
+    "components": {
+        "NavigationButton": {
+            "overview": "Überblibkc",
+            "aliases": "Aliase",
+            "reports": "Berichte",
+            "settings": "Einstellungen"
+        },
+        "AuthenticateRoute": {
+            "signup": "Registrieren",
+            "login": "Anmelden"
+        },
+        "AuthenticatedRoute": {
+            "logout": "Abmelden"
+        },
+        "EnterDecryptionPassword": {
+            "title": "Berichte entschlüsseln",
+            "description": "Bitte gib dein Passwort ein, damit deine Berichte entschlüsselt werden können.",
+            "cancelAction": "Später entschlüsseln",
+            "continueAction": "Weiter",
+            "form": {
+                "password": {
+                    "label": "Passwort",
+                    "placeholder": "********",
+                    "errors": {
+                        "invalidPassword": "Das Passwort ist ungültig"
+                    }
+                }
+            }
+        },
+        "ResendMailButton": {
+            "label": "E-Mail erneut senden"
+        },
+        "OpenMailButton": {
+            "label": "E-Mail öffnen"
+        },
+        "DecryptionPasswordMissingAlert": {
+            "unavailable": {
+                "title": "Verschlüsselung benötigt",
+                "description": "Du musst die Verschlüsselung aktivieren, um dieses Feature nutzen zu können.",
+                "continueAction": "Verschlüsselung aktivieren"
+            },
+            "passwordRequired": {
+                "title": "Passwort benötigt",
+                "description": "Dein Passwort wird benötigt, um dieses Feature nutzen zu können.",
+                "continueAction": "Passwort eingeben"
+            }
+        },
+        "TimedButton": {
+            "remainingTime_one": "({{count}})",
+            "remainingTime_other": "({{count}})"
+        },
+        "ErrorLoadingDataMessage": {
+            "tryAgain": "Neu laden"
+        },
+        "AliasTypeIndicator": {
+            "random": "Dies ist ein zufällig-generiertes Alias",
+            "custom": "Dies ist ein benutzerdefiniertes Alias"
+        },
+        "NoSearchResults": {
+            "title": "Keine Ergebnisse gefunden",
+            "description": "Wir konnten keine Ergebnisse für diese Suche finden. Versuche es mit einem anderen Suchbegriff."
+        },
+        "LockNavigationContextProvider": {
+            "title": "Möchtest du wirklich die Seite verlassen?",
+            "description": "Du hast Änderungen, welche noch nicht gespeichert wurden. Wenn du jetzt diese Seite verlässt, gehen deine Änderungen verloren.",
+            "continueLabel": "Verlassen"
+        }
+    },
+
+    "relations": {
+        "alias": {
+            "mutations": {
+                "success": {
+                    "aliasCreation": "Alias wurde erfolgreich erstellt!",
+                    "aliasUpdated": "Alias wurde erfolgreich upgedatet!",
+                    "notesUpdated": "Notizen wurden erfolgreich upgedated & verschlüsselt!",
+                    "aliasChangedToEnabled": "Alias wurde aktiviert",
+                    "aliasChangedToDisabled": "Alias wurde deaktiviert",
+                    "addressCopiedToClipboard": "E-Mail-Adresse wurde in deine Zwischenablage kopiert!"
+                }
+            },
+            "settings": {
+                "removeTrackers": {
+                    "label": "Tracker entfernen",
+                    "helperText": "Entferne Einzelpixel-Tracker und URL-Tracker"
+                },
+                "createMailReports": {
+                    "label": "E-Mail-Berichte erstellen",
+                    "helperText": "Erstelle Berichte von E-Mails, die an Aliase gesendet werden. Berichte sind Ende-zu-Ende verschlüsselt. Nur du kannst sie entschlüsseln."
+                },
+                "proxyImages": {
+                    "label": "Bilder weiterleiten",
+                    "helperText": "Leitet Bilder durch diese KleckRelay-Instanz weiter. Dies stellt einen weiteren Schutz deiner Privatspähre dar. Bilder werden direkt runtergeladen nachdem wir eine E-Mail erhalten haben. Diese werden dann für eine gewisse Zeit auf dem Server gespeichert. Während dieser Zeit wird das Bild von uns an dich gesendet. Dies bedeutet, dass der Absender keine Chance haben wird, herauszufinden, dass du diese E-Mail geöffnet hast. Nach der Zeit wird das Bild vom Absender geladen, aber durch uns weitergeleitet. Dies bedeutet, dass der Absender weder auf deine IP-Adresse, noch auf deine Browserdaten zugreifen kann."
+                },
+                "imageProxyFormat": {
+                    "label": "Bild-Format",
+                    "enumTexts": {
+                        "jpeg": "JPEG",
+                        "png": "PNG",
+                        "webp": "WEBP"
+                    }
+                },
+                "imageProxyUserAgent": {
+                    "label": "Bild-Weiterleitungs-User-Agent",
+                    "helperText": "Ein User-Agent ist eine Kennzeichnung, die jeden Browser und E-Mail-Client identifiziert, wenn Dateien runtergeladen werden, so wie beispielsweise Bilder. Du kannst hier einstellen, welchen User-Agent du beim Weiterleiten verwenden möchtest. User-Agents werden aktuell gehalten.",
+                    "enumTexts": {
+                        "apple-mail": "Apple Mail",
+                        "google-mail": "Google Mail",
+                        "outlook-windows": "Outlook / Windows",
+                        "outlook-macos": "Outlook / MacOS",
+                        "firefox": "Firefox Browser",
+                        "chrome": "Chrome Browser"
+                    }
+                },
+                "saveAction": "Einstellungen speichern"
+            }
+        },
+        "report": {
+            "mutations": {
+                "success": {
+                    "reportDeleted": "Bericht wurde gelöscht!"
+                }
+            },
+            "emailMeta": {
+                "flow": "{{from}} -> {{to}}",
+                "emptySubject": "<Kein Betreff>"
+            }
+        }
+    }
+}

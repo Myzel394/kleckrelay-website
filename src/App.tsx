@@ -17,6 +17,7 @@ import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
+import OverviewRoute from "~/routes/OverviewRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import RootRoute from "~/routes/Root"
@@ -24,7 +25,6 @@ import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
-import OverviewRoute from "~/routes/OverviewRoute"
 import "./init-i18n"
 
 const router = createBrowserRouter([

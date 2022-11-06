@@ -1,12 +1,12 @@
 import {ReactElement} from "react"
-import {Outlet} from "react-router-dom"
-import {Link as RouterLink} from "react-router-dom"
+import {Link as RouterLink, Outlet} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 import {MdLogout} from "react-icons/md"
 
 import {Box, Button, Grid, List, ListItem, Paper, useTheme} from "@mui/material"
 
 import {useUser} from "~/hooks"
+import {LanguageButton} from "~/components"
 import LockNavigationContextProvider from "~/LockNavigationContext/LockNavigationContextProvider"
 import NavigationButton, {
 	NavigationSection,
@@ -89,6 +89,9 @@ export default function AuthenticatedRoute(): ReactElement {
 											>
 												{t("components.AuthenticatedRoute.logout")}
 											</Button>
+										</Grid>
+										<Grid item>
+											<LanguageButton />
 										</Grid>
 									</Grid>
 								</Grid>

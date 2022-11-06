@@ -36,5 +36,7 @@ export * from "./SimpleInformationContainer"
 export {default as SimpleInformationContainer} from "./SimpleInformationContainer"
 export * from "./NoSearchResults"
 export {default as NoSearchResults} from "./NoSearchResults"
+export * from "./LanguageButton"
+export {default as LanguageButton} from "./LanguageButton"
 
 export * as SimplePageBuilder from "./simple-page-builder"
