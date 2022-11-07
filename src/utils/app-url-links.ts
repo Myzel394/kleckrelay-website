@@ -14,25 +14,22 @@ const APP_LINK_MAP: Record<string, OSUrls> = {
 		android: createUrl("mail.google.com", "com.google.android.gm"),
 	},
 	"gmx.net": {
-		android: createUrl("gmx.net", "de.gmx.mobile.android.mail"),
+		android: createUrl("gmx.net", "de-DE.gmx.mobile.android.mail"),
 	},
 	"web.de": {
-		android: createUrl("web.de", "de.web.mobile.android.mail"),
+		android: createUrl("web.de", "de-DE.web.mobile.android.mail"),
 	},
 	"t-online.de": {
-		android: createUrl("t-online.de", "de.telekom.mail"),
+		android: createUrl("t-online.de", "de-DE.telekom.mail"),
 	},
 	"magenta.de": {
-		android: createUrl("t-online.de", "de.telekom.mail"),
+		android: createUrl("t-online.de", "de-DE.telekom.mail"),
 	},
 	"outlook.com": {
 		android: createUrl("outlook.com", "com.microsoft.office.outlook"),
 	},
 	"yahoo.com": {
-		android: createUrl(
-			"mail.yahoo.com",
-			"com.yahoo.mobile.client.android.mai",
-		),
+		android: createUrl("mail.yahoo.com", "com.yahoo.mobile.client.android.mai"),
 	},
 }
 
