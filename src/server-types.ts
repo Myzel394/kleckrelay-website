@@ -4,7 +4,7 @@ export enum ImageProxyFormatType {
 	JPEG = "jpeg",
 }
 
-export enum ImageProxyUserAgentType {
+export enum ProxyUserAgentType {
 	APPLE_MAIL = "apple-mail",
 	GOOGLE_MAIL = "google-mail",
 	OUTLOOK_WINDOWS = "outlook-windows",
@@ -49,7 +49,8 @@ export interface ServerUser {
 		aliasCreateMailReport: boolean
 		aliasProxyImages: boolean
 		aliasImageProxyFormat: ImageProxyFormatType
-		aliasImageProxyUserAgent: ImageProxyUserAgentType
+		aliasProxyUserAgent: ProxyUserAgentType
+		aliasExpandUrlShorteners: boolean
 	}
 }
 
@@ -90,7 +91,8 @@ export interface Alias {
 	prefCreateMailReport: boolean | null
 	prefProxyImages: boolean | null
 	prefImageProxyFormat: ImageProxyFormatType | null
-	prefImageProxyUserAgent: ImageProxyUserAgentType | null
+	prefProxyUserAgent: ProxyUserAgentType | null
+	prefExpandUrlShorteners: boolean | null
 }
 
 export interface AliasNote {
@@ -143,6 +145,10 @@ export interface DecryptedReportContent {
 				source: string
 				trackerName: string
 				trackerUrl: string
+			}>
+			expandedUrls: Array<{
+				url: string
+				queryTrackers: []
 			}>
 		}
 	}

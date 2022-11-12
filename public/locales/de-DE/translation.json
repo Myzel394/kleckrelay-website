@@ -354,7 +354,7 @@
                         "webp": "WEBP"
                     }
                 },
-                "imageProxyUserAgent": {
+                "proxyUserAgent": {
                     "label": "Bild-Weiterleitungs-User-Agent",
                     "helperText": "Ein User-Agent ist eine Kennzeichnung, die jeden Browser und E-Mail-Client identifiziert, wenn Dateien runtergeladen werden, so wie beispielsweise Bilder. Du kannst hier einstellen, welchen User-Agent du beim Weiterleiten verwenden möchtest. User-Agents werden aktuell gehalten.",
                     "enumTexts": {
@@ -365,6 +365,10 @@
                         "firefox": "Firefox Browser",
                         "chrome": "Chrome Browser"
                     }
+                },
+                "expandUrlShorteners": {
+                    "label": "URL-Kürzer entkürzen",
+                    "helperText": "Entkürzt URl-Kürzerer (wie zum Beispiel bit.ly) zu der Original-URL. Dadurch können dich diese Services nicht mehr tracken."
                 },
                 "saveAction": "Einstellungen speichern"
             }

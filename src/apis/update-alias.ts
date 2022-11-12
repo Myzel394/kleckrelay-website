@@ -1,4 +1,4 @@
-import {Alias, ImageProxyFormatType, ImageProxyUserAgentType} from "~/server-types"
+import {Alias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 export interface UpdateAliasData {
@@ -8,7 +8,7 @@ export interface UpdateAliasData {
 	prefCreateMailReport?: boolean | null
 	prefProxyImages?: boolean | null
 	prefImagProxyFormat?: ImageProxyFormatType | null
-	prefImageProxyUserAgent?: ImageProxyUserAgentType | null
+	prefProxyUserAgent?: ProxyUserAgentType | null
 }
 
 export default async function updateAlias(id: string, updateData: UpdateAliasData): Promise<Alias> {

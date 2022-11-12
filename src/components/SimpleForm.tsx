@@ -71,7 +71,7 @@ export default function SimpleForm({
 				</Grid>
 				{children && (
 					<Grid item>
-						<Grid container spacing={3}>
+						<Grid container spacing={3} direction="column" alignItems="center">
 							{children.map(input => (
 								<Grid item key={input.key}>
 									{input}

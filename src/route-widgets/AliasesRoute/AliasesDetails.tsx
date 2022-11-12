@@ -6,15 +6,17 @@ import {Alert, Grid, List, Snackbar} from "@mui/material"
 
 import {AliasList} from "~/server-types"
 import {useIsAnyInputFocused, useUIState} from "~/hooks"
-import {ErrorSnack, SuccessSnack} from "~/components"
+import {ErrorSnack, NoSearchResults, SuccessSnack} from "~/components"
 import AliasesListItem from "~/route-widgets/AliasesRoute/AliasesListItem"
 import CreateAliasButton from "~/route-widgets/AliasesRoute/CreateAliasButton"
+import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
 
 export interface AliasesDetailsProps {
 	aliases: AliasList[]
+	isSearching: boolean
 }
 
-export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactElement {
+export default function AliasesDetails({aliases, isSearching}: AliasesDetailsProps): ReactElement {
 	const {t} = useTranslation()
 	const [{value, error}, copyToClipboard] = useCopyToClipboard()
 	const [isPressingControl] = useKeyPress("Control")
@@ -36,22 +38,34 @@ export default function AliasesDetails({aliases}: AliasesDetailsProps): ReactEle
 		<>
 			<Grid container spacing={4} direction="column">
 				<Grid item>
-					<List>
-						{aliasesUIState.map(alias => (
-							<AliasesListItem
-								alias={alias}
-								key={alias.id}
-								onCopy={
-									isInCopyAddressMode
-										? alias => {
-												copyToClipboard(alias)
-												setLockDisabledCopyMode(true)
-										  }
-										: undefined
-								}
-							/>
-						))}
-					</List>
+					{(() => {
+						if (aliasesUIState.length === 0) {
+							if (isSearching) {
+								return <NoSearchResults />
+							} else {
+								return <EmptyStateScreen />
+							}
+						}
+
+						return (
+							<List>
+								{aliasesUIState.map(alias => (
+									<AliasesListItem
+										alias={alias}
+										key={alias.id}
+										onCopy={
+											isInCopyAddressMode
+												? alias => {
+														copyToClipboard(alias)
+														setLockDisabledCopyMode(true)
+												  }
+												: undefined
+										}
+									/>
+								))}
+							</List>
+						)
+					})()}
 				</Grid>
 				<Grid item>
 					<CreateAliasButton

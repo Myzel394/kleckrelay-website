@@ -7,9 +7,8 @@ import {useQuery} from "@tanstack/react-query"
 import {InputAdornment, TextField} from "@mui/material"
 
 import {AliasList, PaginationResult} from "~/server-types"
-import {NoSearchResults, QueryResult, SimplePage} from "~/components"
+import {QueryResult, SimplePage} from "~/components"
 import AliasesDetails from "~/route-widgets/AliasesRoute/AliasesDetails"
-import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
 import getAliases from "~/apis/get-aliases"
 
 export default function AliasesRoute(): ReactElement {
@@ -64,19 +63,9 @@ export default function AliasesRoute(): ReactElement {
 			}
 		>
 			<QueryResult<PaginationResult<AliasList>, AxiosError> query={query}>
-				{result =>
-					(() => {
-						if (result.items.length === 0) {
-							if (searchValue === "") {
-								return <EmptyStateScreen />
-							} else {
-								return <NoSearchResults />
-							}
-						}
-
-						return <AliasesDetails aliases={result.items} />
-					})()
-				}
+				{result => (
+					<AliasesDetails aliases={result.items} isSearching={searchValue !== ""} />
+				)}
 			</QueryResult>
 		</SimplePage>
 	)

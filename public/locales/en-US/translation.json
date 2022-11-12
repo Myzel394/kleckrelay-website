@@ -354,8 +354,8 @@
                         "webp": "WEBP"
                     }
                 },
-                "imageProxyUserAgent": {
-                    "label": "Image Proxy User Agent",
+                "proxyUserAgent": {
+                    "label": "Proxy User Agent",
                     "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used when we forward it. User Agents are kept up-to-date.",
                     "enumTexts": {
                         "apple-mail": "Apple Mail",
@@ -365,6 +365,10 @@
                         "firefox": "Firefox Browser",
                         "chrome": "Chrome Browser"
                     }
+                },
+                "expandUrlShorteners": {
+                    "label": "Expand URL Shorteners",
+                    "helperText": "Expand shortened URLs (for example bit.ly) to their original URL. This way those services can't track you."
                 },
                 "saveAction": "Save Settings"
             }

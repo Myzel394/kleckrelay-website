@@ -14,7 +14,7 @@ export default function EmptyStateScreen(): ReactElement {
 				spacing={4}
 				direction="column"
 				alignItems="center"
-				maxWidth="60%"
+				maxWidth="80%"
 				alignSelf="center"
 				marginX="auto"
 			>

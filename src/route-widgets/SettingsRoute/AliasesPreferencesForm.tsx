@@ -22,13 +22,13 @@ import {
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {ImageProxyFormatType, ImageProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
+import {ImageProxyFormatType, ProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
 import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useErrorSuccessSnacks, useUser} from "~/hooks"
 import {parseFastAPIError} from "~/utils"
 import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+	PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
 import AuthContext from "~/AuthContext/AuthContext"
 
@@ -37,7 +37,8 @@ interface Form {
 	createMailReport: boolean
 	proxyImages: boolean
 	imageProxyFormat: ImageProxyFormatType
-	imageProxyUserAgent: ImageProxyUserAgentType
+	proxyUserAgent: ProxyUserAgentType
+	expandUrlShorteners: boolean
 
 	detail?: string
 }
@@ -57,11 +58,14 @@ export default function AliasesPreferencesForm(): ReactElement {
 			.oneOf(Object.values(ImageProxyFormatType))
 			.required()
 			.label(t("relations.alias.settings.imageProxyFormat.label")),
-		imageProxyUserAgent: yup
-			.mixed<ImageProxyUserAgentType>()
-			.oneOf(Object.values(ImageProxyUserAgentType))
+		proxyUserAgent: yup
+			.mixed<ProxyUserAgentType>()
+			.oneOf(Object.values(ProxyUserAgentType))
 			.required()
-			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
+			.label(t("relations.alias.settings.proxyUserAgent.label")),
+		expandUrlShorteners: yup
+			.boolean()
+			.label(t("relations.alias.settings.expandUrlShorteners.label")),
 	})
 
 	const {mutateAsync} = useMutation<SimpleDetailResponse, AxiosError, UpdatePreferencesData>(
@@ -92,7 +96,8 @@ export default function AliasesPreferencesForm(): ReactElement {
 			createMailReport: user.preferences.aliasCreateMailReport,
 			proxyImages: user.preferences.aliasProxyImages,
 			imageProxyFormat: user.preferences.aliasImageProxyFormat,
-			imageProxyUserAgent: user.preferences.aliasImageProxyUserAgent,
+			proxyUserAgent: user.preferences.aliasProxyUserAgent,
+			expandUrlShorteners: user.preferences.aliasExpandUrlShorteners || true,
 		},
 		onSubmit: async (values, {setErrors}) => {
 			try {
@@ -101,7 +106,8 @@ export default function AliasesPreferencesForm(): ReactElement {
 					aliasCreateMailReport: values.createMailReport,
 					aliasProxyImages: values.proxyImages,
 					aliasImageProxyFormat: values.imageProxyFormat,
-					aliasImageProxyUserAgent: values.imageProxyUserAgent,
+					aliasProxyUserAgent: values.proxyUserAgent,
+					aliasExpandUrlShorteners: values.expandUrlShorteners,
 				})
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
@@ -146,7 +152,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 										/>
 									}
 									labelPlacement="start"
-									label="Remove Trackers"
+									label={t("relations.alias.settings.removeTrackers.label")}
 								/>
 								<FormHelperText
 									error={Boolean(
@@ -174,7 +180,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 										/>
 									}
 									labelPlacement="start"
-									label="Create Reports"
+									label={t("relations.alias.settings.createMailReport.label")}
 								/>
 								<FormHelperText
 									error={Boolean(
@@ -202,7 +208,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 										/>
 									}
 									labelPlacement="start"
-									label="Proxy Images"
+									label={t("relations.alias.settings.proxyImages.label")}
 								/>
 								<FormHelperText
 									error={Boolean(
@@ -236,7 +242,9 @@ export default function AliasesPreferencesForm(): ReactElement {
 												}}
 												name="imageProxyFormat"
 												id="imageProxyFormat"
-												label="Image File Type"
+												label={t(
+													"relations.alias.settings.imageProxyFormat.label",
+												)}
 												value={formik.values.imageProxyFormat}
 												onChange={formik.handleChange}
 												disabled={formik.isSubmitting}
@@ -268,50 +276,78 @@ export default function AliasesPreferencesForm(): ReactElement {
 											</FormHelperText>
 										</FormGroup>
 									</Grid>
-									<Grid item md={6} xs={12}>
-										<FormGroup>
-											<TextField
-												fullWidth
-												select
-												name="imageProxyUserAgent"
-												id="imageProxyUserAgent"
-												label="Image Proxy User Agent"
-												value={formik.values.imageProxyUserAgent}
-												onChange={formik.handleChange}
-												disabled={formik.isSubmitting}
-												error={
-													formik.touched.imageProxyUserAgent &&
-													Boolean(formik.errors.imageProxyUserAgent)
-												}
-												helperText={
-													formik.touched.imageProxyUserAgent &&
-													formik.errors.imageProxyUserAgent
-												}
-											>
-												{Object.entries(
-													IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
-												).map(([value, translationString]) => (
-													<MenuItem key={value} value={value}>
-														{t(translationString)}
-													</MenuItem>
-												))}
-											</TextField>
-											<FormHelperText
-												error={Boolean(
-													formik.touched.imageProxyUserAgent &&
-														formik.errors.imageProxyUserAgent,
-												)}
-											>
-												{(formik.touched.imageProxyUserAgent &&
-													formik.errors.imageProxyUserAgent) ||
-													t(
-														"relations.alias.settings.imageProxyUserAgent.helperText",
-													)}
-											</FormHelperText>
-										</FormGroup>
-									</Grid>
 								</Grid>
 							</Collapse>
+						</Grid>
+						<Grid item xs={12}>
+							<FormGroup>
+								<TextField
+									fullWidth
+									select
+									name="proxyUserAgent"
+									id="proxyUserAgent"
+									label={t("relations.alias.settings.proxyUserAgent.label")}
+									value={formik.values.proxyUserAgent}
+									onChange={formik.handleChange}
+									disabled={formik.isSubmitting}
+									error={
+										formik.touched.proxyUserAgent &&
+										Boolean(formik.errors.proxyUserAgent)
+									}
+									helperText={
+										formik.touched.proxyUserAgent &&
+										formik.errors.proxyUserAgent
+									}
+								>
+									{Object.entries(PROXY_USER_AGENT_TYPE_NAME_MAP).map(
+										([value, translationString]) => (
+											<MenuItem key={value} value={value}>
+												{t(translationString)}
+											</MenuItem>
+										),
+									)}
+								</TextField>
+								<FormHelperText
+									error={Boolean(
+										formik.touched.proxyUserAgent &&
+											formik.errors.proxyUserAgent,
+									)}
+								>
+									{(formik.touched.proxyUserAgent &&
+										formik.errors.proxyUserAgent) ||
+										t("relations.alias.settings.proxyUserAgent.helperText")}
+								</FormHelperText>
+							</FormGroup>
+						</Grid>
+						<Grid item xs={12}>
+							<FormGroup>
+								<FormControlLabel
+									disabled={formik.isSubmitting}
+									control={
+										<Checkbox
+											name="expandUrlShorteners"
+											id="expandUrlShorteners"
+											checked={formik.values.expandUrlShorteners}
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+										/>
+									}
+									labelPlacement="start"
+									label={t("relations.alias.settings.expandUrlShorteners.label")}
+								/>
+								<FormHelperText
+									error={Boolean(
+										formik.touched.expandUrlShorteners &&
+											formik.errors.expandUrlShorteners,
+									)}
+								>
+									{(formik.touched.expandUrlShorteners &&
+										formik.errors.expandUrlShorteners) ||
+										t(
+											"relations.alias.settings.expandUrlShorteners.helperText",
+										)}
+								</FormHelperText>
+							</FormGroup>
 						</Grid>
 					</Grid>
 				</Grid>

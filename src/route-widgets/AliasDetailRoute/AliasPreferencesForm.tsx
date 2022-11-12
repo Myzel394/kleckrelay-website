@@ -13,12 +13,12 @@ import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
-import {Alias, DecryptedAlias, ImageProxyFormatType, ImageProxyUserAgentType} from "~/server-types"
+import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-	IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP,
+	PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
 import {useErrorSuccessSnacks} from "~/hooks"
 import AuthContext from "~/AuthContext/AuthContext"
@@ -37,7 +37,7 @@ interface Form {
 	createMailReport: boolean | null
 	proxyImages: boolean | null
 	imageProxyFormat: ImageProxyFormatType | null
-	imageProxyUserAgent: ImageProxyUserAgentType | null
+	proxyUserAgent: ProxyUserAgentType | null
 
 	detail?: string
 }
@@ -64,10 +64,14 @@ export default function AliasPreferencesForm({
 			.mixed<ImageProxyFormatType>()
 			.oneOf([null, ...Object.values(ImageProxyFormatType)])
 			.label(t("relations.alias.settings.imageProxyFormat.label")),
-		imageProxyUserAgent: yup
-			.mixed<ImageProxyUserAgentType>()
-			.oneOf([null, ...Object.values(ImageProxyUserAgentType)])
-			.label(t("relations.alias.settings.imageProxyUserAgent.label")),
+		proxyUserAgent: yup
+			.mixed<ProxyUserAgentType>()
+			.oneOf([null, ...Object.values(ProxyUserAgentType)])
+			.label(t("relations.alias.settings.proxyUserAgent.label")),
+		expandUrlShorteners: yup
+			.mixed<boolean | null>()
+			.oneOf([true, false, null])
+			.label(t("relations.alias.settings.expandUrlShorteners.label")),
 	})
 
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
@@ -92,7 +96,7 @@ export default function AliasPreferencesForm({
 			createMailReport: alias.prefCreateMailReport,
 			proxyImages: alias.prefProxyImages,
 			imageProxyFormat: alias.prefImageProxyFormat,
-			imageProxyUserAgent: alias.prefImageProxyUserAgent,
+			proxyUserAgent: alias.prefProxyUserAgent,
 		},
 		validationSchema: schema,
 		onSubmit: async (values, {setErrors}) => {
@@ -102,7 +106,7 @@ export default function AliasPreferencesForm({
 					prefRemoveTrackers: values.removeTrackers,
 					prefProxyImages: values.proxyImages,
 					prefImagProxyFormat: values.imageProxyFormat,
-					prefImageProxyUserAgent: values.imageProxyUserAgent,
+					prefProxyUserAgent: values.proxyUserAgent,
 				})
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
@@ -166,12 +170,12 @@ export default function AliasPreferencesForm({
 													<Grid item xs={12} sm={6}>
 														<SelectField
 															label={t(
-																"relations.alias.settings.imageProxyUserAgent.label",
+																"relations.alias.settings.proxyUserAgent.label",
 															)}
 															formik={formik}
-															name="imageProxyUserAgent"
+															name="proxyUserAgent"
 															valueTextMap={
-																IMAGE_PROXY_USER_AGENT_TYPE_NAME_MAP
+																PROXY_USER_AGENT_TYPE_NAME_MAP
 															}
 														/>
 													</Grid>
