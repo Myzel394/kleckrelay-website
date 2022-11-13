@@ -38,5 +38,7 @@ export * from "./NoSearchResults"
 export {default as NoSearchResults} from "./NoSearchResults"
 export * from "./LanguageButton"
 export {default as LanguageButton} from "./LanguageButton"
+export * from "./ExpandableListItem"
+export {default as ExpandableListItem} from "./ExpandableListItem"
 
 export * as SimplePageBuilder from "./simple-page-builder"

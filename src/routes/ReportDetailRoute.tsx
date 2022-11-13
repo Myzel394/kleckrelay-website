@@ -11,6 +11,7 @@ import {getReport} from "~/apis"
 import {DecryptReport, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
 import {WithEncryptionRequired} from "~/hocs"
 import DeleteButton from "~/route-widgets/ReportDetailRoute/DeleteButton"
+import ExpandedUrlsListItem from "~/route-widgets/ReportDetailRoute/ExpandedUrlsListItem"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
 import QueryResult from "~/components/QueryResult"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
@@ -98,6 +99,12 @@ function ReportDetailRoute(): ReactElement {
 												images={
 													(report as DecryptedReportContent)
 														.messageDetails.content.proxiedImages
+												}
+											/>
+											<ExpandedUrlsListItem
+												urls={
+													(report as DecryptedReportContent)
+														.messageDetails.content.expandedUrls
 												}
 											/>
 										</List>

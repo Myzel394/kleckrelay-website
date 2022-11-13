@@ -22,8 +22,6 @@ export default function LanguageButton(): ReactElement {
 	const {isLocked, showDialog} = useContext(LockNavigationContext)
 	const {i18n} = useTranslation()
 
-	console.log(i18n.resolvedLanguage, SORTED_ENTRIES)
-
 	return (
 		<Select
 			value={i18n.resolvedLanguage}

@@ -231,6 +231,11 @@
                                 "isStored": "Auf Server gespeichert",
                                 "isProxying": "Wird weitergeleitet"
                             }
+                        },
+                        "expandedUrls": {
+                            "text_zero": "Keine gekürzten URLs gefunden",
+                            "text_one": "Eine URL entkürzt",
+                            "text_other": "{{count}} URLs entkürzt"
                         }
                     }
                 }

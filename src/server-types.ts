@@ -147,7 +147,8 @@ export interface DecryptedReportContent {
 				trackerUrl: string
 			}>
 			expandedUrls: Array<{
-				url: string
+				originalUrl: string
+				expandedUrl: string
 				queryTrackers: []
 			}>
 		}

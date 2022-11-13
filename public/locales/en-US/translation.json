@@ -231,6 +231,11 @@
                                 "isStored": "Stored on Server",
                                 "isProxying": "Being forwarded"
                             }
+                        },
+                        "expandedUrls": {
+                            "text_zero": "No shortened URLs found",
+                            "text_one": "Expanded 1 URL",
+                            "text_other": "Expanded {{count}} URLs"
                         }
                     }
                 }

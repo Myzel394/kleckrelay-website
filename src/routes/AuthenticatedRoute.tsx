@@ -46,7 +46,7 @@ export default function AuthenticatedRoute(): ReactElement {
 						justifyContent="space-between"
 						alignItems="center"
 					>
-						<Grid item xs={12} sm={3}>
+						<Grid item xs={12} md={3}>
 							<Box bgcolor={theme.palette.background.paper}>
 								<List component="nav">
 									{sections.map(key => (
@@ -57,7 +57,7 @@ export default function AuthenticatedRoute(): ReactElement {
 								</List>
 							</Box>
 						</Grid>
-						<Grid item xs={12} sm={9} height="100%">
+						<Grid item xs={12} md={9} height="100%">
 							<Grid
 								container
 								direction="column"
