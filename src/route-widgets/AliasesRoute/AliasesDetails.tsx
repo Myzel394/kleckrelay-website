@@ -19,7 +19,7 @@ export interface AliasesDetailsProps {
 export default function AliasesDetails({aliases, isSearching}: AliasesDetailsProps): ReactElement {
 	const {t} = useTranslation()
 	const [{value, error}, copyToClipboard] = useCopyToClipboard()
-	const [isPressingControl] = useKeyPress("Control")
+	const [isPressingControl] = useKeyPress("Shift")
 	const isAnyInputFocused = useIsAnyInputFocused()
 
 	const [aliasesUIState, setAliasesUIState] = useUIState<AliasList[]>(aliases)

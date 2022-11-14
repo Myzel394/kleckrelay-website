@@ -131,6 +131,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 						<PasswordField
 							key="password"
 							fullWidth
+							autoFocus
 							id="password"
 							name="password"
 							label={t(
