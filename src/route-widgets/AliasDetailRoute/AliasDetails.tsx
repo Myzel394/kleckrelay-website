@@ -20,7 +20,6 @@ export interface AliasDetailsProps {
 
 export default function AliasDetails({alias: aliasValue}: AliasDetailsProps): ReactElement {
 	const {t} = useTranslation()
-	const {enqueueSnackbar} = useSnackbar()
 	const params = useParams()
 	const {encryptionStatus} = useContext(AuthContext)
 	const address = atob(params.addressInBase64 as string)

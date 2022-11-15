@@ -19,17 +19,14 @@ import {
 import {useMutation} from "@tanstack/react-query"
 
 import {CreateAliasData, createAlias} from "~/apis"
-import {Alias, AliasType} from "~/server-types"
+import {Alias, AliasList, AliasType, PaginationResult} from "~/server-types"
 import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
 import {useErrorSuccessSnacks} from "~/hooks"
+import {queryClient} from "~/constants/react-query"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
-export interface CreateAliasButtonProps {
-	onCreated: (alias: Alias) => void
-}
-
-export default function CreateAliasButton({onCreated}: CreateAliasButtonProps): ReactElement {
+export function CreateAliasButton(): ReactElement {
 	const {t} = useTranslation()
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
@@ -53,11 +50,28 @@ export default function CreateAliasButton({onCreated}: CreateAliasButtonProps): 
 			return createAlias(values)
 		},
 		{
-			onSuccess: alias => {
-				onCreated(alias)
-				showSuccess(t("relations.alias.mutations.success.aliasCreation"))
-			},
 			onError: showError,
+			onSuccess: async alias => {
+				showSuccess(t("relations.alias.mutations.success.aliasCreation"))
+
+				await queryClient.cancelQueries({
+					queryKey: ["get_aliases", ""],
+				})
+
+				queryClient.setQueryData<PaginationResult<AliasList>>(["get_aliases", ""], old => {
+					if (old) {
+						return update(old, {
+							items: {
+								$unshift: [alias],
+							},
+						})
+					}
+
+					return old
+				})
+
+				return alias
+			},
 		},
 	)
 

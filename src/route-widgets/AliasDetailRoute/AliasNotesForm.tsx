@@ -11,7 +11,7 @@ import deepEqual from "deep-equal"
 import format from "date-fns/format"
 import update from "immutability-helper"
 
-import {useMutation} from "@tanstack/react-query"
+import {QueryKey, useMutation} from "@tanstack/react-query"
 import {
 	Grid,
 	IconButton,
@@ -31,6 +31,7 @@ import {FaviconImage, SimpleOverlayInformation} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
 import {useErrorSuccessSnacks} from "~/hooks"
+import {queryClient} from "~/constants/react-query"
 import AddWebsiteField from "~/route-widgets/AliasDetailRoute/AddWebsiteField"
 import AuthContext from "~/AuthContext/AuthContext"
 import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
@@ -40,7 +41,7 @@ export interface AliasNotesFormProps {
 	id: string
 	notes: AliasNote
 
-	onChanged: (alias: DecryptedAlias) => void
+	queryKey: QueryKey
 }
 
 interface Form {
@@ -50,7 +51,7 @@ interface Form {
 	detail?: string
 }
 
-export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormProps): ReactElement {
+export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProps): ReactElement {
 	const {t} = useTranslation()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} = useContext(AuthContext)
@@ -72,7 +73,7 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		values => updateAlias(id, values),
 		{
-			onSuccess: newAlias => {
+			onSuccess: async newAlias => {
 				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
 					newAlias.encryptedNotes,
 					_decryptUsingMasterPassword,
@@ -80,7 +81,9 @@ export default function AliasNotesForm({id, notes, onChanged}: AliasNotesFormPro
 
 				showSuccess(t("relations.alias.mutations.success.notesUpdated"))
 
-				onChanged(newAlias as any as DecryptedAlias)
+				await queryClient.cancelQueries(queryKey)
+
+				queryClient.setQueryData<DecryptedAlias | Alias>(queryKey, newAlias)
 			},
 			onError: showError,
 		},

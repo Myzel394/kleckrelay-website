@@ -10,7 +10,7 @@ import {useTranslation} from "react-i18next"
 import {LoadingButton} from "@mui/lab"
 import {Box, Collapse, Grid, Typography} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import {useMutation} from "@tanstack/react-query"
+import {QueryKey, useMutation} from "@tanstack/react-query"
 import Icon from "@mdi/react"
 
 import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
@@ -21,6 +21,7 @@ import {
 	PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
 import {useErrorSuccessSnacks} from "~/hooks"
+import {queryClient} from "~/constants/react-query"
 import AuthContext from "~/AuthContext/AuthContext"
 import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
@@ -29,7 +30,7 @@ import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 export interface AliasPreferencesFormProps {
 	alias: Alias | DecryptedAlias
 
-	onChanged: (newAlias: Alias | DecryptedAlias) => void
+	queryKey: QueryKey
 }
 
 interface Form {
@@ -44,7 +45,7 @@ interface Form {
 
 export default function AliasPreferencesForm({
 	alias,
-	onChanged,
+	queryKey,
 }: AliasPreferencesFormProps): ReactElement {
 	const {t} = useTranslation()
 	const {showSuccess, showError} = useErrorSuccessSnacks()
@@ -77,14 +78,16 @@ export default function AliasPreferencesForm({
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		data => updateAlias(alias.id, data),
 		{
-			onSuccess: alias => {
+			onSuccess: async newAlias => {
 				showSuccess(t("relations.alias.mutations.success.aliasUpdated"))
-				;(alias as any as DecryptedAlias).notes = decryptAliasNotes(
-					alias.encryptedNotes,
+				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+					newAlias.encryptedNotes,
 					_decryptUsingMasterPassword,
 				)
 
-				onChanged(alias)
+				await queryClient.cancelQueries(queryKey)
+
+				queryClient.setQueryData<DecryptedAlias | Alias>(queryKey, newAlias)
 			},
 			onError: showError,
 		},
