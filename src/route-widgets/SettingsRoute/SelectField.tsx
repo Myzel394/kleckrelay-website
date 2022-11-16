@@ -71,7 +71,7 @@ export default function SelectField({
 
 					formik.setFieldValue(name, value)
 				}}
-				disabled={formik.sSubmitting}
+				disabled={formik.isSubmitting}
 				error={Boolean(formik.touched[name] && formik.errors[name])}
 				renderValue={value =>
 					value === "null" ? (

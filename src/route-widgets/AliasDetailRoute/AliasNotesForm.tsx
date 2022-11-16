@@ -70,9 +70,32 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 		),
 	})
 
-	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
-		values => updateAlias(id, values),
+	const {mutateAsync} = useMutation<
+		Alias,
+		AxiosError,
+		AliasNote,
+		{previousAlias?: DecryptedAlias}
+	>(
+		values => {
+			updateAlias(id, values)
+		},
 		{
+			onMutate: async values => {
+				await queryClient.cancelQueries(queryKey)
+
+				const previousAlias = queryClient.getQueryData<DecryptedAlias>(queryKey)
+
+				if (previousAlias) {
+					;(previousAlias as any as DecryptedAlias).notes = decryptAliasNotes(
+						(previousAlias as any as Alias).encryptedNotes,
+						_decryptUsingMasterPassword,
+					)
+				}
+
+				return {
+					previousAlias,
+				}
+			},
 			onSuccess: async newAlias => {
 				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
 					newAlias.encryptedNotes,
@@ -85,7 +108,10 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 
 				queryClient.setQueryData<DecryptedAlias | Alias>(queryKey, newAlias)
 			},
-			onError: showError,
+			onError: error => {
+				showError(error)
+				setIsInEditMode(true)
+			},
 		},
 	)
 	const initialValues = useMemo(
