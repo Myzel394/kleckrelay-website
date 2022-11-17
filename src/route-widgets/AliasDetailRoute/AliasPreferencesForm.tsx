@@ -87,7 +87,10 @@ export default function AliasPreferencesForm({
 
 				await queryClient.cancelQueries(queryKey)
 
-				queryClient.setQueryData<DecryptedAlias | Alias>(queryKey, newAlias)
+				queryClient.setQueryData<DecryptedAlias>(
+					queryKey,
+					newAlias as any as DecryptedAlias,
+				)
 			},
 			onError: showError,
 		},

@@ -76,11 +76,15 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 		AliasNote,
 		{previousAlias?: DecryptedAlias}
 	>(
-		values => {
-			updateAlias(id, values)
+		notes => {
+			const encryptedNotes = _encryptUsingMasterPassword(JSON.stringify(notes))
+
+			return updateAlias(id, {
+				encryptedNotes,
+			})
 		},
 		{
-			onMutate: async values => {
+			onMutate: async notes => {
 				await queryClient.cancelQueries(queryKey)
 
 				const previousAlias = queryClient.getQueryData<DecryptedAlias>(queryKey)
@@ -91,6 +95,10 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 						_decryptUsingMasterPassword,
 					)
 				}
+
+				queryClient.setQueryData<DecryptedAlias>(queryKey, old =>
+					update(old, {notes: {$set: notes}}),
+				)
 
 				return {
 					previousAlias,
@@ -106,11 +114,18 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 
 				await queryClient.cancelQueries(queryKey)
 
-				queryClient.setQueryData<DecryptedAlias | Alias>(queryKey, newAlias)
+				queryClient.setQueryData<DecryptedAlias>(
+					queryKey,
+					newAlias as any as DecryptedAlias,
+				)
 			},
-			onError: error => {
+			onError: (error, _, context) => {
 				showError(error)
 				setIsInEditMode(true)
+
+				if (context?.previousAlias) {
+					queryClient.setQueryData<DecryptedAlias>(queryKey, context.previousAlias)
+				}
 			},
 		},
 	)
@@ -137,10 +152,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 					},
 				})
 
-				const data = _encryptUsingMasterPassword(JSON.stringify(newNotes))
-				await mutateAsync({
-					encryptedNotes: data,
-				})
+				await mutateAsync(newNotes)
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
 			}
@@ -165,6 +177,8 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 									size="small"
 									disabled={formik.isSubmitting}
 									onClick={async () => {
+										setIsInEditMode(!isInEditMode)
+
 										if (
 											isInEditMode &&
 											!deepEqual(initialValues, formik.values, {
@@ -173,8 +187,6 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 										) {
 											await formik.submitForm()
 										}
-
-										setIsInEditMode(!isInEditMode)
 									}}
 								>
 									{isInEditMode ? <MdCheckCircle /> : <FaPen />}
