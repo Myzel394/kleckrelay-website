@@ -10,7 +10,7 @@ import {Grid, List, ListItemButton, ListItemText} from "@mui/material"
 
 import {DecryptedReportContent, ServerSettings} from "~/server-types"
 import {isDev} from "~/constants/development"
-import {ExpandableListItem} from "~/components"
+import {ExpandableListItem, ExternalLinkIndication} from "~/components"
 
 export interface ProxiedImagesListItemProps {
 	images: DecryptedReportContent["messageDetails"]["content"]["proxiedImages"]
@@ -38,7 +38,7 @@ export default function ProxiedImagesListItem({images}: ProxiedImagesListItemPro
 						key={image.imageProxyId}
 					>
 						<ListItemText
-							primary={image.url}
+							primary={<ExternalLinkIndication>{image.url}</ExternalLinkIndication>}
 							secondary={
 								<>
 									<Grid

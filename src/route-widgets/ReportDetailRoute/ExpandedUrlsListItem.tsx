@@ -1,11 +1,12 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {BsArrowsAngleExpand} from "react-icons/bs"
+import {HiOutlineExternalLink} from "react-icons/hi"
 
 import {List, ListItemButton, ListItemText} from "@mui/material"
 
 import {DecryptedReportContent} from "~/server-types"
-import {ExpandableListItem} from "~/components"
+import {ExpandableListItem, ExternalLinkIndication} from "~/components"
 
 export interface ExpandedUrlsListItemProps {
 	urls: DecryptedReportContent["messageDetails"]["content"]["expandedUrls"]
@@ -32,7 +33,11 @@ export default function ExpandedUrlsListItem({urls}: ExpandedUrlsListItemProps):
 						rel="noopener noreferrer nofollow"
 					>
 						<ListItemText
-							primary={urlData.expandedUrl}
+							primary={
+								<ExternalLinkIndication>
+									{urlData.expandedUrl}
+								</ExternalLinkIndication>
+							}
 							secondary={urlData.originalUrl}
 						/>
 					</ListItemButton>

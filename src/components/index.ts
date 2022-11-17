@@ -40,5 +40,7 @@ export * from "./LanguageButton"
 export {default as LanguageButton} from "./LanguageButton"
 export * from "./ExpandableListItem"
 export {default as ExpandableListItem} from "./ExpandableListItem"
+export * from "./ExternalLinkIndication"
+export {default as ExternalLinkIndication} from "./ExternalLinkIndication"
 
 export * as SimplePageBuilder from "./simple-page-builder"
