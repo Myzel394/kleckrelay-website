@@ -173,7 +173,12 @@ export default function ConfirmCodeForm({
 									id="code"
 									label={t("routes.LoginRoute.forms.confirmCode.form.code.label")}
 									value={formik.values.code}
-									onChange={formik.handleChange}
+									onChange={event => {
+										formik.setFieldValue(
+											"code",
+											event.target.value.replace(/\D/g, ""),
+										)
+									}}
 									disabled={formik.isSubmitting}
 									error={formik.touched.code && Boolean(formik.errors.code)}
 									helperText={formik.touched.code && formik.errors.code}
