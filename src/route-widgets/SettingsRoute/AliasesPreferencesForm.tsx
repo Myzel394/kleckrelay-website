@@ -51,7 +51,9 @@ export default function AliasesPreferencesForm(): ReactElement {
 
 	const schema = yup.object().shape({
 		removeTrackers: yup.boolean().label(t("relations.alias.settings.removeTrackers.label")),
-		createMailReport: yup.boolean().label(t("relations.alias.settings.createMailReport.label")),
+		createMailReport: yup
+			.boolean()
+			.label(t("relations.alias.settings.createMailReports.label")),
 		proxyImages: yup.boolean().label(t("relations.alias.settings.proxyImages.label")),
 		imageProxyFormat: yup
 			.mixed<ImageProxyFormatType>()
@@ -180,7 +182,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 										/>
 									}
 									labelPlacement="start"
-									label={t("relations.alias.settings.createMailReport.label")}
+									label={t("relations.alias.settings.createMailReports.label")}
 								/>
 								<FormHelperText
 									error={Boolean(

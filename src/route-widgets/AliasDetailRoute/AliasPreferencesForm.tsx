@@ -59,7 +59,7 @@ export default function AliasPreferencesForm({
 		createMailReport: yup
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
-			.label(t("relations.alias.settings.createMailReport.label")),
+			.label(t("relations.alias.settings.createMailReports.label")),
 		proxyImages: yup.mixed<boolean | null>().oneOf([true, false, null]),
 		imageProxyFormat: yup
 			.mixed<ImageProxyFormatType>()
