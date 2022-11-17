@@ -11,7 +11,7 @@ export interface AliasTypeIndicatorProps {
 	type: AliasType
 }
 
-const ALIAS_TYPE_ICON_MAP: Record<AliasType, ReactElement> = {
+export const ALIAS_TYPE_ICON_MAP: Record<AliasType, ReactElement> = {
 	[AliasType.RANDOM]: <FaRandom />,
 	[AliasType.CUSTOM]: <FaHashtag />,
 }

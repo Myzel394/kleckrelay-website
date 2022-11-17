@@ -130,6 +130,14 @@
                 "search": {
                     "label": "Search",
                     "placeholder": "Search for names"
+                },
+                "searchFilter": {
+                    "active": "Active",
+                    "inactive": "Inactive"
+                },
+                "typeFilter": {
+                    "custom": "Custom made",
+                    "random": "Randomly generated"
                 }
             },
             "actions": {
