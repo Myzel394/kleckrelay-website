@@ -16,7 +16,6 @@ import {
 	SimplePageBuilder,
 } from "~/components"
 import AliasAddress from "~/route-widgets/AliasDetailRoute/AliasAddress"
-import AliasDetails from "~/route-widgets/AliasDetailRoute/AliasDetails"
 import AliasNotesForm from "~/route-widgets/AliasDetailRoute/AliasNotesForm"
 import AliasPreferencesForm from "~/route-widgets/AliasDetailRoute/AliasPreferencesForm"
 import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
