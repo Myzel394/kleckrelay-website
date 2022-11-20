@@ -64,6 +64,7 @@ export interface AuthenticationDetails extends SimpleDetailResponse {
 
 export interface ServerSettings {
 	mailDomain: string
+	appDomain: string
 	randomEmailIdMinLength: number
 	RandomEmailIdChars: string
 	imageProxyEnabled: boolean

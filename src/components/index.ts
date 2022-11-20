@@ -42,5 +42,6 @@ export * from "./ExpandableListItem"
 export {default as ExpandableListItem} from "./ExpandableListItem"
 export * from "./ExternalLinkIndication"
 export {default as ExternalLinkIndication} from "./ExternalLinkIndication"
+export {default as ExtensionSignalHandler} from "./ExtensionalSignalHandler"
 
 export * as SimplePageBuilder from "./simple-page-builder"

@@ -65,13 +65,13 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <AuthenticatedRoute />,
+				loader: getServerSettings,
 				children: [
 					{
 						path: "/",
 						element: <OverviewRoute />,
 					},
 					{
-						loader: getServerSettings,
 						path: "/aliases",
 						element: <AliasesRoute />,
 					},
@@ -88,7 +88,6 @@ const router = createBrowserRouter([
 						element: <ReportsRoute />,
 					},
 					{
-						loader: getServerSettings,
 						path: "/reports/:id",
 						element: <ReportDetailRoute />,
 					},
