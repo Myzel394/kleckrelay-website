@@ -1,5 +1,6 @@
 import {ReactElement, useContext} from "react"
 
+import {useEffectOnce} from "react-use"
 import AuthContext from "~/AuthContext/AuthContext"
 
 export default function ExtensionSignalHandler(): ReactElement {
@@ -7,7 +8,6 @@ export default function ExtensionSignalHandler(): ReactElement {
 	const appDomain = import.meta.env.VITE_SERVER_BASE_URL
 	const instanceData = {
 		appDomain,
-		isAuthenticated: Boolean(user),
 	}
 
 	return (

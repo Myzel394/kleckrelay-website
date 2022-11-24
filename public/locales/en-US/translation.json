@@ -331,6 +331,12 @@
             "title": "Are you sure you want to leave?",
             "description": "You have unsaved changes. If you leave, your changes will be lost.",
             "continueLabel": "Leave"
+        },
+        "passwordShareConfirmationDialog": {
+            "title": "Share Password?",
+            "description": "An extension is asking for your password. Do you want to share it? Only continue if you initiated this action.",
+            "warning": "THIS WILL SHARE YOUR PASSWORD WITH THE EXTENSION. ALL YOUR DATA CAN BE DECRYPTED USING IT. ONLY CONTINUE IF YOU TRUST THE EXTENSION AND IF YOU INITIATED THE REQUEST.",
+            "continueAction": "Share Password"
         }
     },
 

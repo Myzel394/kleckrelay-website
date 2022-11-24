@@ -1,17 +1,19 @@
-import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
-import {useLocalStorage} from "react-use"
+import {ReactElement, ReactNode, useCallback, useEffect, useMemo, useState} from "react"
+import {useLocalStorage, useSessionStorage} from "react-use"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 import {useNavigate} from "react-router-dom"
 
 import {useMutation} from "@tanstack/react-query"
 
+import {Dialog} from "@mui/material"
+import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
+
 import {ServerUser, User} from "~/server-types"
 import {REFRESH_TOKEN_URL, RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
-
-import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
+import PasswordShareConfirmationDialog from "~/AuthContext/PasswordShareConfirmationDialog"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
@@ -21,6 +23,12 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
 		onError: () => logout(false),
 	})
+
+	const [askForPassword, setAskForPassword] = useState<boolean>(false)
+	const [doNotAskForPassword, setDoNotAskForPassword] = useSessionStorage<boolean>(
+		"do-not-ask-again-for-password",
+		false,
+	)
 
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
 		"_global-context-auth-decryption-password",
@@ -190,5 +198,16 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		return () => client.interceptors.response.eject(interceptor)
 	}, [logout, refresh])
 
-	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+	// Handle extension password request
+
+	return (
+		<>
+			<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+			<PasswordShareConfirmationDialog
+				open={askForPassword}
+				onShare={}
+				onClose={() => setAskForPassword(false)}
+			/>
+		</>
+	)
 }
