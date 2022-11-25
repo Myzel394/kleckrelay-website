@@ -1,23 +1,23 @@
-import {ReactElement, useMemo, useState} from "react"
+import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {TiCancel} from "react-icons/ti"
+import {MdAccessTimeFilled, MdLock} from "react-icons/md"
 
 import {
 	Alert,
+	Box,
 	Button,
-	Checkbox,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	FormControlLabel,
 } from "@mui/material"
 
 export interface PasswordShareConfirmationDialogProps {
 	open: boolean
-	onShare: (doNotAskAgain: boolean) => void
-	onClose: () => void
+	onShare: () => void
+	onClose: (doNotAskAgain: boolean) => void
 }
 
 export default function PasswordShareConfirmationDialog({
@@ -25,42 +25,31 @@ export default function PasswordShareConfirmationDialog({
 	onShare,
 	onClose,
 }: PasswordShareConfirmationDialogProps): ReactElement {
-	const [doNotAskAgain, setDoNotAskAgain] = useState<boolean>(false)
-	const askAmount = useMemo<number>(
-		() => Number(sessionStorage.getItem("password-share-ask-amount") || 0) + 1,
-		[],
-	)
 	const {t} = useTranslation()
 
 	return (
-		<Dialog open={open} onClose={onClose}>
+		<Dialog open={open} onClose={() => onClose(false)} maxWidth="sm" fullWidth={false}>
 			<DialogTitle>{t("components.passwordShareConfirmationDialog.title")}</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
 					{t("components.passwordShareConfirmationDialog.description")}
 				</DialogContentText>
-				<Alert severity="warning">
-					{t("components.passwordShareConfirmationDialog.warning")}
-				</Alert>
-				{askAmount > 1 && (
-					<FormControlLabel
-						control={
-							<Checkbox
-								value={doNotAskAgain}
-								onChange={event =>
-									setDoNotAskAgain(event.target.value as any as boolean)
-								}
-							/>
-						}
-						label={t("components.passwordShareConfirmationDialog.doNotAskAgain")}
-					/>
-				)}
+				<Box my={2}>
+					<Alert severity="warning">
+						{t("components.passwordShareConfirmationDialog.warning")}
+					</Alert>
+				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button startIcon={<TiCancel />} onClick={onClose}>
-					{t("components.general.cancelLabel")}
+				<Box mr="auto">
+					<Button startIcon={<MdAccessTimeFilled />} onClick={() => onClose(false)}>
+						{t("components.passwordShareConfirmationDialog.decideLater")}
+					</Button>
+				</Box>
+				<Button startIcon={<TiCancel />} onClick={() => onClose(true)}>
+					{t("components.passwordShareConfirmationDialog.doNotShare")}
 				</Button>
-				<Button onClick={() => onShare(doNotAskAgain)}>
+				<Button color="error" onClick={onShare} startIcon={<MdLock />}>
 					{t("components.passwordShareConfirmationDialog.continueAction")}
 				</Button>
 			</DialogActions>

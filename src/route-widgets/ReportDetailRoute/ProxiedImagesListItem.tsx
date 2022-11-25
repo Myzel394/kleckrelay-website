@@ -20,8 +20,6 @@ export default function ProxiedImagesListItem({images}: ProxiedImagesListItemPro
 	const {t} = useTranslation()
 	const serverSettings = useLoaderData() as ServerSettings
 
-	console.log(images)
-
 	return (
 		<ExpandableListItem
 			data={images}

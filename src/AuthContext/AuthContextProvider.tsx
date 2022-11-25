@@ -1,18 +1,16 @@
 import {ReactElement, ReactNode, useCallback, useEffect, useMemo, useState} from "react"
-import {useLocalStorage, useSessionStorage} from "react-use"
+import {useEvent, useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
-import {useNavigate} from "react-router-dom"
 
 import {useMutation} from "@tanstack/react-query"
-
-import {Dialog} from "@mui/material"
 import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
 
 import {ServerUser, User} from "~/server-types"
 import {REFRESH_TOKEN_URL, RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
+import {ExtensionKleckEvent} from "~/extension-types"
 import PasswordShareConfirmationDialog from "~/AuthContext/PasswordShareConfirmationDialog"
 
 export interface AuthContextProviderProps {
@@ -25,10 +23,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	})
 
 	const [askForPassword, setAskForPassword] = useState<boolean>(false)
-	const [doNotAskForPassword, setDoNotAskForPassword] = useSessionStorage<boolean>(
-		"do-not-ask-again-for-password",
-		false,
-	)
+	const [doNotAskForPassword, setDoNotAskForPassword] = useState<boolean>(false)
 
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
 		"_global-context-auth-decryption-password",
@@ -198,15 +193,75 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		return () => client.interceptors.response.eject(interceptor)
 	}, [logout, refresh])
 
+	const dispatchPasswordAvailableEvent = useCallback(() => {
+		window.dispatchEvent(
+			new CustomEvent("kleckrelay-blob", {
+				detail: {
+					type: "password-available",
+					data: {
+						status: (() => {
+							if (doNotAskForPassword) {
+								return "denied"
+							}
+
+							if (masterPassword) {
+								return "can-ask"
+							}
+
+							return "not-entered"
+						})(),
+					},
+				},
+			}),
+		)
+	}, [doNotAskForPassword, masterPassword])
+
 	// Handle extension password request
+	const handleExtensionEvent = useCallback(
+		(event: ExtensionKleckEvent) => {
+			switch (event.detail.type) {
+				case "password-available":
+					dispatchPasswordAvailableEvent()
+					break
+				case "ask-for-password":
+					setAskForPassword(true)
+
+					break
+			}
+		},
+		[dispatchPasswordAvailableEvent],
+	)
+
+	useEvent("kleckrelay-kleck", handleExtensionEvent)
 
 	return (
 		<>
 			<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 			<PasswordShareConfirmationDialog
-				open={askForPassword}
-				onShare={}
-				onClose={() => setAskForPassword(false)}
+				open={Boolean(masterPassword && askForPassword && !doNotAskForPassword)}
+				onShare={() => {
+					setAskForPassword(false)
+
+					if (doNotAskForPassword) {
+						return
+					}
+
+					window.dispatchEvent(
+						new CustomEvent("kleckrelay-blob", {
+							detail: {
+								type: "password",
+								data: {
+									password: masterPassword,
+								},
+							},
+						}),
+					)
+				}}
+				onClose={doNotAskAgain => {
+					setDoNotAskForPassword(doNotAskAgain)
+					setAskForPassword(false)
+					dispatchPasswordAvailableEvent()
+				}}
 			/>
 		</>
 	)
