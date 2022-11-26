@@ -4,7 +4,6 @@ import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 
 import {useMutation} from "@tanstack/react-query"
-import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
 
 import {ServerUser, User} from "~/server-types"
 import {REFRESH_TOKEN_URL, RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
@@ -12,6 +11,8 @@ import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
 import {ExtensionKleckEvent} from "~/extension-types"
 import PasswordShareConfirmationDialog from "~/AuthContext/PasswordShareConfirmationDialog"
+
+import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
@@ -225,7 +226,18 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 					break
 				case "ask-for-password":
 					setAskForPassword(true)
-
+					break
+				case "get-user":
+					window.dispatchEvent(
+						new CustomEvent("kleckrelay-blob", {
+							detail: {
+								type: "get-user",
+								data: {
+									user: user,
+								},
+							},
+						}),
+					)
 					break
 			}
 		},
