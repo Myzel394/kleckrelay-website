@@ -1,7 +1,7 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {TiCancel} from "react-icons/ti"
-import {MdAccessTimeFilled, MdLock} from "react-icons/md"
+import {MdAccessTimeFilled, MdShield} from "react-icons/md"
 
 import {
 	Alert,
@@ -49,7 +49,7 @@ export default function PasswordShareConfirmationDialog({
 				<Button startIcon={<TiCancel />} onClick={() => onClose(true)}>
 					{t("components.passwordShareConfirmationDialog.doNotShare")}
 				</Button>
-				<Button color="error" onClick={onShare} startIcon={<MdLock />}>
+				<Button color="error" onClick={onShare} startIcon={<MdShield />}>
 					{t("components.passwordShareConfirmationDialog.continueAction")}
 				</Button>
 			</DialogActions>

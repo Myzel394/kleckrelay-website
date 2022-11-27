@@ -10,7 +10,6 @@ import {getServerSettings} from "~/apis"
 import {lightTheme} from "~/constants/themes"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
-import AuthContextProvider from "~/AuthContext/AuthContextProvider"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
 import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
@@ -65,7 +64,6 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <AuthenticatedRoute />,
-				loader: getServerSettings,
 				children: [
 					{
 						path: "/",
@@ -73,6 +71,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/aliases",
+						loader: getServerSettings,
 						element: <AliasesRoute />,
 					},
 					{
@@ -89,6 +88,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/reports/:id",
+						loader: getServerSettings,
 						element: <ReportDetailRoute />,
 					},
 					{
@@ -107,10 +107,8 @@ export default function App(): ReactElement {
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={lightTheme}>
 					<SnackbarProvider>
-						<AuthContextProvider>
-							<CssBaseline />
-							<RouterProvider router={router} />
-						</AuthContextProvider>
+						<CssBaseline />
+						<RouterProvider router={router} />
 					</SnackbarProvider>
 				</ThemeProvider>
 			</QueryClientProvider>

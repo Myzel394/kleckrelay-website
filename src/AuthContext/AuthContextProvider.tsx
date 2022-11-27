@@ -1,7 +1,8 @@
-import {ReactElement, ReactNode, useCallback, useEffect, useMemo, useState} from "react"
+import {ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from "react"
 import {useEvent, useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
+import {useNavigate} from "react-router-dom"
 
 import {useMutation} from "@tanstack/react-query"
 
@@ -19,10 +20,12 @@ export interface AuthContextProviderProps {
 }
 
 export default function AuthContextProvider({children}: AuthContextProviderProps): ReactElement {
+	const navigate = useNavigate()
 	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
 		onError: () => logout(false),
 	})
 
+	const $enterPasswordAmount = useRef<number>(0)
 	const [askForPassword, setAskForPassword] = useState<boolean>(false)
 	const [doNotAskForPassword, setDoNotAskForPassword] = useState<boolean>(false)
 
@@ -238,6 +241,14 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 							},
 						}),
 					)
+					break
+				case "enter-password":
+					if ($enterPasswordAmount.current < 1) {
+						$enterPasswordAmount.current += 1
+
+						navigate("/enter-password")
+					}
+
 					break
 			}
 		},

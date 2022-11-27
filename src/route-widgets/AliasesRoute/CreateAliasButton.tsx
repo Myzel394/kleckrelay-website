@@ -1,10 +1,9 @@
-import {ReactElement, useContext, useRef, useState} from "react"
+import {ReactElement, useContext, useState} from "react"
 import {MdArrowDropDown} from "react-icons/md"
 import {BsArrowClockwise} from "react-icons/bs"
 import {FaPen} from "react-icons/fa"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
-import {SnackbarKey} from "notistack"
 import update from "immutability-helper"
 
 import {

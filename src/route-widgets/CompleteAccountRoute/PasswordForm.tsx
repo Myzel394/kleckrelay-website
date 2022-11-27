@@ -1,15 +1,13 @@
 import * as yup from "yup"
 import {useFormik} from "formik"
-import {MdCheckCircle, MdChevronRight, MdLock} from "react-icons/md"
+import {MdCheckCircle, MdLock} from "react-icons/md"
 import {generateKey, readKey} from "openpgp"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
+import {Box, InputAdornment} from "@mui/material"
+import {useMutation} from "@tanstack/react-query"
 import React, {ReactElement, useContext, useMemo} from "react"
 import passwordGenerator from "secure-random-password"
-
-import {LoadingButton} from "@mui/lab"
-import {Box, Grid, InputAdornment, Typography} from "@mui/material"
-import {useMutation} from "@tanstack/react-query"
 
 import {PasswordField, SimpleForm} from "~/components"
 import {buildEncryptionPassword, encryptString} from "~/utils"
@@ -117,7 +115,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	})
 
 	return (
-		<Box width="80vw">
+		<Box maxWidth="80vw">
 			<form onSubmit={formik.handleSubmit}>
 				<SimpleForm
 					title={t("routes.CompleteAccountRoute.forms.password.title")}
