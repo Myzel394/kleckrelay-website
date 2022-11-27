@@ -194,11 +194,11 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		return () => client.interceptors.response.eject(interceptor)
 	}, [logout, refresh])
 
-	const dispatchPasswordAvailableEvent = useCallback(() => {
+	const dispatchPasswordStatusEvent = useCallback(() => {
 		window.dispatchEvent(
 			new CustomEvent("kleckrelay-blob", {
 				detail: {
-					type: "password-available",
+					type: "password-status",
 					data: {
 						status: (() => {
 							if (doNotAskForPassword) {
@@ -221,8 +221,8 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	const handleExtensionEvent = useCallback(
 		(event: ExtensionKleckEvent) => {
 			switch (event.detail.type) {
-				case "password-available":
-					dispatchPasswordAvailableEvent()
+				case "password-status":
+					dispatchPasswordStatusEvent()
 					break
 				case "ask-for-password":
 					setAskForPassword(true)
@@ -241,7 +241,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 					break
 			}
 		},
-		[dispatchPasswordAvailableEvent],
+		[dispatchPasswordStatusEvent],
 	)
 
 	useEvent("kleckrelay-kleck", handleExtensionEvent)
@@ -272,7 +272,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 				onClose={doNotAskAgain => {
 					setDoNotAskForPassword(doNotAskAgain)
 					setAskForPassword(false)
-					dispatchPasswordAvailableEvent()
+					dispatchPasswordStatusEvent()
 				}}
 			/>
 		</>

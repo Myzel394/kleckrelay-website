@@ -1,5 +1,5 @@
-interface ExtensionKleckMessagePasswordAvailable {
-	type: "password-available"
+interface ExtensionKleckMessagePasswordStatus {
+	type: "password-status"
 }
 
 interface ExtensionKleckMessageAskForPassword {
@@ -11,7 +11,7 @@ interface ExtensionKleckMessageUser {
 }
 
 export type ExtensionKleckMessage =
-	| ExtensionKleckMessagePasswordAvailable
+	| ExtensionKleckMessagePasswordStatus
 	| ExtensionKleckMessageAskForPassword
 	| ExtensionKleckMessageUser
 
