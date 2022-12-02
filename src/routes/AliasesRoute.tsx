@@ -61,7 +61,7 @@ export default function AliasesRoute(): ReactElement {
 	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingControl
 
 	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
-		["get_aliases", queryValue, searchFilter, typeFilter],
+		["get_aliases", {queryValue, searchFilter, typeFilter}],
 		() =>
 			getAliases({
 				query: queryValue,
