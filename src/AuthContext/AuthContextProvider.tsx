@@ -4,10 +4,16 @@ import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 import {useNavigate} from "react-router-dom"
 
-import {useMutation} from "@tanstack/react-query"
+import {useMutation, useQuery} from "@tanstack/react-query"
 
-import {ServerUser, User} from "~/server-types"
-import {REFRESH_TOKEN_URL, RefreshTokenResult, logout as logoutUser, refreshToken} from "~/apis"
+import {AuthenticationDetails, ServerUser, User} from "~/server-types"
+import {
+	REFRESH_TOKEN_URL,
+	RefreshTokenResult,
+	getMe,
+	logout as logoutUser,
+	refreshToken,
+} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
 import {ExtensionKleckEvent} from "~/extension-types"
@@ -125,6 +131,12 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		},
 		[user?.encryptedPassword],
 	)
+
+	useQuery<AuthenticationDetails, AxiosError>(["get_me"], getMe, {
+		refetchOnWindowFocus: "always",
+		refetchOnReconnect: "always",
+		retry: 2,
+	})
 
 	const value = useMemo<AuthContextType>(
 		() => ({
