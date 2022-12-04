@@ -8,6 +8,7 @@ export const DEFAULT_ALIAS_NOTE: AliasNote = {
 	version: "1.0",
 	data: {
 		createdAt: null,
+		creationContext: "web",
 		personalNotes: "",
 		websites: [],
 	},

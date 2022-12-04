@@ -54,10 +54,10 @@ export function CreateAliasButton(): ReactElement {
 				showSuccess(t("relations.alias.mutations.success.aliasCreation"))
 
 				await queryClient.cancelQueries({
-					queryKey: ["get_aliases", ""],
+					queryKey: ["get_aliases"],
 				})
 
-				queryClient.setQueryData<PaginationResult<AliasList>>(["get_aliases", ""], old => {
+				queryClient.setQueryData<PaginationResult<AliasList>>(["get_aliases"], old => {
 					if (old) {
 						return update(old, {
 							items: {

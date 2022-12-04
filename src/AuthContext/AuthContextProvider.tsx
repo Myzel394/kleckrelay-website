@@ -136,6 +136,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		refetchOnWindowFocus: "always",
 		refetchOnReconnect: "always",
 		retry: 2,
+		enabled: user !== null,
 	})
 
 	const value = useMemo<AuthContextType>(
