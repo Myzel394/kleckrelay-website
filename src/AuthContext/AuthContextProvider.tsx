@@ -1,5 +1,5 @@
 import {ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from "react"
-import {useEvent, useLocalStorage} from "react-use"
+import {createReducerContext, useEvent, useLocalStorage} from "react-use"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 import {useNavigate} from "react-router-dom"
@@ -7,30 +7,58 @@ import {useNavigate} from "react-router-dom"
 import {useMutation, useQuery} from "@tanstack/react-query"
 
 import {AuthenticationDetails, ServerUser, User} from "~/server-types"
-import {
-	REFRESH_TOKEN_URL,
-	RefreshTokenResult,
-	getMe,
-	logout as logoutUser,
-	refreshToken,
-} from "~/apis"
+import {getMe, logout as logoutUser, REFRESH_TOKEN_URL, refreshToken, RefreshTokenResult} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {decryptString, encryptString} from "~/utils"
 import {ExtensionKleckEvent} from "~/extension-types"
 import PasswordShareConfirmationDialog from "~/AuthContext/PasswordShareConfirmationDialog"
 
+import {Action, State} from "./types"
 import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
 }
 
+const INITIAL_STATE: State = {
+	user: null,
+	masterPassword: null,
+}
+
+const reducer = (state: State, action: Action): State => {
+	switch (action.type) {
+		case "SET_USER": {
+			return {
+				...state,
+				user: action.payload,
+			}
+		}
+		case "SET_PASSWORD": {
+			const masterPassword = decryptString(state.user!.encryptedPassword, action.payload)
+
+			return {
+				...state,
+				masterPassword,
+			}
+		}
+		case "LOGOUT": {
+			return INITIAL_STATE
+		}
+	}
+}
+
+const [useAuth, AuthContext] = createReducerContext(reducer, INITIAL_STATE)
+
 export default function AuthContextProvider({children}: AuthContextProviderProps): ReactElement {
 	const navigate = useNavigate()
+
+	const [auth, dispatch] = useAuth();
+
 	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
-		onError: () => logout(false),
+		onError: () => dispatch({type: "LOGOUT"}),
 	})
 
+	// Required for extension
 	const $enterPasswordAmount = useRef<number>(0)
 	const [askForPassword, setAskForPassword] = useState<boolean>(false)
 	const [doNotAskForPassword, setDoNotAskForPassword] = useState<boolean>(false)
