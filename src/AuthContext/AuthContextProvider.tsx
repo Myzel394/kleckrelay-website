@@ -1,17 +1,18 @@
-import {ReactElement, ReactNode, useCallback, useEffect, useMemo} from "react"
+import {ReactElement, ReactNode, useCallback, useEffect} from "react"
 import {AxiosError} from "axios"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 
 import {useLocalStorage} from "react-use"
-import AuthContext, {AuthContextType, EncryptionStatus} from "./AuthContext"
+import AuthContext from "./AuthContext"
 import useExtensionHandler from "~/AuthContext/use-extension-handler"
 import useMasterPassword from "~/AuthContext/use-master-password"
 
 import {AuthenticationDetails, ServerUser, User} from "~/server-types"
-import {getMe, REFRESH_TOKEN_URL, refreshToken, RefreshTokenResult} from "~/apis"
+import {REFRESH_TOKEN_URL, RefreshTokenResult, getMe, refreshToken} from "~/apis"
 import {client} from "~/constants/axios-client"
 import {useMutation, useQuery} from "@tanstack/react-query"
 import PasswordShareConfirmationDialog from "~/AuthContext/PasswordShareConfirmationDialog"
+import useContextValue from "~/AuthContext/use-context-value"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
@@ -39,6 +40,40 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	}, [logoutMasterPassword])
 	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
 		onError: () => logout(),
+	})
+
+	const decryptUsingPrivateKey = useCallback(
+		async (message: string): Promise<string> => {
+			if (!user) {
+				throw new Error("User not set.")
+			}
+
+			if (!user.isDecrypted) {
+				throw new Error("User is not decrypted.")
+			}
+
+			return (
+				await decrypt({
+					message: await readMessage({
+						armoredMessage: message,
+					}),
+					decryptionKeys: await readPrivateKey({
+						armoredKey: user.notes.privateKey,
+					}),
+				})
+			).data.toString()
+		},
+		[user],
+	)
+
+	const contextValue = useContextValue({
+		decryptUsingPrivateKey,
+		encryptUsingMasterPassword,
+		decryptUsingMasterPassword,
+		setDecryptionPassword,
+		logout,
+		login: setUser,
+		user: user || null,
 	})
 
 	useQuery<AuthenticationDetails, AxiosError>(["get_me"], getMe, {
@@ -90,65 +125,11 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		return () => client.interceptors.response.eject(interceptor)
 	}, [logout, refresh])
 
-	const decryptUsingPrivateKey = useCallback(
-		async (message: string): Promise<string> => {
-			if (!user) {
-				throw new Error("User not set.")
-			}
-
-			if (!user.isDecrypted) {
-				throw new Error("User is not decrypted.")
-			}
-
-			return (
-				await decrypt({
-					message: await readMessage({
-						armoredMessage: message,
-					}),
-					decryptionKeys: await readPrivateKey({
-						armoredKey: user.notes.privateKey,
-					}),
-				})
-			).data.toString()
-		},
-		[user],
-	)
-
-	const value = useMemo<AuthContextType>(
-		() => ({
-			user: user ?? null,
-			login: setUser,
-			encryptionStatus: (() => {
-				if (!user) {
-					return EncryptionStatus.Unavailable
-				}
-
-				if (!user.encryptedPassword) {
-					return EncryptionStatus.Unavailable
-				}
-
-				if (user.isDecrypted) {
-					return EncryptionStatus.Available
-				}
-
-				return EncryptionStatus.PasswordRequired
-			})(),
-			logout,
-			isAuthenticated: user !== null,
-			_encryptUsingMasterPassword: encryptUsingMasterPassword,
-			_decryptUsingMasterPassword: decryptUsingMasterPassword,
-			_decryptUsingPrivateKey: decryptUsingPrivateKey,
-			_setDecryptionPassword: updateDecryptionPassword,
-			_updateUser: setUser,
-		}),
-		[user, logout, encryptUsingMasterPassword, decryptUsingMasterPassword],
-	)
-
 	return (
 		<>
-			<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+			<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 			<PasswordShareConfirmationDialog
-				open={Boolean(masterPassword && showDialog)}
+				open={Boolean(_masterPassword && showDialog)}
 				onShare={sharePassword}
 				onClose={doNotAskAgain => {
 					closeDialog(doNotAskAgain)
