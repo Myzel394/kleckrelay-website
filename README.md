@@ -1,2 +1,1 @@
-* Make `Page` component
-* TextInput -> Select
+Some images will be added here soon :D
