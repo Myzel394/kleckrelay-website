@@ -10,7 +10,7 @@ export interface UseMasterPasswordResult {
 	decryptUsingMasterPassword: (content: string) => string
 	decryptUsingPrivateKey: (message: string) => Promise<string>
 
-	setDecryptionPassword: (password: string) => void
+	setDecryptionPassword: (password: string) => boolean
 	logout: () => void
 	// Use this cautiously
 	_masterPassword: string
@@ -78,6 +78,22 @@ export default function useMasterPassword(
 		[user],
 	)
 
+	const updateDecryptionPassword = useCallback((password: string) => {
+		if (!user || !user.encryptedPassword) {
+			throw new Error("User not set.")
+		}
+
+		try {
+			const masterPassword = decryptString(user.encryptedPassword, password)
+			JSON.parse(decryptString((user as ServerUser).encryptedNotes, masterPassword))
+			setDecryptionPassword(password)
+		} catch {
+			return false;
+		}
+
+		return true;
+	}, [user, masterPassword])
+
 	const logout = useCallback(() => {
 		setDecryptionPassword(null)
 	}, [])
@@ -86,8 +102,8 @@ export default function useMasterPassword(
 		encryptUsingMasterPassword,
 		decryptUsingMasterPassword,
 		decryptUsingPrivateKey,
-		setDecryptionPassword,
 		logout,
+		setDecryptionPassword: updateDecryptionPassword,
 		_masterPassword: masterPassword!,
 	}
 }

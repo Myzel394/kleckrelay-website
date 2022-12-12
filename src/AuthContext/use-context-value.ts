@@ -8,7 +8,7 @@ export interface UseContextValueData {
 	encryptUsingMasterPassword: (content: string) => string
 	decryptUsingMasterPassword: (content: string) => string
 	decryptUsingPrivateKey: (message: string) => Promise<string>
-	setDecryptionPassword: (password: string) => void
+	setDecryptionPassword: (password: string) => boolean
 }
 
 export default function useContextValue({

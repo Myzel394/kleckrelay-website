@@ -22,7 +22,6 @@ export default function useUser({
     user,
     updateUser,
 }: UseAuthData) {
-
     const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
         onError: () => logout(),
     })

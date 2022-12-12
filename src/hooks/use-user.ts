@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from "react-router-dom"
-import {useContext, useLayoutEffect} from "react"
+import {useContext, useEffect, useLayoutEffect} from "react"
 
 import {ServerUser, User} from "~/server-types"
 import AuthContext from "~/AuthContext/AuthContext"
@@ -17,7 +17,7 @@ export default function useUser(): ServerUser | User {
 	const navigate = useNavigate()
 	const {user, isAuthenticated} = useContext(AuthContext)
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (
 			!isAuthenticated &&
 			!AUTHENTICATION_PATHS.includes(location.pathname)
