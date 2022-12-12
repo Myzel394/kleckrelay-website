@@ -22,6 +22,7 @@
     "crypto-js": "^4.1.1",
     "date-fns": "^2.29.3",
     "deep-equal": "^2.0.5",
+    "fast-hash-code": "^2.1.0",
     "formik": "^2.2.9",
     "group-array": "^1.0.0",
     "i18next": "^22.0.4",

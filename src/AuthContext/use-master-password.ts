@@ -1,11 +1,14 @@
 import {useLocalStorage} from "react-use"
 import {useCallback, useMemo} from "react"
+import {decrypt, readMessage, readPrivateKey} from "openpgp";
 
 import {decryptString, encryptString} from "~/utils"
+import {ServerUser, User} from "~/server-types";
 
 export interface UseMasterPasswordResult {
 	encryptUsingMasterPassword: (content: string) => string
 	decryptUsingMasterPassword: (content: string) => string
+	decryptUsingPrivateKey: (message: string) => Promise<string>
 
 	setDecryptionPassword: (password: string) => void
 	logout: () => void
@@ -14,7 +17,7 @@ export interface UseMasterPasswordResult {
 }
 
 export default function useMasterPassword(
-	encryptedPassword: string | null,
+	user: User | ServerUser | null,
 ): UseMasterPasswordResult {
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
 		"_global-context-auth-decryption-password",
@@ -22,12 +25,12 @@ export default function useMasterPassword(
 	)
 
 	const masterPassword = useMemo<string | null>(() => {
-		if (decryptionPassword === null || !encryptedPassword) {
+		if (decryptionPassword === null || !user?.encryptedPassword) {
 			return null
 		}
 
-		return decryptString(encryptedPassword, decryptionPassword!)
-	}, [decryptionPassword, encryptedPassword])
+		return decryptString(user.encryptedPassword, decryptionPassword!)
+	}, [decryptionPassword, user?.encryptedPassword])
 
 	const encryptUsingMasterPassword = useCallback(
 		(content: string) => {
@@ -51,6 +54,30 @@ export default function useMasterPassword(
 		[masterPassword],
 	)
 
+	const decryptUsingPrivateKey = useCallback(
+		async (message: string): Promise<string> => {
+			if (!user) {
+				throw new Error("User not set.")
+			}
+
+			if (!user.isDecrypted) {
+				throw new Error("User is not decrypted.")
+			}
+
+			return (
+				await decrypt({
+					message: await readMessage({
+						armoredMessage: message,
+					}),
+					decryptionKeys: await readPrivateKey({
+						armoredKey: user.notes.privateKey,
+					}),
+				})
+			).data.toString()
+		},
+		[user],
+	)
+
 	const logout = useCallback(() => {
 		setDecryptionPassword(null)
 	}, [])
@@ -58,6 +85,7 @@ export default function useMasterPassword(
 	return {
 		encryptUsingMasterPassword,
 		decryptUsingMasterPassword,
+		decryptUsingPrivateKey,
 		setDecryptionPassword,
 		logout,
 		_masterPassword: masterPassword!,
