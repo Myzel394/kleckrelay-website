@@ -1,20 +1,23 @@
 import {useLocalStorage} from "react-use"
 import {useCallback, useMemo} from "react"
+import {decrypt, readMessage, readPrivateKey} from "openpgp";
 
 import {decryptString, encryptString} from "~/utils"
+import {ServerUser, User} from "~/server-types";
 
 export interface UseMasterPasswordResult {
 	encryptUsingMasterPassword: (content: string) => string
 	decryptUsingMasterPassword: (content: string) => string
+	decryptUsingPrivateKey: (message: string) => Promise<string>
 
-	setDecryptionPassword: (password: string) => void
+	setDecryptionPassword: (password: string) => boolean
 	logout: () => void
 	// Use this cautiously
 	_masterPassword: string
 }
 
 export default function useMasterPassword(
-	encryptedPassword: string | null,
+	user: User | ServerUser | null,
 ): UseMasterPasswordResult {
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
 		"_global-context-auth-decryption-password",
@@ -22,12 +25,12 @@ export default function useMasterPassword(
 	)
 
 	const masterPassword = useMemo<string | null>(() => {
-		if (decryptionPassword === null || !encryptedPassword) {
+		if (decryptionPassword === null || !user?.encryptedPassword) {
 			return null
 		}
 
-		return decryptString(encryptedPassword, decryptionPassword!)
-	}, [decryptionPassword, encryptedPassword])
+		return decryptString(user.encryptedPassword, decryptionPassword!)
+	}, [decryptionPassword, user?.encryptedPassword])
 
 	const encryptUsingMasterPassword = useCallback(
 		(content: string) => {
@@ -51,6 +54,46 @@ export default function useMasterPassword(
 		[masterPassword],
 	)
 
+	const decryptUsingPrivateKey = useCallback(
+		async (message: string): Promise<string> => {
+			if (!user) {
+				throw new Error("User not set.")
+			}
+
+			if (!user.isDecrypted) {
+				throw new Error("User is not decrypted.")
+			}
+
+			return (
+				await decrypt({
+					message: await readMessage({
+						armoredMessage: message,
+					}),
+					decryptionKeys: await readPrivateKey({
+						armoredKey: user.notes.privateKey,
+					}),
+				})
+			).data.toString()
+		},
+		[user],
+	)
+
+	const updateDecryptionPassword = useCallback((password: string) => {
+		if (!user || !user.encryptedPassword) {
+			throw new Error("User not set.")
+		}
+
+		try {
+			const masterPassword = decryptString(user.encryptedPassword, password)
+			JSON.parse(decryptString((user as ServerUser).encryptedNotes, masterPassword))
+			setDecryptionPassword(password)
+		} catch {
+			return false;
+		}
+
+		return true;
+	}, [user, masterPassword])
+
 	const logout = useCallback(() => {
 		setDecryptionPassword(null)
 	}, [])
@@ -58,8 +101,9 @@ export default function useMasterPassword(
 	return {
 		encryptUsingMasterPassword,
 		decryptUsingMasterPassword,
-		setDecryptionPassword,
+		decryptUsingPrivateKey,
 		logout,
+		setDecryptionPassword: updateDecryptionPassword,
 		_masterPassword: masterPassword!,
 	}
 }
