@@ -92,6 +92,7 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 							<TextField
 								key="email"
 								fullWidth
+								autoFocus
 								name="email"
 								id="email"
 								label={t("routes.SignupRoute.forms.email.form.email.label")}

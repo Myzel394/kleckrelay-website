@@ -72,6 +72,7 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 						<TextField
 							key="email"
 							fullWidth
+							autoFocus
 							name="email"
 							id="email"
 							label="Email"
