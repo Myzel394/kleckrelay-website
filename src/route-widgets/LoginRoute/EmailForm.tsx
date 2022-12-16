@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import {ReactElement} from "react"
+import {ReactElement, useCallback, useRef} from "react"
 import {AxiosError} from "axios"
 import {useFormik} from "formik"
 import {MdEmail} from "react-icons/md"
@@ -11,6 +11,7 @@ import {InputAdornment, TextField} from "@mui/material"
 import {LoginWithEmailResult, loginWithEmail} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {MultiStepFormElement, SimpleForm} from "~/components"
+import {useExtensionHandler} from "~/hooks"
 
 export interface EmailFormProps {
 	onLogin: (email: string, sameRequestToken: string) => void
@@ -24,6 +25,7 @@ interface Form {
 export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 	const {t} = useTranslation()
 
+	const $password = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
 		email: yup
 			.string()
@@ -50,6 +52,12 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 		},
 	})
 
+	const focusPassword = useCallback(() => $password.current?.focus(), [])
+
+	useExtensionHandler({
+		onEnterPassword: focusPassword,
+	})
+
 	return (
 		<MultiStepFormElement>
 			<form onSubmit={formik.handleSubmit}>
@@ -68,6 +76,7 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 							id="email"
 							label="Email"
 							placeholder={t("routes.LoginRoute.forms.email.form.email.placeholder")}
+							inputRef={$password}
 							inputMode="email"
 							value={formik.values.email}
 							onChange={formik.handleChange}

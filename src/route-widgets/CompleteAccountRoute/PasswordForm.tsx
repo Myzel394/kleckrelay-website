@@ -6,13 +6,13 @@ import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 import {Box, InputAdornment} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
-import React, {ReactElement, useContext, useMemo} from "react"
+import React, {ReactElement, useCallback, useContext, useMemo, useRef} from "react"
 import passwordGenerator from "secure-random-password"
 
 import {PasswordField, SimpleForm} from "~/components"
 import {buildEncryptionPassword, encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
-import {useSystemPreferredTheme, useUser} from "~/hooks"
+import {useExtensionHandler, useSystemPreferredTheme, useUser} from "~/hooks"
 import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 import {AuthenticationDetails, UserNote} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
@@ -34,6 +34,8 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
 
+	const $password = useRef<HTMLInputElement | null>(null)
+	const $passwordConfirmation = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
 		password: yup.string().required(),
 		passwordConfirmation: yup
@@ -112,6 +114,17 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 				setErrors({detail: t("general.defaultError")})
 			}
 		},
+	})
+	const focusPassword = useCallback(() => {
+		if ($password.current?.value !== "") {
+			$passwordConfirmation.current?.focus()
+		} else {
+			$password.current?.focus()
+		}
+	}, [])
+
+	useExtensionHandler({
+		onEnterPassword: focusPassword,
 	})
 
 	return (

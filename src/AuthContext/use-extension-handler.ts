@@ -4,6 +4,7 @@ import {useEvent} from "react-use"
 
 import {ExtensionKleckEvent} from "~/extension-types"
 import {User} from "~/server-types"
+import {AUTHENTICATION_PATHS} from "~/constants/values"
 
 export interface UseExtensionHandlerResult {
 	sharePassword: () => void
@@ -69,7 +70,10 @@ export default function useExtensionHandler(
 					)
 					break
 				case "enter-password":
-					if ($enterPasswordAmount.current < 1) {
+					if (
+						$enterPasswordAmount.current < 1 &&
+						!AUTHENTICATION_PATHS.includes(location.pathname)
+					) {
 						$enterPasswordAmount.current += 1
 
 						navigate("/enter-password")

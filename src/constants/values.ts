@@ -15,3 +15,4 @@ export const DEFAULT_ALIAS_NOTE: AliasNote = {
 }
 export const ERROR_SNACKBAR_SHOW_DURATION = 5000
 export const SUCCESS_SNACKBAR_SHOW_DURATION = 2000
+export const AUTHENTICATION_PATHS = ["/auth/login", "/auth/signup", "/auth/complete-account"]

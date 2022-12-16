@@ -3,7 +3,7 @@ import {useFormik} from "formik"
 import {MdEmail} from "react-icons/md"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
-import React, {ReactElement} from "react"
+import React, {ReactElement, useCallback, useRef} from "react"
 
 import {InputAdornment, TextField} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
@@ -13,6 +13,7 @@ import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {ServerSettings} from "~/server-types"
 
+import {useExtensionHandler} from "~/hooks"
 import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 export interface EmailFormProps {
@@ -28,6 +29,7 @@ interface Form {
 export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): ReactElement {
 	const {t} = useTranslation()
 
+	const $password = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
 		email: yup
 			.string()
@@ -69,6 +71,11 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 			}
 		},
 	})
+	const focusPassword = useCallback(() => $password.current?.focus(), [])
+
+	useExtensionHandler({
+		onEnterPassword: focusPassword,
+	})
 
 	return (
 		<>
@@ -92,6 +99,7 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 									"routes.SignupRoute.forms.email.form.email.placeholder",
 								)}
 								inputMode="email"
+								inputRef={$password}
 								value={formik.values.email}
 								onChange={formik.handleChange}
 								disabled={formik.isSubmitting}
