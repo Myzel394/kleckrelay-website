@@ -40,6 +40,7 @@
                     "description": "We sent you a code to your email. Enter it below to login",
                     "continueAction": "Log in",
                     "allowLoginFromDifferentDevices": "Allow login from different devices",
+                    "expiringSoon": "Your code will expire in less than a minute.",
                     "form": {
                         "code": {
                             "label": "Verification Code",

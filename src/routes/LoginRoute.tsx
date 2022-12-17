@@ -14,6 +14,7 @@ export default function LoginRoute(): ReactElement {
 	const {token, email: queryEmail} = useQueryParams<{token: string; email: string}>()
 	const {login, user} = useContext(AuthContext)
 
+	const [step, setStep] = useState<number>(0)
 	const [email, setEmail] = useState<string>("")
 	const [sameRequestToken, setSameRequestToken] = useState<string>("")
 
@@ -38,19 +39,24 @@ export default function LoginRoute(): ReactElement {
 			steps={[
 				<EmailForm
 					key="email_form"
+					email={email}
 					onLogin={(email, sameRequestToken) => {
 						setEmail(email)
+						setStep(1)
 						setSameRequestToken(sameRequestToken)
 					}}
 				/>,
 				<ConfirmCodeForm
-					key="confirm_code_form"
-					onConfirm={login}
+					key={`confirm_code_form:${email}:${step}`}
 					email={email}
 					sameRequestToken={sameRequestToken}
+					onConfirm={login}
+					onCodeExpired={() => {
+						setStep(0)
+					}}
 				/>,
 			]}
-			index={email === "" ? 0 : 1}
+			index={step}
 		/>
 	)
 }

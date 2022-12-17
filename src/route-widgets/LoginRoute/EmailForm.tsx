@@ -14,6 +14,7 @@ import {MultiStepFormElement, SimpleForm} from "~/components"
 import {useExtensionHandler} from "~/hooks"
 
 export interface EmailFormProps {
+	email: string
 	onLogin: (email: string, sameRequestToken: string) => void
 }
 
@@ -22,7 +23,7 @@ interface Form {
 	detail: string
 }
 
-export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
+export default function EmailForm({onLogin, email: preFilledEmail}: EmailFormProps): ReactElement {
 	const {t} = useTranslation()
 
 	const $password = useRef<HTMLInputElement | null>(null)
@@ -40,7 +41,7 @@ export default function EmailForm({onLogin}: EmailFormProps): ReactElement {
 	const formik = useFormik<Form>({
 		validationSchema: schema,
 		initialValues: {
-			email: "",
+			email: preFilledEmail,
 			detail: "",
 		},
 		onSubmit: async (values, {setErrors}) => {

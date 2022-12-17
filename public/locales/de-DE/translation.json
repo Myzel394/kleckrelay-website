@@ -40,6 +40,7 @@
                     "description": "Wir haben einen Code an deine E-Mail gesendet. Gib ihn hier ein, um dich anzumelden.",
                     "continueAction": "Anmelden",
                     "allowLoginFromDifferentDevices": "Anmelden von anderen Geräten erlauben",
+                    "expiringSoon": "Dein Code läuft in weniger als einer Minute ab.",
                     "form": {
                         "code": {
                             "label": "Verifizierungscode",

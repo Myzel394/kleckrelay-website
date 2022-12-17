@@ -77,6 +77,7 @@ export interface ServerSettings {
 	emailLoginTokenChars: string
 	emailLoginTokenLength: number
 	emailResendWaitTime: number
+	emailLoginExpirationInSeconds: number
 	customAliasSuffixLength: number
 }
 
