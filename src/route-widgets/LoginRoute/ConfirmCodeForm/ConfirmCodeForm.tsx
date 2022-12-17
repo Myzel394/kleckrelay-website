@@ -57,7 +57,7 @@ export default function ConfirmCodeForm({
 	sameRequestToken,
 }: ConfirmCodeFormProps): ReactElement {
 	const settings = useLoaderData() as ServerSettings
-	const expirationTime = isDev ? 9 : settings.emailLoginExpirationInSeconds
+	const expirationTime = isDev ? 70 : settings.emailLoginExpirationInSeconds
 	const {t} = useTranslation()
 	const requestDate = useMemo(() => new Date(), [])
 	const [isExpiringSoon, setIsExpiringSoon] = useState<boolean>(false)

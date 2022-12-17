@@ -1,6 +1,6 @@
-import {ReactElement, ReactNode, useCallback}  from "react"
+import {ReactElement, ReactNode, useCallback} from "react"
 import {useLocalStorage} from "react-use"
-import fastHashCode from "fast-hash-code";
+import fastHashCode from "fast-hash-code"
 
 import {ServerUser, User} from "~/server-types"
 
@@ -9,7 +9,7 @@ import PasswordShareConfirmationDialog from "./PasswordShareConfirmationDialog"
 import useContextValue from "./use-context-value"
 import useExtensionHandler from "./use-extension-handler"
 import useMasterPassword from "./use-master-password"
-import useUser from "./use-user";
+import useUser from "./use-user"
 
 export interface AuthContextProviderProps {
 	children: ReactNode
@@ -26,9 +26,11 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		decryptUsingMasterPassword,
 		decryptUsingPrivateKey,
 		setDecryptionPassword,
+		decryptionPasswordHash,
 		_masterPassword,
 		logout: logoutMasterPassword,
 	} = useMasterPassword(user || null)
+	const passwordHash = _masterPassword ? fastHashCode(_masterPassword).toString() : null
 	const {sharePassword, closeDialog, showDialog, dispatchPasswordStatus} = useExtensionHandler(
 		_masterPassword!,
 		user as User,
@@ -39,10 +41,11 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	}, [logoutMasterPassword])
 
 	const contextValue = useContextValue({
-		decryptUsingPrivateKey,
-		encryptUsingMasterPassword,
-		decryptUsingMasterPassword,
-		setDecryptionPassword,
+		_decryptUsingPrivateKey: decryptUsingPrivateKey,
+		_encryptUsingMasterPassword: encryptUsingMasterPassword,
+		_decryptUsingMasterPassword: decryptUsingMasterPassword,
+		_setDecryptionPassword: setDecryptionPassword,
+		decryptionPasswordHash,
 		logout,
 		login: setUser,
 		user: user || null,
@@ -53,7 +56,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		decryptUsingMasterPassword,
 		user: user || null,
 		updateUser: setUser,
-		masterPasswordHash: _masterPassword ? fastHashCode(_masterPassword).toString() : null,
+		masterPasswordHash: passwordHash,
 	})
 
 	return (

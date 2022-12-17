@@ -12,7 +12,7 @@ import passwordGenerator from "secure-random-password"
 import {PasswordField, SimpleForm} from "~/components"
 import {buildEncryptionPassword, encryptString} from "~/utils"
 import {isDev} from "~/constants/development"
-import {useExtensionHandler, useSystemPreferredTheme, useUser} from "~/hooks"
+import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
 import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 import {AuthenticationDetails, UserNote} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
@@ -34,6 +34,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
 
+	const navigateToNext = useNavigateToNext()
 	const $password = useRef<HTMLInputElement | null>(null)
 	const $passwordConfirmation = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
@@ -65,12 +66,6 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	)
 	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, UpdateAccountData>(
 		updateAccount,
-		{
-			onSuccess: ({user}) => {
-				login(user)
-				setTimeout(onDone, 0)
-			},
-		},
 	)
 	const formik = useFormik<Form>({
 		validationSchema: schema,
@@ -97,19 +92,25 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 				}
 				const encryptedNotes = encryptUserNote(note, masterPassword)
 
-				_setDecryptionPassword(encryptionPassword)
-
-				await mutateAsync({
-					encryptedPassword: encryptedMasterPassword,
-					publicKey: (
-						await readKey({
-							armoredKey: keyPair.publicKey,
-						})
-					)
-						.toPublic()
-						.armor(),
-					encryptedNotes,
-				})
+				await mutateAsync(
+					{
+						encryptedPassword: encryptedMasterPassword,
+						publicKey: (
+							await readKey({
+								armoredKey: keyPair.publicKey,
+							})
+						)
+							.toPublic()
+							.armor(),
+						encryptedNotes,
+					},
+					{
+						onSuccess: ({user: newUser}) => {
+							login(newUser)
+							_setDecryptionPassword(encryptionPassword, navigateToNext)
+						},
+					},
+				)
 			} catch (error) {
 				setErrors({detail: t("general.defaultError")})
 			}

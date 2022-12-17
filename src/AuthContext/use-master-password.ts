@@ -1,9 +1,10 @@
 import {useLocalStorage} from "react-use"
 import {useCallback, useMemo} from "react"
-import {decrypt, readMessage, readPrivateKey} from "openpgp";
+import {decrypt, readMessage, readPrivateKey} from "openpgp"
+import fastHashCode from "fast-hash-code"
 
 import {decryptString, encryptString} from "~/utils"
-import {ServerUser, User} from "~/server-types";
+import {ServerUser, User} from "~/server-types"
 
 export interface UseMasterPasswordResult {
 	encryptUsingMasterPassword: (content: string) => string
@@ -12,13 +13,12 @@ export interface UseMasterPasswordResult {
 
 	setDecryptionPassword: (password: string) => boolean
 	logout: () => void
+	decryptionPasswordHash: string
 	// Use this cautiously
 	_masterPassword: string
 }
 
-export default function useMasterPassword(
-	user: User | ServerUser | null,
-): UseMasterPasswordResult {
+export default function useMasterPassword(user: User | ServerUser | null): UseMasterPasswordResult {
 	const [decryptionPassword, setDecryptionPassword] = useLocalStorage<string | null>(
 		"_global-context-auth-decryption-password",
 		null,
@@ -78,21 +78,23 @@ export default function useMasterPassword(
 		[user],
 	)
 
-	const updateDecryptionPassword = useCallback((password: string) => {
-		if (!user || !user.encryptedPassword) {
-			throw new Error("User not set.")
-		}
+	const updateDecryptionPassword = useCallback(
+		(password: string) => {
+			if (user?.encryptedPassword) {
+				try {
+					const masterPassword = decryptString(user.encryptedPassword, password)
+					JSON.parse(decryptString((user as ServerUser).encryptedNotes, masterPassword))
+				} catch (e) {
+					return false
+				}
+			}
 
-		try {
-			const masterPassword = decryptString(user.encryptedPassword, password)
-			JSON.parse(decryptString((user as ServerUser).encryptedNotes, masterPassword))
 			setDecryptionPassword(password)
-		} catch {
-			return false;
-		}
 
-		return true;
-	}, [user, masterPassword])
+			return true
+		},
+		[user, masterPassword],
+	)
 
 	const logout = useCallback(() => {
 		setDecryptionPassword(null)
@@ -105,5 +107,6 @@ export default function useMasterPassword(
 		logout,
 		setDecryptionPassword: updateDecryptionPassword,
 		_masterPassword: masterPassword!,
+		decryptionPasswordHash: fastHashCode(decryptionPassword || "").toString(),
 	}
 }

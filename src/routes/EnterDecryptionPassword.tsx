@@ -36,15 +36,14 @@ export default function EnterDecryptionPassword(): ReactElement {
 		onSubmit: async ({password}, {setErrors}) => {
 			const decryptionPassword = buildEncryptionPassword(password, user.email.address)
 
-			console.log("decryptionPassword", decryptionPassword)
-			if (!_setDecryptionPassword(decryptionPassword)) {
+			const isPasswordCorrect = _setDecryptionPassword(decryptionPassword, navigateToNext)
+
+			if (!isPasswordCorrect) {
 				setErrors({
 					password: t(
 						"components.EnterDecryptionPassword.form.password.errors.invalidPassword",
 					),
 				})
-			} else {
-				setTimeout(navigateToNext, 0)
 			}
 		},
 	})

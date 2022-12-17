@@ -11,13 +11,13 @@ export enum EncryptionStatus {
 interface AuthContextTypeBase {
 	user: ServerUser | User | null
 	isAuthenticated: boolean
-	login: (user: ServerUser | User) => void
+	login: (user: ServerUser | User, callback?: () => void) => void
 	logout: () => void
 	encryptionStatus: EncryptionStatus
 	_decryptUsingMasterPassword: (content: string) => string
 	_encryptUsingMasterPassword: (content: string) => string
 	_decryptUsingPrivateKey: (message: string) => Promise<string>
-	_setDecryptionPassword: (decryptionPassword: string) => boolean
+	_setDecryptionPassword: (decryptionPassword: string, callback?: () => void) => boolean
 	_updateUser: (user: ServerUser | User) => void
 }
 
