@@ -5,6 +5,7 @@ import {useEvent} from "react-use"
 import {ExtensionKleckEvent} from "~/extension-types"
 import {User} from "~/server-types"
 import {AUTHENTICATION_PATHS} from "~/constants/values"
+import {queryClient} from "~/constants/react-query"
 
 export interface UseExtensionHandlerResult {
 	sharePassword: () => void
@@ -80,6 +81,21 @@ export default function useExtensionHandler(
 					}
 
 					break
+				case "refetch-aliases":
+					if (document.visibilityState !== "visible") {
+						return
+					}
+
+					;(async () => {
+						await Promise.allSettled([
+							queryClient.invalidateQueries({
+								queryKey: ["get_alias"],
+							}),
+							queryClient.invalidateQueries({
+								queryKey: ["get_aliases"],
+							}),
+						])
+					})()
 			}
 		},
 		[dispatchPasswordStatus],
