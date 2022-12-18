@@ -29,7 +29,7 @@ import {
 import {parseFastAPIError} from "~/utils"
 import {FaviconImage, SimpleOverlayInformation} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
-import {UpdateAliasData, updateAlias} from "~/apis"
+import {updateAlias} from "~/apis"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import AddWebsiteField from "~/route-widgets/AliasDetailRoute/AddWebsiteField"

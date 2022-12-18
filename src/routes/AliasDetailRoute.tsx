@@ -26,8 +26,8 @@ export default function AliasDetailRoute(): ReactElement {
 	const {t} = useTranslation()
 	const params = useParams()
 	const address = atob(params.addressInBase64 as string)
-	const queryKey = ["get_alias", address]
 	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
+	const queryKey = ["get_alias", address, encryptionStatus]
 
 	const query = useQuery<Alias | DecryptedAlias, AxiosError>(queryKey, async () => {
 		const alias = await getAlias(address)
