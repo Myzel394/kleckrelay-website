@@ -101,6 +101,7 @@ export interface AliasNote {
 	version: "1.0"
 	data: {
 		createdAt: Date | null
+		createdOn: string | null
 		creationContext: "extension" | "web"
 		personalNotes: string
 		websites: Array<{

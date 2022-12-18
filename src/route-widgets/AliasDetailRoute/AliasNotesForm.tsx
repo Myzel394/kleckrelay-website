@@ -2,8 +2,8 @@ import * as yup from "yup"
 import {TiDelete} from "react-icons/ti"
 import {AxiosError} from "axios"
 import {ReactElement, useContext, useMemo, useState} from "react"
-import {MdCheckCircle, MdEditCalendar} from "react-icons/md"
-import {RiStickyNoteFill} from "react-icons/ri"
+import {MdCheckCircle, MdEditCalendar, MdExtension} from "react-icons/md"
+import {RiGlobalLine, RiLinkM, RiStickyNoteFill} from "react-icons/ri"
 import {FieldArray, FormikProvider, useFormik} from "formik"
 import {FaPen} from "react-icons/fa"
 import {useTranslation} from "react-i18next"
@@ -16,6 +16,7 @@ import {
 	Grid,
 	IconButton,
 	InputAdornment,
+	Link,
 	List,
 	ListItem,
 	ListItemIcon,
@@ -49,6 +50,11 @@ interface Form {
 	websites: AliasNote["data"]["websites"]
 
 	detail?: string
+}
+
+const CREATION_CONTEXT_ICON_MAP: Record<AliasNote["data"]["creationContext"], ReactElement> = {
+	web: <RiGlobalLine />,
+	extension: <MdExtension />,
 }
 
 export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProps): ReactElement {
@@ -212,6 +218,43 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 												</Typography>
 											</Tooltip>
 										)}
+									</SimpleOverlayInformation>
+								</Grid>
+							)}
+							{notes.data.creationContext && (
+								<Grid item>
+									<SimpleOverlayInformation
+										icon={CREATION_CONTEXT_ICON_MAP[notes.data.creationContext]}
+										label={t(
+											"routes.AliasDetailRoute.sections.notes.form.creationContext.label",
+										)}
+									>
+										<Typography variant="body1">
+											{t(
+												`routes.AliasDetailRoute.sections.notes.form.creationContext.${notes.data.creationContext}.label`,
+											)}
+										</Typography>
+									</SimpleOverlayInformation>
+								</Grid>
+							)}
+							{notes.data.createdOn && (
+								<Grid item>
+									<SimpleOverlayInformation
+										icon={<RiLinkM />}
+										label={t(
+											"routes.AliasDetailRoute.sections.notes.form.createdOn.label",
+										)}
+									>
+										<Link
+											href={notes.data.createdOn}
+											component="a"
+											target="_blank"
+											rel="noopener noreferrer nofollow"
+										>
+											<Typography variant="body1">
+												{notes.data.createdOn}
+											</Typography>
+										</Link>
 									</SimpleOverlayInformation>
 								</Grid>
 							)}

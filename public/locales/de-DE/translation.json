@@ -164,6 +164,18 @@
                             "label": "Erstellungsdatum",
                             "empty": "Nicht verfügbar"
                         },
+                        "creationContext": {
+                            "label": "Kontext",
+                            "web": {
+                                "label": "Auf dieser Instanz erstellt"
+                            },
+                            "extension": {
+                                "label": "In der Erweiterung erstellt"
+                            }
+                        },
+                        "createdOn": {
+                            "label": "Erstellt auf"
+                        },
                         "personalNotes": {
                             "label": "Persönliche Notizen",
                             "empty": "-",

@@ -172,6 +172,18 @@
                             "label": "Created at",
                             "empty": "Unavailable"
                         },
+                        "creationContext": {
+                            "label": "Creation Context",
+                            "web": {
+                                "label": "Created on this instance"
+                            },
+                            "extension": {
+                                "label": "Created in the extension"
+                            }
+                        },
+                        "createdOn": {
+                            "label": "Created on"
+                        },
                         "personalNotes": {
                             "label": "Personal Notes",
                             "empty": "-",

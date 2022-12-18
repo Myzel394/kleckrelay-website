@@ -1,7 +1,7 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 
-import {Grid, Typography} from "@mui/material"
+import {Box, Grid, Typography} from "@mui/material"
 
 export interface SimpleOverlayInformationProps {
 	label: string
@@ -25,12 +25,10 @@ export default function SimpleOverlayInformation({
 				<Typography variant="overline">{label}</Typography>
 			</Grid>
 			<Grid item>
-				<Grid container spacing={1} flexDirection="row" alignItems="center">
-					{icon && <Grid item>{icon}</Grid>}
-					<Grid item>
-						{children || <Typography variant="body2">{emptyTextValue}</Typography>}
-					</Grid>
-				</Grid>
+				<Box display="flex" flexDirection="row" gap={1} alignItems="center">
+					{icon}
+					{children || <Typography variant="body2">{emptyTextValue}</Typography>}
+				</Box>
 			</Grid>
 		</Grid>
 	)
