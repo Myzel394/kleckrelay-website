@@ -1,5 +1,5 @@
 import {ReactElement} from "react"
-import {MdContentCopy} from "react-icons/md"
+import {MdContentCopy, MdExtension} from "react-icons/md"
 import {Link as RouterLink} from "react-router-dom"
 
 import {ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText} from "@mui/material"
@@ -9,12 +9,18 @@ import {AliasList} from "~/server-types"
 
 export interface AliasesListItemProps {
 	alias: AliasList
+
+	showExtensionIcon?: boolean
 	onCopy?: (address: string) => void
 }
 
 const getAddress = (alias: AliasList): string => `${alias.local}@${alias.domain}`
 
-export default function AliasesListItem({alias, onCopy}: AliasesListItemProps): ReactElement {
+export default function AliasesListItem({
+	alias,
+	showExtensionIcon,
+	onCopy,
+}: AliasesListItemProps): ReactElement {
 	const isInCopyAddressMode = onCopy !== undefined
 	const address = getAddress(alias)
 
@@ -44,11 +50,19 @@ export default function AliasesListItem({alias, onCopy}: AliasesListItemProps): 
 					</>
 				}
 			/>
-			{isInCopyAddressMode && (
-				<ListItemSecondaryAction>
-					<MdContentCopy />
-				</ListItemSecondaryAction>
-			)}
+			{(() => {
+				if (isInCopyAddressMode) {
+					return (
+						<ListItemSecondaryAction>
+							<MdContentCopy />
+						</ListItemSecondaryAction>
+					)
+				}
+
+				if (showExtensionIcon) {
+					return <MdExtension />
+				}
+			})()}
 		</ListItemButton>
 	)
 }

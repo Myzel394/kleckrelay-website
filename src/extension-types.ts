@@ -1,21 +1,28 @@
-interface ExtensionKleckMessagePasswordStatus {
+export interface ExtensionKleckMessagePasswordStatus {
 	type: "password-status"
 }
 
-interface ExtensionKleckMessageAskForPassword {
+export interface ExtensionKleckMessageAskForPassword {
 	type: "ask-for-password"
 }
 
-interface ExtensionKleckMessageUser {
+export interface ExtensionKleckMessageUser {
 	type: "get-user"
 }
 
-interface ExtensionKleckMessageEnterPassword {
+export interface ExtensionKleckMessageEnterPassword {
 	type: "enter-password"
 }
 
-interface ExtensionKleckMessageRefetchAliases {
+export interface ExtensionKleckMessageRefetchAliases {
 	type: "refetch-aliases"
+}
+
+export interface ExtensionKleckMessageLatestAlias {
+	type: "latest-alias"
+	data: {
+		latestAliasId: string
+	}
 }
 
 export type ExtensionKleckMessage =
@@ -24,6 +31,7 @@ export type ExtensionKleckMessage =
 	| ExtensionKleckMessageUser
 	| ExtensionKleckMessageEnterPassword
 	| ExtensionKleckMessageRefetchAliases
+	| ExtensionKleckMessageLatestAlias
 
 export type ExtensionKleckEvent = MessageEvent & {
 	detail: ExtensionKleckMessage

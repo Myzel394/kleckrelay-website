@@ -1,21 +1,11 @@
-import {ReactElement, useState, useTransition} from "react"
+import {ReactElement, useCallback, useEffect, useState, useTransition} from "react"
 import {AxiosError} from "axios"
 import {MdSearch} from "react-icons/md"
 import {useTranslation} from "react-i18next"
 import {useCopyToClipboard, useKeyPress, useUpdateEffect} from "react-use"
 
 import {useQuery} from "@tanstack/react-query"
-import {
-	Alert,
-	Chip,
-	Divider,
-	Grid,
-	InputAdornment,
-	List,
-	Snackbar,
-	TextField,
-	ToggleButton,
-} from "@mui/material"
+import {Alert, Chip, Grid, InputAdornment, List, Snackbar, TextField} from "@mui/material"
 
 import {AliasList, AliasType, PaginationResult} from "~/server-types"
 import {
@@ -26,8 +16,9 @@ import {
 	SimplePage,
 	SuccessSnack,
 } from "~/components"
-import {useIsAnyInputFocused} from "~/hooks"
+import {useExtensionHandler, useIsAnyInputFocused, useWindowVisible} from "~/hooks"
 import {CreateAliasButton} from "~/route-widgets/AliasesRoute/CreateAliasButton"
+import {ExtensionKleckMessageLatestAlias} from "~/extension-types"
 import AliasesListItem from "~/route-widgets/AliasesRoute/AliasesListItem"
 import EmptyStateScreen from "~/route-widgets/AliasesRoute/EmptyStateScreen"
 import getAliases from "~/apis/get-aliases"
@@ -59,6 +50,8 @@ export default function AliasesRoute(): ReactElement {
 	const isAnyInputFocused = useIsAnyInputFocused()
 	const [lockDisabledCopyMode, setLockDisabledCopyMode] = useState<boolean>(false)
 	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingControl
+	const [latestAliasId, setLatestAliasId] = useState<string | null>(null)
+	const isVisible = useWindowVisible()
 
 	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
 		["get_aliases", {queryValue, searchFilter, typeFilter}],
@@ -97,11 +90,44 @@ export default function AliasesRoute(): ReactElement {
 		},
 	)
 
+	const updateLatestAliasId = useCallback(
+		({latestAliasId}: ExtensionKleckMessageLatestAlias["data"]) => {
+			setLatestAliasId(latestAliasId)
+		},
+		[],
+	)
+	useExtensionHandler({
+		onLatestAliasChange: updateLatestAliasId,
+		onRefetchAliases: query.refetch,
+	})
+
 	useUpdateEffect(() => {
 		if (!isPressingControl) {
 			setLockDisabledCopyMode(false)
 		}
 	}, [isPressingControl])
+
+	useUpdateEffect(() => {
+		if (!query.data) {
+			return
+		}
+
+		// If `latestAliasId` is not present in the current query result, then
+		// we need to refetch the query to get the latest alias.
+		if (!query.data.items.some(({id}) => id === latestAliasId)) {
+			query.refetch()
+		}
+	}, [latestAliasId])
+
+	useEffect(() => {
+		window.dispatchEvent(
+			new CustomEvent("kleckrelay-blob", {
+				detail: {
+					type: "get-latest-alias",
+				},
+			}),
+		)
+	}, [isVisible])
 
 	return (
 		<SimplePage
@@ -260,6 +286,7 @@ export default function AliasesRoute(): ReactElement {
 												<AliasesListItem
 													alias={alias}
 													key={alias.id}
+													showExtensionIcon={alias.id === latestAliasId}
 													onCopy={
 														isInCopyAddressMode
 															? alias => {
