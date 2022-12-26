@@ -57,6 +57,8 @@ const CREATION_CONTEXT_ICON_MAP: Record<AliasNote["data"]["creationContext"], Re
 	extension: <MdExtension />,
 }
 
+const IMAGE_WIDTH = 20
+
 export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProps): ReactElement {
 	const {t} = useTranslation()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
@@ -332,6 +334,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 																	<ListItem key={website.url}>
 																		<ListItemIcon>
 																			<FaviconImage
+																				width={IMAGE_WIDTH}
 																				url={website.url}
 																			/>
 																		</ListItemIcon>
@@ -366,7 +369,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 													<ListItem key={website.url}>
 														<ListItemIcon>
 															<FaviconImage
-																width={20}
+																width={IMAGE_WIDTH}
 																url={website.url}
 															/>
 														</ListItemIcon>
