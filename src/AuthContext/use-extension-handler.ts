@@ -65,6 +65,7 @@ export default function useExtensionHandler(
 								type: "get-user",
 								data: {
 									user,
+									masterPasswordAvailable: Boolean(masterPassword),
 								},
 							},
 						}),
