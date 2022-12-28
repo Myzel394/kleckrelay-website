@@ -1,10 +1,7 @@
-import Crypto from "crypto-js"
+import {AES, enc} from "crypto-js"
 
-export default function decryptString(
-	ciphertext: string,
-	password: string,
-): string {
-	const bytes = Crypto.AES.decrypt(ciphertext, password)
+export default function decryptString(ciphertext: string, secret: CryptoJS.lib.WordArray): string {
+	const bytes = AES.decrypt(ciphertext, secret.toString())
 
-	return bytes.toString(Crypto.enc.Utf8)
+	return bytes.toString(enc.Utf8)
 }

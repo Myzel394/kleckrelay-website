@@ -12,5 +12,6 @@ export default async function getEncryptionPassword(
 
 	return CryptoJS.PBKDF2(cryptoPassword, cryptoSalt, {
 		keySize: 512 / 32,
+		iterations: process.env.NODE_ENV === "production" ? 100_394 : 1,
 	})
 }

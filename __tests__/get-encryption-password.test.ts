@@ -8,6 +8,6 @@ describe("getEncryptionPassword", () => {
 	it("returns a string", async () => {
 		const result = await getEncryptionPassword("test@kleckrelay.example", "password", "salt")
 
-		expect(typeof result).toBe("string")
+		expect(typeof result).toBe("object")
 	})
 })
