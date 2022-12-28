@@ -7,7 +7,7 @@ export default async function getEncryptionPassword(
 	password: string,
 	salt: string,
 ): Promise<CryptoJS.lib.WordArray> {
-	const cryptoSalt = `${salt}-${SALT_SUFFIX}`
+	const cryptoSalt = `${salt}:${SALT_SUFFIX}`
 	const cryptoPassword = `${password}-${email}`
 
 	return CryptoJS.PBKDF2(cryptoPassword, cryptoSalt, {

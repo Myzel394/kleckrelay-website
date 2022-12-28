@@ -40,6 +40,7 @@ export interface ServerUser {
 	encryptedNotes: string
 	isDecrypted: false
 	encryptedPassword: string
+	salt: string
 	email: {
 		address: string
 		isVerified: boolean

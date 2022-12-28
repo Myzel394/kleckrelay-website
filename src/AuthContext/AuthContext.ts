@@ -17,7 +17,7 @@ interface AuthContextTypeBase {
 	_decryptUsingMasterPassword: (content: string) => string
 	_encryptUsingMasterPassword: (content: string) => string
 	_decryptUsingPrivateKey: (message: string) => Promise<string>
-	_setDecryptionPassword: (decryptionPassword: string, callback?: () => void) => boolean
+	_setEncryptionPassword: (decryptionPassword: string | null) => void
 	_updateUser: (user: ServerUser | User) => void
 }
 
@@ -54,7 +54,7 @@ const AuthContext = createContext<AuthContextType>({
 	_decryptUsingPrivateKey: () => {
 		throw new Error("_decryptUsingPrivateKey() not implemented")
 	},
-	_setDecryptionPassword: () => {
+	_setEncryptionPassword: () => {
 		throw new Error("_setMasterDecryptionPassword() not implemented")
 	},
 	_updateUser: () => {

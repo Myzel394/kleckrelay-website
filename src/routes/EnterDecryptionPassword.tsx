@@ -3,12 +3,13 @@ import {ReactElement, useContext} from "react"
 import {useFormik} from "formik"
 import {MdLock} from "react-icons/md"
 import {useTranslation} from "react-i18next"
+import {useLoaderData} from "react-router-dom"
 
 import {InputAdornment} from "@mui/material"
-
-import {buildEncryptionPassword} from "~/utils"
 import {useNavigateToNext, useUser} from "~/hooks"
 import {PasswordField, SimpleForm} from "~/components"
+import {getMasterPassword} from "~/utils"
+import {ServerSettings} from "~/server-types"
 import AuthContext from "~/AuthContext/AuthContext"
 
 interface Form {
@@ -19,7 +20,8 @@ export default function EnterDecryptionPassword(): ReactElement {
 	const {t} = useTranslation()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
-	const {_setDecryptionPassword} = useContext(AuthContext)
+	const serverSettings = useLoaderData() as ServerSettings
+	const {_setEncryptionPassword} = useContext(AuthContext)
 
 	const schema = yup.object().shape({
 		password: yup
@@ -34,11 +36,13 @@ export default function EnterDecryptionPassword(): ReactElement {
 			password: "",
 		},
 		onSubmit: async ({password}, {setErrors}) => {
-			const decryptionPassword = buildEncryptionPassword(password, user.email.address)
+			try {
+				const masterPassword = await getMasterPassword(user, serverSettings, password)
 
-			const isPasswordCorrect = _setDecryptionPassword(decryptionPassword, navigateToNext)
-
-			if (!isPasswordCorrect) {
+				_setEncryptionPassword(masterPassword)
+				navigateToNext()
+			} catch (error) {
+				// Password is incorrect
 				setErrors({
 					password: t(
 						"components.EnterDecryptionPassword.form.password.errors.invalidPassword",

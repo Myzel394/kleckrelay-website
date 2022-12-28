@@ -1,20 +1,21 @@
 import * as yup from "yup"
 import {useFormik} from "formik"
 import {MdCheckCircle, MdLock} from "react-icons/md"
-import {generateKey, readKey} from "openpgp"
+import {readKey} from "openpgp"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
-import {Box, InputAdornment} from "@mui/material"
-import {useMutation} from "@tanstack/react-query"
+import {useLoaderData} from "react-router-dom"
 import React, {ReactElement, useCallback, useContext, useMemo, useRef} from "react"
 import passwordGenerator from "secure-random-password"
 
+import {Box, InputAdornment} from "@mui/material"
+import {useMutation} from "@tanstack/react-query"
+
 import {PasswordField, SimpleForm} from "~/components"
-import {buildEncryptionPassword, encryptString} from "~/utils"
-import {isDev} from "~/constants/development"
+import {encryptString, generateKeys, getEncryptionPassword, getUserSalt} from "~/utils"
 import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
 import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
-import {AuthenticationDetails, UserNote} from "~/server-types"
+import {AuthenticationDetails, ServerSettings, UserNote} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
 import {encryptUserNote} from "~/utils/encrypt-user-note"
 import AuthContext from "~/AuthContext/AuthContext"
@@ -33,6 +34,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	const {t} = useTranslation()
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
+	const serverSettings = useLoaderData() as ServerSettings
 
 	const navigateToNext = useNavigateToNext()
 	const $password = useRef<HTMLInputElement | null>(null)
@@ -51,19 +53,9 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 			.label(t("routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label")),
 	})
 
-	const {_setDecryptionPassword, login} = useContext(AuthContext)
+	const {_setEncryptionPassword, login} = useContext(AuthContext)
 
-	const awaitGenerateKey = useMemo(
-		() =>
-			generateKey({
-				type: "rsa",
-				format: "armored",
-				userIDs: [{name: "John Smith", email: "john@example.com"}],
-				passphrase: "",
-				rsaBits: isDev ? 2048 : 4096,
-			}),
-		[],
-	)
+	const waitForKeyGeneration = useMemo(generateKeys, [])
 	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, UpdateAccountData>(
 		updateAccount,
 	)
@@ -73,19 +65,22 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 			password: "",
 			passwordConfirmation: "",
 		},
-		onSubmit: async (values, {setErrors}) => {
+		onSubmit: async ({password}, {setErrors}) => {
 			try {
-				const keyPair = await awaitGenerateKey
+				const keyPair = await waitForKeyGeneration
 
 				const masterPassword = passwordGenerator.randomPassword({
 					length: MASTER_PASSWORD_LENGTH,
 				})
 
-				const encryptionPassword = buildEncryptionPassword(
-					values.password,
+				const salt = getUserSalt(user, serverSettings)
+				const encryptionKey = await getEncryptionPassword(
 					user.email.address,
+					password,
+					salt,
 				)
-				const encryptedMasterPassword = encryptString(masterPassword, encryptionPassword)
+				const encryptedMasterPassword = encryptString(masterPassword, encryptionKey)
+
 				const note: UserNote = {
 					theme,
 					privateKey: keyPair.privateKey,
@@ -107,7 +102,8 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 					{
 						onSuccess: ({user: newUser}) => {
 							login(newUser)
-							_setDecryptionPassword(encryptionPassword, navigateToNext)
+							_setEncryptionPassword(masterPassword)
+							navigateToNext()
 						},
 					},
 				)

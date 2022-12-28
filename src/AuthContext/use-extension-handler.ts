@@ -15,7 +15,7 @@ export interface UseExtensionHandlerResult {
 }
 
 export default function useExtensionHandler(
-	masterPassword: string,
+	encryptionPassword: string,
 	user: User,
 ): UseExtensionHandlerResult {
 	const navigate = useNavigate()
@@ -36,7 +36,7 @@ export default function useExtensionHandler(
 								return "denied"
 							}
 
-							if (masterPassword) {
+							if (encryptionPassword) {
 								return "can-ask"
 							}
 
@@ -46,7 +46,7 @@ export default function useExtensionHandler(
 				},
 			}),
 		)
-	}, [doNotAskForPassword, masterPassword])
+	}, [doNotAskForPassword, encryptionPassword])
 
 	// Handle extension password request
 	const handleExtensionEvent = useCallback(
@@ -65,7 +65,7 @@ export default function useExtensionHandler(
 								type: "get-user",
 								data: {
 									user,
-									masterPasswordAvailable: Boolean(masterPassword),
+									masterPasswordAvailable: Boolean(encryptionPassword),
 								},
 							},
 						}),
@@ -117,7 +117,7 @@ export default function useExtensionHandler(
 					detail: {
 						type: "password",
 						data: {
-							password: masterPassword,
+							password: encryptionPassword,
 						},
 					},
 				}),

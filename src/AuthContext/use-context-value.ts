@@ -1,4 +1,4 @@
-import {useMemo, useRef} from "react"
+import {Dispatch, SetStateAction, useMemo, useRef} from "react"
 import {useUpdateEffect} from "react-use"
 
 import {AuthContextType, EncryptionStatus} from "~/AuthContext/AuthContext"
@@ -13,7 +13,7 @@ export type UseContextValueData = Pick<
 	| "_decryptUsingPrivateKey"
 > & {
 	decryptionPasswordHash: string
-	_setDecryptionPassword: (password: string) => boolean
+	setEncryptionPassword: Dispatch<SetStateAction<string | null>>
 	login: (user: User | ServerUser) => void
 }
 
@@ -21,9 +21,9 @@ export default function useContextValue({
 	user,
 	login,
 	logout,
+	setEncryptionPassword,
 	_encryptUsingMasterPassword,
 	_decryptUsingMasterPassword,
-	_setDecryptionPassword,
 	_decryptUsingPrivateKey,
 	decryptionPasswordHash,
 }: UseContextValueData): AuthContextType {
@@ -62,13 +62,7 @@ export default function useContextValue({
 				return EncryptionStatus.PasswordRequired
 			})(),
 			_updateUser: login,
-			_setDecryptionPassword: (password, callback) => {
-				if (callback) {
-					$decryptionPasswordChangeCallback.current = callback
-				}
-
-				return _setDecryptionPassword(password)
-			},
+			_setEncryptionPassword: setEncryptionPassword,
 			_encryptUsingMasterPassword,
 			_decryptUsingMasterPassword,
 			_decryptUsingPrivateKey,
@@ -77,7 +71,7 @@ export default function useContextValue({
 			user,
 			login,
 			logout,
-			_setDecryptionPassword,
+			setEncryptionPassword,
 			_encryptUsingMasterPassword,
 			_decryptUsingMasterPassword,
 			_decryptUsingPrivateKey,

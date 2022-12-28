@@ -20,19 +20,18 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		"_global-context-auth-user",
 		null,
 	)
-
 	const {
 		encryptUsingMasterPassword,
 		decryptUsingMasterPassword,
 		decryptUsingPrivateKey,
-		setDecryptionPassword,
 		decryptionPasswordHash,
-		_masterPassword,
+		_encryptionPassword,
+		setEncryptionPassword,
 		logout: logoutMasterPassword,
 	} = useMasterPassword(user || null)
-	const passwordHash = _masterPassword ? fastHashCode(_masterPassword).toString() : null
+	const passwordHash = _encryptionPassword ? fastHashCode(_encryptionPassword).toString() : null
 	const {sharePassword, closeDialog, showDialog, dispatchPasswordStatus} = useExtensionHandler(
-		_masterPassword!,
+		_encryptionPassword!,
 		user as User,
 	)
 	const logout = useCallback(() => {
@@ -44,7 +43,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		_decryptUsingPrivateKey: decryptUsingPrivateKey,
 		_encryptUsingMasterPassword: encryptUsingMasterPassword,
 		_decryptUsingMasterPassword: decryptUsingMasterPassword,
-		_setDecryptionPassword: setDecryptionPassword,
+		setEncryptionPassword,
 		decryptionPasswordHash,
 		logout,
 		login: setUser,
@@ -63,7 +62,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		<>
 			<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 			<PasswordShareConfirmationDialog
-				open={Boolean(_masterPassword && showDialog)}
+				open={Boolean(_encryptionPassword && showDialog)}
 				onShare={sharePassword}
 				onClose={doNotAskAgain => {
 					closeDialog(doNotAskAgain)

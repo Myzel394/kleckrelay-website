@@ -37,22 +37,23 @@ const router = createBrowserRouter([
 				element: <AuthenticateRoute />,
 				children: [
 					{
-						loader: getServerSettings,
 						path: "/auth/login",
+						loader: getServerSettings,
 						element: <LoginRoute />,
 					},
 					{
-						loader: getServerSettings,
 						path: "/auth/signup",
+						loader: getServerSettings,
 						element: <SignupRoute />,
 					},
 					{
-						loader: getServerSettings,
 						path: "/auth/verify-email",
+						loader: getServerSettings,
 						element: <VerifyEmailRoute />,
 					},
 					{
 						path: "/auth/complete-account",
+						loader: getServerSettings,
 						element: <CompleteAccountRoute />,
 					},
 					{
@@ -93,6 +94,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/enter-password",
+						loader: getServerSettings,
 						element: <EnterDecryptionPassword />,
 					},
 				],
