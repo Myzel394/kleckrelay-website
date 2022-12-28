@@ -79,6 +79,7 @@ export interface ServerSettings {
 	emailResendWaitTime: number
 	emailLoginExpirationInSeconds: number
 	customAliasSuffixLength: number
+	instanceSalt: string
 }
 
 export interface Alias {
