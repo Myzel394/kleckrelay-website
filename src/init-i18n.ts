@@ -1,6 +1,4 @@
 import {initReactI18next} from "react-i18next"
-import {de} from "yup-locales"
-import {setLocale} from "yup"
 // @ts-ignore
 // eslint-disable-next-line ordered-imports/ordered-imports
 import Cache from "i18next-localstorage-cache"
@@ -25,5 +23,3 @@ i18n.use(HttpApi)
 			escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
 		},
 	})
-
-setLocale(de)

@@ -24,6 +24,7 @@ import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
+import I18nHandler from "./I18nHandler"
 import "./init-i18n"
 
 const router = createBrowserRouter([
@@ -111,6 +112,7 @@ export default function App(): ReactElement {
 					<SnackbarProvider>
 						<CssBaseline />
 						<RouterProvider router={router} />
+						<I18nHandler />
 					</SnackbarProvider>
 				</ThemeProvider>
 			</QueryClientProvider>
