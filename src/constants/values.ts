@@ -7,6 +7,7 @@ export const URL_REGEX =
 export const DEFAULT_ALIAS_NOTE: AliasNote = {
 	version: "1.0",
 	data: {
+		createdOn: null,
 		createdAt: null,
 		creationContext: "web",
 		personalNotes: "",
