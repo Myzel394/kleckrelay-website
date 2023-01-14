@@ -8,9 +8,9 @@ import {QueryKey, useMutation} from "@tanstack/react-query"
 
 import {Alias, DecryptedAlias} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {useErrorSuccessSnacks, useUIState} from "~/hooks"
+import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
-import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
+import {AuthContext, EncryptionStatus} from "~/components"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface ChangeAliasActivationStatusSwitchProps {

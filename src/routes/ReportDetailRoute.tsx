@@ -8,12 +8,11 @@ import {List} from "@mui/material"
 
 import {DecryptedReportContent, Report} from "~/server-types"
 import {getReport} from "~/apis"
-import {DecryptReport, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
+import {DecryptReport, QueryResult, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
 import {WithEncryptionRequired} from "~/hocs"
 import DeleteButton from "~/route-widgets/ReportDetailRoute/DeleteButton"
 import ExpandedUrlsListItem from "~/route-widgets/ReportDetailRoute/ExpandedUrlsListItem"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
-import QueryResult from "~/components/QueryResult"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
 
 function ReportDetailRoute(): ReactElement {

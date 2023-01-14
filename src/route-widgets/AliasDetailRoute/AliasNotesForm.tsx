@@ -28,14 +28,17 @@ import {
 } from "@mui/material"
 
 import {parseFastAPIError} from "~/utils"
-import {FaviconImage, SimpleOverlayInformation} from "~/components"
+import {
+	AuthContext,
+	FaviconImage,
+	FormikAutoLockNavigation,
+	SimpleOverlayInformation,
+} from "~/components"
 import {Alias, AliasNote, DecryptedAlias} from "~/server-types"
 import {updateAlias} from "~/apis"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import AddWebsiteField from "~/route-widgets/AliasDetailRoute/AddWebsiteField"
-import AuthContext from "~/AuthContext/AuthContext"
-import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface AliasNotesFormProps {

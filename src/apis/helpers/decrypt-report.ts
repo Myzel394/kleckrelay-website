@@ -2,7 +2,7 @@ import camelcaseKeys from "camelcase-keys"
 import update from "immutability-helper"
 
 import {DecryptedReportContent} from "~/server-types"
-import {AuthContextType} from "~/AuthContext/AuthContext"
+import {AuthContextType} from "~/components"
 
 export default async function decryptReport(
 	encryptedContent: string,

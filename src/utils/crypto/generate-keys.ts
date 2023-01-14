@@ -4,7 +4,7 @@ export default async function generateKeys(): Promise<
 	SerializedKeyPair<string> & {revocationCertificate: string}
 > {
 	return generateKey({
-		type: "rsa",
+		type: "ecc",
 		format: "armored",
 		userIDs: [{name: "John Smith", email: "john@example.com"}],
 		passphrase: "",

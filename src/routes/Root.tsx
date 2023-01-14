@@ -1,9 +1,7 @@
 import {Outlet} from "react-router-dom"
 import React, {ReactElement} from "react"
 
-import {ExtensionSignalHandler} from "~/components"
-import AppLoadingScreen from "~/AppLoadingScreen/AppLoadingScreen"
-import AuthContextProvider from "~/AuthContext/AuthContextProvider"
+import {AppLoadingScreen, AuthContextProvider, ExtensionSignalHandler} from "~/components"
 
 export default function RootRoute(): ReactElement {
 	return (

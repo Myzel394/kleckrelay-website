@@ -30,7 +30,7 @@ import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
 	PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
-import AuthContext from "~/AuthContext/AuthContext"
+import {AuthContext} from "~/components"
 
 interface Form {
 	removeTrackers: boolean

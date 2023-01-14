@@ -1,12 +1,13 @@
 import {FaLongArrowAltRight} from "react-icons/fa"
 import {TiCancel} from "react-icons/ti"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {Box, Button, Grid, Typography} from "@mui/material"
-import {MultiStepFormElement} from "~/components"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import {useTranslation} from "react-i18next"
 import Icon from "@mdi/react"
+
+import {MultiStepFormElement} from "~/components"
 
 export interface GenerateEmailReportsFormProps {
 	onYes: () => void

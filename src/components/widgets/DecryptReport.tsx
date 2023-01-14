@@ -2,15 +2,14 @@ import {ReactElement, useContext} from "react"
 import {useAsync} from "react-use"
 
 import {DecryptedReportContent, Report} from "~/server-types"
-import AuthContext from "~/AuthContext/AuthContext"
 import decryptReport from "~/apis/helpers/decrypt-report"
+
+import {AuthContext} from "../AuthContext"
 
 interface DecryptReportPropsBase {
 	encryptedContent?: string
 	reports?: Report[]
-	children: (
-		report: DecryptedReportContent | DecryptedReportContent[],
-	) => ReactElement
+	children: (report: DecryptedReportContent | DecryptedReportContent[]) => ReactElement
 }
 
 interface DecryptReportPropsEncryptedContent {
@@ -34,17 +33,13 @@ export default function DecryptReport({
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
 	const {value} = useAsync(async () => {
-		const decrypt = async (
-			content: string,
-		): Promise<DecryptedReportContent> =>
+		const decrypt = async (content: string): Promise<DecryptedReportContent> =>
 			decryptReport(content, _decryptUsingPrivateKey)
 
 		if (encryptedContent) {
 			return decrypt(encryptedContent)
 		} else {
-			return await Promise.all(
-				reports!.map(report => decrypt(report.encryptedContent)),
-			)
+			return await Promise.all(reports!.map(report => decrypt(report.encryptedContent)))
 		}
 	}, [encryptedContent, reports])
 

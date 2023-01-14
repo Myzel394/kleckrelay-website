@@ -6,8 +6,9 @@ import sortArray from "sort-array"
 import {ListItemIcon, ListItemText, MenuItem, Select} from "@mui/material"
 
 import {Language} from "~/server-types"
-import AppLoadingScreenContext from "~/AppLoadingScreen/AppLoadingScreenContext"
-import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
+
+import {LockNavigationContext} from "../LockNavigation"
+import {AppLoadingScreenContext} from "../AppLoadingScreen"
 
 const LANGUAGE_NAME_MAP = {
 	[Language.EN_US]: "English",

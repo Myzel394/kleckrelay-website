@@ -10,7 +10,9 @@ import {getAlias} from "~/apis"
 import {Alias, DecryptedAlias} from "~/server-types"
 import {
 	AliasTypeIndicator,
+	AuthContext,
 	DecryptionPasswordMissingAlert,
+	EncryptionStatus,
 	QueryResult,
 	SimplePage,
 	SimplePageBuilder,
@@ -18,7 +20,6 @@ import {
 import AliasAddress from "~/route-widgets/AliasDetailRoute/AliasAddress"
 import AliasNotesForm from "~/route-widgets/AliasDetailRoute/AliasNotesForm"
 import AliasPreferencesForm from "~/route-widgets/AliasDetailRoute/AliasPreferencesForm"
-import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import ChangeAliasActivationStatusSwitch from "~/route-widgets/AliasDetailRoute/ChangeAliasActivationStatusSwitch"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 

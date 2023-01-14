@@ -6,8 +6,7 @@ import {MdLogout} from "react-icons/md"
 import {Box, Button, Grid, List, ListItem, Paper, useTheme} from "@mui/material"
 
 import {useUser} from "~/hooks"
-import {LanguageButton} from "~/components"
-import LockNavigationContextProvider from "~/LockNavigationContext/LockNavigationContextProvider"
+import {LanguageButton, LockNavigationContextProvider} from "~/components"
 import NavigationButton, {
 	NavigationSection,
 } from "~/route-widgets/AuthenticateRoute/NavigationButton"

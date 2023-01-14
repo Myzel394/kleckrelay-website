@@ -5,7 +5,7 @@ import {useEffectOnce} from "react-use"
 import {Box, CircularProgress, Grid, Paper, Typography} from "@mui/material"
 
 import {useNavigateToNext} from "~/hooks"
-import AuthContext from "~/AuthContext/AuthContext"
+import {AuthContext} from "~/components"
 
 export default function LogoutRoute(): ReactElement {
 	const {t} = useTranslation()

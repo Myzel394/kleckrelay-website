@@ -12,7 +12,7 @@ import {useMutation} from "@tanstack/react-query"
 import {AuthenticationDetails, ServerSettings} from "~/server-types"
 import {VerifyEmailData, verifyEmail} from "~/apis"
 import {useQueryParams} from "~/hooks"
-import AuthContext from "~/AuthContext/AuthContext"
+import {AuthContext} from "~/components"
 
 const emailSchema = yup.string().email()
 

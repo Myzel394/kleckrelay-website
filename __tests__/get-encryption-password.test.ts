@@ -1,4 +1,4 @@
-import getEncryptionPassword from "../src/utils/get-encryption-password"
+import getEncryptionPassword from "../src/utils/crypto/get-encryption-password"
 
 describe("getEncryptionPassword", () => {
 	it("is defined", () => {

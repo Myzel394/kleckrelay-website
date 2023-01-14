@@ -3,9 +3,8 @@ import {useTranslation} from "react-i18next"
 
 import {Grid, Paper, Typography} from "@mui/material"
 
-import {MultiStepForm} from "~/components"
+import {AuthContext, EncryptionStatus, MultiStepForm} from "~/components"
 import {useNavigateToNext} from "~/hooks"
-import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
 import GenerateEmailReportsForm from "~/route-widgets/CompleteAccountRoute/GenerateEmailReportsForm"
 import PasswordForm from "~/route-widgets/CompleteAccountRoute/PasswordForm"
 

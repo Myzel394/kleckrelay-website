@@ -3,7 +3,7 @@ import {useContext, useLayoutEffect} from "react"
 
 import {ServerUser, User} from "~/server-types"
 import {AUTHENTICATION_PATHS} from "~/constants/values"
-import AuthContext from "~/AuthContext/AuthContext"
+import {AuthContext} from "~/components"
 
 /// Returns the currently authenticated user.
 // If the user is not authenticated, it will automatically redirect to the login page.

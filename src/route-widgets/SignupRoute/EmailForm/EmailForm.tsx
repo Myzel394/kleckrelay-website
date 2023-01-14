@@ -12,8 +12,8 @@ import {MultiStepFormElement, SimpleForm} from "~/components"
 import {SignupResult, checkIsDomainDisposable, signup} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {ServerSettings} from "~/server-types"
-
 import {useExtensionHandler} from "~/hooks"
+
 import DetectEmailAutofillService from "./DetectEmailAutofillService"
 
 export interface EmailFormProps {

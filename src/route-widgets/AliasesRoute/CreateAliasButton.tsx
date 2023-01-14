@@ -18,11 +18,11 @@ import {
 import {useMutation} from "@tanstack/react-query"
 
 import {CreateAliasData, createAlias} from "~/apis"
-import {Alias, AliasList, AliasType, PaginationResult} from "~/server-types"
+import {Alias, AliasType} from "~/server-types"
 import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
-import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
+import {AuthContext, EncryptionStatus} from "~/components"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
 export function CreateAliasButton(): ReactElement {

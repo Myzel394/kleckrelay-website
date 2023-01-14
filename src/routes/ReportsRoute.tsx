@@ -12,12 +12,10 @@ import {InputAdornment, List, MenuItem, TextField, Typography} from "@mui/materi
 import {DecryptedReportContent, PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
 import {WithEncryptionRequired} from "~/hocs"
-import {DecryptReport} from "~/components"
+import {DecryptReport, QueryResult, SimplePage} from "~/components"
 import {createEnumMapFromTranslation} from "~/utils"
 import EmptyStateScreen from "~/route-widgets/ReportsRoute/EmptyStateScreen"
-import QueryResult from "~/components/QueryResult"
 import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
-import SimplePage from "~/components/SimplePage"
 
 enum SortingView {
 	List = "List",

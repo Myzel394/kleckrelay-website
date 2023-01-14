@@ -22,8 +22,7 @@ import {
 } from "~/constants/enum-mappings"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
-import AuthContext from "~/AuthContext/AuthContext"
-import FormikAutoLockNavigation from "~/LockNavigationContext/FormikAutoLockNavigation"
+import {AuthContext, FormikAutoLockNavigation} from "~/components"
 import SelectField from "~/route-widgets/SettingsRoute/SelectField"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 

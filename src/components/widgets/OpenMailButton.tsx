@@ -1,11 +1,11 @@
 import {IoMdMailOpen} from "react-icons/io"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 import UAParser from "ua-parser-js"
 
 import {Button} from "@mui/material"
 
 import {APP_LINK_MAP} from "~/utils"
-import {useTranslation} from "react-i18next"
 
 export interface OpenMailButtonProps {
 	domain: string

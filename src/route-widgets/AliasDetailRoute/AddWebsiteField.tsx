@@ -2,19 +2,12 @@ import * as yup from "yup"
 import {useFormik} from "formik"
 import {ReactElement} from "react"
 import {RiLinkM} from "react-icons/ri"
+import {useTranslation} from "react-i18next"
 
-import {
-	Button,
-	FormGroup,
-	FormHelperText,
-	Grid,
-	InputAdornment,
-	TextField,
-} from "@mui/material"
+import {Button, FormGroup, FormHelperText, Grid, InputAdornment, TextField} from "@mui/material"
 
 import {URL_REGEX} from "~/constants/values"
 import {whenEnterPressed} from "~/utils"
-import {useTranslation} from "react-i18next"
 
 export interface AddWebsiteFieldProps {
 	onAdd: (website: string) => Promise<void>
@@ -29,10 +22,7 @@ const WEBSITE_SCHEMA = yup.object().shape({
 	url: yup.string().matches(URL_REGEX, "This URL is invalid."),
 })
 
-export default function AddWebsiteField({
-	onAdd,
-	isLoading,
-}: AddWebsiteFieldProps): ReactElement {
+export default function AddWebsiteField({onAdd, isLoading}: AddWebsiteFieldProps): ReactElement {
 	const {t} = useTranslation()
 	const websiteFormik = useFormik<WebsiteForm>({
 		validationSchema: WEBSITE_SCHEMA,
@@ -68,9 +58,7 @@ export default function AddWebsiteField({
 					<TextField
 						name="url"
 						id="url"
-						label={t(
-							"routes.AliasDetailRoute.sections.notes.form.websites.label",
-						)}
+						label={t("routes.AliasDetailRoute.sections.notes.form.websites.label")}
 						placeholder={t(
 							"routes.AliasDetailRoute.sections.notes.form.websites.placeholder",
 						)}
@@ -78,14 +66,9 @@ export default function AddWebsiteField({
 						value={websiteFormik.values.url}
 						onChange={websiteFormik.handleChange}
 						onBlur={websiteFormik.handleBlur}
-						onKeyDown={whenEnterPressed(() =>
-							websiteFormik.handleSubmit(),
-						)}
+						onKeyDown={whenEnterPressed(() => websiteFormik.handleSubmit())}
 						disabled={websiteFormik.isSubmitting || isLoading}
-						error={
-							websiteFormik.touched.url &&
-							Boolean(websiteFormik.errors.url)
-						}
+						error={websiteFormik.touched.url && Boolean(websiteFormik.errors.url)}
 						InputProps={{
 							startAdornment: (
 								<InputAdornment position="start">
@@ -107,15 +90,10 @@ export default function AddWebsiteField({
 			</Grid>
 			<Grid item>
 				<FormHelperText
-					error={
-						websiteFormik.touched.url &&
-						Boolean(websiteFormik.errors.url)
-					}
+					error={websiteFormik.touched.url && Boolean(websiteFormik.errors.url)}
 				>
 					{(websiteFormik.touched.url && websiteFormik.errors.url) ||
-						t(
-							"routes.AliasDetailRoute.sections.notes.form.websites.helperText",
-						)}
+						t("routes.AliasDetailRoute.sections.notes.form.websites.helperText")}
 				</FormHelperText>
 			</Grid>
 		</Grid>

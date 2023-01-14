@@ -1,8 +1,6 @@
 import {ReactElement, useMemo} from "react"
 import {useAsyncFn} from "react-use"
 
-import LoadingScreen from "~/LoadingScreen"
-
 import AppLoadingScreenContext, {AppLoadingScreenContextType} from "./AppLoadingScreenContext"
 
 export interface AppLoadingScreenProps {
@@ -20,7 +18,7 @@ export default function AppLoadingScreen({children}: AppLoadingScreenProps): Rea
 	)
 
 	if (state.loading) {
-		return <LoadingScreen />
+		return <div>Loading...</div>
 	}
 
 	return (

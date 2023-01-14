@@ -11,14 +11,13 @@ import passwordGenerator from "secure-random-password"
 import {Box, InputAdornment} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {PasswordField, SimpleForm} from "~/components"
+import {AuthContext, PasswordField, SimpleForm} from "~/components"
 import {encryptString, generateKeys, getEncryptionPassword, getUserSalt} from "~/utils"
 import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
 import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
 import {AuthenticationDetails, ServerSettings, UserNote} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
 import {encryptUserNote} from "~/utils/encrypt-user-note"
-import AuthContext from "~/AuthContext/AuthContext"
 
 export interface PasswordFormProps {
 	onDone: () => void

@@ -1,10 +1,10 @@
 import {ReactElement} from "react"
+import {BsShieldShaded} from "react-icons/bs"
+import {useTranslation} from "react-i18next"
 
 import {List, ListItem, Typography} from "@mui/material"
 
 import {DecryptedReportContent} from "~/server-types"
-import {BsShieldShaded} from "react-icons/bs"
-import {useTranslation} from "react-i18next"
 import {ExpandableListItem} from "~/components"
 
 export interface SinglePixelImageTrackersListItemProps {

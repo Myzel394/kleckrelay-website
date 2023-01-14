@@ -1,5 +1,7 @@
 import {AxiosError} from "axios"
 import {useLoaderData} from "react-router-dom"
+import {MdMail} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement} from "react"
 
 import {useMutation} from "@tanstack/react-query"
@@ -7,8 +9,6 @@ import {useMutation} from "@tanstack/react-query"
 import {resendEmailLoginCode} from "~/apis"
 import {MutationStatusSnackbar, TimedButton} from "~/components"
 import {ServerSettings, SimpleDetailResponse} from "~/server-types"
-import {MdMail} from "react-icons/md"
-import {useTranslation} from "react-i18next"
 
 export interface ResendMailButtonProps {
 	email: string

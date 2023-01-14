@@ -1,8 +1,8 @@
 import {Dispatch, SetStateAction, useMemo, useRef} from "react"
 import {useUpdateEffect} from "react-use"
 
-import {AuthContextType, EncryptionStatus} from "~/AuthContext/AuthContext"
 import {ServerUser, User} from "~/server-types"
+import {AuthContextType, EncryptionStatus} from "~/components"
 
 export type UseContextValueData = Pick<
 	AuthContextType,

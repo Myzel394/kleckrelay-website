@@ -8,7 +8,7 @@ import {Box, Grid, Paper, Typography} from "@mui/material"
 
 import {AuthenticationDetails, ServerUser} from "~/server-types"
 import {verifyLoginWithEmail} from "~/apis"
-import LoadingData from "~/components/LoadingData"
+import {LoadingData} from "~/components"
 
 export interface ConfirmFromDifferentDeviceProps {
 	email: string

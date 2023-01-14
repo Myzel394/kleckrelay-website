@@ -5,8 +5,8 @@ import {useTranslation} from "react-i18next"
 
 import {Button, Grid, Typography, useTheme} from "@mui/material"
 
-import AuthContext, {EncryptionStatus} from "~/AuthContext/AuthContext"
-import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
+import {LockNavigationContext} from "../LockNavigation"
+import {AuthContext, EncryptionStatus} from "../AuthContext"
 
 export interface WithEncryptionRequiredProps {
 	children?: JSX.Element

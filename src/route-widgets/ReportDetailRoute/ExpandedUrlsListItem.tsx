@@ -1,7 +1,6 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {BsArrowsAngleExpand} from "react-icons/bs"
-import {HiOutlineExternalLink} from "react-icons/hi"
 
 import {List, ListItemButton, ListItemText} from "@mui/material"
 

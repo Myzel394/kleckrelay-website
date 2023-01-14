@@ -1,5 +1,5 @@
 import {decryptString, encryptString} from "../src/utils"
-import getEncryptionPassword from "../src/utils/get-encryption-password"
+import getEncryptionPassword from "../src/utils/crypto/get-encryption-password"
 
 describe("ciphers", () => {
 	const email = "test@kleckrelay.example"

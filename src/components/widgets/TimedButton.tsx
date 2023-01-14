@@ -1,11 +1,11 @@
 import {ReactElement} from "react"
+import {useTranslation} from "react-i18next"
 import differenceInSeconds from "date-fns/differenceInSeconds"
 
 import {LoadingButton, LoadingButtonProps} from "@mui/lab"
 
 import {useIntervalUpdate} from "~/hooks"
 import {isDev} from "~/constants/development"
-import {useTranslation} from "react-i18next"
 
 export interface TimedButtonProps extends LoadingButtonProps {
 	interval: number

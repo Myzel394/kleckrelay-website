@@ -6,11 +6,11 @@ import {useTranslation} from "react-i18next"
 import {useLoaderData} from "react-router-dom"
 
 import {InputAdornment} from "@mui/material"
+
 import {useNavigateToNext, useUser} from "~/hooks"
-import {PasswordField, SimpleForm} from "~/components"
+import {AuthContext, PasswordField, SimpleForm} from "~/components"
 import {getMasterPassword} from "~/utils"
 import {ServerSettings} from "~/server-types"
-import AuthContext from "~/AuthContext/AuthContext"
 
 interface Form {
 	password: string

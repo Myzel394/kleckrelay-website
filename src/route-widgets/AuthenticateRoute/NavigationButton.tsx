@@ -9,7 +9,7 @@ import {Button} from "@mui/material"
 import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import Icon from "@mdi/react"
 
-import LockNavigationContext from "~/LockNavigationContext/LockNavigationContext"
+import {LockNavigationContext} from "~/components"
 
 export enum NavigationSection {
 	Overview,

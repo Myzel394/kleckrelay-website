@@ -1,8 +1,8 @@
 import update from "immutability-helper"
 
 import {AliasNote} from "~/server-types"
-import {AuthContextType} from "~/AuthContext/AuthContext"
 import {DEFAULT_ALIAS_NOTE} from "~/constants/values"
+import {AuthContextType} from "~/components"
 
 export default function decryptAliasNotes(
 	encryptedNotes: string,

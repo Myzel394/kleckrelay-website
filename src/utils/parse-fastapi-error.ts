@@ -1,5 +1,6 @@
 import {AxiosError} from "axios"
 import {FormikErrors} from "formik"
+
 import {SimpleDetailResponse} from "~/server-types"
 
 export interface FastAPIError {

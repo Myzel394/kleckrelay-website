@@ -1,4 +1,5 @@
 import {MdCancel, MdEdit} from "react-icons/md"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement, useState} from "react"
 
 import {
@@ -14,7 +15,6 @@ import {
 } from "@mui/material"
 
 import {MultiStepFormElement, OpenMailButton} from "~/components"
-import {useTranslation} from "react-i18next"
 import ResendMailButton from "~/route-widgets/SignupRoute/YouGotMail/ResendMailButton"
 
 export interface YouGotMailProps {
