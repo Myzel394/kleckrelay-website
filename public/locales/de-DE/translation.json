@@ -14,7 +14,8 @@
         "defaultSuccess": "Erfolgreich übernommen!",
         "loading": "Lädt...",
         "actionNotUndoable": "Diese Aktion kann nicht rückgängig gemacht werden!",
-        "copyError": "Konnte nicht in Zwischenable kopieren. Bitte kopiere den Text manuell."
+        "copyError": "Konnte nicht in Zwischenable kopieren. Bitte kopiere den Text manuell.",
+        "experimentalFeature": "Diese Funktion ist experimentell und kann Fehler verursachen."
     },
 
     "routes": {

@@ -7,6 +7,7 @@ import React, {ReactElement, useContext} from "react"
 
 import {useMutation} from "@tanstack/react-query"
 import {
+	Alert,
 	Checkbox,
 	Collapse,
 	FormControlLabel,
@@ -220,6 +221,12 @@ export default function AliasesPreferencesForm(): ReactElement {
 									{(formik.touched.proxyImages && formik.errors.proxyImages) ||
 										t("relations.alias.settings.proxyImages.helperText")}
 								</FormHelperText>
+								<Alert
+									sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
+									severity="warning"
+								>
+									{t("general.experimentalFeature")}
+								</Alert>
 							</FormGroup>
 							<Collapse in={formik.values.proxyImages}>
 								<Grid
@@ -349,6 +356,12 @@ export default function AliasesPreferencesForm(): ReactElement {
 											"relations.alias.settings.expandUrlShorteners.helperText",
 										)}
 								</FormHelperText>
+								<Alert
+									sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
+									severity="warning"
+								>
+									{t("general.experimentalFeature")}
+								</Alert>
 							</FormGroup>
 						</Grid>
 					</Grid>
