@@ -1,3 +1,5 @@
+import {Alias} from "~/server-types"
+
 export interface ExtensionKleckMessagePasswordStatus {
 	type: "password-status"
 }
@@ -21,7 +23,7 @@ export interface ExtensionKleckMessageRefetchAliases {
 export interface ExtensionKleckMessageLatestAlias {
 	type: "latest-alias"
 	data: {
-		latestAliasId: string
+		latestAlias: Alias
 	}
 }
 

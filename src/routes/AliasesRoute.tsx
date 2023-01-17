@@ -1,8 +1,8 @@
-import {ReactElement, useCallback, useEffect, useState, useTransition} from "react"
+import {ReactElement, useCallback, useState, useTransition} from "react"
 import {AxiosError} from "axios"
 import {MdSearch} from "react-icons/md"
 import {useTranslation} from "react-i18next"
-import {useCopyToClipboard, useKeyPress, useUpdateEffect} from "react-use"
+import {useCopyToClipboard, useEffectOnce, useKeyPress, useUpdateEffect} from "react-use"
 
 import {useQuery} from "@tanstack/react-query"
 import {Alert, Chip, Grid, InputAdornment, List, Snackbar, TextField} from "@mui/material"
@@ -16,7 +16,7 @@ import {
 	SimplePage,
 	SuccessSnack,
 } from "~/components"
-import {useExtensionHandler, useIsAnyInputFocused, useWindowVisible} from "~/hooks"
+import {useExtensionHandler, useIsAnyInputFocused} from "~/hooks"
 import {CreateAliasButton} from "~/route-widgets/AliasesRoute/CreateAliasButton"
 import {ExtensionKleckMessageLatestAlias} from "~/extension-types"
 import AliasesListItem from "~/route-widgets/AliasesRoute/AliasesListItem"
@@ -50,8 +50,8 @@ export default function AliasesRoute(): ReactElement {
 	const isAnyInputFocused = useIsAnyInputFocused()
 	const [lockDisabledCopyMode, setLockDisabledCopyMode] = useState<boolean>(false)
 	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingControl
-	const [latestAliasId, setLatestAliasId] = useState<string | null>(null)
-	const isVisible = useWindowVisible()
+	const [latestAliasId, setLatestAliasId] = useState<string | null>()
+	console.log(latestAliasId)
 
 	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
 		["get_aliases", {queryValue, searchFilter, typeFilter}],
@@ -91,8 +91,8 @@ export default function AliasesRoute(): ReactElement {
 	)
 
 	const updateLatestAliasId = useCallback(
-		({latestAliasId}: ExtensionKleckMessageLatestAlias["data"]) => {
-			setLatestAliasId(latestAliasId)
+		async ({latestAlias}: ExtensionKleckMessageLatestAlias["data"]) => {
+			setLatestAliasId(latestAlias.id)
 		},
 		[],
 	)
@@ -119,7 +119,8 @@ export default function AliasesRoute(): ReactElement {
 		}
 	}, [latestAliasId])
 
-	useEffect(() => {
+	// Fetch the latest alias
+	useEffectOnce(() => {
 		window.dispatchEvent(
 			new CustomEvent("kleckrelay-blob", {
 				detail: {
@@ -127,7 +128,7 @@ export default function AliasesRoute(): ReactElement {
 				},
 			}),
 		)
-	}, [isVisible])
+	})
 
 	return (
 		<SimplePage
