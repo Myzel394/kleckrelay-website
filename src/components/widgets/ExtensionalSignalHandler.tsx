@@ -1,9 +1,8 @@
 import {ReactElement} from "react"
 
 export default function ExtensionSignalHandler(): ReactElement {
-	const appDomain = import.meta.env.VITE_SERVER_BASE_URL
 	const instanceData = {
-		appDomain,
+		apiOrigin: import.meta.env.VITE_SERVER_BASE_URL,
 	}
 
 	return (
