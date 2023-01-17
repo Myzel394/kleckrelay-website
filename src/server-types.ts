@@ -81,6 +81,7 @@ export interface ServerSettings {
 	emailLoginExpirationInSeconds: number
 	customAliasSuffixLength: number
 	instanceSalt: string
+	publicKey: string
 }
 
 export interface Alias {

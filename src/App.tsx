@@ -86,6 +86,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/reports",
+						loader: getServerSettings,
 						element: <ReportsRoute />,
 					},
 					{

@@ -1,10 +1,11 @@
 import {ReactElement, useContext} from "react"
 import {useAsync} from "react-use"
 
-import {DecryptedReportContent, Report} from "~/server-types"
+import {DecryptedReportContent, Report, ServerSettings} from "~/server-types"
 import decryptReport from "~/apis/helpers/decrypt-report"
 
 import {AuthContext} from "../AuthContext"
+import {useLoaderData} from "react-router-dom"
 
 interface DecryptReportPropsBase {
 	encryptedContent?: string
@@ -30,11 +31,12 @@ export default function DecryptReport({
 	reports,
 	children: render,
 }: DecryptReportProps): ReactElement {
+	const serverSettings = useLoaderData() as ServerSettings
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
 	const {value} = useAsync(async () => {
 		const decrypt = async (content: string): Promise<DecryptedReportContent> =>
-			decryptReport(content, _decryptUsingPrivateKey)
+			decryptReport(content, _decryptUsingPrivateKey, serverSettings.publicKey)
 
 		if (encryptedContent) {
 			return decrypt(encryptedContent)

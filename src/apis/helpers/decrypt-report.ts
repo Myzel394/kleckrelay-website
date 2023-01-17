@@ -3,13 +3,17 @@ import update from "immutability-helper"
 
 import {DecryptedReportContent} from "~/server-types"
 import {AuthContextType} from "~/components"
+import {extractCleartextFromSignedMessage} from "~/utils"
 
 export default async function decryptReport(
-	encryptedContent: string,
+	signedMessage: string,
 	decryptContent: AuthContextType["_decryptUsingPrivateKey"],
+	publicKeyInPEM: string,
 ): Promise<DecryptedReportContent> {
+	const encryptedMessage = await extractCleartextFromSignedMessage(signedMessage, publicKeyInPEM)
+
 	return update<DecryptedReportContent>(
-		camelcaseKeys(JSON.parse(await decryptContent(encryptedContent)), {
+		camelcaseKeys(JSON.parse(await decryptContent(encryptedMessage)), {
 			deep: true,
 		}),
 		{
