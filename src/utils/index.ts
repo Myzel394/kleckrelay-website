@@ -8,5 +8,7 @@ export * from "./when-enter-pressed"
 export {default as whenEnterPressed} from "./when-enter-pressed"
 export * from "./create-enum-map-from-translation"
 export {default as createEnumMapFromTranslation} from "./create-enum-map-from-translation"
+export * from "./get-next-url"
+export {default as getNextUrl} from "./get-next-url"
 
 export * from "./crypto"

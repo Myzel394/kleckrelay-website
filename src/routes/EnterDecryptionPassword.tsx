@@ -1,15 +1,15 @@
 import * as yup from "yup"
-import {ReactElement, useContext} from "react"
+import {ReactElement, useContext, useLayoutEffect} from "react"
 import {useFormik} from "formik"
 import {MdLock} from "react-icons/md"
 import {useTranslation} from "react-i18next"
-import {useLoaderData} from "react-router-dom"
+import {useLoaderData, useNavigate} from "react-router-dom"
 
 import {InputAdornment} from "@mui/material"
 
 import {useNavigateToNext, useUser} from "~/hooks"
-import {AuthContext, PasswordField, SimpleForm} from "~/components"
-import {getMasterPassword} from "~/utils"
+import {AuthContext, EncryptionStatus, PasswordField, SimpleForm} from "~/components"
+import {getMasterPassword, getNextUrl} from "~/utils"
 import {ServerSettings} from "~/server-types"
 
 interface Form {
@@ -18,8 +18,10 @@ interface Form {
 
 export default function EnterDecryptionPassword(): ReactElement {
 	const {t} = useTranslation()
+	const navigate = useNavigate()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
+	const {encryptionStatus} = useContext(AuthContext)
 	const serverSettings = useLoaderData() as ServerSettings
 	const {_setEncryptionPassword} = useContext(AuthContext)
 
@@ -51,6 +53,16 @@ export default function EnterDecryptionPassword(): ReactElement {
 			}
 		},
 	})
+
+	useLayoutEffect(() => {
+		if (encryptionStatus === EncryptionStatus.Unavailable) {
+			const nextUrl = getNextUrl()
+
+			navigate(`/auth/complete-account?setup=true&next=${nextUrl}`, {
+				replace: true,
+			})
+		}
+	}, [encryptionStatus])
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
