@@ -100,7 +100,7 @@ export default function AliasesPreferencesForm(): ReactElement {
 			proxyImages: user.preferences.aliasProxyImages,
 			imageProxyFormat: user.preferences.aliasImageProxyFormat,
 			proxyUserAgent: user.preferences.aliasProxyUserAgent,
-			expandUrlShorteners: user.preferences.aliasExpandUrlShorteners || true,
+			expandUrlShorteners: user.preferences.aliasExpandUrlShorteners,
 		},
 		onSubmit: async (values, {setErrors}) => {
 			try {

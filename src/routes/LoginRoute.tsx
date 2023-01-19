@@ -27,7 +27,7 @@ export default function LoginRoute(): ReactElement {
 		} else {
 			navigate("/")
 		}
-	}, [user?.encryptedPassword])
+	}, [user, navigate])
 
 	if (token && queryEmail) {
 		return <ConfirmFromDifferentDevice email={queryEmail} token={token} onConfirm={login} />
