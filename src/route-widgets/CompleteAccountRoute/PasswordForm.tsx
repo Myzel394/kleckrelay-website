@@ -5,19 +5,16 @@ import {readKey} from "openpgp"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 import {useLoaderData} from "react-router-dom"
-import React, {ReactElement, useCallback, useContext, useMemo, useRef} from "react"
-import passwordGenerator from "secure-random-password"
+import React, {ReactElement, useCallback, useContext, useRef} from "react"
 
 import {Box, InputAdornment} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
 import {AuthContext, PasswordField, SimpleForm} from "~/components"
-import {encryptString, generateKeys, getEncryptionPassword, getUserSalt} from "~/utils"
+import {setupEncryptionForUser} from "~/utils"
 import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
-import {MASTER_PASSWORD_LENGTH} from "~/constants/values"
-import {AuthenticationDetails, ServerSettings, UserNote} from "~/server-types"
+import {AuthenticationDetails, ServerSettings} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
-import {encryptUserNote} from "~/utils/encrypt-user-note"
 
 export interface PasswordFormProps {
 	onDone: () => void
@@ -54,7 +51,6 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 
 	const {_setEncryptionPassword, login} = useContext(AuthContext)
 
-	const waitForKeyGeneration = useMemo(generateKeys, [])
 	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, UpdateAccountData>(
 		updateAccount,
 	)
@@ -66,32 +62,20 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 		},
 		onSubmit: async ({password}, {setErrors}) => {
 			try {
-				const keyPair = await waitForKeyGeneration
-
-				const masterPassword = passwordGenerator.randomPassword({
-					length: MASTER_PASSWORD_LENGTH,
-				})
-
-				const salt = getUserSalt(user, serverSettings)
-				const encryptionKey = await getEncryptionPassword(
-					user.email.address,
-					password,
-					salt,
-				)
-				const encryptedMasterPassword = encryptString(masterPassword, encryptionKey)
-
-				const note: UserNote = {
-					theme,
-					privateKey: keyPair.privateKey,
-				}
-				const encryptedNotes = encryptUserNote(note, masterPassword)
+				const {encryptionPassword, encryptedPassword, encryptedNotes, publicKey} =
+					await setupEncryptionForUser({
+						password,
+						user,
+						serverSettings,
+						theme,
+					})
 
 				await mutateAsync(
 					{
-						encryptedPassword: encryptedMasterPassword,
+						encryptedPassword,
 						publicKey: (
 							await readKey({
-								armoredKey: keyPair.publicKey,
+								armoredKey: publicKey,
 							})
 						)
 							.toPublic()
@@ -101,7 +85,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 					{
 						onSuccess: ({user: newUser}) => {
 							login(newUser)
-							_setEncryptionPassword(masterPassword)
+							_setEncryptionPassword(encryptionPassword)
 							navigateToNext()
 						},
 					},

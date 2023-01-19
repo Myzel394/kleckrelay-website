@@ -37,6 +37,9 @@ export function CreateAliasButton(): ReactElement {
 					JSON.stringify(
 						update(DEFAULT_ALIAS_NOTE, {
 							data: {
+								createdOn: {
+									$set: window.location.origin + window.location.pathname,
+								},
 								createdAt: {
 									$set: new Date(),
 								},
