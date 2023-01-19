@@ -105,7 +105,7 @@ export interface AliasNote {
 	data: {
 		createdAt: Date | null
 		createdOn: string | null
-		creationContext: "extension" | "web"
+		creationContext: "extension" | "extension-inline" | "web"
 		personalNotes: string
 		websites: Array<{
 			url: string

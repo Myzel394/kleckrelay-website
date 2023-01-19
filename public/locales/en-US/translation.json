@@ -180,6 +180,9 @@
                             },
                             "extension": {
                                 "label": "Created in the extension"
+                            },
+                            "extension-inline": {
+                                "label": "Created using the extension"
                             }
                         },
                         "createdOn": {

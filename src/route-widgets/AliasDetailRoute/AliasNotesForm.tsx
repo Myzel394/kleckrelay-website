@@ -58,6 +58,7 @@ interface Form {
 const CREATION_CONTEXT_ICON_MAP: Record<AliasNote["data"]["creationContext"], ReactElement> = {
 	web: <RiGlobalLine />,
 	extension: <MdExtension />,
+	"extension-inline": <MdExtension />,
 }
 
 const IMAGE_WIDTH = 20

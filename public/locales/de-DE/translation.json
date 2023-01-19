@@ -172,6 +172,9 @@
                             },
                             "extension": {
                                 "label": "In der Erweiterung erstellt"
+                            },
+                            "extension-inline": {
+                                "label": "Mit der Erweiterung erstellt"
                             }
                         },
                         "createdOn": {
