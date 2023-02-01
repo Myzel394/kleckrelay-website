@@ -41,6 +41,7 @@ export interface ServerUser {
 	isDecrypted: false
 	encryptedPassword: string
 	salt: string
+	isAdmin: boolean
 	email: {
 		address: string
 		isVerified: boolean

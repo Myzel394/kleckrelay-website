@@ -99,6 +99,10 @@ const router = createBrowserRouter([
 						loader: getServerSettings,
 						element: <EnterDecryptionPassword />,
 					},
+					{
+						path: "/admin",
+						element: <EnterDecryptionPassword />,
+					},
 				],
 			},
 		],
