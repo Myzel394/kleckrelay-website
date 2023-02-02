@@ -279,6 +279,9 @@
         "LogoutRoute": {
             "title": "Log out",
             "description": "We are logging you out..."
+        },
+        "AdminRoute": {
+            "title": "Site configuration"
         }
     },
 
@@ -287,7 +290,8 @@
             "overview": "Overview",
             "aliases": "Aliases",
             "reports": "Reports",
-            "settings": "Settings"
+            "settings": "Settings",
+            "admin": "Admin"
         },
         "AuthenticateRoute": {
             "signup": "Sign up",

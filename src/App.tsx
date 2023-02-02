@@ -24,6 +24,7 @@ import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
 
+import AdminRoute from "~/routes/AdminRoute"
 import I18nHandler from "./I18nHandler"
 import "./init-i18n"
 
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/admin",
-						element: <EnterDecryptionPassword />,
+						element: <AdminRoute />,
 					},
 				],
 			},

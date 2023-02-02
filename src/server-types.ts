@@ -101,6 +101,16 @@ export interface Alias {
 	prefExpandUrlShorteners: boolean | null
 }
 
+export interface ReservedAlias {
+	id: string
+	domain: string
+	local: string
+	users: Array<{
+		id: string
+		email: string
+	}>
+}
+
 export interface AliasNote {
 	version: "1.0"
 	data: {
