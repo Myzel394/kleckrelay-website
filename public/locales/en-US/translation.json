@@ -296,6 +296,20 @@
             "userAmount_one": "Forwards to one user",
             "userAmount_other": "Forwards to {{count}} users"
         },
+        "ReservedAliasDetailRoute": {
+            "title": "Reserved Alias Details",
+            "sections": {
+                "users": {
+                    "title": "Users",
+                    "fields": {
+                        "users": {
+                            "label": "Users",
+                            "me": "{{email}} (Me)"
+                        }
+                    }
+                }
+            }
+        },
         "AdminRoute": {
             "title": "Site configuration",
             "forms": {

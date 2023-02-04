@@ -29,6 +29,10 @@ export default function parseFastAPIError(
 			return {detail: error.detail}
 		}
 
+		if (error.detail[0].loc[0] === "body" && error.detail[0].loc[1] === "__root__") {
+			return {detail: error.detail[0].msg}
+		}
+
 		return error.detail.reduce((acc, error) => {
 			const [location, field] = error.loc
 

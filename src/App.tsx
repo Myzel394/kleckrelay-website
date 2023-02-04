@@ -21,6 +21,7 @@ import LogoutRoute from "~/routes/LogoutRoute"
 import OverviewRoute from "~/routes/OverviewRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
+import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
 import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
 					{
 						path: "/admin/reserved-aliases",
 						element: <ReservedAliasesRoute />,
+					},
+					{
+						path: "/admin/reserved-aliases/:id",
+						element: <ReservedAliasDetailRoute />,
 					},
 					{
 						path: "/admin/reserved-aliases/create",

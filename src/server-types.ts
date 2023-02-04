@@ -108,7 +108,10 @@ export interface ReservedAlias {
 	local: string
 	users: Array<{
 		id: string
-		email: string
+		email: {
+			address: string
+			id: string
+		}
 	}>
 }
 
