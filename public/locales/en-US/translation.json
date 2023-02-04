@@ -312,10 +312,13 @@
         },
         "AdminRoute": {
             "title": "Site configuration",
+            "routes": {
+                "reservedAliases": "Reserved Aliases"
+            },
             "forms": {
                 "reservedAliases": {
                     "title": "Reserved Aliases",
-                    "description": "Define which aliases will be reserved for your domain.",
+                    "description": "Define what alias should forward to whom.",
                     "saveAction": "Create Alias",
                     "fields": {
                         "local": {

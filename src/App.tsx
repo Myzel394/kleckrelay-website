@@ -8,6 +8,7 @@ import {CssBaseline, ThemeProvider} from "@mui/material"
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
 import {lightTheme} from "~/constants/themes"
+import AdminRoute from "~/routes/AdminRoute"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
 						path: "/enter-password",
 						loader: getServerSettings,
 						element: <EnterDecryptionPassword />,
+					},
+					{
+						path: "/admin",
+						element: <AdminRoute />,
 					},
 					{
 						path: "/admin/reserved-aliases",
