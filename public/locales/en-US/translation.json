@@ -280,6 +280,22 @@
             "title": "Log out",
             "description": "We are logging you out..."
         },
+        "ReservedAliasesRoute": {
+            "title": "Reserved Aliases",
+            "pageActions": {
+                "search": {
+                    "label": "Search",
+                    "placeholder": "Search for aliases"
+                }
+            },
+            "actions": {
+                "create": {
+                    "label": "Create new Reserved Alias"
+                }
+            },
+            "userAmount_one": "Forwards to one user",
+            "userAmount_other": "Forwards to {{count}} users"
+        },
         "AdminRoute": {
             "title": "Site configuration",
             "forms": {

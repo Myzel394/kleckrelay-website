@@ -4,7 +4,7 @@ import {MdMail} from "react-icons/md"
 import {useLoaderData} from "react-router"
 import {ServerSettings} from "~/server-types"
 import {useTranslation} from "react-i18next"
-import {BsArrowDown} from "react-icons/bs"
+import {BsArrowRight} from "react-icons/bs"
 import {FaMask} from "react-icons/fa"
 import {HiUsers} from "react-icons/hi"
 
@@ -21,13 +21,14 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 	return (
 		<Grid
 			container
-			direction="column"
+			direction="row"
 			padding={4}
 			gap={4}
 			borderRadius={theme.shape.borderRadius}
 			border={1}
 			borderColor={theme.palette.text.disabled}
 			bgcolor={theme.palette.background.default}
+			flexWrap="nowrap"
 		>
 			<Grid item>
 				<Grid container direction="column" spacing={1} alignItems="center">
@@ -35,7 +36,7 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 						<MdMail size={24} />
 					</Grid>
 					<Grid item>
-						<Typography variant="caption" align="center">
+						<Typography variant="caption" textAlign="center">
 							{t("routes.AdminRoute.forms.reservedAliases.explanation.step1")}
 						</Typography>
 					</Grid>
@@ -44,10 +45,10 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 			<Grid item>
 				<Grid container direction="column" spacing={1} alignItems="center">
 					<Grid item>
-						<BsArrowDown size={24} />
+						<BsArrowRight size={24} />
 					</Grid>
 					<Grid item>
-						<Typography variant="caption" align="center">
+						<Typography variant="caption" textAlign="center">
 							{t("routes.AdminRoute.forms.reservedAliases.explanation.step2")}
 						</Typography>
 					</Grid>
@@ -59,9 +60,11 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 						<FaMask size={24} />
 					</Grid>
 					<Grid item>
-						<Typography variant="body1" align="center">
+						<Typography variant="body1" textAlign="center">
 							<span style={{display: "block"}}>{local}</span>
-							<span style={{opacity: 0.4}}>@{serverSettings.mailDomain}</span>
+							<span style={{opacity: 0.4, wordBreak: "break-word"}}>
+								@{serverSettings.mailDomain}
+							</span>
 						</Typography>
 					</Grid>
 				</Grid>
@@ -69,10 +72,10 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 			<Grid item>
 				<Grid container direction="column" spacing={1} alignItems="center">
 					<Grid item>
-						<BsArrowDown size={24} />
+						<BsArrowRight size={24} />
 					</Grid>
 					<Grid item>
-						<Typography variant="caption" align="center">
+						<Typography variant="caption" textAlign="center">
 							{t("routes.AdminRoute.forms.reservedAliases.explanation.step4")}
 						</Typography>
 					</Grid>

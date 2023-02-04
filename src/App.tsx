@@ -21,6 +21,7 @@ import LogoutRoute from "~/routes/LogoutRoute"
 import OverviewRoute from "~/routes/OverviewRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
+import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
 						path: "/enter-password",
 						loader: getServerSettings,
 						element: <EnterDecryptionPassword />,
+					},
+					{
+						path: "/admin/reserved-aliases",
+						element: <ReservedAliasesRoute />,
 					},
 					{
 						path: "/admin/reserved-aliases/create",

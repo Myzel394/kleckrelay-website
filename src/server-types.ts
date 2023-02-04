@@ -103,6 +103,7 @@ export interface Alias {
 
 export interface ReservedAlias {
 	id: string
+	isActive: boolean
 	domain: string
 	local: string
 	users: Array<{

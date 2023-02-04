@@ -77,14 +77,13 @@ export default function CreateReservedAliasRoute(): ReactElement {
 					})),
 				})
 			} catch (error) {
-				console.log(parseFastAPIError(error as AxiosError))
 				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})
 
 	return (
-		<Grid container spacing={4} flexDirection="column" alignItems="center">
+		<Grid container spacing={2} flexDirection="column" alignItems="center">
 			<Grid item>
 				<form onSubmit={formik.handleSubmit}>
 					<SimpleForm
@@ -133,7 +132,10 @@ export default function CreateReservedAliasRoute(): ReactElement {
 				</form>
 			</Grid>
 			<Grid item>
-				<AliasExplanation local={formik.values.local} emails={[]} />
+				<AliasExplanation
+					local={formik.values.local}
+					emails={formik.values.users.map(user => user.email.address)}
+				/>
 			</Grid>
 		</Grid>
 	)

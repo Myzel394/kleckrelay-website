@@ -1,0 +1,113 @@
+import {ReactElement, useState, useTransition} from "react"
+import {AxiosError} from "axios"
+import {useTranslation} from "react-i18next"
+import {MdAdd, MdSearch} from "react-icons/md"
+import {Link} from "react-router-dom"
+
+import {
+	Button,
+	InputAdornment,
+	List,
+	ListItemButton,
+	ListItemSecondaryAction,
+	ListItemText,
+	Switch,
+	TextField,
+} from "@mui/material"
+import {useQuery} from "@tanstack/react-query"
+
+import {PaginationResult, ReservedAlias} from "~/server-types"
+import {getReservedAliases} from "~/apis"
+import {QueryResult, SimplePage} from "~/components"
+
+export default function ReservedAliasesRoute(): ReactElement {
+	const {t} = useTranslation()
+	const [showSearch, setShowSearch] = useState<boolean>(false)
+	const [searchValue, setSearchValue] = useState<string>("")
+	const [queryValue, setQueryValue] = useState<string>("")
+	const [, startTransition] = useTransition()
+	const query = useQuery<PaginationResult<ReservedAlias>, AxiosError>(
+		["getReservedAliases", {queryValue}],
+		() =>
+			getReservedAliases({
+				query: queryValue,
+			}),
+		{
+			onSuccess: () => {
+				setShowSearch(true)
+			},
+		},
+	)
+
+	return (
+		<SimplePage
+			title={t("routes.ReservedAliasesRoute.title")}
+			pageOptionsActions={
+				showSearch && (
+					<TextField
+						key="search"
+						fullWidth
+						value={searchValue}
+						onChange={event => {
+							setSearchValue(event.target.value)
+							startTransition(() => {
+								setQueryValue(event.target.value)
+							})
+						}}
+						label={t("routes.ReservedAliasesRoute.pageActions.search.label")}
+						placeholder={t(
+							"routes.ReservedAliasesRoute.pageActions.search.placeholder",
+						)}
+						id="search"
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<MdSearch />
+								</InputAdornment>
+							),
+						}}
+					/>
+				)
+			}
+			actions={
+				<Button
+					component={Link}
+					startIcon={<MdAdd />}
+					to="/admin/reserved-aliases/create"
+					variant="contained"
+				>
+					{t("routes.ReservedAliasesRoute.actions.create.label")}
+				</Button>
+			}
+		>
+			<QueryResult<PaginationResult<ReservedAlias>, AxiosError> query={query}>
+				{({items: aliases}) => (
+					<List>
+						{aliases.map(alias => (
+							<ListItemButton
+								to={`/admin/reserved-aliases/${alias.id}`}
+								component={Link}
+								key={alias.id}
+							>
+								<ListItemText
+									primary={
+										<>
+											<span>{alias.local}</span>
+											<span style={{opacity: 0.4}}>@{alias.domain}</span>
+										</>
+									}
+									secondary={t("routes.ReservedAliasesRoute.userAmount", {
+										count: alias.users.length,
+									})}
+								/>
+								<ListItemSecondaryAction>
+									<Switch checked={alias.isActive} />
+								</ListItemSecondaryAction>
+							</ListItemButton>
+						))}
+					</List>
+				)}
+			</QueryResult>
+		</SimplePage>
+	)
+}
