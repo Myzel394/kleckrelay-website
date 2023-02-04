@@ -281,7 +281,28 @@
             "description": "We are logging you out..."
         },
         "AdminRoute": {
-            "title": "Site configuration"
+            "title": "Site configuration",
+            "forms": {
+                "reservedAliases": {
+                    "title": "Reserved Aliases",
+                    "description": "Define which aliases will be reserved for your domain.",
+                    "saveAction": "Create Alias",
+                    "fields": {
+                        "local": {
+                            "label": "Local"
+                        },
+                        "users": {
+                            "label": "Users",
+                            "me": "{{email}} (Me)"
+                        }
+                    },
+                    "explanation": {
+                        "step1": "User from outside",
+                        "step2": "Sends mail to",
+                        "step4": "KleckRelay forwards to"
+                    }
+                }
+            }
         }
     },
 

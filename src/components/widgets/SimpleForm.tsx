@@ -73,7 +73,7 @@ export default function SimpleForm({
 					<Grid item>
 						<Grid container spacing={3} direction="column" alignItems="center">
 							{children.map(input => (
-								<Grid item key={input.key}>
+								<Grid item key={input.key} width="100%">
 									{input}
 								</Grid>
 							))}
