@@ -13,7 +13,9 @@ import AliasesRoute from "~/routes/AliasesRoute"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
 import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
+import CreateReservedAliasRoute from "~/routes/CreateReservedAliasRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
+import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
 import OverviewRoute from "~/routes/OverviewRoute"
@@ -23,9 +25,6 @@ import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
-
-import AdminRoute from "~/routes/AdminRoute"
-import I18nHandler from "./I18nHandler"
 import "./init-i18n"
 
 const router = createBrowserRouter([
@@ -101,9 +100,9 @@ const router = createBrowserRouter([
 						element: <EnterDecryptionPassword />,
 					},
 					{
-						path: "/admin",
+						path: "/admin/reserved-aliases/create",
 						loader: getServerSettings,
-						element: <AdminRoute />,
+						element: <CreateReservedAliasRoute />,
 					},
 				],
 			},

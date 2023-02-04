@@ -3,44 +3,32 @@ import {ReactElement} from "react"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 import {useFormik} from "formik"
-
-import {useMutation, useQuery} from "@tanstack/react-query"
-
-import {
-	CreateReservedAliasData,
-	GetAdminUsersResponse,
-	createReservedAlias,
-	getAdminUsers,
-} from "~/apis"
-import {Grid, InputAdornment, MenuItem, TextField} from "@mui/material"
 import {BiText} from "react-icons/bi"
-import {HiUsers} from "react-icons/hi"
-import {useErrorSuccessSnacks, useNavigateToNext, useUser} from "~/hooks"
-import {ReservedAlias, ServerUser} from "~/server-types"
+
+import {useMutation} from "@tanstack/react-query"
+import {Grid, InputAdornment, TextField} from "@mui/material"
+
+import {CreateReservedAliasData, GetAdminUsersResponse, createReservedAlias} from "~/apis"
+import {useErrorSuccessSnacks, useNavigateToNext} from "~/hooks"
+import {ReservedAlias} from "~/server-types"
 import {parseFastAPIError} from "~/utils"
 import {SimpleForm} from "~/components"
-import AliasExplanation from "~/route-widgets/AdminPage/AliasExplanation"
+import AliasExplanation from "~/route-widgets/CreateReservedAliasRoute/AliasExplanation"
+import UsersSelectField from "~/route-widgets/CreateReservedAliasRoute/UsersSelectField"
 
 interface Form {
 	local: string
-	users: string[]
+	users: GetAdminUsersResponse["users"]
 
 	isActive?: boolean
 
-	nonFieldError?: string
+	detail?: string
 }
 
-export interface ReservedAliasesFormProps {}
-
-export default function ReservedAliasesForm({}: ReservedAliasesFormProps): ReactElement {
+export default function CreateReservedAliasRoute(): ReactElement {
 	const {t} = useTranslation()
-	const meUser = useUser()
-	const {showError, showSuccess} = useErrorSuccessSnacks()
+	const {showSuccess} = useErrorSuccessSnacks()
 	const navigateToNext = useNavigateToNext("/admin/reserved-aliases")
-	const {data: {users} = {}} = useQuery<GetAdminUsersResponse, AxiosError>(
-		["getAdminUsers"],
-		getAdminUsers,
-	)
 	const {mutateAsync: createAlias} = useMutation<
 		ReservedAlias,
 		AxiosError,
@@ -63,7 +51,15 @@ export default function ReservedAliasesForm({}: ReservedAliasesFormProps): React
 		// Only store IDs of users, as they provide a reference to the user
 		users: yup
 			.array()
-			.of(yup.string())
+			.of(
+				yup.object().shape({
+					id: yup.string(),
+					email: yup.object().shape({
+						id: yup.string(),
+						address: yup.string(),
+					}),
+				}),
+			)
 			.label(t("routes.AdminRoute.forms.reservedAliases.fields.users.label")),
 	})
 	const formik = useFormik<Form>({
@@ -76,18 +72,16 @@ export default function ReservedAliasesForm({}: ReservedAliasesFormProps): React
 			try {
 				await createAlias({
 					local: values.local,
-					users: values.users.map(id => ({
-						id,
+					users: values.users.map(user => ({
+						id: user.id,
 					})),
 				})
 			} catch (error) {
+				console.log(parseFastAPIError(error as AxiosError))
 				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})
-	const getUser = (id: string) => users?.find(user => user.id === id) as any as ServerUser
-
-	if (!users) return null
 
 	return (
 		<Grid container spacing={4} flexDirection="column" alignItems="center">
@@ -100,9 +94,11 @@ export default function ReservedAliasesForm({}: ReservedAliasesFormProps): React
 						continueActionLabel={t(
 							"routes.AdminRoute.forms.reservedAliases.saveAction",
 						)}
-						nonFieldError={formik.errors.nonFieldError}
+						nonFieldError={formik.errors.detail}
 					>
 						{[
+							// We can improve this by using a custom component
+							// that directly shows whether the alias is available or not
 							<TextField
 								key="local"
 								fullWidth
@@ -124,58 +120,20 @@ export default function ReservedAliasesForm({}: ReservedAliasesFormProps): React
 								error={formik.touched.local && Boolean(formik.errors.local)}
 								helperText={formik.touched.local && formik.errors.local}
 							/>,
-							<TextField
+							<UsersSelectField
 								key="users"
-								fullWidth
-								select
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<HiUsers />
-										</InputAdornment>
-									),
-								}}
-								name="users"
-								id="users"
-								label={t(
-									"routes.AdminRoute.forms.reservedAliases.fields.users.label",
-								)}
-								SelectProps={{
-									multiple: true,
-									value: formik.values.users,
-									onChange: formik.handleChange,
-								}}
+								value={formik.values.users}
+								onChange={formik.handleChange}
 								disabled={formik.isSubmitting}
 								error={formik.touched.users && Boolean(formik.errors.users)}
-								helperText={formik.touched.users && formik.errors.users}
-							>
-								{users.map(user => (
-									<MenuItem key={user.id} value={user.id}>
-										{(() => {
-											// Check if user is me
-											if (user.id === meUser.id) {
-												return t(
-													"routes.AdminRoute.forms.reservedAliases.fields.users.me",
-													{
-														email: user.email.address,
-													},
-												)
-											}
-
-											return user.email.address
-										})()}
-									</MenuItem>
-								))}
-							</TextField>,
+								helperText={formik.errors.users as string}
+							/>,
 						]}
 					</SimpleForm>
 				</form>
 			</Grid>
 			<Grid item>
-				<AliasExplanation
-					local={formik.values.local}
-					emails={formik.values.users.map(userId => getUser(userId).email.address)}
-				/>
+				<AliasExplanation local={formik.values.local} emails={[]} />
 			</Grid>
 		</Grid>
 	)
