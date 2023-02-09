@@ -1,6 +1,7 @@
 import {ReactElement, useLayoutEffect} from "react"
 import {useTranslation} from "react-i18next"
 import {BsStarFill} from "react-icons/bs"
+import {AiFillEdit} from "react-icons/ai"
 import {Link} from "react-router-dom"
 
 import {List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
@@ -12,6 +13,8 @@ export default function AdminRoute(): ReactElement {
 	const {t} = useTranslation()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
+
+	console.log(user)
 
 	useLayoutEffect(() => {
 		if (!user.isAdmin) {
@@ -27,6 +30,12 @@ export default function AdminRoute(): ReactElement {
 						<BsStarFill />
 					</ListItemIcon>
 					<ListItemText primary={t("routes.AdminRoute.routes.reservedAliases")} />
+				</ListItemButton>
+				<ListItemButton component={Link} to="/admin/settings">
+					<ListItemIcon>
+						<AiFillEdit />
+					</ListItemIcon>
+					<ListItemText primary={t("routes.AdminRoute.routes.settings")} />
 				</ListItemButton>
 			</List>
 		</SimplePageBuilder.Page>

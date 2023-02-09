@@ -16,6 +16,7 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import CreateReservedAliasRoute from "~/routes/CreateReservedAliasRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
+import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
 						path: "/admin/reserved-aliases/create",
 						loader: getServerSettings,
 						element: <CreateReservedAliasRoute />,
+					},
+					{
+						path: "/admin/settings",
+						element: <GlobalSettingsRoute />,
 					},
 				],
 			},

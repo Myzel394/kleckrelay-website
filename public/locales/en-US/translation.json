@@ -313,7 +313,8 @@
         "AdminRoute": {
             "title": "Site configuration",
             "routes": {
-                "reservedAliases": "Reserved Aliases"
+                "reservedAliases": "Reserved Aliases",
+                "settings": "Global Settings"
             },
             "forms": {
                 "reservedAliases": {
@@ -333,6 +334,48 @@
                         "step1": "User from outside",
                         "step2": "Sends mail to",
                         "step4": "KleckRelay forwards to"
+                    }
+                },
+                "settings": {
+                    "randomEmailIdMinLength": {
+                        "label": "Minimum random alias ID length",
+                        "description": "The minimum length for randomly generated emails. The server will automatically increase the length if required so."
+                    },
+                    "randomEmailIdChars": {
+                        "label": "Random alias character pool",
+                        "description": "Characters that are used to generate random emails."
+                    },
+                    "randomEmailIdLengthIncreaseOnPercentage": {
+                        "label": "Percentage of used aliases",
+                        "description": "If the percentage of used random email IDs is higher than this value, the length of the random email ID will be increased. This is used to prevent spammers from guessing the email ID."
+                    },
+                    "customEmailSuffixLength": {
+                        "label": "Custom email suffix length",
+                        "description": "The length of the custom email suffix."
+                    },
+                    "customEmailSuffixChars": {
+                        "label": "Custom email suffix character pool",
+                        "description": "Characters that are used to generate custom email suffixes."
+                    },
+                    "imageProxyStorageLifeTimeInHours": {
+                        "label": "Image proxy storage lifetime",
+                        "description": "The lifetime of images that are stored on the server. After this time, the image will be deleted."
+                    },
+                    "enableImageProxy": {
+                        "label": "Enable image proxy",
+                        "description": "If enabled, images will be stored on the server and forwarded to the user. This is useful if you want to prevent the user from seeing the IP address of the server. This will only affect new images."
+                    },
+                    "userEmailEnableDisposableEmails": {
+                        "label": "Enable disposable emails for new accounts",
+                        "description": "If enabled, users will be able to use disposable emails when creating a new account. This will only affect new accounts."
+                    },
+                    "userEmailEnableOtherRelays": {
+                        "label": "Enable other relays for new accounts",
+                        "description": "If enabled, users will be able to use other relays (such as SimpleLogin or DuckDuckGo's Email Tracking Protection) when creating a new account. This will only affect new accounts."
+                    },
+                    "allowStatistics": {
+                        "label": "Allow statistics",
+                        "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
                     }
                 }
             }

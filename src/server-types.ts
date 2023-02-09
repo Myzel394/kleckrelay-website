@@ -198,3 +198,16 @@ export interface GetPageData {
 	page?: number
 	size?: number
 }
+
+export interface AdminSettings {
+	randomEmailIdMinLength: number
+	randomEmailIdChars: string
+	randomEmailLengthIncreaseOnPercentage: number
+	customEmailSuffixLength: number
+	customEmailSuffixChars: string
+	imageProxyStorageLifeTimeInHours: number
+	enableImageProxy: boolean
+	userEmailEnableDisposableEmails: boolean
+	userEmailEnableOtherRelays: boolean
+	allowStatistics: boolean
+}
