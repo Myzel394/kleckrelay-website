@@ -18,10 +18,11 @@ import {
 	SelectProps,
 } from "@mui/material"
 
-import {getAdminUsers, GetAdminUsersResponse} from "~/apis"
+import {GetAdminUsersResponse, getAdminUsers} from "~/apis"
 import {useUser} from "~/hooks"
 
-export interface UsersSelectFieldProps extends Omit<SelectProps, "onChange" | "value"> {
+export interface UsersSelectFieldProps
+	extends Omit<SelectProps, "onChange" | "value" | "multiple" | "labelId"> {
 	onChange: SelectProps<GetAdminUsersResponse["users"]>["onChange"]
 	value: GetAdminUsersResponse["users"]
 
