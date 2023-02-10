@@ -18,7 +18,7 @@ import {
 	SelectProps,
 } from "@mui/material"
 
-import {GetAdminUsersResponse, getAdminUsers} from "~/apis"
+import {getAdminUsers, GetAdminUsersResponse} from "~/apis"
 import {useUser} from "~/hooks"
 
 export interface UsersSelectFieldProps extends Omit<SelectProps, "onChange" | "value"> {
@@ -73,12 +73,10 @@ export default function UsersSelectField({
 						return
 					}
 
-					console.log(event.target.value)
 					// Since there will probably only be a few admin users, n^2 is fine
 					const selectedUsers = (event.target.value as string[]).map(id =>
 						users!.find(user => user.id === id),
 					)
-					console.log(selectedUsers)
 
 					if (!selectedUsers) {
 						return
