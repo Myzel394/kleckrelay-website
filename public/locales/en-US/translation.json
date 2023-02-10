@@ -382,7 +382,8 @@
             },
             "settings": {
                 "title": "Global Settings",
-                "description": "Configure global settings for your instance."
+                "description": "Configure global settings for your instance.",
+                "successMessage": "Settings have been saved successfully!"
             }
         }
     },

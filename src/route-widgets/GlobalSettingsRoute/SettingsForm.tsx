@@ -4,6 +4,7 @@ import {TbCursorText} from "react-icons/tb"
 import {useTranslation} from "react-i18next"
 import {MdCheck, MdOutlineChangeCircle, MdTextFormat} from "react-icons/md"
 import {BsImage} from "react-icons/bs"
+import {AxiosError} from "axios"
 
 import {
 	Checkbox,
@@ -16,12 +17,19 @@ import {
 	Typography,
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
+import {useMutation} from "@tanstack/react-query"
 
 import {AdminSettings} from "~/server-types"
 import {StringPoolField, createPool} from "~/components"
+import {updateAdminSettings} from "~/apis"
+import {useErrorSuccessSnacks} from "~/hooks"
+import {queryClient} from "~/constants/react-query"
+import {parseFastAPIError} from "~/utils"
+import {DEFAULT_ADMIN_SETTINGS} from "~/constants/admin-settings"
 
 export interface SettingsFormProps {
 	settings: AdminSettings
+	queryKey: readonly string[]
 }
 
 const DEFAULT_POOLS = createPool({
@@ -30,8 +38,9 @@ const DEFAULT_POOLS = createPool({
 	"0123456789": "0-9",
 })
 
-export default function SettingsForm({settings}: SettingsFormProps) {
+export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 	const {t} = useTranslation()
+	const {showSuccess, showError} = useErrorSuccessSnacks()
 
 	const validationSchema = yup.object().shape({
 		randomEmailIdMinLength: yup
@@ -74,9 +83,40 @@ export default function SettingsForm({settings}: SettingsFormProps) {
 			.label(t("routes.AdminRoute.forms.settings.allowStatistics.label")),
 	})
 
-	const formik = useFormik<AdminSettings>({
+	const {mutateAsync} = useMutation<AdminSettings, AxiosError, Partial<AdminSettings>>(
+		async settings => {
+			// Set values to `null` that are their defaults
+			const strippedSettings = Object.fromEntries(
+				Object.entries(settings as AdminSettings).map(([key, value]) => {
+					if (value === DEFAULT_ADMIN_SETTINGS[key as keyof AdminSettings]) {
+						return [key, null]
+					}
+
+					return [key, value]
+				}),
+			)
+
+			return updateAdminSettings(strippedSettings)
+		},
+		{
+			onError: showError,
+			onSuccess: newSettings => {
+				showSuccess(t("routes.AdminRoute.settings.successMessage"))
+
+				queryClient.setQueryData<AdminSettings>(queryKey, newSettings)
+			},
+		},
+	)
+
+	const formik = useFormik<AdminSettings & {detail?: string}>({
 		validationSchema,
-		onSubmit: console.log,
+		onSubmit: async (values, {setErrors}) => {
+			try {
+				await mutateAsync(values)
+			} catch (error) {
+				setErrors(parseFastAPIError(error as AxiosError))
+			}
+		},
 		initialValues: settings,
 	})
 
