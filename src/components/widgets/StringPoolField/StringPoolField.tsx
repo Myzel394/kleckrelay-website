@@ -134,7 +134,7 @@ export default function StringPoolField({
 					{...props}
 				>
 					{Object.entries(pools).map(([poolValue, label]) => (
-						<MenuItem key={poolValue} value={label}>
+						<MenuItem key={poolValue} value={label} title={poolValue}>
 							<Checkbox checked={value.includes(poolValue)} />
 							<ListItemText primary={label} />
 						</MenuItem>
