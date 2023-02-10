@@ -45,5 +45,6 @@ export {default as LoadingData} from "./LoadingData"
 export * from "./ExternalLinkIndication"
 export {default as ExternalLinkIndication} from "./ExternalLinkIndication"
 export {default as ExtensionSignalHandler} from "./ExtensionalSignalHandler"
+export * from "./StringPoolField"
 
 export * as SimplePageBuilder from "./simple-page-builder"

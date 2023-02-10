@@ -3,6 +3,7 @@
         "cancelLabel": "Cancel",
         "emptyValue": "-",
         "emptyUnavailableValue": "Unavailable",
+        "saveLabel": "Save",
 
         "defaultValueSelection": "Default <{{value}}>",
         "defaultValueSelectionRaw": "<{{value}}>",
@@ -345,7 +346,7 @@
                         "label": "Random alias character pool",
                         "description": "Characters that are used to generate random emails."
                     },
-                    "randomEmailIdLengthIncreaseOnPercentage": {
+                    "randomEmailLengthIncreaseOnPercentage": {
                         "label": "Percentage of used aliases",
                         "description": "If the percentage of used random email IDs is higher than this value, the length of the random email ID will be increased. This is used to prevent spammers from guessing the email ID."
                     },
@@ -378,6 +379,10 @@
                         "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
                     }
                 }
+            },
+            "settings": {
+                "title": "Global Settings",
+                "description": "Configure global settings for your instance."
             }
         }
     },
@@ -458,6 +463,19 @@
             "doNotShare": "Do not share",
             "decideLater": "Decide later",
             "doNotAskAgain": "Do not ask again"
+        },
+        "StringPoolField": {
+            "addCustom": {
+                "label": "Add custom"
+            },
+            "forms": {
+                "addNew": {
+                    "title": "Add new value",
+                    "description": "Enter your characters you would like to include",
+                    "label": "Characters",
+                    "submit": "Add"
+                }
+            }
         }
     },
 
