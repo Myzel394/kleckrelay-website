@@ -229,7 +229,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								label={t(
 									"routes.AdminRoute.forms.settings.randomEmailLengthIncreaseOnPercentage.label",
 								)}
-								name="randomEmailIdLengthIncreaseOnPercentage"
+								name="randomEmailLengthIncreaseOnPercentage"
 								value={formik.values.randomEmailLengthIncreaseOnPercentage}
 								onChange={formik.handleChange}
 								error={
