@@ -360,7 +360,9 @@
                     },
                     "imageProxyStorageLifeTimeInHours": {
                         "label": "Image proxy storage lifetime",
-                        "description": "The lifetime of images that are stored on the server. After this time, the image will be deleted."
+                        "description": "The lifetime of images that are stored on the server in hours. After this time, the image will be deleted.",
+                        "unit_one": "hour",
+                        "unit_other": "hours"
                     },
                     "enableImageProxy": {
                         "label": "Enable image proxy",

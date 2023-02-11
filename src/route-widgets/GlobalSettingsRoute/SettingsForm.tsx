@@ -355,6 +355,18 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											<BsImage />
 										</InputAdornment>
 									),
+									endAdornment: (
+										<InputAdornment position="end">
+											{t(
+												"routes.AdminRoute.forms.settings.imageProxyStorageLifeTimeInHours.unit",
+												{
+													count:
+														formik.values
+															.imageProxyStorageLifeTimeInHours || 0,
+												},
+											)}
+										</InputAdornment>
+									),
 								}}
 							/>
 						</Grid>
