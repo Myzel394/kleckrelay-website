@@ -382,6 +382,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											name="userEmailEnableDisposableEmails"
 										/>
 									}
+									disabled={formik.isSubmitting}
 									label={t(
 										"routes.AdminRoute.forms.settings.userEmailEnableDisposableEmails.label",
 									)}
@@ -410,6 +411,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											name="userEmailEnableOtherRelays"
 										/>
 									}
+									disabled={formik.isSubmitting}
 									label={t(
 										"routes.AdminRoute.forms.settings.userEmailEnableOtherRelays.label",
 									)}
@@ -438,6 +440,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											name="enableImageProxy"
 										/>
 									}
+									disabled={formik.isSubmitting}
 									label={t(
 										"routes.AdminRoute.forms.settings.enableImageProxy.label",
 									)}
@@ -466,6 +469,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											name="allowStatistics"
 										/>
 									}
+									disabled={formik.isSubmitting}
 									label={t(
 										"routes.AdminRoute.forms.settings.allowStatistics.label",
 									)}
