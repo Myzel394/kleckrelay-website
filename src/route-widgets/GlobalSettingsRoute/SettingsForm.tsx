@@ -500,7 +500,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									formik.submitForm()
 								}}
 							>
-								{t("routes.AdminRoute.forms.settings.resetLabel")}
+								{t("routes.AdminRoute.settings.resetLabel")}
 							</LoadingButton>
 						</Grid>
 						<Grid item>
