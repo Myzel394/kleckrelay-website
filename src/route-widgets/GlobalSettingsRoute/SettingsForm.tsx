@@ -26,6 +26,8 @@ import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {parseFastAPIError} from "~/utils"
 import {DEFAULT_ADMIN_SETTINGS} from "~/constants/admin-settings"
+import AliasesPercentageAmount from "./AliasPercentageAmount"
+import RandomAliasGenerator from "~/route-widgets/GlobalSettingsRoute/RandomAliasGenerator"
 
 export interface SettingsFormProps {
 	settings: AdminSettings
@@ -212,6 +214,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}
 							/>
 						</Grid>
+						<Grid item marginX="auto">
+							<RandomAliasGenerator
+								characters={formik.values.randomEmailIdChars}
+								length={formik.values.randomEmailIdMinLength}
+							/>
+						</Grid>
 						<Grid item>
 							<TextField
 								key="random_email_length_increase_on_percentage"
@@ -243,6 +251,13 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										</InputAdornment>
 									),
 								}}
+							/>
+						</Grid>
+						<Grid item>
+							<AliasesPercentageAmount
+								percentage={formik.values.randomEmailLengthIncreaseOnPercentage}
+								length={formik.values.randomEmailIdMinLength}
+								characters={formik.values.randomEmailIdChars}
 							/>
 						</Grid>
 						<Grid item md={6}>

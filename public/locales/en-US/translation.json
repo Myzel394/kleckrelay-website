@@ -383,7 +383,12 @@
             "settings": {
                 "title": "Global Settings",
                 "description": "Configure global settings for your instance.",
-                "successMessage": "Settings have been saved successfully!"
+                "successMessage": "Settings have been saved successfully!",
+                "randomAliasesPreview": {
+                    "title": "Random aliases will look like this",
+                    "helperText": "This is just a preview. Those are not real aliases."
+                },
+                "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created."
             }
         }
     },

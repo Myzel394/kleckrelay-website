@@ -122,6 +122,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/admin/settings",
+						loader: getServerSettings,
 						element: <GlobalSettingsRoute />,
 					},
 				],
