@@ -200,14 +200,14 @@ export interface GetPageData {
 }
 
 export interface AdminSettings {
-	randomEmailIdMinLength: number
-	randomEmailIdChars: string
-	randomEmailLengthIncreaseOnPercentage: number
+	randomEmailIdMinLength: number | null
+	randomEmailIdChars: string | null
+	randomEmailLengthIncreaseOnPercentage: number | null
 	customEmailSuffixLength: number
-	customEmailSuffixChars: string
+	customEmailSuffixChars: string | null
 	imageProxyStorageLifeTimeInHours: number
-	enableImageProxy: boolean
+	enableImageProxy: boolean | null
 	userEmailEnableDisposableEmails: boolean
-	userEmailEnableOtherRelays: boolean
-	allowStatistics: boolean
+	userEmailEnableOtherRelays: boolean | null
+	allowStatistics: boolean | null
 }

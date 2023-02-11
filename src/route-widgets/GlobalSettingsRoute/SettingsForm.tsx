@@ -2,7 +2,7 @@ import * as yup from "yup"
 import {useFormik} from "formik"
 import {TbCursorText} from "react-icons/tb"
 import {useTranslation} from "react-i18next"
-import {MdCheck, MdOutlineChangeCircle, MdTextFormat} from "react-icons/md"
+import {MdCheck, MdClear, MdOutlineChangeCircle, MdTextFormat} from "react-icons/md"
 import {BsImage} from "react-icons/bs"
 import {AxiosError} from "axios"
 
@@ -122,6 +122,8 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		initialValues: settings,
 	})
 
+	// Fields will either have a value or be filled from the default values.
+	// That means we will never have a `null` value.
 	return (
 		<form onSubmit={formik.handleSubmit}>
 			<Grid
@@ -193,7 +195,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									"routes.AdminRoute.forms.settings.randomEmailIdChars.label",
 								)}
 								name="randomEmailIdChars"
-								value={formik.values.randomEmailIdChars}
+								value={formik.values.randomEmailIdChars!}
 								onChange={formik.handleChange}
 								error={
 									formik.touched.randomEmailIdChars &&
@@ -216,8 +218,8 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 						</Grid>
 						<Grid item marginX="auto">
 							<RandomAliasGenerator
-								characters={formik.values.randomEmailIdChars}
-								length={formik.values.randomEmailIdMinLength}
+								characters={formik.values.randomEmailIdChars!}
+								length={formik.values.randomEmailIdMinLength!}
 							/>
 						</Grid>
 						<Grid item>
@@ -255,9 +257,9 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 						</Grid>
 						<Grid item>
 							<AliasesPercentageAmount
-								percentage={formik.values.randomEmailLengthIncreaseOnPercentage}
-								length={formik.values.randomEmailIdMinLength}
-								characters={formik.values.randomEmailIdChars}
+								percentage={formik.values.randomEmailLengthIncreaseOnPercentage!}
+								length={formik.values.randomEmailIdMinLength!}
+								characters={formik.values.randomEmailIdChars!}
 							/>
 						</Grid>
 						<Grid item md={6}>
@@ -304,7 +306,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									"routes.AdminRoute.forms.settings.customEmailSuffixChars.label",
 								)}
 								name="customEmailSuffixChars"
-								value={formik.values.customEmailSuffixChars}
+								value={formik.values.customEmailSuffixChars!}
 								onChange={formik.handleChange}
 								error={
 									formik.touched.customEmailSuffixChars &&
@@ -403,7 +405,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.userEmailEnableOtherRelays}
+											checked={formik.values.userEmailEnableOtherRelays!}
 											onChange={formik.handleChange}
 											name="userEmailEnableOtherRelays"
 										/>
@@ -431,7 +433,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.enableImageProxy}
+											checked={formik.values.enableImageProxy!}
 											onChange={formik.handleChange}
 											name="enableImageProxy"
 										/>
@@ -459,7 +461,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.allowStatistics}
+											checked={formik.values.allowStatistics!}
 											onChange={formik.handleChange}
 											name="allowStatistics"
 										/>
@@ -485,7 +487,22 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 					</Grid>
 				</Grid>
 				<Grid item>
-					<Grid container justifyContent="center">
+					<Grid container justifyContent="center" gap={2}>
+						<Grid item>
+							<LoadingButton
+								loading={formik.isSubmitting}
+								variant="outlined"
+								type="reset"
+								startIcon={<MdClear />}
+								color="warning"
+								onClick={() => {
+									formik.setValues(DEFAULT_ADMIN_SETTINGS)
+									formik.submitForm()
+								}}
+							>
+								{t("routes.AdminRoute.forms.settings.resetLabel")}
+							</LoadingButton>
+						</Grid>
 						<Grid item>
 							<LoadingButton
 								loading={formik.isSubmitting}
