@@ -11,7 +11,8 @@ import {DEFAULT_ADMIN_SETTINGS} from "~/constants/admin-settings"
 import SettingsForm from "~/route-widgets/GlobalSettingsRoute/SettingsForm"
 
 export default function GlobalSettingsRoute(): ReactElement {
-	const query = useQuery<AdminSettings, AxiosError>(["get_admin_settings"], async () => {
+	const queryKey = ["get_admin_settings"]
+	const query = useQuery<AdminSettings, AxiosError>(queryKey, async () => {
 		const settings = getAdminSettings()
 
 		return _.mergeWith({}, DEFAULT_ADMIN_SETTINGS, settings, (o, s) =>
@@ -21,7 +22,7 @@ export default function GlobalSettingsRoute(): ReactElement {
 
 	return (
 		<QueryResult<AdminSettings> query={query}>
-			{settings => <SettingsForm settings={settings} />}
+			{settings => <SettingsForm settings={settings} queryKey={queryKey} />}
 		</QueryResult>
 	)
 }
