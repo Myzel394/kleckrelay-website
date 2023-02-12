@@ -11,4 +11,5 @@ export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
 	imageProxyStorageLifeTimeInHours: 24,
 	enableImageProxy: true,
 	allowStatistics: true,
+	allowAliasDeletion: false,
 }

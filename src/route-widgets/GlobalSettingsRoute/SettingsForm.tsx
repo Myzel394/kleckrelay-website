@@ -488,6 +488,35 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
+						<Grid item>
+							<FormGroup key="allow_alias_deletion">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={formik.values.allowAliasDeletion!}
+											onChange={formik.handleChange}
+											name="allowAliasDeletion"
+										/>
+									}
+									disabled={formik.isSubmitting}
+									label={t(
+										"routes.AdminRoute.forms.settings.allowAliasDeletion.label",
+									)}
+								/>
+								<FormHelperText
+									error={
+										formik.touched.allowAliasDeletion &&
+										Boolean(formik.errors.allowAliasDeletion)
+									}
+								>
+									{(formik.touched.allowAliasDeletion &&
+										formik.errors.allowAliasDeletion) ||
+										t(
+											"routes.AdminRoute.forms.settings.allowAliasDeletion.description",
+										)}
+								</FormHelperText>
+							</FormGroup>
+						</Grid>
 					</Grid>
 				</Grid>
 				<Grid item>

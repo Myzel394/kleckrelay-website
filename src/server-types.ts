@@ -210,4 +210,5 @@ export interface AdminSettings {
 	userEmailEnableDisposableEmails: boolean
 	userEmailEnableOtherRelays: boolean | null
 	allowStatistics: boolean | null
+	allowAliasDeletion: boolean | null
 }

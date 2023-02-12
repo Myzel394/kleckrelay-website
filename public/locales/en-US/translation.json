@@ -383,6 +383,10 @@
                     "allowStatistics": {
                         "label": "Allow statistics",
                         "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
+                    },
+                    "allowAliasDeletion": {
+                        "label": "Allow alias deletion",
+                        "description": "If enabled, users will be able to delete their aliases."
                     }
                 }
             },
