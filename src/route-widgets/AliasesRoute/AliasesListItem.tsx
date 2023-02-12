@@ -29,7 +29,7 @@ export default function AliasesListItem({
 			// @ts-ignore
 			component={isInCopyAddressMode ? undefined : RouterLink}
 			key={alias.id}
-			to={isInCopyAddressMode ? undefined : `/aliases/${btoa(address)}`}
+			to={isInCopyAddressMode ? undefined : `/aliases/${alias.id}`}
 			onClick={(event: any) => {
 				if (isInCopyAddressMode) {
 					event.preventDefault()

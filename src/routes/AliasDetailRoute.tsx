@@ -25,13 +25,12 @@ import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export default function AliasDetailRoute(): ReactElement {
 	const {t} = useTranslation()
-	const params = useParams()
-	const address = atob(params.addressInBase64 as string)
+	const {id: aliasID} = useParams()
 	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
-	const queryKey = ["get_alias", address, encryptionStatus]
+	const queryKey = ["get_alias", aliasID, encryptionStatus]
 
 	const query = useQuery<Alias | DecryptedAlias, AxiosError>(queryKey, async () => {
-		const alias = await getAlias(address)
+		const alias = await getAlias(aliasID!)
 
 		if (encryptionStatus === EncryptionStatus.Available) {
 			;(alias as any as DecryptedAlias).notes = decryptAliasNotes(
@@ -60,7 +59,7 @@ export default function AliasDetailRoute(): ReactElement {
 									<AliasTypeIndicator type={alias.type} />
 								</Grid>
 								<Grid item>
-									<AliasAddress address={address} />
+									<AliasAddress address={`${alias.local}@${alias.domain}`} />
 								</Grid>
 								<Grid item>
 									<ChangeAliasActivationStatusSwitch

@@ -81,7 +81,7 @@ const router = createBrowserRouter([
 						element: <AliasesRoute />,
 					},
 					{
-						path: "/aliases/:addressInBase64",
+						path: "/aliases/:id",
 						element: <AliasDetailRoute />,
 					},
 					{
