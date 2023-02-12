@@ -35,6 +35,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		user as User,
 	)
 	const logout = useCallback(() => {
+		localStorage.removeItem("signup-form-state-email")
 		logoutMasterPassword()
 		setUser(null)
 	}, [logoutMasterPassword])
