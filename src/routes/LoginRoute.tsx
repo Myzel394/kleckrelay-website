@@ -25,7 +25,7 @@ export default function LoginRoute(): ReactElement {
 		if (user?.encryptedPassword) {
 			navigate("/enter-password")
 		} else {
-			navigate("/")
+			navigate("/aliases")
 		}
 	}, [user, navigate])
 
