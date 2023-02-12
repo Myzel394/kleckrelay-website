@@ -18,7 +18,8 @@ import {useQuery} from "@tanstack/react-query"
 
 import {PaginationResult, ReservedAlias} from "~/server-types"
 import {getReservedAliases} from "~/apis"
-import {QueryResult, SimplePage} from "~/components"
+import {NoSearchResults, QueryResult, SimplePage} from "~/components"
+import EmptyStateScreen from "~/route-widgets/ReservedAliasesRoute/EmptyStateScreen"
 
 export default function ReservedAliasesRoute(): ReactElement {
 	const {t} = useTranslation()
@@ -33,8 +34,10 @@ export default function ReservedAliasesRoute(): ReactElement {
 				query: queryValue,
 			}),
 		{
-			onSuccess: () => {
-				setShowSearch(true)
+			onSuccess: ({items}) => {
+				if (items.length) {
+					setShowSearch(true)
+				}
 			},
 		},
 	)
@@ -81,32 +84,42 @@ export default function ReservedAliasesRoute(): ReactElement {
 			}
 		>
 			<QueryResult<PaginationResult<ReservedAlias>, AxiosError> query={query}>
-				{({items: aliases}) => (
-					<List>
-						{aliases.map(alias => (
-							<ListItemButton
-								to={`/admin/reserved-aliases/${alias.id}`}
-								component={Link}
-								key={alias.id}
-							>
-								<ListItemText
-									primary={
-										<>
-											<span>{alias.local}</span>
-											<span style={{opacity: 0.4}}>@{alias.domain}</span>
-										</>
-									}
-									secondary={t("routes.ReservedAliasesRoute.userAmount", {
-										count: alias.users.length,
-									})}
-								/>
-								<ListItemSecondaryAction>
-									<Switch checked={alias.isActive} />
-								</ListItemSecondaryAction>
-							</ListItemButton>
-						))}
-					</List>
-				)}
+				{({items: aliases}) => {
+					if (aliases.length === 0) {
+						if (searchValue === "") {
+							return <EmptyStateScreen />
+						} else {
+							return <NoSearchResults />
+						}
+					}
+
+					return (
+						<List>
+							{aliases.map(alias => (
+								<ListItemButton
+									to={`/admin/reserved-aliases/${alias.id}`}
+									component={Link}
+									key={alias.id}
+								>
+									<ListItemText
+										primary={
+											<>
+												<span>{alias.local}</span>
+												<span style={{opacity: 0.4}}>@{alias.domain}</span>
+											</>
+										}
+										secondary={t("routes.ReservedAliasesRoute.userAmount", {
+											count: alias.users.length,
+										})}
+									/>
+									<ListItemSecondaryAction>
+										<Switch checked={alias.isActive} />
+									</ListItemSecondaryAction>
+								</ListItemButton>
+							))}
+						</List>
+					)
+				}}
 			</QueryResult>
 		</SimplePage>
 	)

@@ -295,7 +295,11 @@
                 }
             },
             "userAmount_one": "Forwards to one user",
-            "userAmount_other": "Forwards to {{count}} users"
+            "userAmount_other": "Forwards to {{count}} users",
+            "emptyState": {
+                "title": "Create your first reserved alias",
+                "description": "Reserved aliases are aliases that will be forwarded to selected admin users. This is useful if you want to create aliases that are meant to be public, like contact@example.com or hello@example.com."
+            }
         },
         "ReservedAliasDetailRoute": {
             "title": "Reserved Alias Details",
