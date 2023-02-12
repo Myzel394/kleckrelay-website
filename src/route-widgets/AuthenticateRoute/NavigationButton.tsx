@@ -1,7 +1,7 @@
 import {ReactElement, useContext} from "react"
 import {BiStats} from "react-icons/bi"
 import {MdSettings} from "react-icons/md"
-import {FaMask} from "react-icons/fa"
+import {FaMask, FaServer} from "react-icons/fa"
 import {Link as RouterLink, useLocation} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 
@@ -16,6 +16,7 @@ export enum NavigationSection {
 	Aliases,
 	Reports,
 	Settings,
+	Admin,
 }
 
 export interface NavigationButtonProps {
@@ -27,6 +28,7 @@ const SECTION_ICON_MAP: Record<NavigationSection, ReactElement> = {
 	[NavigationSection.Aliases]: <FaMask />,
 	[NavigationSection.Reports]: <Icon path={mdiTextBoxMultiple} size={0.8} />,
 	[NavigationSection.Settings]: <MdSettings />,
+	[NavigationSection.Admin]: <FaServer />,
 }
 
 const SECTION_TEXT_MAP: Record<NavigationSection, string> = {
@@ -34,6 +36,7 @@ const SECTION_TEXT_MAP: Record<NavigationSection, string> = {
 	[NavigationSection.Aliases]: "components.NavigationButton.aliases",
 	[NavigationSection.Reports]: "components.NavigationButton.reports",
 	[NavigationSection.Settings]: "components.NavigationButton.settings",
+	[NavigationSection.Admin]: "components.NavigationButton.admin",
 }
 
 const PATH_SECTION_MAP: Record<string, NavigationSection> = {
@@ -41,6 +44,7 @@ const PATH_SECTION_MAP: Record<string, NavigationSection> = {
 	aliases: NavigationSection.Aliases,
 	reports: NavigationSection.Reports,
 	settings: NavigationSection.Settings,
+	admin: NavigationSection.Admin,
 }
 
 export default function NavigationButton({section}: NavigationButtonProps): ReactElement {

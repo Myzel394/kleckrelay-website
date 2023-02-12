@@ -41,6 +41,7 @@ export interface ServerUser {
 	isDecrypted: false
 	encryptedPassword: string
 	salt: string
+	isAdmin: boolean
 	email: {
 		address: string
 		isVerified: boolean
@@ -98,6 +99,20 @@ export interface Alias {
 	prefImageProxyFormat: ImageProxyFormatType | null
 	prefProxyUserAgent: ProxyUserAgentType | null
 	prefExpandUrlShorteners: boolean | null
+}
+
+export interface ReservedAlias {
+	id: string
+	isActive: boolean
+	domain: string
+	local: string
+	users: Array<{
+		id: string
+		email: {
+			address: string
+			id: string
+		}
+	}>
 }
 
 export interface AliasNote {
@@ -182,4 +197,17 @@ export interface User extends Omit<ServerUser, "encryptedNotes" | "isDecrypted">
 export interface GetPageData {
 	page?: number
 	size?: number
+}
+
+export interface AdminSettings {
+	randomEmailIdMinLength: number | null
+	randomEmailIdChars: string | null
+	randomEmailLengthIncreaseOnPercentage: number | null
+	customEmailSuffixLength: number
+	customEmailSuffixChars: string | null
+	imageProxyStorageLifeTimeInHours: number
+	enableImageProxy: boolean | null
+	userEmailEnableDisposableEmails: boolean
+	userEmailEnableOtherRelays: boolean | null
+	allowStatistics: boolean | null
 }

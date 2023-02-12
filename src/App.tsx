@@ -8,23 +8,27 @@ import {CssBaseline, ThemeProvider} from "@mui/material"
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
 import {lightTheme} from "~/constants/themes"
+import AdminRoute from "~/routes/AdminRoute"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
 import AuthenticateRoute from "~/routes/AuthenticateRoute"
 import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
+import CreateReservedAliasRoute from "~/routes/CreateReservedAliasRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
+import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
+import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
 import OverviewRoute from "~/routes/OverviewRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
+import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
+import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
-
-import I18nHandler from "./I18nHandler"
 import "./init-i18n"
 
 const router = createBrowserRouter([
@@ -98,6 +102,28 @@ const router = createBrowserRouter([
 						path: "/enter-password",
 						loader: getServerSettings,
 						element: <EnterDecryptionPassword />,
+					},
+					{
+						path: "/admin",
+						element: <AdminRoute />,
+					},
+					{
+						path: "/admin/reserved-aliases",
+						element: <ReservedAliasesRoute />,
+					},
+					{
+						path: "/admin/reserved-aliases/:id",
+						element: <ReservedAliasDetailRoute />,
+					},
+					{
+						path: "/admin/reserved-aliases/create",
+						loader: getServerSettings,
+						element: <CreateReservedAliasRoute />,
+					},
+					{
+						path: "/admin/settings",
+						loader: getServerSettings,
+						element: <GlobalSettingsRoute />,
 					},
 				],
 			},

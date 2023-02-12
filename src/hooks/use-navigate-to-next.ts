@@ -3,7 +3,7 @@ import {useCallback} from "react"
 
 import {getNextUrl} from "~/utils"
 
-export default function useNavigateToNext(defaultNextUrl = "/"): () => void {
+export default function useNavigateToNext(defaultNextUrl = "/aliases"): () => void {
 	const navigate = useNavigate()
 	const location = useLocation()
 

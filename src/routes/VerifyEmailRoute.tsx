@@ -45,7 +45,6 @@ export default function VerifyEmailRoute(): ReactElement {
 		verifyEmail,
 		{
 			onSuccess: ({user}) => {
-				setEmail("")
 				login(user)
 				navigate("/auth/complete-account")
 			},

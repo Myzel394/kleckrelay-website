@@ -3,6 +3,7 @@
         "cancelLabel": "Cancel",
         "emptyValue": "-",
         "emptyUnavailableValue": "Unavailable",
+        "saveLabel": "Save",
 
         "defaultValueSelection": "Default <{{value}}>",
         "defaultValueSelectionRaw": "<{{value}}>",
@@ -279,6 +280,123 @@
         "LogoutRoute": {
             "title": "Log out",
             "description": "We are logging you out..."
+        },
+        "ReservedAliasesRoute": {
+            "title": "Reserved Aliases",
+            "pageActions": {
+                "search": {
+                    "label": "Search",
+                    "placeholder": "Search for aliases"
+                }
+            },
+            "actions": {
+                "create": {
+                    "label": "Create new Reserved Alias"
+                }
+            },
+            "userAmount_one": "Forwards to one user",
+            "userAmount_other": "Forwards to {{count}} users",
+            "emptyState": {
+                "title": "Create your first reserved alias",
+                "description": "Reserved aliases are aliases that will be forwarded to selected admin users. This is useful if you want to create aliases that are meant to be public, like contact@example.com or hello@example.com."
+            }
+        },
+        "ReservedAliasDetailRoute": {
+            "title": "Reserved Alias Details",
+            "sections": {
+                "users": {
+                    "title": "Users",
+                    "fields": {
+                        "users": {
+                            "label": "Users",
+                            "me": "{{email}} (Me)"
+                        }
+                    }
+                }
+            }
+        },
+        "AdminRoute": {
+            "title": "Site configuration",
+            "routes": {
+                "reservedAliases": "Reserved Aliases",
+                "settings": "Global Settings"
+            },
+            "forms": {
+                "reservedAliases": {
+                    "title": "Reserved Aliases",
+                    "description": "Define what alias should forward to whom.",
+                    "saveAction": "Create Alias",
+                    "fields": {
+                        "local": {
+                            "label": "Local"
+                        },
+                        "users": {
+                            "label": "Users",
+                            "me": "{{email}} (Me)"
+                        }
+                    },
+                    "explanation": {
+                        "step1": "User from outside",
+                        "step2": "Sends mail to",
+                        "step4": "KleckRelay forwards to"
+                    }
+                },
+                "settings": {
+                    "randomEmailIdMinLength": {
+                        "label": "Minimum random alias ID length",
+                        "description": "The minimum length for randomly generated emails. The server will automatically increase the length if required so."
+                    },
+                    "randomEmailIdChars": {
+                        "label": "Random alias character pool",
+                        "description": "Characters that are used to generate random emails."
+                    },
+                    "randomEmailLengthIncreaseOnPercentage": {
+                        "label": "Percentage of used aliases",
+                        "description": "If the percentage of used random email IDs is higher than this value, the length of the random email ID will be increased. This is used to prevent spammers from guessing the email ID."
+                    },
+                    "customEmailSuffixLength": {
+                        "label": "Custom email suffix length",
+                        "description": "The length of the custom email suffix."
+                    },
+                    "customEmailSuffixChars": {
+                        "label": "Custom email suffix character pool",
+                        "description": "Characters that are used to generate custom email suffixes."
+                    },
+                    "imageProxyStorageLifeTimeInHours": {
+                        "label": "Image proxy storage lifetime",
+                        "description": "The lifetime of images that are stored on the server in hours. After this time, the image will be deleted.",
+                        "unit_one": "hour",
+                        "unit_other": "hours"
+                    },
+                    "enableImageProxy": {
+                        "label": "Enable image proxy",
+                        "description": "If enabled, images will be stored on the server and forwarded to the user. This is useful if you want to prevent the user from seeing the IP address of the server. This will only affect new images."
+                    },
+                    "userEmailEnableDisposableEmails": {
+                        "label": "Enable disposable emails for new accounts",
+                        "description": "If enabled, users will be able to use disposable emails when creating a new account. This will only affect new accounts."
+                    },
+                    "userEmailEnableOtherRelays": {
+                        "label": "Enable other relays for new accounts",
+                        "description": "If enabled, users will be able to use other relays (such as SimpleLogin or DuckDuckGo's Email Tracking Protection) when creating a new account. This will only affect new accounts."
+                    },
+                    "allowStatistics": {
+                        "label": "Allow statistics",
+                        "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
+                    }
+                }
+            },
+            "settings": {
+                "title": "Global Settings",
+                "description": "Configure global settings for your instance.",
+                "successMessage": "Settings have been saved successfully!",
+                "randomAliasesPreview": {
+                    "title": "Random aliases will look like this",
+                    "helperText": "This is just a preview. Those are not real aliases."
+                },
+                "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created.",
+                "resetLabel": "Reset to defaults"
+            }
         }
     },
 
@@ -287,7 +405,8 @@
             "overview": "Overview",
             "aliases": "Aliases",
             "reports": "Reports",
-            "settings": "Settings"
+            "settings": "Settings",
+            "admin": "Admin"
         },
         "AuthenticateRoute": {
             "signup": "Sign up",
@@ -357,6 +476,19 @@
             "doNotShare": "Do not share",
             "decideLater": "Decide later",
             "doNotAskAgain": "Do not ask again"
+        },
+        "StringPoolField": {
+            "addCustom": {
+                "label": "Add custom"
+            },
+            "forms": {
+                "addNew": {
+                    "title": "Add new value",
+                    "description": "Enter your characters you would like to include",
+                    "label": "Characters",
+                    "submit": "Add"
+                }
+            }
         }
     },
 
