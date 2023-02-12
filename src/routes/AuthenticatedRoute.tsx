@@ -11,15 +11,17 @@ import NavigationButton, {
 	NavigationSection,
 } from "~/route-widgets/AuthenticateRoute/NavigationButton"
 
-const sections = (Object.keys(NavigationSection) as Array<keyof typeof NavigationSection>).filter(
-	value => isNaN(Number(value)),
-)
-
 export default function AuthenticatedRoute(): ReactElement {
 	const {t} = useTranslation()
 	const theme = useTheme()
+	const user = useUser()
 
-	useUser()
+	const sections = [
+		NavigationSection.Aliases,
+		NavigationSection.Reports,
+		NavigationSection.Settings,
+		user.isAdmin && NavigationSection.Admin,
+	].filter(value => value !== false) as NavigationSection[]
 
 	return (
 		<LockNavigationContextProvider>
@@ -50,7 +52,7 @@ export default function AuthenticatedRoute(): ReactElement {
 								<List component="nav">
 									{sections.map(key => (
 										<ListItem key={key}>
-											<NavigationButton section={NavigationSection[key]} />
+											<NavigationButton section={key} />
 										</ListItem>
 									))}
 								</List>
