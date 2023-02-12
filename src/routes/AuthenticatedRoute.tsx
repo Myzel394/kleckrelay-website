@@ -20,7 +20,7 @@ export default function AuthenticatedRoute(): ReactElement {
 		NavigationSection.Aliases,
 		NavigationSection.Reports,
 		NavigationSection.Settings,
-		user.isAdmin && NavigationSection.Admin,
+		user?.isAdmin && NavigationSection.Admin,
 	].filter(value => value !== false) as NavigationSection[]
 
 	return (
