@@ -83,6 +83,7 @@ export interface ServerSettings {
 	customAliasSuffixLength: number
 	instanceSalt: string
 	publicKey: string
+	allowAliasDeletion: boolean
 }
 
 export interface Alias {

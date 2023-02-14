@@ -48,6 +48,7 @@ export default function AliasDetailRoute(): ReactElement {
 		<SimplePage
 			title={t("routes.AliasDetailRoute.title")}
 			actions={
+				serverSettings.allowAliasDeletion &&
 				query.data && (
 					<DeleteButton
 						onDelete={() => deleteAlias(aliasID!)}
