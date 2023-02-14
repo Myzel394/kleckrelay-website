@@ -6,12 +6,13 @@ import {useTranslation} from "react-i18next"
 import {useQuery} from "@tanstack/react-query"
 import {Grid} from "@mui/material"
 
-import {getAlias} from "~/apis"
+import {deleteAlias, getAlias} from "~/apis"
 import {Alias, DecryptedAlias, ServerSettings} from "~/server-types"
 import {
 	AliasTypeIndicator,
 	AuthContext,
 	DecryptionPasswordMissingAlert,
+	DeleteButton,
 	EncryptionStatus,
 	QueryResult,
 	SimplePage,
@@ -46,7 +47,18 @@ export default function AliasDetailRoute(): ReactElement {
 	return (
 		<SimplePage
 			title={t("routes.AliasDetailRoute.title")}
-			actions={query.data && <DeleteButton id={query.data.id} />}
+			actions={
+				query.data && (
+					<DeleteButton
+						onDelete={() => deleteAlias(aliasID!)}
+						label={t("routes.AliasDetailRoute.actions.delete.label")}
+						description={t("routes.AliasDetailRoute.actions.delete.description")}
+						continueLabel={t("routes.AliasDetailRoute.actions.delete.continueAction")}
+						navigateTo={"/aliases"}
+						successMessage={t("relations.alias.mutations.success.aliasDeleted")}
+					/>
+				)
+			}
 		>
 			<QueryResult<Alias | DecryptedAlias> query={query}>
 				{alias => (
