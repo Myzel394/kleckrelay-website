@@ -1,5 +1,5 @@
 import {ReactElement, useContext} from "react"
-import {useParams} from "react-router-dom"
+import {useLoaderData, useParams} from "react-router-dom"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 
@@ -7,7 +7,7 @@ import {useQuery} from "@tanstack/react-query"
 import {Grid} from "@mui/material"
 
 import {getAlias} from "~/apis"
-import {Alias, DecryptedAlias} from "~/server-types"
+import {Alias, DecryptedAlias, ServerSettings} from "~/server-types"
 import {
 	AliasTypeIndicator,
 	AuthContext,
@@ -25,6 +25,7 @@ import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export default function AliasDetailRoute(): ReactElement {
 	const {t} = useTranslation()
+	const serverSettings = useLoaderData() as ServerSettings
 	const {id: aliasID} = useParams()
 	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 	const queryKey = ["get_alias", aliasID, encryptionStatus]
@@ -43,7 +44,10 @@ export default function AliasDetailRoute(): ReactElement {
 	})
 
 	return (
-		<SimplePage title={t("routes.AliasDetailRoute.title")}>
+		<SimplePage
+			title={t("routes.AliasDetailRoute.title")}
+			actions={query.data && <DeleteButton id={query.data.id} />}
+		>
 			<QueryResult<Alias | DecryptedAlias> query={query}>
 				{alias => (
 					<SimplePageBuilder.MultipleSections>

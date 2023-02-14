@@ -16,7 +16,8 @@
         "loading": "Loading...",
         "actionNotUndoable": "This action cannot be undone!",
         "copyError": "Copying to clipboard did not work. Please copy the text manually.",
-        "experimentalFeature": "This is an experimental feature."
+        "experimentalFeature": "This is an experimental feature.",
+        "deletedSuccessfully": "Deleted successfully!"
     },
 
     "routes": {

@@ -82,6 +82,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/aliases/:id",
+						loader: getServerSettings,
 						element: <AliasDetailRoute />,
 					},
 					{
