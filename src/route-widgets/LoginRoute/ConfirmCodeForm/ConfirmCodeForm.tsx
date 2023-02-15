@@ -24,12 +24,7 @@ import {
 } from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
-import {
-	AuthenticationDetails,
-	ServerSettings,
-	ServerUser,
-	SimpleDetailResponse,
-} from "~/server-types"
+import {ServerSettings, ServerUser, SimpleDetailResponse} from "~/server-types"
 import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
 import {parseFastAPIError} from "~/utils"
@@ -84,10 +79,10 @@ export default function ConfirmCodeForm({
 			.label(t("routes.LoginRoute.forms.confirmCode.form.code.label")),
 	})
 
-	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyLoginWithEmailData>(
+	const {mutateAsync} = useMutation<ServerUser, AxiosError, VerifyLoginWithEmailData>(
 		verifyLoginWithEmail,
 		{
-			onSuccess: ({user}) => onConfirm(user),
+			onSuccess: onConfirm,
 		},
 	)
 	const formik = useFormik<Form>({

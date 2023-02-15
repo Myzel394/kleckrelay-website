@@ -8,7 +8,7 @@ export interface VerifyEmailData {
 }
 
 export default async function verifyEmail({email, token}: VerifyEmailData): Promise<ServerUser> {
-	const {data} = await client.post(
+	const {data: user} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/verify-email`,
 		{
 			email: email,
@@ -19,5 +19,5 @@ export default async function verifyEmail({email, token}: VerifyEmailData): Prom
 		},
 	)
 
-	return parseUser(data.user)
+	return parseUser(user)
 }

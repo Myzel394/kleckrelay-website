@@ -13,7 +13,7 @@ export default async function verifyLoginWithEmail({
 	token,
 	sameRequestToken,
 }: VerifyLoginWithEmailData): Promise<ServerUser> {
-	const {data} = await client.post(
+	const {data: user} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/login/email-token/verify`,
 		{
 			email,
@@ -25,5 +25,5 @@ export default async function verifyLoginWithEmail({
 		},
 	)
 
-	return parseUser(data.user)
+	return parseUser(user)
 }

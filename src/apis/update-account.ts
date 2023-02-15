@@ -10,7 +10,7 @@ export interface UpdateAccountData {
 }
 
 export default async function updateAccount(updateData: UpdateAccountData): Promise<ServerUser> {
-	const {data} = await client.patch(
+	const {data: user} = await client.patch(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/account`,
 		updateData,
 		{
@@ -18,5 +18,5 @@ export default async function updateAccount(updateData: UpdateAccountData): Prom
 		},
 	)
 
-	return parseUser(data.user)
+	return parseUser(user)
 }

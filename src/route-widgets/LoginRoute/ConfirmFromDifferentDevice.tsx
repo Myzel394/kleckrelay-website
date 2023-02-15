@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next"
 import {useMutation} from "@tanstack/react-query"
 import {Box, Grid, Paper, Typography} from "@mui/material"
 
-import {AuthenticationDetails, ServerUser} from "~/server-types"
+import {ServerUser} from "~/server-types"
 import {verifyLoginWithEmail} from "~/apis"
 import {LoadingData} from "~/components"
 
@@ -23,14 +23,14 @@ export default function ConfirmFromDifferentDevice({
 	onConfirm,
 }: ConfirmFromDifferentDeviceProps): ReactElement {
 	const {t} = useTranslation()
-	const {mutate, isLoading, isError} = useMutation<AuthenticationDetails, AxiosError, void>(
+	const {mutate, isLoading, isError} = useMutation<ServerUser, AxiosError, void>(
 		() =>
 			verifyLoginWithEmail({
 				email,
 				token,
 			}),
 		{
-			onSuccess: ({user}) => onConfirm(user),
+			onSuccess: onConfirm,
 		},
 	)
 
