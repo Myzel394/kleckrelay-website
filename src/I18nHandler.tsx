@@ -2,7 +2,7 @@ import * as yup from "yup"
 import {useTranslation} from "react-i18next"
 import {useEffect} from "react"
 import {de} from "yup-locales"
-import en from "yup/es/locale"
+import en from "yup/lib/locale"
 
 const YUP_LOCALE_LANGUAGE_MAP: Record<string, unknown> = {
 	"en-US": en,
