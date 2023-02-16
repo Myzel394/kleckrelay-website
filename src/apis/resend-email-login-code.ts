@@ -6,6 +6,13 @@ export interface ResendEmailLoginCodeData {
 	sameRequestToken: string
 }
 
+export type ResendEmailLoginCodeResponse =
+	| SimpleDetailResponse
+	| {
+			detail: string
+			code: "ok:email_already_verified"
+	  }
+
 export default async function resendEmailLoginCode({
 	email,
 	sameRequestToken,
