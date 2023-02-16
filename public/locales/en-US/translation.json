@@ -407,7 +407,11 @@
                     "helperText": "This is just a preview. Those are not real aliases."
                 },
                 "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created.",
-                "resetLabel": "Reset to defaults"
+                "resetLabel": "Reset to defaults",
+                "disabled": {
+                    "title": "Global settings are disabled",
+                    "description": "Global settings have been disabled. You can enable them in the configuration file."
+                }
             }
         }
     },

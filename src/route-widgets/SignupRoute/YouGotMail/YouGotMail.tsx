@@ -67,7 +67,7 @@ export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactEle
 						<OpenMailButton domain={domain} />
 					</Grid>
 					<Grid item>
-						<ResendMailButton email={email} />
+						<ResendMailButton email={email} onEmailAlreadyVerified={onGoBack} />
 					</Grid>
 				</Grid>
 			</MultiStepFormElement>

@@ -6,20 +6,31 @@ import React, {ReactElement} from "react"
 
 import {useMutation} from "@tanstack/react-query"
 
-import {resendEmailVerificationCode} from "~/apis"
+import {ResendEmailVerificationCodeResponse, resendEmailVerificationCode} from "~/apis"
 import {MutationStatusSnackbar, TimedButton} from "~/components"
-import {ServerSettings, SimpleDetailResponse} from "~/server-types"
+import {ServerSettings} from "~/server-types"
 
 export interface ResendMailButtonProps {
 	email: string
+	onEmailAlreadyVerified: () => void
 }
 
-export default function ResendMailButton({email}: ResendMailButtonProps): ReactElement {
+export default function ResendMailButton({
+	email,
+	onEmailAlreadyVerified,
+}: ResendMailButtonProps): ReactElement {
 	const {t} = useTranslation()
 	const settings = useLoaderData() as ServerSettings
 
-	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
-		resendEmailVerificationCode(email),
+	const mutation = useMutation<ResendEmailVerificationCodeResponse, AxiosError, void>(
+		() => resendEmailVerificationCode(email),
+		{
+			onSuccess: ({code}: any) => {
+				if (code === "ok:email_already_verified") {
+					onEmailAlreadyVerified()
+				}
+			},
+		},
 	)
 	const {mutate} = mutation
 
