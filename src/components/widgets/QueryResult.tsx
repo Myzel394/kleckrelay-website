@@ -17,7 +17,7 @@ export default function QueryResult<TQueryFnData, TError = AxiosError>({
 	query,
 	children: render,
 }: QueryResultProps<TQueryFnData, TError>): ReactElement {
-	if (query.data) {
+	if (query.data !== undefined) {
 		return render(query.data)
 	}
 
