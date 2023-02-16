@@ -6,9 +6,9 @@ import {AxiosError} from "axios"
 import {useQuery} from "@tanstack/react-query"
 import {Grid} from "@mui/material"
 
-import {QueryResult, SimplePage, SimplePageBuilder} from "~/components"
+import {DeleteButton, QueryResult, SimplePage, SimplePageBuilder} from "~/components"
 import {ReservedAlias} from "~/server-types"
-import {getReservedAlias} from "~/apis"
+import {deleteReservedAlias, getReservedAlias} from "~/apis"
 import AliasActivationSwitch from "~/route-widgets/ReservedAliasDetailRoute/AliasActivationSwitch"
 import AliasAddress from "~/route-widgets/AliasDetailRoute/AliasAddress"
 import AliasUsersList from "~/route-widgets/ReservedAliasDetailRoute/AliasUsersList"
@@ -21,7 +21,25 @@ export default function ReservedAliasDetailRoute(): ReactElement {
 	const query = useQuery<ReservedAlias, AxiosError>(queryKey, () => getReservedAlias(params.id!))
 
 	return (
-		<SimplePage title={t("routes.ReservedAliasDetailRoute.title")}>
+		<SimplePage
+			title={t("routes.ReservedAliasDetailRoute.title")}
+			actions={
+				query.data && (
+					<DeleteButton
+						onDelete={() => deleteReservedAlias(params.id!)}
+						label={t("routes.AdminRoute.reservedAlias.actions.delete.label")}
+						description={t(
+							"routes.adminRoute.reservedAlias.actions.delete.description",
+						)}
+						continueLabel={t(
+							"routes.AdminRoute.reservedAlias.actions.delete.continueAction",
+						)}
+						navigateTo="/admin/reserved-aliases"
+						successMessage={t("relations.alias.mutations.success.aliasDeleted")}
+					/>
+				)
+			}
+		>
 			<QueryResult<ReservedAlias, AxiosError> query={query}>
 				{alias => (
 					<SimplePageBuilder.MultipleSections>

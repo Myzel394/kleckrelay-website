@@ -412,6 +412,15 @@
                     "title": "Global settings are disabled",
                     "description": "Global settings have been disabled. You can enable them in the configuration file."
                 }
+            },
+            "reservedAlias": {
+                "actions": {
+                    "delete": {
+                        "label": "Delete Reserved Alias",
+                        "description": "Are you sure you want to delete this reserved alias?",
+                        "continueAction": "Delete Reserved Alias"
+                    }
+                }
             }
         }
     },
