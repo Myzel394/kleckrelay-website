@@ -3,7 +3,6 @@ import {AxiosError} from "axios"
 import {MdList} from "react-icons/md"
 import {FaMask} from "react-icons/fa"
 import {useTranslation} from "react-i18next"
-import groupArray from "group-array"
 import sortArray from "sort-array"
 
 import {useQuery} from "@tanstack/react-query"
@@ -11,9 +10,10 @@ import {InputAdornment, List, MenuItem, TextField, Typography} from "@mui/materi
 
 import {DecryptedReportContent, PaginationResult, Report} from "~/server-types"
 import {getReports} from "~/apis"
-import {WithEncryptionRequired} from "~/hocs"
 import {DecryptReport, QueryResult, SimplePage} from "~/components"
 import {createEnumMapFromTranslation} from "~/utils"
+import {groupBy} from "lodash"
+import {WithEncryptionRequired} from "~/hocs"
 import EmptyStateScreen from "~/route-widgets/ReportsRoute/EmptyStateScreen"
 import ReportInformationItem from "~/route-widgets/ReportsRoute/ReportInformationItem"
 
@@ -94,16 +94,16 @@ function ReportsRoute(): ReactElement {
 
 											case SortingView.GroupByAlias:
 												return Object.entries(
-													groupArray(
+													groupBy(
 														reports as DecryptedReportContent[],
-														"messageDetails.meta.to",
+														report => report.messageDetails.meta.to,
 													),
 												).map(
 													([alias, reports]: [
 														string,
 														DecryptedReportContent[],
 													]) => (
-														<>
+														<div key={alias}>
 															<Typography
 																variant="caption"
 																component="h2"
@@ -116,7 +116,7 @@ function ReportsRoute(): ReactElement {
 																	key={report.id}
 																/>
 															))}
-														</>
+														</div>
 													),
 												)
 										}
