@@ -1,5 +1,5 @@
-import {SimpleDetailResponse} from "~/server-types"
 import {client} from "~/constants/axios-client"
+import {SimpleDetailResponse} from "~/server-types"
 
 export interface ResendEmailLoginCodeData {
 	email: string

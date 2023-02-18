@@ -13,7 +13,7 @@ import {useMutation} from "@tanstack/react-query"
 import {AuthContext, PasswordField, SimpleForm} from "~/components"
 import {setupEncryptionForUser} from "~/utils"
 import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
-import {AuthenticationDetails, ServerSettings} from "~/server-types"
+import {ServerSettings, ServerUser} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
 
 export interface PasswordFormProps {
@@ -51,9 +51,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 
 	const {_setEncryptionPassword, login} = useContext(AuthContext)
 
-	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, UpdateAccountData>(
-		updateAccount,
-	)
+	const {mutateAsync} = useMutation<ServerUser, AxiosError, UpdateAccountData>(updateAccount)
 	const formik = useFormik<Form>({
 		validationSchema: schema,
 		initialValues: {
@@ -83,7 +81,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 						encryptedNotes,
 					},
 					{
-						onSuccess: ({user: newUser}) => {
+						onSuccess: newUser => {
 							login(newUser)
 							_setEncryptionPassword(encryptionPassword)
 							navigateToNext()

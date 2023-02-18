@@ -21,7 +21,7 @@ import {useMutation} from "@tanstack/react-query"
 
 import {AdminSettings} from "~/server-types"
 import {StringPoolField, createPool} from "~/components"
-import {updateAdminSettings} from "~/apis"
+import {UpdateAdminSettingsResponse, updateAdminSettings} from "~/apis"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {parseFastAPIError} from "~/utils"
@@ -85,7 +85,11 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 			.label(t("routes.AdminRoute.forms.settings.allowStatistics.label")),
 	})
 
-	const {mutateAsync} = useMutation<AdminSettings, AxiosError, Partial<AdminSettings>>(
+	const {mutateAsync} = useMutation<
+		UpdateAdminSettingsResponse,
+		AxiosError,
+		Partial<AdminSettings>
+	>(
 		async settings => {
 			// Set values to `null` that are their defaults
 			const strippedSettings = Object.fromEntries(
@@ -102,10 +106,14 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		},
 		{
 			onError: showError,
-			onSuccess: newSettings => {
+			onSuccess: ({code, detail, ...newSettings}) => {
+				if (code === "error:settings:global_settings_disabled") {
+					return
+				}
+
 				showSuccess(t("routes.AdminRoute.settings.successMessage"))
 
-				queryClient.setQueryData<AdminSettings>(queryKey, newSettings)
+				queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
 			},
 		},
 	)
@@ -484,6 +492,35 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										formik.errors.allowStatistics) ||
 										t(
 											"routes.AdminRoute.forms.settings.allowStatistics.description",
+										)}
+								</FormHelperText>
+							</FormGroup>
+						</Grid>
+						<Grid item>
+							<FormGroup key="allow_alias_deletion">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={formik.values.allowAliasDeletion!}
+											onChange={formik.handleChange}
+											name="allowAliasDeletion"
+										/>
+									}
+									disabled={formik.isSubmitting}
+									label={t(
+										"routes.AdminRoute.forms.settings.allowAliasDeletion.label",
+									)}
+								/>
+								<FormHelperText
+									error={
+										formik.touched.allowAliasDeletion &&
+										Boolean(formik.errors.allowAliasDeletion)
+									}
+								>
+									{(formik.touched.allowAliasDeletion &&
+										formik.errors.allowAliasDeletion) ||
+										t(
+											"routes.AdminRoute.forms.settings.allowAliasDeletion.description",
 										)}
 								</FormHelperText>
 							</FormGroup>

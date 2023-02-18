@@ -28,17 +28,18 @@ export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
 		})
 	}
 	const showError = (error: Error) => {
-		const parsedError = parseFastAPIError(error as AxiosError)
+		let message
 
-		if ("detail" in parsedError) {
-			$errorSnackbarKey.current = enqueueSnackbar(
-				parsedError.detail || t("general.defaultError"),
-				{
-					variant: "error",
-					autoHideDuration: ERROR_SNACKBAR_SHOW_DURATION,
-				},
-			)
-		}
+		try {
+			const parsedError = parseFastAPIError(error as AxiosError)
+
+			message = parsedError.detail
+		} catch (e) {}
+
+		$errorSnackbarKey.current = enqueueSnackbar(message || t("general.defaultError"), {
+			variant: "error",
+			autoHideDuration: ERROR_SNACKBAR_SHOW_DURATION,
+		})
 	}
 
 	return {

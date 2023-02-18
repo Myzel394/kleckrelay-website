@@ -6,9 +6,9 @@ import React, {ReactElement} from "react"
 
 import {useMutation} from "@tanstack/react-query"
 
-import {resendEmailLoginCode} from "~/apis"
+import {ResendEmailLoginCodeResponse, resendEmailLoginCode} from "~/apis"
 import {MutationStatusSnackbar, TimedButton} from "~/components"
-import {ServerSettings, SimpleDetailResponse} from "~/server-types"
+import {ServerSettings} from "~/server-types"
 
 export interface ResendMailButtonProps {
 	email: string
@@ -22,7 +22,7 @@ export default function ResendMailButton({
 	const settings = useLoaderData() as ServerSettings
 	const {t} = useTranslation()
 
-	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
+	const mutation = useMutation<ResendEmailLoginCodeResponse, AxiosError, void>(() =>
 		resendEmailLoginCode({
 			email,
 			sameRequestToken,

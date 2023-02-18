@@ -1,4 +1,4 @@
-import {AuthenticationDetails, Language} from "~/server-types"
+import {Language, ServerUser} from "~/server-types"
 import {client} from "~/constants/axios-client"
 import parseUser from "~/apis/helpers/parse-user"
 
@@ -9,10 +9,8 @@ export interface UpdateAccountData {
 	language?: Language
 }
 
-export default async function updateAccount(
-	updateData: UpdateAccountData,
-): Promise<AuthenticationDetails> {
-	const {data} = await client.patch(
+export default async function updateAccount(updateData: UpdateAccountData): Promise<ServerUser> {
+	const {data: user} = await client.patch(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/account`,
 		updateData,
 		{
@@ -20,8 +18,5 @@ export default async function updateAccount(
 		},
 	)
 
-	return {
-		...data,
-		user: parseUser(data.user),
-	}
+	return parseUser(user)
 }

@@ -16,7 +16,8 @@
         "loading": "Loading...",
         "actionNotUndoable": "This action cannot be undone!",
         "copyError": "Copying to clipboard did not work. Please copy the text manually.",
-        "experimentalFeature": "This is an experimental feature."
+        "experimentalFeature": "This is an experimental feature.",
+        "deletedSuccessfully": "Deleted successfully!"
     },
 
     "routes": {
@@ -202,6 +203,13 @@
                         }
                     }
                 }
+            },
+            "actions": {
+                "delete": {
+                    "label": "Delete Alias",
+                    "description": "Are you sure you want to delete this alias?",
+                    "continueAction": "Delete Alias"
+                }
             }
         },
         "ReportsRoute": {
@@ -383,6 +391,10 @@
                     "allowStatistics": {
                         "label": "Allow statistics",
                         "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
+                    },
+                    "allowAliasDeletion": {
+                        "label": "Allow alias deletion",
+                        "description": "If enabled, users will be able to delete their aliases."
                     }
                 }
             },
@@ -395,7 +407,25 @@
                     "helperText": "This is just a preview. Those are not real aliases."
                 },
                 "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created.",
-                "resetLabel": "Reset to defaults"
+                "resetLabel": "Reset to defaults",
+                "disabled": {
+                    "title": "Global settings are disabled",
+                    "description": "Global settings have been disabled. You can enable them in the configuration file."
+                }
+            },
+            "reservedAlias": {
+                "actions": {
+                    "delete": {
+                        "label": "Delete Reserved Alias",
+                        "description": "Are you sure you want to delete this reserved alias?",
+                        "continueAction": "Delete Reserved Alias"
+                    }
+                }
+            },
+            "serverStatus": {
+                "noRecentReports": "There seems to be some issues with your server. The server hasn't done its cleanup in the last few days. The last report was on {{date}}.",
+                "error": "There was an error during the last server cleanup job from {{relativeDescription}}. Please check the logs for more information.",
+                "success": "Everything okay with your server! The last cleanup job was {{relativeDescription}}."
             }
         }
     },
@@ -501,7 +531,8 @@
                     "notesUpdated": "Updated & encrypted notes successfully!",
                     "aliasChangedToEnabled": "Alias has been enabled",
                     "aliasChangedToDisabled": "Alias has been disabled",
-                    "addressCopiedToClipboard": "Address has been copied to your clipboard!"
+                    "addressCopiedToClipboard": "Address has been copied to your clipboard!",
+                    "aliasDeleted": "Alias has been deleted!"
                 }
             },
             "settings": {

@@ -81,7 +81,8 @@ const router = createBrowserRouter([
 						element: <AliasesRoute />,
 					},
 					{
-						path: "/aliases/:addressInBase64",
+						path: "/aliases/:id",
+						loader: getServerSettings,
 						element: <AliasDetailRoute />,
 					},
 					{
@@ -105,6 +106,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/admin",
+						loader: getServerSettings,
 						element: <AdminRoute />,
 					},
 					{

@@ -15,24 +15,35 @@ import {
 } from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {deleteReport} from "~/apis"
 import {useErrorSuccessSnacks} from "~/hooks"
-import {SimpleDetailResponse} from "~/server-types"
 
-export interface DeleteButtonProps {
-	id: string
+export interface DeleteAPIButtonProps {
+	onDelete: () => Promise<any>
+	label: string
+	continueLabel?: string
+
+	description?: string
+	successMessage?: string
+	navigateTo?: string
 }
 
-export default function ReportDetailRoute({id}: DeleteButtonProps): ReactElement {
+export default function DeleteAPIButton({
+	onDelete,
+	successMessage,
+	label,
+	continueLabel,
+	description,
+	navigateTo = "/aliases",
+}: DeleteAPIButtonProps): ReactElement {
 	const {t} = useTranslation()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const navigate = useNavigate()
 
-	const {mutate} = useMutation<SimpleDetailResponse, AxiosError, void>(() => deleteReport(id), {
+	const {mutate} = useMutation<void, AxiosError, void>(onDelete, {
 		onError: showError,
 		onSuccess: () => {
-			showSuccess(t("relations.report.mutations.success.reportDeleted"))
-			navigate("/reports")
+			showSuccess(successMessage || t("general.deletedSuccessfully"))
+			navigate(navigateTo)
 		},
 	})
 
@@ -47,14 +58,12 @@ export default function ReportDetailRoute({id}: DeleteButtonProps): ReactElement
 				startIcon={<MdDelete />}
 				onClick={() => setShowDeleteDialog(true)}
 			>
-				{t("routes.ReportDetailRoute.actions.delete.label")}
+				{label}
 			</Button>
 			<Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
-				<DialogTitle>{t("routes.ReportDetailRoute.actions.delete.label")}</DialogTitle>
+				<DialogTitle>{label}</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						{t("routes.ReportDetailRoute.actions.delete.description")}
-					</DialogContentText>
+					{description && <DialogContentText>{description}</DialogContentText>}
 					<DialogContentText color="error">
 						{t("general.actionNotUndoable")}
 					</DialogContentText>
@@ -69,7 +78,7 @@ export default function ReportDetailRoute({id}: DeleteButtonProps): ReactElement
 						color="error"
 						onClick={() => mutate()}
 					>
-						{t("routes.ReportDetailRoute.actions.delete.continueAction")}
+						{continueLabel}
 					</Button>
 				</DialogActions>
 			</Dialog>

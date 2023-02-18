@@ -7,10 +7,15 @@ import {useQuery} from "@tanstack/react-query"
 import {List} from "@mui/material"
 
 import {DecryptedReportContent, Report} from "~/server-types"
-import {getReport} from "~/apis"
-import {DecryptReport, QueryResult, SimpleOverlayInformation, SimplePageBuilder} from "~/components"
+import {deleteReport, getReport} from "~/apis"
+import {
+	DecryptReport,
+	DeleteButton,
+	QueryResult,
+	SimpleOverlayInformation,
+	SimplePageBuilder,
+} from "~/components"
 import {WithEncryptionRequired} from "~/hocs"
-import DeleteButton from "~/route-widgets/ReportDetailRoute/DeleteButton"
 import ExpandedUrlsListItem from "~/route-widgets/ReportDetailRoute/ExpandedUrlsListItem"
 import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImagesListItem"
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
@@ -26,7 +31,18 @@ function ReportDetailRoute(): ReactElement {
 	return (
 		<SimplePageBuilder.Page
 			title="Report Details"
-			actions={query.data && <DeleteButton id={query.data.id} />}
+			actions={
+				query.data && (
+					<DeleteButton
+						onDelete={() => deleteReport(params.id!)}
+						label={t("routes.ReportDetailRoute.actions.delete.label")}
+						description={t("routes.ReportDetailRoute.actions.delete.description")}
+						continueLabel={t("routes.ReportDetailRoute.actions.delete.continueAction")}
+						navigateTo={"/reports"}
+						successMessage={t("relations.report.mutations.success.reportDeleted")}
+					/>
+				)
+			}
 		>
 			<QueryResult<Report> query={query}>
 				{encryptedReport => (

@@ -9,7 +9,7 @@ import React, {ReactElement, useContext} from "react"
 import {Grid, Paper, Typography, useTheme} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
-import {AuthenticationDetails, ServerSettings} from "~/server-types"
+import {ServerSettings, ServerUser} from "~/server-types"
 import {VerifyEmailData, verifyEmail} from "~/apis"
 import {useQueryParams} from "~/hooks"
 import {AuthContext} from "~/components"
@@ -41,15 +41,12 @@ export default function VerifyEmailRoute(): ReactElement {
 
 			return token.split("").every(char => chars.includes(char))
 		})
-	const {mutateAsync} = useMutation<AuthenticationDetails, AxiosError, VerifyEmailData>(
-		verifyEmail,
-		{
-			onSuccess: ({user}) => {
-				login(user)
-				navigate("/auth/complete-account")
-			},
+	const {mutateAsync} = useMutation<ServerUser, AxiosError, VerifyEmailData>(verifyEmail, {
+		onSuccess: user => {
+			login(user)
+			navigate("/auth/complete-account")
 		},
-	)
+	})
 	const {loading} = useAsync(async () => {
 		await emailSchema.validate(email)
 		await tokenSchema.validate(token)

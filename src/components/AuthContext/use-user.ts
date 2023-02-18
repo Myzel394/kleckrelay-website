@@ -3,8 +3,8 @@ import {AxiosError} from "axios"
 
 import {useMutation, useQuery} from "@tanstack/react-query"
 
-import {REFRESH_TOKEN_URL, RefreshTokenResult, getMe, refreshToken} from "~/apis"
-import {AuthenticationDetails, ServerUser, User} from "~/server-types"
+import {REFRESH_TOKEN_URL, getMe, refreshToken} from "~/apis"
+import {ServerUser, User} from "~/server-types"
 import {client} from "~/constants/axios-client"
 
 export interface UseAuthData {
@@ -22,11 +22,11 @@ export default function useUser({
 	user,
 	updateUser,
 }: UseAuthData) {
-	const {mutateAsync: refresh} = useMutation<RefreshTokenResult, AxiosError, void>(refreshToken, {
-		onError: () => logout(),
+	const {mutateAsync: refresh} = useMutation<ServerUser, AxiosError, void>(refreshToken, {
+		onError: logout,
 	})
 
-	useQuery<AuthenticationDetails, AxiosError>(["get_me"], getMe, {
+	useQuery<ServerUser, AxiosError>(["get_me"], getMe, {
 		refetchOnWindowFocus: "always",
 		refetchOnReconnect: "always",
 		retry: 2,

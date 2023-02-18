@@ -83,6 +83,7 @@ export interface ServerSettings {
 	customAliasSuffixLength: number
 	instanceSalt: string
 	publicKey: string
+	allowAliasDeletion: boolean
 }
 
 export interface Alias {
@@ -210,4 +211,30 @@ export interface AdminSettings {
 	userEmailEnableDisposableEmails: boolean
 	userEmailEnableOtherRelays: boolean | null
 	allowStatistics: boolean | null
+	allowAliasDeletion: boolean | null
+}
+
+export interface ServerCronReport {
+	id: string
+	createdAt: Date
+	reportData: {
+		encryptedReport: string
+	}
+}
+
+export interface CronReport {
+	id: string
+	createdAt: Date
+	reportData: {
+		version: "1.0"
+		id: string
+		report: {
+			startedAt: Date
+			finishedAt: Date
+			status: "success" | "error"
+			expiredImages: number
+			nonVerifiedUsers: number
+			expiredReports: number
+		}
+	}
 }
