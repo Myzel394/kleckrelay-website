@@ -8,13 +8,12 @@ import {List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 
 import {SimplePageBuilder} from "~/components"
 import {useNavigateToNext, useUser} from "~/hooks"
+import ServerStatus from "~/route-widgets/AdminRoute/ServerStatus"
 
 export default function AdminRoute(): ReactElement {
 	const {t} = useTranslation()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
-
-	console.log(user)
 
 	useLayoutEffect(() => {
 		if (!user.isAdmin) {
@@ -24,6 +23,7 @@ export default function AdminRoute(): ReactElement {
 
 	return (
 		<SimplePageBuilder.Page title={t("routes.AdminRoute.title")}>
+			<ServerStatus />
 			<List>
 				<ListItemButton component={Link} to="/admin/reserved-aliases">
 					<ListItemIcon>

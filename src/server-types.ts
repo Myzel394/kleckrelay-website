@@ -214,10 +214,26 @@ export interface AdminSettings {
 	allowAliasDeletion: boolean | null
 }
 
-export interface CronReport {
+export interface ServerCronReport {
 	id: string
 	createdAt: Date
 	reportData: {
 		encryptedReport: string
+	}
+}
+
+export interface CronReport {
+	id: string
+	createdAt: Date
+	reportData: {
+		version: "1.0"
+		id: string
+		report: {
+			startedAt: Date
+			finishedAt: Date
+			status: "success" | "error"
+			expiredImages: number
+			nonVerifiedUsers: number
+		}
 	}
 }
