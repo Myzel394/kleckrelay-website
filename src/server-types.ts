@@ -213,3 +213,11 @@ export interface AdminSettings {
 	allowStatistics: boolean | null
 	allowAliasDeletion: boolean | null
 }
+
+export interface CronReport {
+	id: string
+	createdAt: Date
+	reportData: {
+		encryptedReport: string
+	}
+}
