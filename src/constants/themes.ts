@@ -4,8 +4,8 @@ export const lightTheme = createTheme({
 	palette: {
 		mode: "dark",
 		secondary: {
-		    main: "#ACF",
-		    contrastText: "#FFF",
+			main: "#ACF",
+			contrastText: "#FFF",
 		},
 	},
 })

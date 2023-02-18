@@ -1,12 +1,6 @@
 import {MdCheck} from "react-icons/md"
 import {useSessionStorage} from "react-use"
-import React, {
-	ReactElement,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react"
+import React, {ReactElement, useCallback, useEffect, useRef, useState} from "react"
 
 import {
 	Alert,
@@ -41,10 +35,7 @@ export default function DetectEmailAutofillService({
 	const $hasDetected = useRef<boolean>(false)
 
 	const [type, setType] = useState<AliasType | null>(null)
-	const [hasShownModal, setHasShownModal] = useSessionStorage<boolean>(
-		STORAGE_KEY,
-		false,
-	)
+	const [hasShownModal, setHasShownModal] = useSessionStorage<boolean>(STORAGE_KEY, false)
 
 	const handleFound = useCallback(
 		(type: AliasType) => {
@@ -72,9 +63,7 @@ export default function DetectEmailAutofillService({
 			return false
 		}
 		const checkSimpleLogin = () => {
-			const $element = document.querySelector(
-				"body > div.sl-button-wrapper",
-			)
+			const $element = document.querySelector("body > div.sl-button-wrapper")
 
 			if (
 				$element &&
@@ -116,17 +105,14 @@ export default function DetectEmailAutofillService({
 				<Grid container spacing={2} justifyContent="center">
 					<Grid item>
 						<DialogContentText>
-							We detected that you are using an email relay
-							service to sign up. This KleckRelay instance does
-							not support relaying to another email relay service.
-							You can either choose a different instance or sign
-							up with a different email address.
+							We detected that you are using an email relay service to sign up. This
+							KleckRelay instance does not support relaying to another email relay
+							service. You can either choose a different instance or sign up with a
+							different email address.
 						</DialogContentText>
 					</Grid>
 					<Grid item>
-						<DialogContentText>
-							Detected email relay:
-						</DialogContentText>
+						<DialogContentText>Detected email relay:</DialogContentText>
 					</Grid>
 					<Grid item>
 						<Alert severity="info">{TYPE_NAME_MAP[type!]}</Alert>
@@ -134,11 +120,7 @@ export default function DetectEmailAutofillService({
 				</Grid>
 			</DialogContent>
 			<DialogActions>
-				<Button
-					autoFocus
-					startIcon={<MdCheck />}
-					onClick={() => setType(null)}
-				>
+				<Button autoFocus startIcon={<MdCheck />} onClick={() => setType(null)}>
 					Got it
 				</Button>
 			</DialogActions>

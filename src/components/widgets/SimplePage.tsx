@@ -28,12 +28,7 @@ export default function SimplePage({
 				</Typography>
 			</Grid>
 			<Grid item width="100%">
-				<Grid
-					container
-					spacing={4}
-					flexDirection="column"
-					alignItems="stretch"
-				>
+				<Grid container spacing={4} flexDirection="column" alignItems="stretch">
 					{subtitle && (
 						<Grid item>
 							<Typography variant="h6" component="h2">
@@ -48,9 +43,7 @@ export default function SimplePage({
 							</Typography>
 						</Grid>
 					)}
-					{pageOptionsActions && (
-						<Grid item>{pageOptionsActions}</Grid>
-					)}
+					{pageOptionsActions && <Grid item>{pageOptionsActions}</Grid>}
 					<Grid item>{children}</Grid>
 				</Grid>
 			</Grid>

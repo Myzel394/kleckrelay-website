@@ -9,26 +9,15 @@ import YouGotMail from "~/route-widgets/SignupRoute/YouGotMail"
 
 export default function SignupRoute(): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
-	const [email, setEmail] = useLocalStorage<string>(
-		"signup-form-state-email",
-		"",
-	)
+	const [email, setEmail] = useLocalStorage<string>("signup-form-state-email", "")
 
 	const index = email ? 1 : 0
 
 	return (
 		<MultiStepForm
 			steps={[
-				<EmailForm
-					serverSettings={serverSettings}
-					onSignUp={setEmail}
-					key="email"
-				/>,
-				<YouGotMail
-					onGoBack={() => setEmail("")}
-					email={email || ""}
-					key="you_got_mail"
-				/>,
+				<EmailForm serverSettings={serverSettings} onSignUp={setEmail} key="email" />,
+				<YouGotMail onGoBack={() => setEmail("")} email={email || ""} key="you_got_mail" />,
 			]}
 			index={index}
 		/>

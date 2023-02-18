@@ -1,12 +1,7 @@
 import {MdVisibility, MdVisibilityOff} from "react-icons/md"
 import React, {ReactElement, useState} from "react"
 
-import {
-	IconButton,
-	InputAdornment,
-	TextField,
-	TextFieldProps,
-} from "@mui/material"
+import {IconButton, InputAdornment, TextField, TextFieldProps} from "@mui/material"
 
 export interface PasswordFieldProps extends Omit<TextFieldProps, "type"> {}
 
@@ -24,15 +19,8 @@ export default function PasswordField({
 				...InputProps,
 				endAdornment: (
 					<InputAdornment position="end">
-						<IconButton
-							edge="end"
-							onClick={() => setShowPassword(value => !value)}
-						>
-							{showPassword ? (
-								<MdVisibilityOff />
-							) : (
-								<MdVisibility />
-							)}
+						<IconButton edge="end" onClick={() => setShowPassword(value => !value)}>
+							{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
 						</IconButton>
 					</InputAdornment>
 				),

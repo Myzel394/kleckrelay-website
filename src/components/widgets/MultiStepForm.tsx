@@ -46,8 +46,7 @@ function MultiStepForm({
 	}, [index, currentIndex])
 
 	const hasSize = Boolean(
-		(currentSize?.width || nextSize?.width) &&
-			(currentSize?.height || nextSize?.height),
+		(currentSize?.width || nextSize?.width) && (currentSize?.height || nextSize?.height),
 	)
 
 	return (
@@ -58,12 +57,8 @@ function MultiStepForm({
 				flexDirection: "column",
 				alignItems: "center",
 				justifyContent: "center",
-				width:
-					Math.max(currentSize?.width || 0, nextSize?.width || 0) ||
-					"100%",
-				height:
-					Math.max(currentSize?.height || 0, nextSize?.height || 0) ||
-					"100%",
+				width: Math.max(currentSize?.width || 0, nextSize?.width || 0) || "100%",
+				height: Math.max(currentSize?.height || 0, nextSize?.height || 0) || "100%",
 				overflow: hasSize ? "hidden" : "visible",
 			}}
 		>
@@ -73,13 +68,9 @@ function MultiStepForm({
 					...currentSize,
 					position: "absolute",
 					transition: easing,
-					transitionDuration: isTransitioning
-						? `${duration}ms`
-						: "0ms",
+					transitionDuration: isTransitioning ? `${duration}ms` : "0ms",
 					transformOrigin: isTransitioning
-						? `${nextSize?.x - currentSize.x}px ${
-								nextSize?.y - currentSize.y
-						  }px`
+						? `${nextSize?.x - currentSize.x}px ${nextSize?.y - currentSize.y}px`
 						: "",
 					// Scale the difference between currentSize and nextSize
 					transform: isTransitioning
@@ -102,12 +93,7 @@ function MultiStepForm({
 					// @ts-ignore
 					$currentElement.current = ref
 
-					const {
-						width = 0,
-						height = 0,
-						x,
-						y,
-					} = ref.getBoundingClientRect()
+					const {width = 0, height = 0, x, y} = ref.getBoundingClientRect()
 
 					if (
 						width !== 0 &&
@@ -152,16 +138,10 @@ function MultiStepForm({
 					height: "max-content",
 					transition: easing,
 					transitionDuration: isTransitioning ? `${duration}ms` : "",
-					transform: isTransitioning
-						? ""
-						: nextSize?.x
-						? "translateX(100%)"
-						: "",
+					transform: isTransitioning ? "" : nextSize?.x ? "translateX(100%)" : "",
 				}}
 			>
-				{currentIndex === steps.length - 1
-					? null
-					: steps[currentIndex + 1]}
+				{currentIndex === steps.length - 1 ? null : steps[currentIndex + 1]}
 			</div>
 		</div>
 	)

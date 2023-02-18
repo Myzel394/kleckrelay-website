@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react"
 
-export default function useIntervalUpdate(
-	updateIntervalInMilliSeconds = 1000,
-): [Date, () => void] {
+export default function useIntervalUpdate(updateIntervalInMilliSeconds = 1000): [Date, () => void] {
 	const [, setForceUpdateValue] = useState<number>(0)
 	const [startDate, setStartDate] = useState(() => new Date())
 
