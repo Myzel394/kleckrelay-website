@@ -25,6 +25,7 @@ export default function AliasTypeIndicator({type}: AliasTypeIndicatorProps): Rea
 	const {t} = useTranslation()
 
 	return (
+		// @ts-ignore
 		<Tooltip title={t(ALIAS_TYPE_TOOLTIP_MAP[type] as string)} arrow>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{ALIAS_TYPE_ICON_MAP[type]}

@@ -6,7 +6,7 @@ import {ExtensionKleckEvent, ExtensionKleckMessageLatestAlias} from "~/extension
 export interface UseExtensionHandlerData {
 	onEnterPassword?: () => void
 	onRefetchAliases?: () => void
-	onLatestAliasChange?: ({latestAliasId}: ExtensionKleckMessageLatestAlias["data"]) => void
+	onLatestAliasChange?: ({latestAlias}: ExtensionKleckMessageLatestAlias["data"]) => void
 }
 
 export default function useExtensionHandler({

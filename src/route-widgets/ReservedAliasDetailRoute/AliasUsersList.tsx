@@ -114,7 +114,7 @@ export default function AliasUsersList({users, queryKey, id}: AliasUsersListProp
 			try {
 				await mutateAsync(values.users)
 			} catch (error) {
-				setErrors(parseFastAPIError(error as AxiosError))
+				setErrors(parseFastAPIError(error as AxiosError) as any)
 			}
 		},
 	})

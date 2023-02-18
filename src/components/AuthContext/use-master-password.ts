@@ -79,7 +79,7 @@ export default function useMasterPassword(user: User | ServerUser | null): UseMa
 		decryptUsingMasterPassword,
 		decryptUsingPrivateKey,
 		logout,
-		setEncryptionPassword,
+		setEncryptionPassword: setEncryptionPassword as Dispatch<SetStateAction<string | null>>,
 		_encryptionPassword: encryptionPassword!,
 		decryptionPasswordHash: fastHashCode(encryptionPassword || "").toString(),
 	}
