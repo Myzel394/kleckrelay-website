@@ -234,6 +234,7 @@ export interface CronReport {
 			status: "success" | "error"
 			expiredImages: number
 			nonVerifiedUsers: number
+			expiredReports: number
 		}
 	}
 }
