@@ -1,7 +1,7 @@
 import {Grid, List, ListItem, ListItemText, Typography, useTheme} from "@mui/material"
 import {ReactElement} from "react"
 import {MdMail} from "react-icons/md"
-import {useLoaderData} from "react-router"
+import {useLoaderData} from "react-router-dom"
 import {ServerSettings} from "~/server-types"
 import {useTranslation} from "react-i18next"
 import {BsArrowRight} from "react-icons/bs"
