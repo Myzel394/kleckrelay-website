@@ -3,15 +3,13 @@ import {ReactElement, useContext} from "react"
 import {BsImage, BsShieldShaded} from "react-icons/bs"
 import {useFormik} from "formik"
 import {FaFile} from "react-icons/fa"
-import {MdCheckCircle} from "react-icons/md"
+import {MdCheckCircle, MdTextSnippet} from "react-icons/md"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
 
 import {LoadingButton} from "@mui/lab"
 import {Box, Collapse, Grid, Typography} from "@mui/material"
-import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
 import {QueryKey, useMutation} from "@tanstack/react-query"
-import Icon from "@mdi/react"
 
 import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
@@ -140,7 +138,7 @@ export default function AliasPreferencesForm({
 											"relations.alias.settings.createMailReports.label",
 										)}
 										formik={formik}
-										icon={<Icon path={mdiTextBoxMultiple} size={0.8} />}
+										icon={<MdTextSnippet />}
 										name="createMailReport"
 									/>
 								</Grid>

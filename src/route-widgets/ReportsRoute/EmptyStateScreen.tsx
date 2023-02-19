@@ -1,9 +1,8 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
+import {MdTextSnippet} from "react-icons/md"
 
 import {Container, Grid, Typography} from "@mui/material"
-import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import Icon from "@mdi/react"
 
 export default function EmptyStateScreen(): ReactElement {
 	const {t} = useTranslation()
@@ -17,7 +16,7 @@ export default function EmptyStateScreen(): ReactElement {
 					</Typography>
 				</Grid>
 				<Grid item>
-					<Icon path={mdiTextBoxMultiple} size={2.5} />
+					<MdTextSnippet size={64} />
 				</Grid>
 				<Grid item>
 					<Typography variant="body1">

@@ -1,11 +1,10 @@
 import {FaLongArrowAltRight} from "react-icons/fa"
 import {TiCancel} from "react-icons/ti"
 import {useTranslation} from "react-i18next"
+import {MdTextSnippet} from "react-icons/md"
 import React, {ReactElement} from "react"
 
 import {Box, Button, Grid, Typography} from "@mui/material"
-import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import Icon from "@mdi/react"
 
 import {MultiStepFormElement} from "~/components"
 
@@ -45,7 +44,7 @@ export default function GenerateEmailReportsForm({
 								</Grid>
 								<Grid item>
 									<Box display="flex" justifyContent="center">
-										<Icon path={mdiTextBoxMultiple} size={2} />
+										<MdTextSnippet size={64} />
 									</Box>
 								</Grid>
 								<Grid item>

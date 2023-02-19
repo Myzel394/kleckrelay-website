@@ -1,13 +1,11 @@
 import {ReactElement, useContext} from "react"
 import {BiStats} from "react-icons/bi"
-import {MdSettings} from "react-icons/md"
+import {MdSettings, MdTextSnippet} from "react-icons/md"
 import {FaMask, FaServer} from "react-icons/fa"
 import {Link as RouterLink, useLocation} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 
 import {Button} from "@mui/material"
-import {mdiTextBoxMultiple} from "@mdi/js/commonjs/mdi"
-import Icon from "@mdi/react"
 
 import {LockNavigationContext} from "~/components"
 
@@ -26,7 +24,7 @@ export interface NavigationButtonProps {
 const SECTION_ICON_MAP: Record<NavigationSection, ReactElement> = {
 	[NavigationSection.Overview]: <BiStats />,
 	[NavigationSection.Aliases]: <FaMask />,
-	[NavigationSection.Reports]: <Icon path={mdiTextBoxMultiple} size={0.8} />,
+	[NavigationSection.Reports]: <MdTextSnippet />,
 	[NavigationSection.Settings]: <MdSettings />,
 	[NavigationSection.Admin]: <FaServer />,
 }
