@@ -12,4 +12,5 @@ export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
 	enableImageProxy: true,
 	allowStatistics: true,
 	allowAliasDeletion: false,
+	maxAliasesPerUser: 0,
 }
