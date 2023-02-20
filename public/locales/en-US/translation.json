@@ -17,7 +17,8 @@
         "actionNotUndoable": "This action cannot be undone!",
         "copyError": "Copying to clipboard did not work. Please copy the text manually.",
         "experimentalFeature": "This is an experimental feature.",
-        "deletedSuccessfully": "Deleted successfully!"
+        "deletedSuccessfully": "Deleted successfully!",
+        "appError": "We are sorry but there was an error. Please try again later."
     },
 
     "routes": {

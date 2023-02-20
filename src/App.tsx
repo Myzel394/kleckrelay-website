@@ -3,11 +3,11 @@ import {SnackbarProvider} from "notistack"
 import React, {ReactElement} from "react"
 
 import {QueryClientProvider} from "@tanstack/react-query"
-import {CssBaseline, ThemeProvider} from "@mui/material"
+import {CssBaseline, Theme, ThemeProvider} from "@mui/material"
 
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
-import {lightTheme} from "~/constants/themes"
+import {darkTheme, lightTheme} from "~/constants/themes"
 import AdminRoute from "~/routes/AdminRoute"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
@@ -16,11 +16,12 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import CreateReservedAliasRoute from "~/routes/CreateReservedAliasRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
+import ErrorPage from "~/components/widgets/ErrorPage"
 import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
-import OverviewRoute from "~/routes/OverviewRoute"
+import RedirectRoute from "~/routes/RedirectRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
@@ -29,13 +30,14 @@ import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
+import useSystemTheme, {SystemTheme} from "use-system-theme"
 import "./init-i18n"
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootRoute />,
-		errorElement: <div></div>,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/auth",
@@ -73,7 +75,7 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "/",
-						element: <OverviewRoute />,
+						element: <RedirectRoute />,
 					},
 					{
 						path: "/aliases",
@@ -133,11 +135,18 @@ const router = createBrowserRouter([
 	},
 ])
 
+const THEME_THEME_MAP: Record<SystemTheme, Theme> = {
+	light: lightTheme,
+	dark: darkTheme,
+}
+
 export default function App(): ReactElement {
+	const theme = useSystemTheme()
+
 	return (
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>
-				<ThemeProvider theme={lightTheme}>
+				<ThemeProvider theme={THEME_THEME_MAP[theme]}>
 					<SnackbarProvider>
 						<CssBaseline />
 						<RouterProvider router={router} />
