@@ -98,7 +98,7 @@
             "forms": {
                 "generateReports": {
                     "title": "Generate Email Reports?",
-                    "description": "Would you like to create fully encrypted email reports for your mails? Only you will be able to access it. Not even we can decrypt it.",
+                    "description": "Would you like to create fully encrypted email reports for your mails? Only you will be able to access them. Not even we can decrypt them.",
                     "continueAction": "Yes",
                     "cancelAction": "No"
                 },
