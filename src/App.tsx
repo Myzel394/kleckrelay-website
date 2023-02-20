@@ -16,6 +16,7 @@ import AuthenticatedRoute from "~/routes/AuthenticatedRoute"
 import CompleteAccountRoute from "~/routes/CompleteAccountRoute"
 import CreateReservedAliasRoute from "~/routes/CreateReservedAliasRoute"
 import EnterDecryptionPassword from "~/routes/EnterDecryptionPassword"
+import ErrorPage from "~/components/widgets/ErrorPage"
 import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootRoute />,
-		errorElement: <div></div>,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/auth",
