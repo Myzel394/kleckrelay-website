@@ -3,11 +3,11 @@ import {SnackbarProvider} from "notistack"
 import React, {ReactElement} from "react"
 
 import {QueryClientProvider} from "@tanstack/react-query"
-import {CssBaseline, ThemeProvider} from "@mui/material"
+import {CssBaseline, Theme, ThemeProvider} from "@mui/material"
 
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
-import {lightTheme} from "~/constants/themes"
+import {darkTheme, lightTheme} from "~/constants/themes"
 import AdminRoute from "~/routes/AdminRoute"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
@@ -30,6 +30,7 @@ import RootRoute from "~/routes/Root"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
+import useSystemTheme, {SystemTheme} from "use-system-theme"
 import "./init-i18n"
 
 const router = createBrowserRouter([
@@ -134,11 +135,18 @@ const router = createBrowserRouter([
 	},
 ])
 
+const THEME_THEME_MAP: Record<SystemTheme, Theme> = {
+	light: lightTheme,
+	dark: darkTheme,
+}
+
 export default function App(): ReactElement {
+	const theme = useSystemTheme()
+
 	return (
 		<React.StrictMode>
 			<QueryClientProvider client={queryClient}>
-				<ThemeProvider theme={lightTheme}>
+				<ThemeProvider theme={THEME_THEME_MAP[theme]}>
 					<SnackbarProvider>
 						<CssBaseline />
 						<RouterProvider router={router} />
