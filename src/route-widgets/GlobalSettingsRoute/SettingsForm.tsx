@@ -26,8 +26,9 @@ import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {parseFastAPIError} from "~/utils"
 import {DEFAULT_ADMIN_SETTINGS} from "~/constants/admin-settings"
-import AliasesPercentageAmount from "./AliasPercentageAmount"
 import RandomAliasGenerator from "~/route-widgets/GlobalSettingsRoute/RandomAliasGenerator"
+
+import AliasesPercentageAmount from "./AliasPercentageAmount"
 
 export interface SettingsFormProps {
 	settings: AdminSettings
@@ -89,34 +90,18 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		UpdateAdminSettingsResponse,
 		AxiosError,
 		Partial<AdminSettings>
-	>(
-		async settings => {
-			// Set values to `null` that are their defaults
-			const strippedSettings = Object.fromEntries(
-				Object.entries(settings as AdminSettings).map(([key, value]) => {
-					if (value === DEFAULT_ADMIN_SETTINGS[key as keyof AdminSettings]) {
-						return [key, null]
-					}
+	>(async settings => updateAdminSettings(settings), {
+		onError: showError,
+		onSuccess: ({code, detail, ...newSettings}) => {
+			if (code === "error:settings:global_settings_disabled") {
+				return
+			}
 
-					return [key, value]
-				}),
-			)
+			showSuccess(t("routes.AdminRoute.settings.successMessage"))
 
-			return updateAdminSettings(strippedSettings)
+			queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
 		},
-		{
-			onError: showError,
-			onSuccess: ({code, detail, ...newSettings}) => {
-				if (code === "error:settings:global_settings_disabled") {
-					return
-				}
-
-				showSuccess(t("routes.AdminRoute.settings.successMessage"))
-
-				queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
-			},
-		},
-	)
+	})
 
 	const formik = useFormik<AdminSettings & {detail?: string}>({
 		validationSchema,
