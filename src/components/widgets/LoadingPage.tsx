@@ -20,10 +20,8 @@ export default function LoadingPage(): ReactElement {
 			<Grid item>
 				<Logo width={250} height={250} />
 			</Grid>
-			<Grid item>
-				<Typography component="h1" variant="h4">
-					{t("general.loading")}
-				</Typography>
+			<Grid item maxWidth="sm">
+				<Typography variant="subtitle1">{t("general.loading")}</Typography>
 			</Grid>
 		</Grid>
 	)
