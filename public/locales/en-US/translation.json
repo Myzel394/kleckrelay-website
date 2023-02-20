@@ -395,6 +395,10 @@
                     "allowAliasDeletion": {
                         "label": "Allow alias deletion",
                         "description": "If enabled, users will be able to delete their aliases."
+                    },
+                    "maxAliasesPerUser": {
+                        "label": "Maximum aliases per user",
+                        "description": "The maximum number of aliases a user can create. 0 means unlimited. Existing aliases will not be affected."
                     }
                 }
             },

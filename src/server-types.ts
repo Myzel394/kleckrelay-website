@@ -212,6 +212,7 @@ export interface AdminSettings {
 	userEmailEnableOtherRelays: boolean
 	allowStatistics: boolean
 	allowAliasDeletion: boolean
+	maxAliasesPerUser: number
 }
 
 export interface ServerCronReport {
