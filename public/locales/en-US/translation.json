@@ -378,7 +378,7 @@
                     },
                     "enableImageProxy": {
                         "label": "Enable image proxy",
-                        "description": "If enabled, images will be stored on the server and forwarded to the user. This is useful if you want to prevent the user from seeing the IP address of the server. This will only affect new images."
+                        "description": "If enabled, images will be stored on the server and forwarded to the user. This makes email tracking nearly impossible as every message will be marked as read instantly, which is obviously not true as a user is typically not able to view an email in just a few seconds after it has been sent. This will only affect new images."
                     },
                     "userEmailEnableDisposableEmails": {
                         "label": "Enable disposable emails for new accounts",
@@ -395,6 +395,10 @@
                     "allowAliasDeletion": {
                         "label": "Allow alias deletion",
                         "description": "If enabled, users will be able to delete their aliases."
+                    },
+                    "maxAliasesPerUser": {
+                        "label": "Maximum aliases per user",
+                        "description": "The maximum number of aliases a user can create. 0 means unlimited. Existing aliases will not be affected."
                     }
                 }
             },

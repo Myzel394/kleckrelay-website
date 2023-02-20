@@ -201,17 +201,18 @@ export interface GetPageData {
 }
 
 export interface AdminSettings {
-	randomEmailIdMinLength: number | null
-	randomEmailIdChars: string | null
-	randomEmailLengthIncreaseOnPercentage: number | null
+	randomEmailIdMinLength: number
+	randomEmailIdChars: string
+	randomEmailLengthIncreaseOnPercentage: number
 	customEmailSuffixLength: number
-	customEmailSuffixChars: string | null
+	customEmailSuffixChars: string
 	imageProxyStorageLifeTimeInHours: number
-	enableImageProxy: boolean | null
+	enableImageProxy: boolean
 	userEmailEnableDisposableEmails: boolean
-	userEmailEnableOtherRelays: boolean | null
-	allowStatistics: boolean | null
-	allowAliasDeletion: boolean | null
+	userEmailEnableOtherRelays: boolean
+	allowStatistics: boolean
+	allowAliasDeletion: boolean
+	maxAliasesPerUser: number
 }
 
 export interface ServerCronReport {

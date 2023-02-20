@@ -6,6 +6,9 @@ import {MdCheck, MdClear, MdOutlineChangeCircle, MdTextFormat} from "react-icons
 import {BsImage} from "react-icons/bs"
 import {AxiosError} from "axios"
 
+import {FaMask} from "react-icons/fa"
+import AliasesPercentageAmount from "./AliasPercentageAmount"
+
 import {
 	Checkbox,
 	FormControlLabel,
@@ -26,7 +29,6 @@ import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {parseFastAPIError} from "~/utils"
 import {DEFAULT_ADMIN_SETTINGS} from "~/constants/admin-settings"
-import AliasesPercentageAmount from "./AliasPercentageAmount"
 import RandomAliasGenerator from "~/route-widgets/GlobalSettingsRoute/RandomAliasGenerator"
 
 export interface SettingsFormProps {
@@ -83,40 +85,31 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		allowStatistics: yup
 			.boolean()
 			.label(t("routes.AdminRoute.forms.settings.allowStatistics.label")),
-	})
+		allowAliasDeletion: yup
+			.boolean()
+			.label(t("routes.AdminRoute.forms.settings.allowAliasDeletion.label")),
+		maxAliasesPerUser: yup
+			.number()
+			.label(t("routes.AdminRoute.forms.settings.maxAliasesPerUser.label"))
+			.min(0),
+	} as Record<keyof AdminSettings, any>)
 
 	const {mutateAsync} = useMutation<
 		UpdateAdminSettingsResponse,
 		AxiosError,
 		Partial<AdminSettings>
-	>(
-		async settings => {
-			// Set values to `null` that are their defaults
-			const strippedSettings = Object.fromEntries(
-				Object.entries(settings as AdminSettings).map(([key, value]) => {
-					if (value === DEFAULT_ADMIN_SETTINGS[key as keyof AdminSettings]) {
-						return [key, null]
-					}
+	>(async settings => updateAdminSettings(settings), {
+		onError: showError,
+		onSuccess: ({code, detail, ...newSettings}) => {
+			if (code === "error:settings:global_settings_disabled") {
+				return
+			}
 
-					return [key, value]
-				}),
-			)
+			showSuccess(t("routes.AdminRoute.settings.successMessage"))
 
-			return updateAdminSettings(strippedSettings)
+			queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
 		},
-		{
-			onError: showError,
-			onSuccess: ({code, detail, ...newSettings}) => {
-				if (code === "error:settings:global_settings_disabled") {
-					return
-				}
-
-				showSuccess(t("routes.AdminRoute.settings.successMessage"))
-
-				queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
-			},
-		},
-	)
+	})
 
 	const formik = useFormik<AdminSettings & {detail?: string}>({
 		validationSchema,
@@ -159,7 +152,40 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 				</Grid>
 				<Grid item>
 					<Grid container spacing={3} direction="row" alignItems="start">
-						<Grid item md={6}>
+						<Grid item xs={12}>
+							<TextField
+								key="max_aliases_per_user"
+								fullWidth
+								label={t(
+									"routes.AdminRoute.forms.settings.maxAliasesPerUser.label",
+								)}
+								name="maxAliasesPerUser"
+								value={formik.values.maxAliasesPerUser}
+								onChange={formik.handleChange}
+								error={
+									formik.touched.maxAliasesPerUser &&
+									Boolean(formik.errors.maxAliasesPerUser)
+								}
+								helperText={
+									(formik.touched.maxAliasesPerUser &&
+										formik.errors.maxAliasesPerUser) ||
+									t(
+										"routes.AdminRoute.forms.settings.maxAliasesPerUser.description",
+									)
+								}
+								type="number"
+								disabled={formik.isSubmitting}
+								inputMode="numeric"
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<FaMask />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</Grid>
+						<Grid item xs={12} md={6}>
 							<TextField
 								key="random_email_id_min_length"
 								fullWidth
@@ -192,7 +218,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}}
 							/>
 						</Grid>
-						<Grid item md={6}>
+						<Grid item xs={12} md={6}>
 							<StringPoolField
 								fullWidth
 								allowCustom
@@ -224,13 +250,13 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}
 							/>
 						</Grid>
-						<Grid item marginX="auto">
+						<Grid item xs={12} marginX="auto">
 							<RandomAliasGenerator
 								characters={formik.values.randomEmailIdChars!}
 								length={formik.values.randomEmailIdMinLength!}
 							/>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<TextField
 								key="random_email_length_increase_on_percentage"
 								fullWidth
@@ -263,14 +289,14 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}}
 							/>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<AliasesPercentageAmount
 								percentage={formik.values.randomEmailLengthIncreaseOnPercentage!}
 								length={formik.values.randomEmailIdMinLength!}
 								characters={formik.values.randomEmailIdChars!}
 							/>
 						</Grid>
-						<Grid item md={6}>
+						<Grid item xs={12} md={6}>
 							<TextField
 								key="custom_email_suffix_length"
 								fullWidth
@@ -303,7 +329,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}}
 							/>
 						</Grid>
-						<Grid item md={6}>
+						<Grid item xs={12} md={6}>
 							<StringPoolField
 								key="custom_email_suffix_chars"
 								allowCustom
@@ -335,7 +361,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}
 							/>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<TextField
 								key="image_proxy_storage_life_time_in_hours"
 								fullWidth
@@ -380,7 +406,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								}}
 							/>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<FormGroup key="user_email_enable_disposable_emails">
 								<FormControlLabel
 									control={
@@ -409,12 +435,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<FormGroup key="user_email_enable_other_relays">
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.userEmailEnableOtherRelays!}
+											checked={formik.values.userEmailEnableOtherRelays}
 											onChange={formik.handleChange}
 											name="userEmailEnableOtherRelays"
 										/>
@@ -438,12 +464,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<FormGroup key="enable_image_proxy">
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.enableImageProxy!}
+											checked={formik.values.enableImageProxy}
 											onChange={formik.handleChange}
 											name="enableImageProxy"
 										/>
@@ -467,12 +493,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<FormGroup key="allow_statistics">
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.allowStatistics!}
+											checked={formik.values.allowStatistics}
 											onChange={formik.handleChange}
 											name="allowStatistics"
 										/>
@@ -496,12 +522,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<FormGroup key="allow_alias_deletion">
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.allowAliasDeletion!}
+											checked={formik.values.allowAliasDeletion}
 											onChange={formik.handleChange}
 											name="allowAliasDeletion"
 										/>

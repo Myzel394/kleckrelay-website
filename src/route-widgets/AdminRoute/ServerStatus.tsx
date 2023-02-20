@@ -3,26 +3,31 @@ import {AxiosError} from "axios"
 import {useLoaderData} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 import format from "date-fns/format"
+import formatRelative from "date-fns/formatRelative"
 import subDays from "date-fns/subDays"
 
 import {useQuery} from "@tanstack/react-query"
 import {Alert} from "@mui/material"
 
+import {WithEncryptionRequired} from "~/hocs"
 import {CronReport, ServerSettings} from "~/server-types"
 import {getLatestCronReport} from "~/apis"
 import {AuthContext, QueryResult} from "~/components"
 import decryptCronReportData from "~/apis/helpers/decrypt-cron-report-data"
-import formatRelative from "date-fns/formatRelative"
 
 const MAX_REPORT_DAY_THRESHOLD = 5
 
-export default function ServerStatus(): ReactElement {
+function ServerStatus(): ReactElement | null {
 	const serverSettings = useLoaderData() as ServerSettings
 	const {t} = useTranslation()
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
-	const query = useQuery<CronReport, AxiosError>(["get_latest_cron_report"], async () => {
-		const encryptedReport = await getLatestCronReport()
+	const query = useQuery<CronReport | null, AxiosError>(["get_latest_cron_report"], async () => {
+		const {code, detail, ...encryptedReport} = await getLatestCronReport()
+
+		if (code === "error:cron_report:no_reports_found") {
+			return null
+		}
 
 		;(encryptedReport as any as CronReport).reportData = await decryptCronReportData(
 			encryptedReport.reportData.encryptedReport,
@@ -34,8 +39,12 @@ export default function ServerStatus(): ReactElement {
 	})
 
 	return (
-		<QueryResult<CronReport> query={query}>
+		<QueryResult<CronReport | null> query={query}>
 			{report => {
+				if (report === null) {
+					return null
+				}
+
 				const thresholdDate = subDays(new Date(), MAX_REPORT_DAY_THRESHOLD)
 
 				if (report.createdAt < thresholdDate) {
@@ -75,3 +84,5 @@ export default function ServerStatus(): ReactElement {
 		</QueryResult>
 	)
 }
+
+export default WithEncryptionRequired(ServerStatus)
