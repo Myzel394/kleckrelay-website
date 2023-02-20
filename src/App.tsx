@@ -20,7 +20,7 @@ import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
-import OverviewRoute from "~/routes/OverviewRoute"
+import RedirectRoute from "~/routes/RedirectRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "/",
-						element: <OverviewRoute />,
+						element: <RedirectRoute />,
 					},
 					{
 						path: "/aliases",
