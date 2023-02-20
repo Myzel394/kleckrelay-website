@@ -17,13 +17,17 @@ import decryptCronReportData from "~/apis/helpers/decrypt-cron-report-data"
 
 const MAX_REPORT_DAY_THRESHOLD = 5
 
-function ServerStatus(): ReactElement {
+function ServerStatus(): ReactElement | null {
 	const serverSettings = useLoaderData() as ServerSettings
 	const {t} = useTranslation()
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
-	const query = useQuery<CronReport, AxiosError>(["get_latest_cron_report"], async () => {
-		const encryptedReport = await getLatestCronReport()
+	const query = useQuery<CronReport | null, AxiosError>(["get_latest_cron_report"], async () => {
+		const {code, detail, ...encryptedReport} = await getLatestCronReport()
+
+		if (code === "error:cron_report:no_reports_found") {
+			return null
+		}
 
 		;(encryptedReport as any as CronReport).reportData = await decryptCronReportData(
 			encryptedReport.reportData.encryptedReport,
@@ -35,8 +39,12 @@ function ServerStatus(): ReactElement {
 	})
 
 	return (
-		<QueryResult<CronReport> query={query}>
+		<QueryResult<CronReport | null> query={query}>
 			{report => {
+				if (report === null) {
+					return null
+				}
+
 				const thresholdDate = subDays(new Date(), MAX_REPORT_DAY_THRESHOLD)
 
 				if (report.createdAt < thresholdDate) {

@@ -10,13 +10,14 @@ import LoadingData from "./LoadingData"
 
 export interface QueryResultProps<TQueryFnData = unknown, TError = AxiosError> {
 	query: UseQueryResult<TQueryFnData, TError>
-	children: (data: TQueryFnData) => ReactElement
+	children: (data: TQueryFnData) => ReactElement | null
 }
 
-export default function QueryResult<TQueryFnData, TError = AxiosError>({
-	query,
-	children: render,
-}: QueryResultProps<TQueryFnData, TError>): ReactElement {
+export default function QueryResult<
+	TQueryFnData,
+	TError = AxiosError,
+	ReturnType = ReactElement | null,
+>({query, children: render}: QueryResultProps<TQueryFnData, TError>): ReactElement | null {
 	if (query.data !== undefined) {
 		return render(query.data)
 	}
