@@ -3,20 +3,21 @@ import {AxiosError} from "axios"
 import {useLoaderData} from "react-router-dom"
 import {useTranslation} from "react-i18next"
 import format from "date-fns/format"
+import formatRelative from "date-fns/formatRelative"
 import subDays from "date-fns/subDays"
 
 import {useQuery} from "@tanstack/react-query"
 import {Alert} from "@mui/material"
 
+import {WithEncryptionRequired} from "~/hocs"
 import {CronReport, ServerSettings} from "~/server-types"
 import {getLatestCronReport} from "~/apis"
 import {AuthContext, QueryResult} from "~/components"
 import decryptCronReportData from "~/apis/helpers/decrypt-cron-report-data"
-import formatRelative from "date-fns/formatRelative"
 
 const MAX_REPORT_DAY_THRESHOLD = 5
 
-export default function ServerStatus(): ReactElement {
+function ServerStatus(): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
 	const {t} = useTranslation()
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
@@ -75,3 +76,5 @@ export default function ServerStatus(): ReactElement {
 		</QueryResult>
 	)
 }
+
+export default WithEncryptionRequired(ServerStatus)
