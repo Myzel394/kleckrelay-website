@@ -16,6 +16,7 @@
     "noEmit": true,
     "types": [
       "vite-plugin-svgr/client",
+      "@types/node",
     ],
     "jsx": "react-jsx",
     "baseUrl": "./src",
