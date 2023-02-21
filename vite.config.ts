@@ -6,6 +6,8 @@ import viteSvgr from "vite-plugin-svgr"
 import {viteCommonjs} from "@originjs/vite-plugin-commonjs"
 import react from "@vitejs/plugin-react"
 
+const isProduction = process.env.NODE_ENV === "production"
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
@@ -14,11 +16,11 @@ export default defineConfig({
 		viteSvgr(),
 		htmlPlugin({
 			metas: [
-				{
+				isProduction && {
 					"http-equiv": "Content-Security-Policy",
 					content: "upgrade-insecure-requests",
 				},
-			],
+			].filter(Boolean),
 		}),
 	],
 	resolve: {
