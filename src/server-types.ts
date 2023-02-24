@@ -208,6 +208,7 @@ export interface AdminSettings {
 	customEmailSuffixChars: string
 	imageProxyStorageLifeTimeInHours: number
 	enableImageProxy: boolean
+	enableImageProxyStorage: boolean
 	userEmailEnableDisposableEmails: boolean
 	userEmailEnableOtherRelays: boolean
 	allowStatistics: boolean

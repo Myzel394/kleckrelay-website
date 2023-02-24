@@ -379,6 +379,10 @@
                     },
                     "enableImageProxy": {
                         "label": "Enable image proxy",
+                        "description": "If enabled, images will be proxied through the server. This enhances your user's privacy as their ip address will not be leaked."
+                    },
+                    "enableImageProxyStorage": {
+                        "label": "Enable image proxy storage",
                         "description": "If enabled, images will be stored on the server and forwarded to the user. This makes email tracking nearly impossible as every message will be marked as read instantly, which is obviously not true as a user is typically not able to view an email in just a few seconds after it has been sent. This will only affect new images."
                     },
                     "userEmailEnableDisposableEmails": {
