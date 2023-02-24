@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next"
 
 import {Grid, Typography} from "@mui/material"
 
-import {ReactComponent as Logo} from "~/assets/logo.svg"
+import {ReactComponent as Logo} from "../../../public/logo.svg"
 
 export default function LoadingPage(): ReactElement {
 	const {t} = useTranslation()

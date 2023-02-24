@@ -1,18 +1,18 @@
-import {ReactElement, useLayoutEffect} from "react"
+import {ReactElement, useContext, useLayoutEffect} from "react"
 import {useNavigate} from "react-router-dom"
 
-import {useUser} from "~/hooks"
+import {AuthContext} from "~/components"
 import LoadingPage from "~/components/widgets/LoadingPage"
 
 export default function RedirectRoute(): ReactElement {
 	const navigate = useNavigate()
-	const user = useUser()
+	const {user} = useContext(AuthContext)
 
 	useLayoutEffect(() => {
 		if (user) {
 			navigate("/aliases")
 		} else {
-			navigate("/login")
+			navigate("/auth/login")
 		}
 	}, [user])
 

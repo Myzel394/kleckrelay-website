@@ -21,7 +21,7 @@ import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
-import RedirectRoute from "~/routes/RedirectRoute"
+import RedirectRoute from "./routes/RedirectRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
 		element: <RootRoute />,
 		errorElement: <ErrorPage />,
 		children: [
+			{
+				path: "/",
+				element: <RedirectRoute />,
+			},
 			{
 				path: "/auth",
 				element: <AuthenticateRoute />,
@@ -73,10 +77,6 @@ const router = createBrowserRouter([
 				path: "/",
 				element: <AuthenticatedRoute />,
 				children: [
-					{
-						path: "/",
-						element: <RedirectRoute />,
-					},
 					{
 						path: "/aliases",
 						loader: getServerSettings,
