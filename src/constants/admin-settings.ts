@@ -10,6 +10,7 @@ export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
 	userEmailEnableDisposableEmails: false,
 	imageProxyStorageLifeTimeInHours: 24,
 	enableImageProxy: true,
+	enableImageProxyStorage: true,
 	allowStatistics: true,
 	allowAliasDeletion: false,
 	maxAliasesPerUser: 0,

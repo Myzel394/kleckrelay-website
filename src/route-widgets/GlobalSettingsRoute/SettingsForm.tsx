@@ -11,6 +11,7 @@ import AliasesPercentageAmount from "./AliasPercentageAmount"
 
 import {
 	Checkbox,
+	Collapse,
 	FormControlLabel,
 	FormGroup,
 	FormHelperText,
@@ -82,6 +83,9 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		enableImageProxy: yup
 			.boolean()
 			.label(t("routes.AdminRoute.forms.settings.enableImageProxy.label")),
+		enableImageProxyStorage: yup
+			.boolean()
+			.label(t("routes.AdminRoute.forms.settings.enableImageProxyStorage.label")),
 		allowStatistics: yup
 			.boolean()
 			.label(t("routes.AdminRoute.forms.settings.allowStatistics.label")),
@@ -465,33 +469,70 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							</FormGroup>
 						</Grid>
 						<Grid item xs={12}>
-							<FormGroup key="enable_image_proxy">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={formik.values.enableImageProxy}
-											onChange={formik.handleChange}
-											name="enableImageProxy"
+							<Grid container spacing={1}>
+								<Grid item>
+									<FormGroup key="enable_image_proxy">
+										<FormControlLabel
+											control={
+												<Checkbox
+													checked={formik.values.enableImageProxy}
+													onChange={formik.handleChange}
+													name="enableImageProxy"
+												/>
+											}
+											disabled={formik.isSubmitting}
+											label={t(
+												"routes.AdminRoute.forms.settings.enableImageProxy.label",
+											)}
 										/>
-									}
-									disabled={formik.isSubmitting}
-									label={t(
-										"routes.AdminRoute.forms.settings.enableImageProxy.label",
-									)}
-								/>
-								<FormHelperText
-									error={
-										formik.touched.enableImageProxy &&
-										Boolean(formik.errors.enableImageProxy)
-									}
-								>
-									{(formik.touched.enableImageProxy &&
-										formik.errors.enableImageProxy) ||
-										t(
-											"routes.AdminRoute.forms.settings.enableImageProxy.description",
-										)}
-								</FormHelperText>
-							</FormGroup>
+										<FormHelperText
+											error={
+												formik.touched.enableImageProxy &&
+												Boolean(formik.errors.enableImageProxy)
+											}
+										>
+											{(formik.touched.enableImageProxy &&
+												formik.errors.enableImageProxy) ||
+												t(
+													"routes.AdminRoute.forms.settings.enableImageProxy.description",
+												)}
+										</FormHelperText>
+									</FormGroup>
+								</Grid>
+								<Grid item>
+									<Collapse in={formik.values.enableImageProxy}>
+										<FormGroup key="enable_image_proxy_storage">
+											<FormControlLabel
+												control={
+													<Checkbox
+														checked={
+															formik.values.enableImageProxyStorage
+														}
+														onChange={formik.handleChange}
+														name="enableImageProxyStorage"
+													/>
+												}
+												disabled={formik.isSubmitting}
+												label={t(
+													"routes.AdminRoute.forms.settings.enableImageProxyStorage.label",
+												)}
+											/>
+											<FormHelperText
+												error={
+													formik.touched.enableImageProxyStorage &&
+													Boolean(formik.errors.enableImageProxyStorage)
+												}
+											>
+												{(formik.touched.enableImageProxyStorage &&
+													formik.errors.enableImageProxyStorage) ||
+													t(
+														"routes.AdminRoute.forms.settings.enableImageProxyStorage.description",
+													)}
+											</FormHelperText>
+										</FormGroup>
+									</Collapse>
+								</Grid>
+							</Grid>
 						</Grid>
 						<Grid item xs={12}>
 							<FormGroup key="allow_statistics">
