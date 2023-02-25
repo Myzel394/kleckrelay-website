@@ -286,8 +286,12 @@
                 }
             },
             "actions": {
-                "enable2fa": "2-Factor-Authentication",
+                "enable2fa": "Two-Factor-Authentication",
                 "aliasPreferences": "Alias Preferences"
+            },
+            "2fa": {
+                "title": "Two-Factor-Authentication",
+                "alreadyEnabled": "You have successfully enabled 2FA!"
             }
         },
         "LogoutRoute": {
