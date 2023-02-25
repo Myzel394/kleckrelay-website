@@ -284,6 +284,10 @@
                     "description": "Select default values for your aliases. This only affects aliases you haven't set a custom value for.",
                     "saveAction": "Save preferences"
                 }
+            },
+            "actions": {
+                "enable2fa": "2-Factor-Authentication",
+                "aliasPreferences": "Alias Preferences"
             }
         },
         "LogoutRoute": {

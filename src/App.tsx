@@ -27,6 +27,7 @@ import ReportsRoute from "~/routes/ReportsRoute"
 import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
 import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
+import SettingsAliasPreferencesRoute from "~/routes/SettingsAliasPreferencesRoute"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
 					{
 						path: "/settings",
 						element: <SettingsRoute />,
+					},
+					{
+						path: "/settings/alias-preferences",
+						element: <SettingsAliasPreferencesRoute />,
 					},
 					{
 						path: "/reports",

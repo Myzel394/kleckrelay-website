@@ -44,7 +44,7 @@ interface Form {
 	detail?: string
 }
 
-export default function AliasesPreferencesForm(): ReactElement {
+export default function SettingsAliasPreferencesRoute(): ReactElement {
 	const {_updateUser} = useContext(AuthContext)
 	const user = useUser()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
