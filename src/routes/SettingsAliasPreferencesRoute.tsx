@@ -17,7 +17,6 @@ import {
 	InputAdornment,
 	MenuItem,
 	TextField,
-	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material"
@@ -31,7 +30,7 @@ import {
 	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
 	PROXY_USER_AGENT_TYPE_NAME_MAP,
 } from "~/constants/enum-mappings"
-import {AuthContext} from "~/components"
+import {AuthContext, SimplePageBuilder} from "~/components"
 
 interface Form {
 	removeTrackers: boolean
@@ -121,262 +120,246 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 	const isLarge = useMediaQuery(theme.breakpoints.up("md"))
 
 	return (
-		<form onSubmit={formik.handleSubmit}>
-			<Grid container spacing={4} flexDirection="column" alignItems="center">
-				<Grid item>
-					<Typography variant="h6" component="h3">
-						{t("routes.SettingsRoute.forms.aliasPreferences.title")}
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Typography variant="body1" component="p">
-						{t("routes.SettingsRoute.forms.aliasPreferences.description")}
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Grid
-						display="flex"
-						flexDirection="row"
-						container
-						spacing={4}
-						alignItems="flex-end"
-					>
-						<Grid item md={6} xs={12}>
-							<FormGroup>
-								<FormControlLabel
-									disabled={formik.isSubmitting}
-									control={
-										<Checkbox
-											name="removeTrackers"
-											id="removeTrackers"
-											checked={formik.values.removeTrackers}
+		<SimplePageBuilder.Page
+			title={t("routes.SettingsRoute.forms.aliasPreferences.title")}
+			description={t("routes.SettingsRoute.forms.aliasPreferences.description")}
+		>
+			<form onSubmit={formik.handleSubmit}>
+				<Grid
+					display="flex"
+					flexDirection="row"
+					container
+					spacing={4}
+					alignItems="flex-end"
+				>
+					<Grid item md={6} xs={12}>
+						<FormGroup>
+							<FormControlLabel
+								disabled={formik.isSubmitting}
+								control={
+									<Checkbox
+										name="removeTrackers"
+										id="removeTrackers"
+										checked={formik.values.removeTrackers}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								}
+								labelPlacement="start"
+								label={t("relations.alias.settings.removeTrackers.label")}
+							/>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.createMailReport &&
+										formik.errors.createMailReport,
+								)}
+							>
+								{(formik.touched.createMailReport &&
+									formik.errors.createMailReport) ||
+									t("relations.alias.settings.removeTrackers.helperText")}
+							</FormHelperText>
+						</FormGroup>
+					</Grid>
+					<Grid item md={6} xs={12}>
+						<FormGroup>
+							<FormControlLabel
+								disabled={formik.isSubmitting}
+								control={
+									<Checkbox
+										name="createMailReport"
+										id="createMailReport"
+										checked={formik.values.createMailReport}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								}
+								labelPlacement="start"
+								label={t("relations.alias.settings.createMailReports.label")}
+							/>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.createMailReport &&
+										formik.errors.createMailReport,
+								)}
+							>
+								{(formik.touched.createMailReport &&
+									formik.errors.createMailReport) ||
+									t("relations.alias.settings.createMailReports.helperText")}
+							</FormHelperText>
+						</FormGroup>
+					</Grid>
+					<Grid item xs={12}>
+						<FormGroup>
+							<FormControlLabel
+								disabled={formik.isSubmitting}
+								control={
+									<Checkbox
+										name="proxyImages"
+										id="proxyImages"
+										checked={formik.values.proxyImages}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								}
+								labelPlacement="start"
+								label={t("relations.alias.settings.proxyImages.label")}
+							/>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.proxyImages && formik.errors.proxyImages,
+								)}
+							>
+								{(formik.touched.proxyImages && formik.errors.proxyImages) ||
+									t("relations.alias.settings.proxyImages.helperText")}
+							</FormHelperText>
+							<Alert
+								sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
+								severity="warning"
+							>
+								{t("general.experimentalFeature")}
+							</Alert>
+						</FormGroup>
+						<Collapse in={formik.values.proxyImages}>
+							<Grid
+								display="flex"
+								flexDirection={isLarge ? "row" : "column"}
+								container
+								marginY={2}
+								spacing={4}
+								alignItems={isLarge ? "flex-start" : "flex-end"}
+							>
+								<Grid item md={6} xs={12}>
+									<FormGroup>
+										<TextField
+											fullWidth
+											select
+											InputProps={{
+												startAdornment: (
+													<InputAdornment position="start">
+														<MdImage />
+													</InputAdornment>
+												),
+											}}
+											name="imageProxyFormat"
+											id="imageProxyFormat"
+											label={t(
+												"relations.alias.settings.imageProxyFormat.label",
+											)}
+											value={formik.values.imageProxyFormat}
 											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-										/>
-									}
-									labelPlacement="start"
-									label={t("relations.alias.settings.removeTrackers.label")}
-								/>
-								<FormHelperText
-									error={Boolean(
-										formik.touched.createMailReport &&
-											formik.errors.createMailReport,
-									)}
-								>
-									{(formik.touched.createMailReport &&
-										formik.errors.createMailReport) ||
-										t("relations.alias.settings.removeTrackers.helperText")}
-								</FormHelperText>
-							</FormGroup>
-						</Grid>
-						<Grid item md={6} xs={12}>
-							<FormGroup>
-								<FormControlLabel
-									disabled={formik.isSubmitting}
-									control={
-										<Checkbox
-											name="createMailReport"
-											id="createMailReport"
-											checked={formik.values.createMailReport}
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-										/>
-									}
-									labelPlacement="start"
-									label={t("relations.alias.settings.createMailReports.label")}
-								/>
-								<FormHelperText
-									error={Boolean(
-										formik.touched.createMailReport &&
-											formik.errors.createMailReport,
-									)}
-								>
-									{(formik.touched.createMailReport &&
-										formik.errors.createMailReport) ||
-										t("relations.alias.settings.createMailReports.helperText")}
-								</FormHelperText>
-							</FormGroup>
-						</Grid>
-						<Grid item xs={12}>
-							<FormGroup>
-								<FormControlLabel
-									disabled={formik.isSubmitting}
-									control={
-										<Checkbox
-											name="proxyImages"
-											id="proxyImages"
-											checked={formik.values.proxyImages}
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-										/>
-									}
-									labelPlacement="start"
-									label={t("relations.alias.settings.proxyImages.label")}
-								/>
-								<FormHelperText
-									error={Boolean(
-										formik.touched.proxyImages && formik.errors.proxyImages,
-									)}
-								>
-									{(formik.touched.proxyImages && formik.errors.proxyImages) ||
-										t("relations.alias.settings.proxyImages.helperText")}
-								</FormHelperText>
-								<Alert
-									sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
-									severity="warning"
-								>
-									{t("general.experimentalFeature")}
-								</Alert>
-							</FormGroup>
-							<Collapse in={formik.values.proxyImages}>
-								<Grid
-									display="flex"
-									flexDirection={isLarge ? "row" : "column"}
-									container
-									marginY={2}
-									spacing={4}
-									alignItems={isLarge ? "flex-start" : "flex-end"}
-								>
-									<Grid item md={6} xs={12}>
-										<FormGroup>
-											<TextField
-												fullWidth
-												select
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<MdImage />
-														</InputAdornment>
-													),
-												}}
-												name="imageProxyFormat"
-												id="imageProxyFormat"
-												label={t(
-													"relations.alias.settings.imageProxyFormat.label",
-												)}
-												value={formik.values.imageProxyFormat}
-												onChange={formik.handleChange}
-												disabled={formik.isSubmitting}
-												error={
-													formik.touched.imageProxyFormat &&
-													Boolean(formik.errors.imageProxyFormat)
-												}
-												helperText={
-													formik.touched.imageProxyFormat &&
-													formik.errors.imageProxyFormat
-												}
-											>
-												{Object.entries(
-													IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-												).map(([value, translationString]) => (
+											disabled={formik.isSubmitting}
+											error={
+												formik.touched.imageProxyFormat &&
+												Boolean(formik.errors.imageProxyFormat)
+											}
+											helperText={
+												formik.touched.imageProxyFormat &&
+												formik.errors.imageProxyFormat
+											}
+										>
+											{Object.entries(IMAGE_PROXY_FORMAT_TYPE_NAME_MAP).map(
+												([value, translationString]) => (
 													<MenuItem key={value} value={value}>
 														{t(translationString)}
 													</MenuItem>
-												))}
-											</TextField>
-											<FormHelperText
-												error={Boolean(
-													formik.touched.imageProxyFormat &&
-														formik.errors.imageProxyFormat,
-												)}
-											>
-												{formik.touched.imageProxyFormat &&
-													formik.errors.imageProxyFormat}
-											</FormHelperText>
-										</FormGroup>
-									</Grid>
+												),
+											)}
+										</TextField>
+										<FormHelperText
+											error={Boolean(
+												formik.touched.imageProxyFormat &&
+													formik.errors.imageProxyFormat,
+											)}
+										>
+											{formik.touched.imageProxyFormat &&
+												formik.errors.imageProxyFormat}
+										</FormHelperText>
+									</FormGroup>
 								</Grid>
-							</Collapse>
-						</Grid>
-						<Grid item xs={12}>
-							<FormGroup>
-								<TextField
-									fullWidth
-									select
-									name="proxyUserAgent"
-									id="proxyUserAgent"
-									label={t("relations.alias.settings.proxyUserAgent.label")}
-									value={formik.values.proxyUserAgent}
-									onChange={formik.handleChange}
-									disabled={formik.isSubmitting}
-									error={
-										formik.touched.proxyUserAgent &&
-										Boolean(formik.errors.proxyUserAgent)
-									}
-									helperText={
-										formik.touched.proxyUserAgent &&
-										formik.errors.proxyUserAgent
-									}
-								>
-									{Object.entries(PROXY_USER_AGENT_TYPE_NAME_MAP).map(
-										([value, translationString]) => (
-											<MenuItem key={value} value={value}>
-												{t(translationString)}
-											</MenuItem>
-										),
-									)}
-								</TextField>
-								<FormHelperText
-									error={Boolean(
-										formik.touched.proxyUserAgent &&
-											formik.errors.proxyUserAgent,
-									)}
-								>
-									{(formik.touched.proxyUserAgent &&
-										formik.errors.proxyUserAgent) ||
-										t("relations.alias.settings.proxyUserAgent.helperText")}
-								</FormHelperText>
-							</FormGroup>
-						</Grid>
-						<Grid item xs={12}>
-							<FormGroup>
-								<FormControlLabel
-									disabled={formik.isSubmitting}
-									control={
-										<Checkbox
-											name="expandUrlShorteners"
-											id="expandUrlShorteners"
-											checked={formik.values.expandUrlShorteners}
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-										/>
-									}
-									labelPlacement="start"
-									label={t("relations.alias.settings.expandUrlShorteners.label")}
-								/>
-								<FormHelperText
-									error={Boolean(
-										formik.touched.expandUrlShorteners &&
-											formik.errors.expandUrlShorteners,
-									)}
-								>
-									{(formik.touched.expandUrlShorteners &&
-										formik.errors.expandUrlShorteners) ||
-										t(
-											"relations.alias.settings.expandUrlShorteners.helperText",
-										)}
-								</FormHelperText>
-								<Alert
-									sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
-									severity="warning"
-								>
-									{t("general.experimentalFeature")}
-								</Alert>
-							</FormGroup>
-						</Grid>
+							</Grid>
+						</Collapse>
+					</Grid>
+					<Grid item xs={12}>
+						<FormGroup>
+							<TextField
+								fullWidth
+								select
+								name="proxyUserAgent"
+								id="proxyUserAgent"
+								label={t("relations.alias.settings.proxyUserAgent.label")}
+								value={formik.values.proxyUserAgent}
+								onChange={formik.handleChange}
+								disabled={formik.isSubmitting}
+								error={
+									formik.touched.proxyUserAgent &&
+									Boolean(formik.errors.proxyUserAgent)
+								}
+								helperText={
+									formik.touched.proxyUserAgent && formik.errors.proxyUserAgent
+								}
+							>
+								{Object.entries(PROXY_USER_AGENT_TYPE_NAME_MAP).map(
+									([value, translationString]) => (
+										<MenuItem key={value} value={value}>
+											{t(translationString)}
+										</MenuItem>
+									),
+								)}
+							</TextField>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.proxyUserAgent && formik.errors.proxyUserAgent,
+								)}
+							>
+								{(formik.touched.proxyUserAgent && formik.errors.proxyUserAgent) ||
+									t("relations.alias.settings.proxyUserAgent.helperText")}
+							</FormHelperText>
+						</FormGroup>
+					</Grid>
+					<Grid item xs={12}>
+						<FormGroup>
+							<FormControlLabel
+								disabled={formik.isSubmitting}
+								control={
+									<Checkbox
+										name="expandUrlShorteners"
+										id="expandUrlShorteners"
+										checked={formik.values.expandUrlShorteners}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								}
+								labelPlacement="start"
+								label={t("relations.alias.settings.expandUrlShorteners.label")}
+							/>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.expandUrlShorteners &&
+										formik.errors.expandUrlShorteners,
+								)}
+							>
+								{(formik.touched.expandUrlShorteners &&
+									formik.errors.expandUrlShorteners) ||
+									t("relations.alias.settings.expandUrlShorteners.helperText")}
+							</FormHelperText>
+							<Alert
+								sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
+								severity="warning"
+							>
+								{t("general.experimentalFeature")}
+							</Alert>
+						</FormGroup>
 					</Grid>
 				</Grid>
-				<Grid item>
-					<LoadingButton
-						loading={formik.isSubmitting}
-						variant="contained"
-						type="submit"
-						startIcon={<MdCheckCircle />}
-					>
-						{t("routes.SettingsRoute.forms.aliasPreferences.saveAction")}
-					</LoadingButton>
-				</Grid>
-			</Grid>
-		</form>
+				<LoadingButton
+					loading={formik.isSubmitting}
+					variant="contained"
+					type="submit"
+					startIcon={<MdCheckCircle />}
+				>
+					{t("routes.SettingsRoute.forms.aliasPreferences.saveAction")}
+				</LoadingButton>
+			</form>
+		</SimplePageBuilder.Page>
 	)
 }
