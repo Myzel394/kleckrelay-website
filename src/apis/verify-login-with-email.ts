@@ -8,12 +8,16 @@ export interface VerifyLoginWithEmailData {
 	sameRequestToken?: string
 }
 
+export type VerifyLoginWithEmailResponse = ServerUser & {
+	corsToken?: string
+}
+
 export default async function verifyLoginWithEmail({
 	email,
 	token,
 	sameRequestToken,
-}: VerifyLoginWithEmailData): Promise<ServerUser> {
-	const {data: user} = await client.post(
+}: VerifyLoginWithEmailData): Promise<VerifyLoginWithEmailResponse> {
+	const {data} = await client.post(
 		`${import.meta.env.VITE_SERVER_BASE_URL}/v1/auth/login/email-token/verify`,
 		{
 			email,
@@ -25,5 +29,9 @@ export default async function verifyLoginWithEmail({
 		},
 	)
 
-	return parseUser(user)
+	if (data.corsToken) {
+		return data
+	}
+
+	return parseUser(data)
 }

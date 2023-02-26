@@ -57,6 +57,16 @@
                 "confirmFromDifferentDevice": {
                     "title": "Login failed",
                     "description": "You could not be logged in. This could either be because you are not allowed to login from different devices or the verification code is invalid or expired."
+                },
+                "otp": {
+                    "title": "Two-factor authentication",
+                    "description": "Please enter the code from your authenticator app.",
+                    "submit": "Log in",
+                    "lost": "I lost my codes",
+                    "code": {
+                        "label": "Code"
+                    },
+                    "unavailable": "Your OTP verification time expired or you exceeded the maximum number of attempts. Please log in again."
                 }
             }
         },

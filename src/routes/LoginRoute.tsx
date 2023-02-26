@@ -7,6 +7,7 @@ import {useQueryParams} from "~/hooks"
 import ConfirmCodeForm from "~/route-widgets/LoginRoute/ConfirmCodeForm/ConfirmCodeForm"
 import ConfirmFromDifferentDevice from "~/route-widgets/LoginRoute/ConfirmFromDifferentDevice"
 import EmailForm from "~/route-widgets/LoginRoute/EmailForm"
+import OTPForm from "~/route-widgets/LoginRoute/OTPForm"
 
 export default function LoginRoute(): ReactElement {
 	const navigate = useNavigate()
@@ -53,6 +54,16 @@ export default function LoginRoute(): ReactElement {
 					onCodeExpired={() => {
 						setStep(0)
 					}}
+					onOTPRequested={corsToken => {
+						setStep(2)
+						setSameRequestToken(corsToken)
+					}}
+				/>,
+				<OTPForm
+					onConfirm={login}
+					key={`otp_form:${email}:${step}`}
+					corsToken={sameRequestToken}
+					onCodeUnavailable={() => setStep(0)}
 				/>,
 			]}
 			index={step}
