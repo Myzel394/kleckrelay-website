@@ -28,9 +28,11 @@ export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
 		})
 	}
 	const showError = (error: Error | string) => {
-		let message
+		let message: string | undefined
 
-		if (typeof error !== "string") {
+		if (typeof error === "string") {
+			message = error
+		} else {
 			try {
 				const parsedError = parseFastAPIError(error as AxiosError)
 
