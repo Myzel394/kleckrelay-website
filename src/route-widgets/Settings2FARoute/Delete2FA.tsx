@@ -18,9 +18,12 @@ export interface Delete2FAProps {
 
 export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 	const {t} = useTranslation()
-	const {showError} = useErrorSuccessSnacks()
+	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {mutate} = useMutation<SimpleDetailResponse, AxiosError, Delete2FAData>(delete2FA, {
-		onSuccess,
+		onSuccess: () => {
+			showSuccess(t("routes.SettingsRoute.2fa.delete.success"))
+			onSuccess()
+		},
 		onError: showError,
 	})
 
@@ -92,7 +95,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 					</Grid>
 					<Grid item>
 						<LoadingButton
-							onClick={() => mutate({recoveryCode: value})}
+							onClick={() => mutate({recoveryCode: value.replaceAll("-", "")})}
 							variant="contained"
 							startIcon={<BsShieldLockFill />}
 						>

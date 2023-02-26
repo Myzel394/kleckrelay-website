@@ -306,7 +306,8 @@
                         "title": "Note down your recovery codes",
                         "description": "These codes are used to recover your account if you lose access to your authenticator app. Note them down and store them in a safe place. You will not be able to view them again. Do not store them in your password manager. IF YOU LOSE YOUR RECOVERY CODES, YOU WILL LOSE ACCESS TO YOUR ACCOUNT. WE WILL NOT BE ABLE TO HELP YOU.",
                         "submit": "I have noted down my recovery codes"
-                    }
+                    },
+                    "success": "You have successfully enabled 2FA!"
                 },
                 "delete": {
                     "showAction": "Disable 2FA",
@@ -320,7 +321,8 @@
                     "askRecoveryCode": {
                         "label": "Recovery Code"
                     },
-                    "submit": "Disable 2FA"
+                    "submit": "Disable 2FA",
+                    "success": "You have successfully disabled 2FA!"
                 }
             }
         },

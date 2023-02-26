@@ -42,7 +42,7 @@ export default function Settings2FARoute({
 	secret,
 }: VerifyOTPFormProps): ReactElement {
 	const {t} = useTranslation()
-	const {showError} = useErrorSuccessSnacks()
+	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const user = useUser()
 	const theme = useTheme()
 
@@ -112,6 +112,7 @@ export default function Settings2FARoute({
 											</InputAdornment>
 										),
 									}}
+									onSubmit={formik.handleSubmit}
 								/>
 							</Grid>
 							<Grid item>
@@ -127,7 +128,7 @@ export default function Settings2FARoute({
 					</Grid>
 				</Grid>
 			</form>
-			<Dialog open={showRecoveryCodes} onClose={() => setShowRecoveryCodes(false)}>
+			<Dialog open={showRecoveryCodes}>
 				<DialogTitle>{t("routes.SettingsRoute.2fa.setup.recoveryCodes.title")}</DialogTitle>
 				<DialogContent
 					sx={{
@@ -145,7 +146,9 @@ export default function Settings2FARoute({
 				</DialogContent>
 				<DialogActions>
 					<Button
+						variant="contained"
 						onClick={() => {
+							showSuccess(t("routes.SettingsRoute.2fa.setup.success"))
 							setShowRecoveryCodes(false)
 							onSuccess()
 						}}
