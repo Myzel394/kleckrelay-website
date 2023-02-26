@@ -120,9 +120,9 @@ export default function StringPoolField({
 						}, "")
 
 						onChange!(
-							// @ts-ignore
 							{
 								...event,
+								// @ts-ignore
 								target: {
 									...event.target,
 									value: value as string,

@@ -68,7 +68,11 @@ export default function Settings2FARoute({
 			}
 		},
 	})
-	const formik = useFormik<Verify2FASetupData>({
+	const formik = useFormik<
+		Verify2FASetupData & {
+			detail?: string
+		}
+	>({
 		initialValues: {
 			code: "",
 		},
@@ -112,7 +116,7 @@ export default function Settings2FARoute({
 											</InputAdornment>
 										),
 									}}
-									onSubmit={formik.handleSubmit}
+									onSubmit={() => formik.handleSubmit()}
 								/>
 							</Grid>
 							<Grid item>
