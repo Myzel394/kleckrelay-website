@@ -96,6 +96,7 @@ export default function OTPForm({
 					</Grid>
 					<Grid item>
 						<TextField
+							autoFocus
 							key="code"
 							fullWidth
 							name="code"

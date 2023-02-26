@@ -20,6 +20,7 @@ import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
+import Recover2FARoute from "./routes/Recover2FARoute"
 import RedirectRoute from "./routes/RedirectRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
 						path: "/auth/login",
 						loader: getServerSettings,
 						element: <LoginRoute />,
+					},
+					{
+						path: "/auth/recover-2fa",
+						element: <Recover2FARoute />,
 					},
 					{
 						path: "/auth/signup",

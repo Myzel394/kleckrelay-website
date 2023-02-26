@@ -104,6 +104,19 @@
                 }
             }
         },
+        "Recover2FARoute": {
+            "title": "Recover Two-Factor-Authentication",
+            "description": "We are very sorry if you lost your codes. Please enter a recovery code to continue. Note that this will disable two-factor authentication for your account. You can enable it again in the settings.",
+            "forms": {
+                "recoveryCode": {
+                    "label": "Recovery Code"
+                },
+                "submit": "Disable 2FA"
+            },
+            "unauthorized": "Please make sure to log in first and then reset your two-factor authentication on its screen.",
+            "canLoginNow": "Two-factor authentication has been disabled. You can now log in.",
+            "loggedIn": "Two-factor authentication has been disabled. You are now logged in."
+        },
         "CompleteAccountRoute": {
             "forms": {
                 "generateReports": {
