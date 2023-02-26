@@ -1,9 +1,8 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import {SnackbarProvider} from "notistack"
-import React, {ReactElement} from "react"
-
 import {QueryClientProvider} from "@tanstack/react-query"
 import {CssBaseline, Theme, ThemeProvider} from "@mui/material"
+import React, {ReactElement} from "react"
 
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"

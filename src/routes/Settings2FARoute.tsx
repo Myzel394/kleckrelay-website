@@ -6,11 +6,13 @@ import {useQuery} from "@tanstack/react-query"
 import {Alert} from "@mui/material"
 
 import {QueryResult, SimplePageBuilder} from "~/components"
+import Setup2FA from "~/route-widgets/Settings2FARoute/Setup2FA"
 import getHas2FAEnabled from "~/apis/get-has-2fa-enabled"
 
 export default function Settings2FARoute(): ReactElement {
 	const {t} = useTranslation()
-	const query = useQuery<boolean, AxiosError>(["get_2fa_enabled"], getHas2FAEnabled)
+	const queryKey = ["get_2fa_enabled"]
+	const query = useQuery<boolean, AxiosError>(queryKey, getHas2FAEnabled)
 
 	return (
 		<SimplePageBuilder.Page title={t("routes.SettingsRoute.2fa.title")}>
@@ -23,7 +25,7 @@ export default function Settings2FARoute(): ReactElement {
 							</Alert>
 						</>
 					) : (
-						<></>
+						<Setup2FA onSuccess={query.refetch} />
 					)
 				}
 			</QueryResult>
