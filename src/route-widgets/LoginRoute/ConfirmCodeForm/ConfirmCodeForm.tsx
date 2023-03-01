@@ -25,7 +25,7 @@ import {
 import {LoadingButton} from "@mui/lab"
 
 import {ServerSettings, ServerUser, SimpleDetailResponse} from "~/server-types"
-import {VerifyLoginWithEmailData, verifyLoginWithEmail} from "~/apis"
+import {VerifyLoginWithEmailData, VerifyLoginWithEmailResponse, verifyLoginWithEmail} from "~/apis"
 import {MultiStepFormElement} from "~/components"
 import {parseFastAPIError} from "~/utils"
 import {isDev} from "~/constants/development"
@@ -36,6 +36,7 @@ import ResendMailButton from "./ResendMailButton"
 export interface ConfirmCodeFormProps {
 	onConfirm: (user: ServerUser) => void
 	onCodeExpired: () => void
+	onOTPRequested: (corsToken: string) => void
 	email: string
 	sameRequestToken: string
 }
@@ -48,6 +49,7 @@ interface Form {
 export default function ConfirmCodeForm({
 	onConfirm,
 	onCodeExpired,
+	onOTPRequested,
 	email,
 	sameRequestToken,
 }: ConfirmCodeFormProps): ReactElement {
@@ -79,12 +81,19 @@ export default function ConfirmCodeForm({
 			.label(t("routes.LoginRoute.forms.confirmCode.form.code.label")),
 	})
 
-	const {mutateAsync} = useMutation<ServerUser, AxiosError, VerifyLoginWithEmailData>(
-		verifyLoginWithEmail,
-		{
-			onSuccess: onConfirm,
+	const {mutateAsync} = useMutation<
+		VerifyLoginWithEmailResponse,
+		AxiosError,
+		VerifyLoginWithEmailData
+	>(verifyLoginWithEmail, {
+		onSuccess: result => {
+			if (result.corsToken) {
+				onOTPRequested(result.corsToken)
+			} else {
+				onConfirm(result)
+			}
 		},
-	)
+	})
 	const formik = useFormik<Form>({
 		validationSchema: schema,
 		initialValues: {

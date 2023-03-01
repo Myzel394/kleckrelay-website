@@ -8,7 +8,7 @@ import {parseFastAPIError} from "~/utils"
 
 export interface UseErrorSuccessSnacksResult {
 	showSuccess: (message: string) => void
-	showError: (error: Error) => void
+	showError: (error: Error | string) => void
 }
 
 export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
@@ -27,14 +27,18 @@ export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
 			autoHideDuration: SUCCESS_SNACKBAR_SHOW_DURATION,
 		})
 	}
-	const showError = (error: Error) => {
-		let message
+	const showError = (error: Error | string) => {
+		let message: string | undefined
 
-		try {
-			const parsedError = parseFastAPIError(error as AxiosError)
+		if (typeof error === "string") {
+			message = error
+		} else {
+			try {
+				const parsedError = parseFastAPIError(error as AxiosError)
 
-			message = parsedError.detail
-		} catch (e) {}
+				message = parsedError.detail
+			} catch (e) {}
+		}
 
 		$errorSnackbarKey.current = enqueueSnackbar(message || t("general.defaultError"), {
 			variant: "error",

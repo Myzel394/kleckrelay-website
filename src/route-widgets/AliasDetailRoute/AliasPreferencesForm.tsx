@@ -21,7 +21,7 @@ import {
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {AuthContext, FormikAutoLockNavigation} from "~/components"
-import SelectField from "~/route-widgets/SettingsRoute/SelectField"
+import SelectField from "~/route-widgets/AliasDetailRoute/SelectField"
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export interface AliasPreferencesFormProps {

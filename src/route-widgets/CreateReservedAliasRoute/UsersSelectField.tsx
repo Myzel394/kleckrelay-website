@@ -84,9 +84,9 @@ export default function UsersSelectField({
 					}
 
 					onChange!(
-						// @ts-ignore
 						{
 							...event,
+							// @ts-ignore
 							target: {
 								...event.target,
 								value: selectedUsers as GetAdminUsersResponse["users"],

@@ -1,9 +1,8 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import {SnackbarProvider} from "notistack"
-import React, {ReactElement} from "react"
-
 import {QueryClientProvider} from "@tanstack/react-query"
 import {CssBaseline, Theme, ThemeProvider} from "@mui/material"
+import React, {ReactElement} from "react"
 
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
@@ -21,12 +20,15 @@ import GlobalSettingsRoute from "~/routes/GlobalSettingsRoute"
 import I18nHandler from "./I18nHandler"
 import LoginRoute from "~/routes/LoginRoute"
 import LogoutRoute from "~/routes/LogoutRoute"
+import Recover2FARoute from "./routes/Recover2FARoute"
 import RedirectRoute from "./routes/RedirectRoute"
 import ReportDetailRoute from "~/routes/ReportDetailRoute"
 import ReportsRoute from "~/routes/ReportsRoute"
 import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
 import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
+import Settings2FARoute from "~/routes/Settings2FARoute"
+import SettingsAliasPreferencesRoute from "~/routes/SettingsAliasPreferencesRoute"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
 						path: "/auth/login",
 						loader: getServerSettings,
 						element: <LoginRoute />,
+					},
+					{
+						path: "/auth/recover-2fa",
+						element: <Recover2FARoute />,
 					},
 					{
 						path: "/auth/signup",
@@ -90,6 +96,14 @@ const router = createBrowserRouter([
 					{
 						path: "/settings",
 						element: <SettingsRoute />,
+					},
+					{
+						path: "/settings/alias-preferences",
+						element: <SettingsAliasPreferencesRoute />,
+					},
+					{
+						path: "/settings/2fa",
+						element: <Settings2FARoute />,
 					},
 					{
 						path: "/reports",
