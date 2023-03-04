@@ -11,7 +11,7 @@ import {Box, InputAdornment} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
 
 import {AuthContext, PasswordField, SimpleForm} from "~/components"
-import {setupEncryptionForUser} from "~/utils"
+import {parseFastAPIError, setupEncryptionForUser} from "~/utils"
 import {useExtensionHandler, useNavigateToNext, useSystemPreferredTheme, useUser} from "~/hooks"
 import {ServerSettings, ServerUser} from "~/server-types"
 import {UpdateAccountData, updateAccount} from "~/apis"
@@ -27,7 +27,7 @@ interface Form {
 }
 
 export default function PasswordForm({onDone}: PasswordFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["complete-account", "common"])
 	const user = useUser()
 	const theme = useSystemPreferredTheme()
 	const serverSettings = useLoaderData() as ServerSettings
@@ -36,17 +36,18 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 	const $password = useRef<HTMLInputElement | null>(null)
 	const $passwordConfirmation = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
-		password: yup.string().required(),
+		password: yup
+			.string()
+			.required()
+			.label(t("fields.password.label", {ns: "common"})),
 		passwordConfirmation: yup
 			.string()
 			.required()
 			.oneOf(
 				[yup.ref("password"), null],
-				t(
-					"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.mustMatchHelperText",
-				) as string,
+				t("fields.passwordConfirmation.errors.mismatch", {ns: "common"}) as string,
 			)
-			.label(t("routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label")),
+			.label(t("fields.passwordConfirmation.label", {ns: "common"})),
 	})
 
 	const {_setEncryptionPassword, login} = useContext(AuthContext)
@@ -89,7 +90,7 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 					},
 				)
 			} catch (error) {
-				setErrors({detail: t("general.defaultError")})
+				setErrors(parseFastAPIError(error as AxiosError))
 			}
 		},
 	})
@@ -109,11 +110,8 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 		<Box maxWidth="80vw">
 			<form onSubmit={formik.handleSubmit}>
 				<SimpleForm
-					title={t("routes.CompleteAccountRoute.forms.password.title")}
-					description={t("routes.CompleteAccountRoute.forms.password.description")}
-					continueActionLabel={t(
-						"routes.CompleteAccountRoute.forms.password.continueAction",
-					)}
+					title={t("forms.enterPassword.title")}
+					description={t("forms.enterPassword.description")}
 					nonFieldError={formik.errors.detail}
 				>
 					{[
@@ -123,12 +121,8 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 							autoFocus
 							id="password"
 							name="password"
-							label={t(
-								"routes.CompleteAccountRoute.forms.password.form.password.label",
-							)}
-							placeholder={t(
-								"routes.CompleteAccountRoute.forms.password.form.password.placeholder",
-							)}
+							label={t("fields.password.label", {ns: "common"})}
+							placeholder={t("fields.password.placeholder", {ns: "common"})}
 							autoComplete="new-password"
 							value={formik.values.password}
 							onChange={formik.handleChange}
@@ -148,12 +142,10 @@ export default function PasswordForm({onDone}: PasswordFormProps): ReactElement 
 							fullWidth
 							id="passwordConfirmation"
 							name="passwordConfirmation"
-							label={t(
-								"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.label",
-							)}
-							placeholder={t(
-								"routes.CompleteAccountRoute.forms.password.form.passwordConfirm.placeholder",
-							)}
+							label={t("fields.passwordConfirmation.label", {ns: "common"})}
+							placeholder={t("fields.passwordConfirmation.placeholder", {
+								ns: "common",
+							})}
 							value={formik.values.passwordConfirmation}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}

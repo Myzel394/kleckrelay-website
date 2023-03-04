@@ -5,12 +5,13 @@ import React, {ReactElement, useEffect, useState} from "react"
 import {Alert, Button, Grid, Snackbar, Typography, TypographyProps} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import {OverrideProps} from "@mui/types"
+import {useTranslation} from "react-i18next"
 
 export interface SimpleFormProps {
 	title: string
 	description: string
-	continueActionLabel: string
 
+	continueActionLabel?: string
 	children?: ReactElement[]
 	cancelActionLabel?: string
 	isSubmitting?: boolean
@@ -32,6 +33,8 @@ export default function SimpleForm({
 	titleComponent = "h1",
 	isSubmitting = false,
 }: SimpleFormProps): ReactElement {
+	const {t} = useTranslation("common")
+
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -101,7 +104,7 @@ export default function SimpleForm({
 								type="submit"
 								startIcon={<MdChevronRight />}
 							>
-								{continueActionLabel}
+								{continueActionLabel || t("general.continueLabel")}
 							</LoadingButton>
 						</Grid>
 					</Grid>

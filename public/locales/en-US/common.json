@@ -13,6 +13,17 @@
     },
     "recoveryCode": {
       "label": "Recovery Code"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "********"
+    },
+    "passwordConfirmation": {
+      "label": "Confirm Password",
+      "placeholder": "********",
+      "errors": {
+        "mismatch": "Passwords do not match."
+      }
     }
   },
   "messages": {
@@ -21,6 +32,9 @@
     }
   },
   "general": {
-    "cancelLabel": "Cancel"
+    "cancelLabel": "Cancel",
+    "yesLabel": "Yes",
+    "noLabel": "No",
+    "continueLabel": "Continue"
   }
 }
