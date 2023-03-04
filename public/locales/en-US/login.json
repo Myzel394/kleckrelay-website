@@ -1,0 +1,35 @@
+{
+  "title": "Log in",
+  "forms": {
+    "email": {
+      "description": "We will send you a code to log in",
+      "continueActionLabel": "Send code"
+    },
+    "confirmCode": {
+      "title": "You got mail!",
+      "description": "We sent you a code to your email. Enter it below to login",
+      "continueActionLabel": "Log in",
+      "allowLoginFromDifferentDevices": "Allow login from different devices",
+      "expiringSoonWarning": "Your code will expire in less than a minute.",
+      "fields": {
+        "code": {
+          "label": "Verification Code",
+          "errors": {
+            "invalidChars": "Invalid verification code"
+          }
+        }
+      }
+    },
+    "confirmFromDifferentDevice": {
+      "title": "Login failed",
+      "description": "You could not be logged in. This could either be because you are not allowed to login from different devices or the verification code is invalid or expired."
+    },
+    "otp": {
+      "title": "Two-Factor Authentication",
+      "description": "Enter the code from your authenticator app",
+      "isUnavailable": "Your OTP verification time expired or you exceeded the maximum number of attempts. Please log in again.",
+      "codesLostActionLabel": "I lost my codes",
+      "continueActionLabel": "Log in"
+    }
+  }
+}

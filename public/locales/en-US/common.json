@@ -1,0 +1,12 @@
+{
+  "fields": {
+    "email": {
+      "label": "Email",
+      "placeholder": "johndoe@example.com"
+    },
+    "2faCode": {
+      "label": "Code",
+      "placeholder": "123456"
+    }
+  }
+}

@@ -26,50 +26,6 @@
             "title": "Overview",
             "description": "Not much to see here, yet."
         },
-        "LoginRoute": {
-            "forms": {
-                "email": {
-                    "title": "Sign in",
-                    "description": "We'll send you a verification code to your email.",
-                    "continueAction": "Send Code",
-                    "form": {
-                        "email": {
-                            "label": "Email",
-                            "placeholder": "johndoe@example.com"
-                        }
-                    }
-                },
-                "confirmCode": {
-                    "title": "You got mail!",
-                    "description": "We sent you a code to your email. Enter it below to login",
-                    "continueAction": "Log in",
-                    "allowLoginFromDifferentDevices": "Allow login from different devices",
-                    "expiringSoon": "Your code will expire in less than a minute.",
-                    "form": {
-                        "code": {
-                            "label": "Verification Code",
-                            "errors": {
-                                "invalidChars": "Invalid verification code"
-                            }
-                        }
-                    }
-                },
-                "confirmFromDifferentDevice": {
-                    "title": "Login failed",
-                    "description": "You could not be logged in. This could either be because you are not allowed to login from different devices or the verification code is invalid or expired."
-                },
-                "otp": {
-                    "title": "Two-factor authentication",
-                    "description": "Please enter the code from your authenticator app.",
-                    "submit": "Log in",
-                    "lost": "I lost my codes",
-                    "code": {
-                        "label": "Code"
-                    },
-                    "unavailable": "Your OTP verification time expired or you exceeded the maximum number of attempts. Please log in again."
-                }
-            }
-        },
         "SignupRoute": {
             "forms": {
                 "email": {

@@ -1,19 +1,21 @@
 import * as yup from "yup"
 import {ReactElement} from "react"
-import {useMutation} from "@tanstack/react-query"
-import {ServerUser} from "~/server-types"
-import {AxiosError} from "axios"
-import {verifyOTP} from "~/apis"
 import {useTranslation} from "react-i18next"
 import {useFormik} from "formik"
+import {BsPhone, BsShieldLockFill} from "react-icons/bs"
+import {MdChevronRight} from "react-icons/md"
+import {Link as RouterLink} from "react-router-dom"
+import {AxiosError} from "axios"
+
+import {useMutation} from "@tanstack/react-query"
+import {LoadingButton} from "@mui/lab"
+import {Box, Button, Grid, InputAdornment, TextField, Typography} from "@mui/material"
+
+import {verifyOTP} from "~/apis"
 import {parseFastAPIError} from "~/utils"
 import {MultiStepFormElement} from "~/components"
-import {Box, Button, Grid, InputAdornment, TextField, Typography} from "@mui/material"
-import {BsPhone, BsShieldLockFill} from "react-icons/bs"
-import {LoadingButton} from "@mui/lab"
-import {MdChevronRight} from "react-icons/md"
 import {useErrorSuccessSnacks} from "~/hooks"
-import {Link as RouterLink} from "react-router-dom"
+import {ServerUser} from "~/server-types"
 
 interface Form {
 	code: string
@@ -30,7 +32,7 @@ export default function OTPForm({
 	onConfirm,
 	onCodeUnavailable,
 }: OTPFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["login", "common"])
 	const {showError} = useErrorSuccessSnacks()
 	const {mutateAsync} = useMutation<ServerUser, AxiosError, string>(
 		code =>
@@ -42,7 +44,7 @@ export default function OTPForm({
 			onSuccess: onConfirm,
 			onError: error => {
 				if (error.response?.status === 410 || error.response?.status === 404) {
-					showError(t("routes.LoginRoute.forms.otp.unavailable").toString())
+					showError(t("forms.otp.isUnavailable").toString())
 					onCodeUnavailable()
 				}
 			},
@@ -50,7 +52,10 @@ export default function OTPForm({
 	)
 
 	const schema = yup.object().shape({
-		code: yup.string().required().label(t("routes.LoginRoute.forms.otp.code.label")),
+		code: yup
+			.string()
+			.required()
+			.label(t("fields.2faCode.label", {ns: "common"})),
 	})
 
 	const formik = useFormik<Form>({
@@ -81,7 +86,7 @@ export default function OTPForm({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h1" align="center">
-							{t("routes.LoginRoute.forms.otp.title")}
+							{t("forms.otp.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -91,7 +96,7 @@ export default function OTPForm({
 					</Grid>
 					<Grid item>
 						<Typography variant="subtitle1" component="p" align="center">
-							{t("routes.LoginRoute.forms.otp.description")}
+							{t("forms.otp.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -101,7 +106,8 @@ export default function OTPForm({
 							fullWidth
 							name="code"
 							id="code"
-							label={t("routes.LoginRoute.forms.otp.code.label")}
+							placeholder={t("fields.2faCode.placeholder", {ns: "common"})}
+							label={t("fields.2faCode.label", {ns: "common"})}
 							value={formik.values.code}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
@@ -125,12 +131,12 @@ export default function OTPForm({
 									type="submit"
 									startIcon={<MdChevronRight />}
 								>
-									{t("routes.LoginRoute.forms.otp.submit")}
+									{t("forms.otp.continueActionLabel")}
 								</LoadingButton>
 							</Grid>
 							<Grid item>
 								<Button component={RouterLink} to="/auth/recover-2fa">
-									{t("routes.LoginRoute.forms.otp.lost")}
+									{t("forms.otp.codesLostActionLabel")}
 								</Button>
 							</Grid>
 						</Grid>

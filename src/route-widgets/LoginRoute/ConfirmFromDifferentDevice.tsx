@@ -22,7 +22,7 @@ export default function ConfirmFromDifferentDevice({
 	token,
 	onConfirm,
 }: ConfirmFromDifferentDeviceProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["login"])
 	const {mutate, isLoading, isError} = useMutation<ServerUser, AxiosError, void>(
 		() =>
 			verifyLoginWithEmail({
@@ -51,14 +51,12 @@ export default function ConfirmFromDifferentDevice({
 					<Grid container spacing={2} direction="column" alignItems="center">
 						<Grid item>
 							<Typography variant="h6" component="h1">
-								{t("routes.LoginRoute.forms.confirmFromDifferentDevice.title")}
+								{t("forms.confirmFromDifferentDevice.title")}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography variant="body1">
-								{t(
-									"routes.LoginRoute.forms.confirmFromDifferentDevice.description",
-								)}
+								{t("forms.confirmFromDifferentDevice.description")}
 							</Typography>
 						</Grid>
 					</Grid>

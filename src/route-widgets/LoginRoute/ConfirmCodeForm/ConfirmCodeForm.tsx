@@ -55,7 +55,7 @@ export default function ConfirmCodeForm({
 }: ConfirmCodeFormProps): ReactElement {
 	const settings = useLoaderData() as ServerSettings
 	const expirationTime = isDev ? 70 : settings.emailLoginExpirationInSeconds
-	const {t} = useTranslation()
+	const {t} = useTranslation(["login", "common"])
 	const requestDate = useMemo(() => new Date(), [])
 	const [isExpiringSoon, setIsExpiringSoon] = useState<boolean>(false)
 
@@ -67,7 +67,7 @@ export default function ConfirmCodeForm({
 			.max(settings.emailLoginTokenLength)
 			.test(
 				"chars",
-				t("routes.LoginRoute.forms.confirmCode.form.code.errors.invalidChars") as string,
+				t("forms.confirmCode.fields.code.errors.invalidChars") as string,
 				code => {
 					if (!code) {
 						return false
@@ -78,7 +78,7 @@ export default function ConfirmCodeForm({
 					return code.split("").every(char => chars.includes(char))
 				},
 			)
-			.label(t("routes.LoginRoute.forms.confirmCode.form.code.label")),
+			.label(t("forms.confirmCode.fields.code.label")),
 	})
 
 	const {mutateAsync} = useMutation<
@@ -165,7 +165,7 @@ export default function ConfirmCodeForm({
 					>
 						<Grid item>
 							<Typography variant="h6" component="h1" align="center">
-								{t("routes.LoginRoute.forms.confirmCode.title")}
+								{t("forms.confirmCode.title")}
 							</Typography>
 						</Grid>
 						<Grid item>
@@ -175,7 +175,7 @@ export default function ConfirmCodeForm({
 						</Grid>
 						<Grid item>
 							<Typography variant="subtitle1" component="p" align="center">
-								{t("routes.LoginRoute.forms.confirmCode.description")}
+								{t("forms.confirmCode.description")}
 							</Typography>
 						</Grid>
 						<Grid item>
@@ -196,7 +196,7 @@ export default function ConfirmCodeForm({
 										}
 										labelPlacement="end"
 										label={t(
-											"routes.LoginRoute.forms.confirmCode.allowLoginFromDifferentDevices",
+											"forms.confirmCode.allowLoginFromDifferentDevices",
 										)}
 									/>
 								</Grid>
@@ -206,9 +206,7 @@ export default function ConfirmCodeForm({
 										fullWidth
 										name="code"
 										id="code"
-										label={t(
-											"routes.LoginRoute.forms.confirmCode.form.code.label",
-										)}
+										label={t("forms.confirmCode.fields.code.label")}
 										value={formik.values.code}
 										onChange={event => {
 											formik.setFieldValue(
@@ -250,7 +248,7 @@ export default function ConfirmCodeForm({
 										type="submit"
 										startIcon={<MdChevronRight />}
 									>
-										{t("routes.LoginRoute.forms.confirmCode.continueAction")}
+										{t("forms.confirmCode.continueActionLabel")}
 									</LoadingButton>
 								</Grid>
 							</Grid>
@@ -260,7 +258,7 @@ export default function ConfirmCodeForm({
 			</MultiStepFormElement>
 			<Snackbar open={isExpiringSoon}>
 				<Alert severity="warning" variant="filled">
-					{t("routes.LoginRoute.forms.confirmCode.expiringSoon")}
+					{t("forms.confirmCode.expiringSoonWarning")}
 				</Alert>
 			</Snackbar>
 		</>
