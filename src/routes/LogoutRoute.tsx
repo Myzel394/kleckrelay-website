@@ -8,7 +8,7 @@ import {useNavigateToNext} from "~/hooks"
 import {AuthContext} from "~/components"
 
 export default function LogoutRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("logout")
 	const navigateToNext = useNavigateToNext("/auth/login")
 	const {logout} = useContext(AuthContext)
 
@@ -23,16 +23,14 @@ export default function LogoutRoute(): ReactElement {
 				<Grid container spacing={4} direction="column" alignItems="center">
 					<Grid item>
 						<Typography variant="h6" component="h1">
-							{t("routes.LogoutRoute.title")}
+							{t("title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<CircularProgress />
 					</Grid>
 					<Grid item>
-						<Typography variant="body1">
-							{t("routes.LogoutRoute.description")}
-						</Typography>
+						<Typography variant="body1">{t("description")}</Typography>
 					</Grid>
 				</Grid>
 			</Box>
