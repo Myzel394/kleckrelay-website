@@ -28,22 +28,6 @@
         },
         "CompleteAccountRoute": {
             "forms": {
-                "password": {
-                    "title": "Set up your password",
-                    "description": "Please enter a safe password so that we can encrypt your data.",
-                    "continueAction": "Continue",
-                    "form": {
-                        "password": {
-                            "label": "Password",
-                            "placeholder": "********"
-                        },
-                        "passwordConfirm": {
-                            "label": "Confirm Password",
-                            "placeholder": "Re-enter your password",
-                            "mustMatchHelperText": "Passwords do not match."
-                        }
-                    }
-                },
                 "available": {
                     "title": "Encryption already enabled",
                     "description": "You already have encryption enabled. Changing passwords is currently not supported."

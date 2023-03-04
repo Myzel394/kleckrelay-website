@@ -8,5 +8,9 @@
       "title": "Set up your password",
       "description": "Please enter a safe password so that we can encrypt your data."
     }
+  },
+  "alreadyCompleted": {
+    "title": "Encryption already enabled",
+    "description": "You already have encryption enabled. Changing passwords is currently not supported."
   }
 }
