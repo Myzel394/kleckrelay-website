@@ -26,19 +26,6 @@
             "title": "Overview",
             "description": "Not much to see here, yet."
         },
-        "SignupRoute": {
-            "forms": {
-                "mailVerification": {
-                    "title": "You got mail!",
-                    "description": "We sent you an email with a link to confirm your email address. Please check your inbox and click on the link to continue.",
-                    "editEmail": {
-                        "title": "Edit email address?",
-                        "description": "Would you like to return to the previous step and edit your email address?",
-                        "continueAction": "Yes, edit email"
-                    }
-                }
-            }
-        },
         "VerifyEmailRoute": {
             "title": "Verify your email",
             "isLoading": "Verifying your email...",

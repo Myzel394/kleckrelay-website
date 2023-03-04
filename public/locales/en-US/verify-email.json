@@ -1,0 +1,7 @@
+{
+  "title": "Verify your email",
+  "isLoading": "We are verifying your email address...",
+  "errors": {
+    "invalid": "The verification link is invalid or has expired."
+  }
+}
