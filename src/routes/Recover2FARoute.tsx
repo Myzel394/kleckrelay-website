@@ -20,7 +20,7 @@ interface Form {
 }
 
 export default function Recover2FARoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["recover-2fa", "common"])
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {login} = useContext(AuthContext)
 	const navigate = useNavigate()
@@ -29,17 +29,17 @@ export default function Recover2FARoute(): ReactElement {
 			try {
 				const user = await getMe()
 
-				showSuccess(t("routes.Recover2FARoute.loggedIn").toString())
+				showSuccess(t("events.loggedIn").toString())
 				login(user)
 				navigate("/aliases")
 			} catch (error) {
-				showSuccess(t("routes.Recover2FARoute.canLoginNow").toString())
+				showSuccess(t("events.canLogInNow").toString())
 				navigate("/auth/login")
 			}
 		},
 		onError: error => {
 			if (error.response?.status == 401) {
-				showError(t("routes.Recover2FARoute.unauthorized").toString())
+				showError(t("events.unauthorized").toString())
 				navigate("/auth/login")
 			} else {
 				showError(error)
@@ -48,7 +48,10 @@ export default function Recover2FARoute(): ReactElement {
 	})
 
 	const schema = yup.object().shape({
-		recoveryCode: yup.string().required().label(t("routes.LoginRoute.forms.otp.code.label")),
+		recoveryCode: yup
+			.string()
+			.required()
+			.label(t("fields.recoveryCode.label", {ns: "common"})),
 	})
 
 	const formik = useFormik<Form>({
@@ -76,7 +79,7 @@ export default function Recover2FARoute(): ReactElement {
 					>
 						<Grid item>
 							<Typography variant="h5" component="h1" align="center">
-								{t("routes.Recover2FARoute.title")}
+								{t("title")}
 							</Typography>
 						</Grid>
 						<Grid item>
@@ -86,17 +89,17 @@ export default function Recover2FARoute(): ReactElement {
 						</Grid>
 						<Grid item>
 							<Typography variant="body1" align="center">
-								{t("routes.Recover2FARoute.description")}
+								{t("description")}
 							</Typography>
 						</Grid>
-						<Grid item>
+						<Grid item xs={12} width="100%">
 							<TextField
 								autoFocus
 								key="recoveryCode"
 								fullWidth
 								name="recoveryCode"
 								id="recoveryCode"
-								label={t("routes.Recover2FARoute.forms.recoveryCode.label")}
+								label={t("fields.recoveryCode.label", {ns: "common"})}
 								value={formik.values.recoveryCode}
 								onChange={formik.handleChange}
 								error={Boolean(
@@ -112,7 +115,7 @@ export default function Recover2FARoute(): ReactElement {
 								loading={formik.isSubmitting}
 								startIcon={<BsShieldLockFill />}
 							>
-								{t("routes.Recover2FARoute.forms.submit")}
+								{t("continueActionLabel")}
 							</LoadingButton>
 						</Grid>
 					</Grid>

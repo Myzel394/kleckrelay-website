@@ -1,0 +1,10 @@
+{
+  "title": "Recover Two-Factor Authentication",
+  "description": "We are very sorry if you lost your codes. Please enter a recovery code to continue. Note that this will disable two-factor authentication for your account. You can enable it again in the settings.",
+  "continueActionLabel": "Disable 2FA",
+  "events": {
+    "unauthorized": "Please make sure to log in first and then reset your two-factor authentication on its screen.",
+    "canLogInNow": "Two-factor authentication has been disabled. You can log in now.",
+    "loggedIn": "Two-factor authentication has been disabled. You are logged in now."
+  }
+}

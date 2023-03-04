@@ -7,6 +7,9 @@
     "2faCode": {
       "label": "Code",
       "placeholder": "123456"
+    },
+    "recoveryCode": {
+      "label": "Recovery Code"
     }
   }
 }
