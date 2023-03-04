@@ -27,7 +27,7 @@ interface Form {
 }
 
 export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["signup", "common"])
 
 	const $password = useRef<HTMLInputElement | null>(null)
 	const schema = yup.object().shape({
@@ -35,7 +35,7 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 			.string()
 			.email()
 			.required()
-			.label(t("routes.SignupRoute.forms.email.form.email.label")),
+			.label(t("fields.email.label", {ns: "common"})),
 	})
 
 	const {mutateAsync} = useMutation<SignupResult, AxiosError, string>(signup, {
@@ -53,13 +53,13 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 
 				if (isDisposable) {
 					setErrors({
-						email: "Disposable email addresses are not allowed",
+						email: t("fields.email.errors.disposable", {ns: "common"}),
 					})
 					return
 				}
 			} catch {
 				setErrors({
-					detail: "An error occurred",
+					detail: t("messages.errors.unknown", {ns: "common"}),
 				})
 				return
 			}
@@ -82,9 +82,9 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 			<MultiStepFormElement>
 				<form onSubmit={formik.handleSubmit}>
 					<SimpleForm
-						title={t("routes.SignupRoute.forms.email.title")}
-						description={t("routes.SignupRoute.forms.email.description")}
-						continueActionLabel={t("routes.SignupRoute.forms.email.continueAction")}
+						title={t("forms.email.title")}
+						description={t("forms.email.description")}
+						continueActionLabel={t("forms.email.continueActionLabel")}
 						nonFieldError={formik.errors.detail}
 						isSubmitting={formik.isSubmitting}
 					>
@@ -95,10 +95,8 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 								autoFocus
 								name="email"
 								id="email"
-								label={t("routes.SignupRoute.forms.email.form.email.label")}
-								placeholder={t(
-									"routes.SignupRoute.forms.email.form.email.placeholder",
-								)}
+								label={t("fields.email.label", {ns: "common"})}
+								placeholder={t("fields.email.placeholder", {ns: "common"})}
 								inputMode="email"
 								inputRef={$password}
 								value={formik.values.email}

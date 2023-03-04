@@ -23,7 +23,7 @@ export interface YouGotMailProps {
 }
 
 export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["signup", "common"])
 
 	const [askToEditEmail, setAskToEditEmail] = useState<boolean>(false)
 
@@ -43,12 +43,12 @@ export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactEle
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2" align="center">
-							{t("routes.SignupRoute.forms.mailVerification.title")}
+							{t("forms.mailVerification.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography variant="subtitle1" component="p">
-							{t("routes.SignupRoute.forms.mailVerification.description")}
+							{t("forms.mailVerification.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -72,20 +72,18 @@ export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactEle
 				</Grid>
 			</MultiStepFormElement>
 			<Dialog open={askToEditEmail}>
-				<DialogTitle>
-					{t("routes.SignupRoute.forms.mailVerification.editEmail.title")}
-				</DialogTitle>
+				<DialogTitle>{t("forms.mailVerification.editEmail.title")}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						{t("routes.SignupRoute.forms.mailVerification.editEmail.description")}
+						{t("forms.mailVerification.editEmail.description")}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button startIcon={<MdCancel />} onClick={() => setAskToEditEmail(false)}>
-						{t("general.cancelLabel")}
+						{t("general.cancelLabel", {ns: "common"})}
 					</Button>
 					<Button onClick={onGoBack}>
-						{t("routes.SignupRoute.forms.mailVerification.editEmail.continueAction")}
+						{t("forms.mailVerification.editEmail.continueActionLabel")}
 					</Button>
 				</DialogActions>
 			</Dialog>

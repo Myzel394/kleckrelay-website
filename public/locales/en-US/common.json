@@ -2,7 +2,10 @@
   "fields": {
     "email": {
       "label": "Email",
-      "placeholder": "johndoe@example.com"
+      "placeholder": "johndoe@example.com",
+      "errors": {
+        "disposable": "Disposable email addresses are not allowed."
+      }
     },
     "2faCode": {
       "label": "Code",
@@ -11,5 +14,13 @@
     "recoveryCode": {
       "label": "Recovery Code"
     }
+  },
+  "messages": {
+    "errors": {
+      "unknown": "An unknown error occurred."
+    }
+  },
+  "general": {
+    "cancelLabel": "Cancel"
   }
 }
