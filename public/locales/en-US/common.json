@@ -24,11 +24,23 @@
       "errors": {
         "mismatch": "Passwords do not match."
       }
+    },
+    "customAliasLocal": {
+      "label": "Address",
+      "placeholder": "awesome-fish"
+    },
+    "search": {
+      "label": "Search"
     }
   },
   "messages": {
     "errors": {
-      "unknown": "An unknown error occurred."
+      "unknown": "An unknown error occurred.",
+      "copyFailed": "Copying to clipboard did not work. Please copy the text manually."
+    },
+    "alias": {
+      "addressCopied": "Address has been copied to your clipboard!",
+      "created": "Alias has been created successfully!"
     }
   },
   "general": {
@@ -36,5 +48,9 @@
     "yesLabel": "Yes",
     "noLabel": "No",
     "continueLabel": "Continue"
+  },
+  "noSearchResults": {
+    "title": "Nothing found",
+    "description": "We couldn't find anything for your search query. Try again with a different query."
   }
 }

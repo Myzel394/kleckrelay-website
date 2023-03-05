@@ -26,52 +26,6 @@
             "title": "Overview",
             "description": "Not much to see here, yet."
         },
-        "CompleteAccountRoute": {
-            "forms": {
-                "available": {
-                    "title": "Encryption already enabled",
-                    "description": "You already have encryption enabled. Changing passwords is currently not supported."
-                }
-            }
-        },
-        "AliasesRoute": {
-            "title": "Aliases",
-            "isInCopyMode": "You are in copy mode. Click on an alias to copy it to your clipboard.",
-            "emptyState": {
-                "title": "Welcome to your Aliases!",
-                "description": "Create your first Alias to get started."
-            },
-            "pageActions": {
-                "search": {
-                    "label": "Search",
-                    "placeholder": "Search for names"
-                },
-                "searchFilter": {
-                    "active": "Active",
-                    "inactive": "Inactive"
-                },
-                "typeFilter": {
-                    "custom": "Custom made",
-                    "random": "Randomly generated"
-                }
-            },
-            "actions": {
-                "createRandomAlias": {
-                    "label": "Create Random Alias"
-                },
-                "createCustomAlias": {
-                    "label": "Create Custom Alias",
-                    "description": "You can define your own custom alias. Note that a random suffix will be added at the end to avoid duplicates.",
-                    "continueAction": "Create Alias",
-                    "form": {
-                        "address": {
-                            "label": "Address",
-                            "placeholder": "awesome-fish"
-                        }
-                    }
-                }
-            }
-        },
         "AliasDetailRoute": {
             "title": "Alias Details",
             "sections": {
@@ -235,10 +189,6 @@
                     "success": "You have successfully disabled 2FA!"
                 }
             }
-        },
-        "LogoutRoute": {
-            "title": "Log out",
-            "description": "We are logging you out..."
         },
         "ReservedAliasesRoute": {
             "title": "Reserved Aliases",
@@ -447,10 +397,6 @@
         "AliasTypeIndicator": {
             "random": "This is a randomly generated alias",
             "custom": "This is a custom-made alias"
-        },
-        "NoSearchResults": {
-            "title": "Nothing found",
-            "description": "We couldn't find anything for your search query. Try again with a different query."
         },
         "LockNavigationContextProvider": {
             "title": "Are you sure you want to leave?",

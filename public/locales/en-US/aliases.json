@@ -1,0 +1,31 @@
+{
+  "title": "Aliases",
+  "isInCopyMode": "You are in copy mode. Click on an alias to copy it to your clipboard.",
+  "emptyState": {
+    "title": "Welcome to your Aliases!",
+    "description": "Create your first Alias to get started."
+  },
+  "pageActions": {
+    "search": {
+      "placeholder": "Search for names"
+    },
+    "searchFilter": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "typeFilter": {
+      "custom": "Custom made",
+      "random": "Randomly generated"
+    }
+  },
+  "actions": {
+    "createRandomAlias": {
+      "title": "Create Random Alias"
+    },
+    "createCustomAlias": {
+      "title": "Create Custom Alias",
+      "description": "You can define your own custom alias. Note that a random suffix will be added at the end to avoid duplicates.",
+      "continueActionLabel": "Create Alias"
+    }
+  }
+}

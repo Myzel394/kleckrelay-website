@@ -45,7 +45,7 @@ export default function CustomAliasDialog({
 	onClose,
 }: CustomAliasDialogProps): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
-	const {t} = useTranslation()
+	const {t} = useTranslation(["aliases", "common"])
 
 	const schema = yup.object().shape({
 		local: yup
@@ -54,7 +54,7 @@ export default function CustomAliasDialog({
 			.required()
 			.min(1)
 			.max(64 - serverSettings.customAliasSuffixLength - 1)
-			.label(t("routes.AliasesRoute.actions.createCustomAlias.form.address.label")),
+			.label(t("fields.customAliasLocal.label", {ns: "common"})),
 	})
 
 	const formik = useFormik<Form>({
@@ -78,12 +78,10 @@ export default function CustomAliasDialog({
 	return (
 		<Dialog onClose={onClose} open={visible} keepMounted={false}>
 			<form onSubmit={formik.handleSubmit}>
-				<DialogTitle>
-					{t("routes.AliasesRoute.actions.createCustomAlias.label")}
-				</DialogTitle>
+				<DialogTitle>{t("actions.createCustomAlias.title")}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						{t("routes.AliasesRoute.actions.createCustomAlias.description")}
+						{t("actions.createCustomAlias.description")}
 					</DialogContentText>
 					<Box paddingY={4}>
 						<TextField
@@ -92,12 +90,8 @@ export default function CustomAliasDialog({
 							autoFocus
 							name="local"
 							id="local"
-							label={t(
-								"routes.AliasesRoute.actions.createCustomAlias.form.address.label",
-							)}
-							placeholder={t(
-								"routes.AliasesRoute.actions.createCustomAlias.form.address.placeholder",
-							)}
+							label={t("fields.customAliasLocal.label", {ns: "common"})}
+							placeholder={t("fields.customAliasLocal.placeholder", {ns: "common"})}
 							value={formik.values.local}
 							onChange={formik.handleChange}
 							disabled={formik.isSubmitting}
@@ -122,7 +116,7 @@ export default function CustomAliasDialog({
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={onClose} startIcon={<TiCancel />}>
-						{t("general.cancelLabel")}
+						{t("general.cancelLabel", {ns: "common"})}
 					</Button>
 					<Button
 						onClick={() => {}}
@@ -131,7 +125,7 @@ export default function CustomAliasDialog({
 						variant="contained"
 						type="submit"
 					>
-						{t("routes.AliasesRoute.actions.createCustomAlias.continueAction")}
+						{t("actions.createCustomAlias.continueActionLabel")}
 					</Button>
 				</DialogActions>
 			</form>

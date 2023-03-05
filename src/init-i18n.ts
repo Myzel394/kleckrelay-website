@@ -15,6 +15,7 @@ i18n.use(HttpApi)
 	.init({
 		debug: isDev,
 		fallbackLng: "en-US",
+		load: "all",
 		backend: {
 			loadPath: "/locales/{{lng}}/{{ns}}.json",
 		},
