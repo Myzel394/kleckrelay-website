@@ -17,14 +17,14 @@ export interface ProxiedImagesListItemProps {
 }
 
 export default function ProxiedImagesListItem({images}: ProxiedImagesListItemProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("reports")
 	const serverSettings = useLoaderData() as ServerSettings
 
 	return (
 		<ExpandableListItem
 			data={images}
 			icon={<BsImage />}
-			title={t("routes.ReportDetailRoute.sections.trackers.results.proxiedImages.text", {
+			title={t("sections.trackers.results.proxiedImages.text", {
 				count: images.length,
 			})}
 		>
@@ -62,11 +62,11 @@ export default function ProxiedImagesListItem({images}: ProxiedImagesListItemPro
 													)
 												) {
 													return t(
-														"routes.ReportDetailRoute.sections.trackers.results.proxiedImages.status.isStored",
+														"sections.trackers.results.proxiedImages.status.isStored",
 													)
 												} else {
 													return t(
-														"routes.ReportDetailRoute.sections.trackers.results.proxiedImages.status.isProxying",
+														"sections.trackers.results.proxiedImages.status.isProxying",
 													)
 												}
 											})()}

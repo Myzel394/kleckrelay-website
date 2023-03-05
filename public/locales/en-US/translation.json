@@ -25,76 +25,6 @@
         "OverviewRoute": {
             "title": "Overview",
             "description": "Not much to see here, yet."
-        },
-        "ReportsRoute": {
-            "title": "Reports",
-            "emptyState": {
-                "title": "Welcome to your Reports!",
-                "description": "Here you will find your email reports. Currently, you don't have any reports. Wait until you receive an email."
-            },
-            "pageActions": {
-                "sort": {
-                    "List": "List reports by their date",
-                    "GroupByAlias": "Group reports by their alias"
-                }
-            }
-        },
-        "ReportDetailRoute": {
-            "title": "Report Details",
-            "actions": {
-                "delete": {
-                    "label": "Delete Report",
-                    "description": "Are you sure you want to delete this report?",
-                    "continueAction": "Delete Report"
-                }
-            },
-            "sections": {
-                "information": {
-                    "title": "Email Information",
-                    "form": {
-                        "from": {
-                            "label": "From"
-                        },
-                        "to": {
-                            "label": "To"
-                        },
-                        "subject": {
-                            "label": "Subject"
-                        }
-                    }
-                },
-                "trackers": {
-                    "title": "Trackers",
-                    "results": {
-                        "imageTrackers": {
-                            "text_zero": "No image trackers found",
-                            "text_one": "Removed 1 image tracker",
-                            "text_other": "Removed {{count}} image trackers"
-                        },
-                        "proxiedImages": {
-                            "text_zero": "No images found",
-                            "text_one": "Forwarding 1 image",
-                            "text_other": "Forwarding {{count}} images",
-                            "status": {
-                                "isStored": "Stored on Server",
-                                "isProxying": "Being forwarded"
-                            }
-                        },
-                        "expandedUrls": {
-                            "text_zero": "No shortened URLs found",
-                            "text_one": "Expanded 1 URL",
-                            "text_other": "Expanded {{count}} URLs"
-                        }
-                    }
-                }
-            }
-        },
-        "AdminRoute": {
-            "serverStatus": {
-                "noRecentReports": "There seems to be some issues with your server. The server hasn't done its cleanup in the last few days. The last report was on {{date}}.",
-                "error": "There was an error during the last server cleanup job from {{relativeDescription}}. Please check the logs for more information.",
-                "success": "Everything okay with your server! The last cleanup job was {{relativeDescription}}."
-            }
         }
     },
 
@@ -196,16 +126,5 @@
                 }
             }
         },
-        "report": {
-            "mutations": {
-                "success": {
-                    "reportDeleted": "Report has been deleted!"
-                }
-            },
-            "emailMeta": {
-                "flow": "{{from}} -> {{to}}",
-                "emptySubject": "<No Subject>"
-            }
-        }
     }
 }

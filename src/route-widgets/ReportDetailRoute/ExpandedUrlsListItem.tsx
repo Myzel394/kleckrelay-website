@@ -12,13 +12,13 @@ export interface ExpandedUrlsListItemProps {
 }
 
 export default function ExpandedUrlsListItem({urls}: ExpandedUrlsListItemProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("reports")
 
 	return (
 		<ExpandableListItem
 			data={urls}
 			icon={<BsArrowsAngleExpand />}
-			title={t("routes.ReportDetailRoute.sections.trackers.results.expandedUrls.text", {
+			title={t("sections.trackers.results.expandedUrls.text", {
 				count: urls.length,
 			})}
 		>

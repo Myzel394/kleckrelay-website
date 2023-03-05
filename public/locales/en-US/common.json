@@ -51,6 +51,9 @@
       "updated": "Alias has been updated successfully!",
       "changedToEnabled": "Alias has been enabled",
       "changedToDisabled": "Alias has been disabled"
+    },
+    "report": {
+      "deleted": "Report has been deleted!"
     }
   },
   "general": {

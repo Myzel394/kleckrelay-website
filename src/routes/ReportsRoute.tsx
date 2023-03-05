@@ -27,12 +27,12 @@ const SORTING_VIEW_ICON_MAP: Record<SortingView, ReactElement> = {
 	[SortingView.GroupByAlias]: <FaMask />,
 }
 const SORTING_VIEW_NAME_MAP: Record<SortingView, string> = createEnumMapFromTranslation(
-	"routes.ReportsRoute.pageActions.sort",
+	"pageActions.sort.values",
 	SortingView,
 )
 
 function ReportsRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("reports")
 
 	const query = useQuery<PaginationResult<Report>, AxiosError>(["get_reports"], getReports)
 
@@ -40,13 +40,13 @@ function ReportsRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title="Reports"
+			title={t("title")}
 			pageOptionsActions={
 				(query.data?.items?.length || 0) > 0 && (
 					<TextField
 						value={sortingView}
 						onChange={event => setSortingView(event.target.value as SortingView)}
-						label="Sorting"
+						label={t("pageActions.sort.label")}
 						id="sorting"
 						InputProps={{
 							startAdornment: (

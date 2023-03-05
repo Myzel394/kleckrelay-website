@@ -21,7 +21,7 @@ import ProxiedImagesListItem from "~/route-widgets/ReportDetailRoute/ProxiedImag
 import SinglePixelImageTrackersListItem from "~/route-widgets/ReportDetailRoute/SinglePixelImageTrackersListItem"
 
 function ReportDetailRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["reports", "common"])
 	const params = useParams()
 
 	const query = useQuery<Report, AxiosError>(["get_report", params.id], () =>
@@ -30,16 +30,16 @@ function ReportDetailRoute(): ReactElement {
 
 	return (
 		<SimplePageBuilder.Page
-			title="Report Details"
+			title={t("detailsTitle")}
 			actions={
 				query.data && (
 					<DeleteButton
 						onDelete={() => deleteReport(params.id!)}
-						label={t("routes.ReportDetailRoute.actions.delete.label")}
-						description={t("routes.ReportDetailRoute.actions.delete.description")}
-						continueLabel={t("routes.ReportDetailRoute.actions.delete.continueAction")}
+						label={t("actions.delete.label")}
+						description={t("delete.description")}
+						continueLabel={t("actions.delete.continueActionLabel")}
 						navigateTo={"/reports"}
-						successMessage={t("relations.report.mutations.success.reportDeleted")}
+						successMessage={t("messages.report.deleted", {ns: "common"})}
 					/>
 				)
 			}
@@ -52,16 +52,14 @@ function ReportDetailRoute(): ReactElement {
 								{[
 									<SimplePageBuilder.Section
 										key="information"
-										label={t(
-											"routes.ReportDetailRoute.sections.information.title",
-										)}
+										label={t("sections.information.title")}
 									>
 										<SimplePageBuilder.InformationContainer>
 											{[
 												<SimpleOverlayInformation
 													key="from"
 													label={t(
-														"routes.ReportDetailRoute.sections.information.form.from.label",
+														"sections.information.form.from.label",
 													)}
 												>
 													{
@@ -72,9 +70,7 @@ function ReportDetailRoute(): ReactElement {
 
 												<SimpleOverlayInformation
 													key="to"
-													label={t(
-														"routes.ReportDetailRoute.sections.information.form.to.label",
-													)}
+													label={t("sections.information.form.to.label")}
 												>
 													{
 														(report as DecryptedReportContent)
@@ -85,7 +81,7 @@ function ReportDetailRoute(): ReactElement {
 												<SimpleOverlayInformation
 													key="subject"
 													label={t(
-														"routes.ReportDetailRoute.sections.information.form.subject.label",
+														"sections.information.form.subject.label",
 													)}
 												>
 													{
@@ -99,9 +95,7 @@ function ReportDetailRoute(): ReactElement {
 
 									<SimplePageBuilder.Section
 										key="trackers"
-										label={t(
-											"routes.ReportDetailRoute.sections.trackers.title",
-										)}
+										label={t("sections.trackers.title")}
 									>
 										<List>
 											<SinglePixelImageTrackersListItem
