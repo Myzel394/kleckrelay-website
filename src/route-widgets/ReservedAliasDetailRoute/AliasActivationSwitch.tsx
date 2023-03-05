@@ -22,7 +22,7 @@ export default function AliasActivationSwitch({
 	isActive,
 	queryKey,
 }: AliasActivationSwitch): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {isLoading, mutateAsync} = useMutation<
 		ReservedAlias,
@@ -76,8 +76,8 @@ export default function AliasActivationSwitch({
 
 					showSuccess(
 						isActive
-							? t("relations.alias.mutations.success.aliasChangedToDisabled")
-							: t("relations.alias.mutations.success.aliasChangedToEnabled"),
+							? t("messages.alias.changedToDisabled")
+							: t("messages.alias.changedToEnabled"),
 					)
 				} catch {}
 			}}

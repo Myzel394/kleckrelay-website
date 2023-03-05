@@ -49,7 +49,7 @@ export default function UsersSelectField({
 	return (
 		<FormControl sx={{minWidth: 180}}>
 			<InputLabel id="users-select" error={error}>
-				{t("createNew.fields.users.label")}
+				{t("fields.users.label")}
 			</InputLabel>
 			<Select<string[]>
 				{...props}
@@ -98,7 +98,7 @@ export default function UsersSelectField({
 				name="users"
 				id="users"
 				error={error}
-				label={t("createNew.fields.users.label")}
+				label={t("fields.users.label")}
 			>
 				{users ? (
 					users.map(user => (
@@ -108,7 +108,7 @@ export default function UsersSelectField({
 								primary={(() => {
 									// Check if user is me
 									if (user.id === meUser.id) {
-										return t("createNew.fields.users.me", {
+										return t("fields.users.me", {
 											email: user.email.address,
 										})
 									}
@@ -119,7 +119,7 @@ export default function UsersSelectField({
 						</MenuItem>
 					))
 				) : (
-					<MenuItem value={""}>{t("general.loading")}</MenuItem>
+					<MenuItem value={""}>{t("general.loading", {ns: "common"})}</MenuItem>
 				)}
 			</Select>
 			{helperText ? <FormHelperText error={error}>{helperText}</FormHelperText> : null}

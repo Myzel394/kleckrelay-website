@@ -1,5 +1,6 @@
 {
   "title": "Reserved Aliases",
+  "detailsTitle": "Reserved Alias Details",
   "pageActions": {
     "search": {
       "placeholder": "Search for aliases"
@@ -8,6 +9,11 @@
   "actions": {
     "create": {
       "label": "Create new Reserved Alias"
+    },
+    "delete": {
+      "label": "Delete Reserved Alias",
+      "description": "Are you sure you want to delete this reserved alias?",
+      "continueActionLabel": "Delete Reserved Alias"
     }
   },
   "userAmount_one": "Forwards to one user",
@@ -16,19 +22,19 @@
     "title": "Create your first reserved alias",
     "description": "Reserved aliases are aliases that will be forwarded to selected admin users. This is useful if you want to create aliases that are meant to be public, like contact@example.com or hello@example.com."
   },
+  "fields": {
+    "active": {
+      "label": "Active"
+    },
+    "users": {
+      "label": "Users",
+      "me": "{{email}} (Me)"
+    }
+  },
   "createNew": {
     "title": "Reserved Aliases",
     "description": "Define what alias should forward to whom.",
     "continueActionLabel": "Create Reserved Alias",
-    "fields": {
-      "active": {
-        "label": "Active"
-      },
-      "users": {
-        "label": "Users",
-        "me": "{{email}} (Me)"
-      }
-    },
     "explanation": {
       "step1": "User from outside",
       "step2": "Sends mail to",

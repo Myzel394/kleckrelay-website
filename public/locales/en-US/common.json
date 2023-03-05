@@ -61,7 +61,8 @@
     "unavailableValue": "Unavailable",
     "experimentalFeatureExplanation": "This is an experimental feature.",
     "saveLabel": "Save",
-    "resetLabel": "Reset"
+    "resetLabel": "Reset",
+    "loading": "Loading..."
   },
   "noSearchResults": {
     "title": "Nothing found",
