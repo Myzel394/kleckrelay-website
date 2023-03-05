@@ -30,10 +30,10 @@ export default function SelectField({
 	valueTextMap: parentValueTextMap,
 }: SelectFieldProps): ReactElement {
 	const user = useUser()
-	const {t} = useTranslation()
+	const {t} = useTranslation("components")
 	const BOOLEAN_SELECT_TEXT_MAP: Record<string, string> = {
-		true: "general.booleanSelection.true",
-		false: "general.booleanSelection.false",
+		true: "SelectField.values.true",
+		false: "SelectField.values.false",
 	}
 	const valueTextMap = parentValueTextMap ?? BOOLEAN_SELECT_TEXT_MAP
 
@@ -76,7 +76,7 @@ export default function SelectField({
 				renderValue={value =>
 					value === "null" ? (
 						<i>
-							{t("general.defaultValueSelectionRaw", {
+							{t("SelectField.valueSelection", {
 								value: defaultValueText,
 							})}
 						</i>
@@ -87,7 +87,7 @@ export default function SelectField({
 			>
 				<MenuItem value="null">
 					<i>
-						{t("general.defaultValueSelection", {
+						{t("SelectField.valueSelectionIsDefault", {
 							value: defaultValueText,
 						})}
 					</i>

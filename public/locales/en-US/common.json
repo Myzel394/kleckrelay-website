@@ -43,6 +43,8 @@
     }
   },
   "messages": {
+    "successMessage": "Success!",
+    "deletedObject": "Deleted successfully!",
     "errors": {
       "unknown": "An unknown error occurred.",
       "copyFailed": "Copying to clipboard did not work. Please copy the text manually."
@@ -68,7 +70,10 @@
     "experimentalFeatureExplanation": "This is an experimental feature.",
     "saveLabel": "Save",
     "resetLabel": "Reset",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "actionNotUndoable": "This action cannot be undone!",
+    "appError": "We are sorry but there was an error. Please try again later.",
+    "emptyValue": "-"
   },
   "noSearchResults": {
     "title": "Nothing found",

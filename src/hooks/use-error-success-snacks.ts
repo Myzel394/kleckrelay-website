@@ -12,7 +12,7 @@ export interface UseErrorSuccessSnacksResult {
 }
 
 export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar()
 	const $errorSnackbarKey = useRef<SnackbarKey | null>(null)
 
@@ -40,7 +40,7 @@ export default function useErrorSuccessSnacks(): UseErrorSuccessSnacksResult {
 			} catch (e) {}
 		}
 
-		$errorSnackbarKey.current = enqueueSnackbar(message || t("general.defaultError"), {
+		$errorSnackbarKey.current = enqueueSnackbar(message || t("messages.errors.unknown"), {
 			variant: "error",
 			autoHideDuration: ERROR_SNACKBAR_SHOW_DURATION,
 		})

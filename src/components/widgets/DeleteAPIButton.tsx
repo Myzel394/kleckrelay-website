@@ -35,14 +35,14 @@ export default function DeleteAPIButton({
 	description,
 	navigateTo = "/aliases",
 }: DeleteAPIButtonProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const navigate = useNavigate()
 
 	const {mutate} = useMutation<void, AxiosError, void>(onDelete, {
 		onError: showError,
 		onSuccess: () => {
-			showSuccess(successMessage || t("general.deletedSuccessfully"))
+			showSuccess(successMessage || t("messages.deletedObject"))
 			navigate(navigateTo)
 		},
 	})

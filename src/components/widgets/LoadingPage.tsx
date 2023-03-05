@@ -6,7 +6,7 @@ import {Grid, Typography} from "@mui/material"
 import {ReactComponent as Logo} from "../../../public/logo.svg"
 
 export default function LoadingPage(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 
 	return (
 		<Grid

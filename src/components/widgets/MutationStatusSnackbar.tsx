@@ -30,7 +30,7 @@ export default function MutationStatusSnackbar<
 	successMessage,
 	errorMessage,
 }: MutationStatusSnackbarProps<TData, TError, TVariables, TContext>): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 
 	const $severity = useRef<AlertProps["severity"]>()
 	const $message = useRef<string>()
@@ -60,12 +60,12 @@ export default function MutationStatusSnackbar<
 					return (
 						errorMessage ||
 						(mutation.error.response?.data as any).detail ||
-						t("general.defaultError")
+						t("messages.errors.unknown")
 					)
 				}
 
 				if (mutation.isSuccess) {
-					return successMessage ?? mutation.data?.detail ?? t("general.defaultSuccess")
+					return successMessage ?? mutation.data?.detail ?? t("messages.successMessage")
 				}
 			})()
 		}

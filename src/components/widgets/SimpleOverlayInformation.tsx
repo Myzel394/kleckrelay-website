@@ -16,7 +16,7 @@ export default function SimpleOverlayInformation({
 	icon,
 	children,
 }: SimpleOverlayInformationProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const emptyTextValue = emptyText ?? t("general.emptyValue")
 
 	return (

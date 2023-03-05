@@ -5,7 +5,7 @@ import {IoSad} from "react-icons/io5"
 import {Grid, Typography} from "@mui/material"
 
 export default function ErrorPage(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 
 	return (
 		<Grid

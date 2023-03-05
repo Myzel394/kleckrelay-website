@@ -3,12 +3,8 @@ import {useTranslation} from "react-i18next"
 
 import {CircularProgress, Grid, Typography} from "@mui/material"
 
-export interface LoadingDataProps {
-	message?: string
-}
-
-export default function LoadingData({message = "Loading"}: LoadingDataProps): ReactElement {
-	const {t} = useTranslation()
+export default function LoadingData(): ReactElement {
+	const {t} = useTranslation("common")
 
 	return (
 		<Grid container spacing={2} direction="column" alignItems="center">
