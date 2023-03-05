@@ -14,7 +14,7 @@
     "success": "You have successfully enabled 2FA!"
   },
   "delete": {
-    "label": "Disable 2FA",
+    "title": "Disable 2FA",
     "steps": {
       "askType": {
         "code": "I have my 2FA code",
@@ -27,7 +27,7 @@
         "label": "Recovery Code"
       }
     },
-    "submit": "Disable 2FA",
+    "continueActionLabel": "Disable 2FA",
     "success": "You have successfully disabled 2FA!"
   }
 }

@@ -17,7 +17,7 @@ export interface Delete2FAProps {
 }
 
 export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("settings-2fa")
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {mutate} = useMutation<SimpleDetailResponse, AxiosError, Delete2FAData>(delete2FA, {
 		onSuccess: () => {
@@ -36,7 +36,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 		case "showAction":
 			return (
 				<Button onClick={() => setView("askType")} startIcon={<BsShieldLockFill />}>
-					{t("routes.SettingsRoute.2fa.delete.showAction")}
+					{t("delete.title")}
 				</Button>
 			)
 
@@ -45,7 +45,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 				<Grid container spacing={2}>
 					<Grid item>
 						<Button onClick={() => setView("askCode")} startIcon={<BsPhone />}>
-							{t("routes.SettingsRoute.2fa.delete.askType.code")}
+							{t("delete.steps.askType.code")}
 						</Button>
 					</Grid>
 					<Grid item>
@@ -53,7 +53,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 							onClick={() => setView("askRecoveryCode")}
 							startIcon={<MdSettingsBackupRestore />}
 						>
-							{t("routes.SettingsRoute.2fa.delete.askType.recoveryCode")}
+							{t("delete.steps.askType.recoveryCode")}
 						</Button>
 					</Grid>
 				</Grid>
@@ -65,7 +65,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 					<Grid item>
 						<TextField
 							fullWidth
-							label={t("routes.SettingsRoute.2fa.delete.askCode.label")}
+							label={t("delete.steps.askCode.label")}
 							value={value}
 							onChange={e => setValue(e.target.value)}
 						/>
@@ -76,7 +76,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 							variant="contained"
 							startIcon={<BsShieldLockFill />}
 						>
-							{t("routes.SettingsRoute.2fa.delete.submit")}
+							{t("delete.continueActionLabel")}
 						</LoadingButton>
 					</Grid>
 				</Grid>
@@ -88,7 +88,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 					<Grid item>
 						<TextField
 							fullWidth
-							label={t("routes.SettingsRoute.2fa.delete.askRecoveryCode.label")}
+							label={t("delete.steps.askRecoveryCode.label")}
 							value={value}
 							onChange={e => setValue(e.target.value)}
 						/>
@@ -99,7 +99,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 							variant="contained"
 							startIcon={<BsShieldLockFill />}
 						>
-							{t("routes.SettingsRoute.2fa.delete.submit")}
+							{t("delete.continueActionLabel")}
 						</LoadingButton>
 					</Grid>
 				</Grid>
