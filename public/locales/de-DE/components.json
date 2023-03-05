@@ -29,5 +29,13 @@
         "submit": "Add"
       }
     }
+  },
+  "SelectField": {
+    "values": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "valueSelection": "<{{ value }}>",
+    "valueSelectionIsDefault": "Default <{{ value }}>"
   }
 }
