@@ -18,14 +18,14 @@ interface WebsiteForm {
 	url: string
 }
 
-const WEBSITE_SCHEMA = yup.object().shape({
-	url: yup.string().matches(URL_REGEX, "This URL is invalid."),
-})
-
 export default function AddWebsiteField({onAdd, isLoading}: AddWebsiteFieldProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("alias-notes")
+
+	const schema = yup.object().shape({
+		url: yup.string().matches(URL_REGEX, t("form.websites.error.invalid") as string),
+	})
 	const websiteFormik = useFormik<WebsiteForm>({
-		validationSchema: WEBSITE_SCHEMA,
+		validationSchema: schema,
 		initialValues: {
 			url: "",
 		},
@@ -58,10 +58,8 @@ export default function AddWebsiteField({onAdd, isLoading}: AddWebsiteFieldProps
 					<TextField
 						name="url"
 						id="url"
-						label={t("routes.AliasDetailRoute.sections.notes.form.websites.label")}
-						placeholder={t(
-							"routes.AliasDetailRoute.sections.notes.form.websites.placeholder",
-						)}
+						label={t("form.websites.label")}
+						placeholder={t("form.websites.placeholder")}
 						variant="outlined"
 						value={websiteFormik.values.url}
 						onChange={websiteFormik.handleChange}
@@ -93,7 +91,7 @@ export default function AddWebsiteField({onAdd, isLoading}: AddWebsiteFieldProps
 					error={websiteFormik.touched.url && Boolean(websiteFormik.errors.url)}
 				>
 					{(websiteFormik.touched.url && websiteFormik.errors.url) ||
-						t("routes.AliasDetailRoute.sections.notes.form.websites.helperText")}
+						t("form.websites.helperText")}
 				</FormHelperText>
 			</Grid>
 		</Grid>

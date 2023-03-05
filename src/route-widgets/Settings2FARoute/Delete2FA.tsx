@@ -21,7 +21,7 @@ export default function Delete2FA({onSuccess}: Delete2FAProps): ReactElement {
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {mutate} = useMutation<SimpleDetailResponse, AxiosError, Delete2FAData>(delete2FA, {
 		onSuccess: () => {
-			showSuccess(t("routes.SettingsRoute.2fa.delete.success"))
+			showSuccess(t("delete.success"))
 			onSuccess()
 		},
 		onError: showError,

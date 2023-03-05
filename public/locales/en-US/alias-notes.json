@@ -24,7 +24,10 @@
       "label": "Websites",
       "emptyText": "You haven't used this alias on any site yet.",
       "placeholder": "https://example.com",
-      "helperText": "Add a website to this alias. Used to autofill."
+      "helperText": "Add a website to this alias. Used to autofill.",
+      "errors": {
+        "invalid": "This URL is invalid."
+      }
     }
   }
 }
