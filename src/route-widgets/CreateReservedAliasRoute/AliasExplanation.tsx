@@ -14,7 +14,7 @@ export interface AliasExplanationProps {
 }
 
 export default function AliasExplanation({local, emails}: AliasExplanationProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("admin-reserved-aliases")
 	const theme = useTheme()
 	const serverSettings = useLoaderData() as ServerSettings
 
@@ -37,7 +37,7 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 					</Grid>
 					<Grid item>
 						<Typography variant="caption" textAlign="center">
-							{t("routes.AdminRoute.forms.reservedAliases.explanation.step1")}
+							{t("createNew.explanation.step1")}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -49,7 +49,7 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 					</Grid>
 					<Grid item>
 						<Typography variant="caption" textAlign="center">
-							{t("routes.AdminRoute.forms.reservedAliases.explanation.step2")}
+							{t("createNew.explanation.step2")}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -76,7 +76,7 @@ export default function AliasExplanation({local, emails}: AliasExplanationProps)
 					</Grid>
 					<Grid item>
 						<Typography variant="caption" textAlign="center">
-							{t("routes.AdminRoute.forms.reservedAliases.explanation.step4")}
+							{t("createNew.explanation.step4")}
 						</Typography>
 					</Grid>
 				</Grid>

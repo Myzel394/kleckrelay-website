@@ -32,6 +32,9 @@
       "label": "Address",
       "placeholder": "awesome-fish"
     },
+    "local": {
+      "label": "Address"
+    },
     "search": {
       "label": "Search"
     }

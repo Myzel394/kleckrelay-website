@@ -11,7 +11,7 @@ import {useNavigateToNext, useUser} from "~/hooks"
 import ServerStatus from "~/route-widgets/AdminRoute/ServerStatus"
 
 export default function AdminRoute(): ReactElement {
-	const {t} = useTranslation("title")
+	const {t} = useTranslation("admin")
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
 

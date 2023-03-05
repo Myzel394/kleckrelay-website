@@ -1,11 +1,11 @@
 import {ReactElement} from "react"
 import {useTranslation} from "react-i18next"
-
-import {Container, Grid, Typography} from "@mui/material"
 import {BsStarFill} from "react-icons/bs"
 
+import {Container, Grid, Typography} from "@mui/material"
+
 export default function EmptyStateScreen(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("admin-reserved-aliases")
 
 	return (
 		<Container maxWidth="xs">
@@ -20,16 +20,14 @@ export default function EmptyStateScreen(): ReactElement {
 			>
 				<Grid item>
 					<Typography variant="h6" component="h2">
-						{t("routes.ReservedAliasesRoute.emptyState.title")}
+						{t("emptyState.title")}
 					</Typography>
 				</Grid>
 				<Grid item>
 					<BsStarFill size={40} />
 				</Grid>
 				<Grid item>
-					<Typography variant="body1">
-						{t("routes.ReservedAliasesRoute.emptyState.description")}
-					</Typography>
+					<Typography variant="body1">{t("emptyState.description")}</Typography>
 				</Grid>
 			</Grid>
 		</Container>

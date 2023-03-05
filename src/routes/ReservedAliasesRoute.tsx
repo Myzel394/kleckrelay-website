@@ -22,7 +22,7 @@ import {NoSearchResults, QueryResult, SimplePage} from "~/components"
 import EmptyStateScreen from "~/route-widgets/ReservedAliasesRoute/EmptyStateScreen"
 
 export default function ReservedAliasesRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["admin-reserved-aliases", "common"])
 	const [showSearch, setShowSearch] = useState<boolean>(false)
 	const [searchValue, setSearchValue] = useState<string>("")
 	const [queryValue, setQueryValue] = useState<string>("")
@@ -44,7 +44,7 @@ export default function ReservedAliasesRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title={t("routes.ReservedAliasesRoute.title")}
+			title={t("title")}
 			pageOptionsActions={
 				showSearch && (
 					<TextField
@@ -57,10 +57,8 @@ export default function ReservedAliasesRoute(): ReactElement {
 								setQueryValue(event.target.value)
 							})
 						}}
-						label={t("routes.ReservedAliasesRoute.pageActions.search.label")}
-						placeholder={t(
-							"routes.ReservedAliasesRoute.pageActions.search.placeholder",
-						)}
+						label={t("fields.search.label", {ns: "common"})}
+						placeholder={t("pageActions.search.placeholder")}
 						id="search"
 						InputProps={{
 							startAdornment: (
@@ -79,7 +77,7 @@ export default function ReservedAliasesRoute(): ReactElement {
 					to="/admin/reserved-aliases/create"
 					variant="contained"
 				>
-					{t("routes.ReservedAliasesRoute.actions.create.label")}
+					{t("actions.create.label")}
 				</Button>
 			}
 		>
@@ -108,7 +106,7 @@ export default function ReservedAliasesRoute(): ReactElement {
 												<span style={{opacity: 0.4}}>@{alias.domain}</span>
 											</>
 										}
-										secondary={t("routes.ReservedAliasesRoute.userAmount", {
+										secondary={t("userAmount", {
 											count: alias.users.length,
 										})}
 									/>

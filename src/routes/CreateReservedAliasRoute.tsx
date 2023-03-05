@@ -26,7 +26,7 @@ interface Form {
 }
 
 export default function CreateReservedAliasRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["admin-reserved-aliases", "common"])
 	const {showSuccess} = useErrorSuccessSnacks()
 	const navigateToNext = useNavigateToNext("/admin/reserved-aliases")
 	const {mutateAsync: createAlias} = useMutation<
@@ -35,7 +35,7 @@ export default function CreateReservedAliasRoute(): ReactElement {
 		CreateReservedAliasData
 	>(createReservedAlias, {
 		onSuccess: () => {
-			showSuccess(t("relations.alias.mutations.success.aliasCreation"))
+			showSuccess(t("messages.alias.created", {ns: "common"}))
 			navigateToNext()
 		},
 	})
@@ -44,10 +44,8 @@ export default function CreateReservedAliasRoute(): ReactElement {
 		local: yup
 			.string()
 			.required()
-			.label(t("routes.AdminRoute.forms.reservedAliases.fields.local.label")),
-		isActive: yup
-			.boolean()
-			.label(t("routes.AdminRoute.forms.reservedAliases.fields.isActive.label")),
+			.label(t("fields.local.label", {ns: "common"})),
+		isActive: yup.boolean().label(t("fields.active.label")),
 		// Only store IDs of users, as they provide a reference to the user
 		users: yup
 			.array()
@@ -60,7 +58,7 @@ export default function CreateReservedAliasRoute(): ReactElement {
 					}),
 				}),
 			)
-			.label(t("routes.AdminRoute.forms.reservedAliases.fields.users.label")),
+			.label(t("fields.users.label")),
 	})
 	const formik = useFormik<Form>({
 		validationSchema: schema,
@@ -87,12 +85,10 @@ export default function CreateReservedAliasRoute(): ReactElement {
 			<Grid item>
 				<form onSubmit={formik.handleSubmit}>
 					<SimpleForm
-						title={t("routes.AdminRoute.forms.reservedAliases.title")}
-						description={t("routes.AdminRoute.forms.reservedAliases.description")}
+						title={t("createNew.title")}
+						description={t("createNew.description")}
 						isSubmitting={formik.isSubmitting}
-						continueActionLabel={t(
-							"routes.AdminRoute.forms.reservedAliases.saveAction",
-						)}
+						continueActionLabel={t("createNew.continueActionLabel")}
 						nonFieldError={formik.errors.detail}
 					>
 						{[
@@ -110,9 +106,7 @@ export default function CreateReservedAliasRoute(): ReactElement {
 								}}
 								name="local"
 								id="local"
-								label={t(
-									"routes.AdminRoute.forms.reservedAliases.fields.local.label",
-								)}
+								label={t("fields.local.label", {ns: "common"})}
 								value={formik.values.local}
 								onChange={formik.handleChange}
 								disabled={formik.isSubmitting}
