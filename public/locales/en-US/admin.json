@@ -1,0 +1,12 @@
+{
+  "title": "Site configuration",
+  "routes": {
+    "reservedAliases": "Reserved Aliases",
+    "settings": "Global Settings"
+  },
+  "serverStatus": {
+    "noRecentReports": "There seems to be some issues with your server. The server hasn't done its cleanup in the last few days. The last report was on {{date}}.",
+    "error": "There was an error during the last server cleanup job from {{relativeDescription}}. Please check the logs for more information.",
+    "success": "Everything okay with your server! The last cleanup job was {{relativeDescription}}."
+  }
+}

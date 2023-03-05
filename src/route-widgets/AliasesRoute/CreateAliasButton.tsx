@@ -26,7 +26,7 @@ import {AuthContext, EncryptionStatus} from "~/components"
 import CustomAliasDialog from "~/route-widgets/AliasesRoute/CustomAliasDialog"
 
 export function CreateAliasButton(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["aliases", "common"])
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 
@@ -54,7 +54,7 @@ export function CreateAliasButton(): ReactElement {
 		{
 			onError: showError,
 			onSuccess: async alias => {
-				showSuccess(t("relations.alias.mutations.success.aliasCreation"))
+				showSuccess(t("messages.alias.created", {ns: "common"}))
 
 				await queryClient.invalidateQueries({
 					queryKey: ["get_aliases"],
@@ -82,7 +82,7 @@ export function CreateAliasButton(): ReactElement {
 						})
 					}
 				>
-					{t("routes.AliasesRoute.actions.createRandomAlias.label")}
+					{t("actions.createRandomAlias.title")}
 				</Button>
 				<Button size="small" onClick={event => setAnchorElement(event.currentTarget)}>
 					<MdArrowDropDown />
@@ -100,9 +100,7 @@ export function CreateAliasButton(): ReactElement {
 						<ListItemIcon>
 							<FaPen />
 						</ListItemIcon>
-						<ListItemText
-							primary={t("routes.AliasesRoute.actions.createCustomAlias.label")}
-						/>
+						<ListItemText primary={t("actions.createCustomAlias.title")} />
 					</MenuItem>
 				</MenuList>
 			</Menu>

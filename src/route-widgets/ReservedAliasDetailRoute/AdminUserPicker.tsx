@@ -17,7 +17,7 @@ export default function AdminUserPicker({
 	onPick,
 	alreadyPicked,
 }: AdminUserPickerProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("admin-reserved-aliases")
 	const meUser = useUser()
 	const {data: {users: availableUsers} = {}} = useQuery<GetAdminUsersResponse, AxiosError>(
 		["getAdminUsers"],
@@ -54,7 +54,7 @@ export default function AdminUserPicker({
 			{users.map(user => (
 				<MenuItem key={user.id} value={user.id}>
 					{user.id === meUser?.id
-						? t("routes.AdminRoute.forms.reservedAliases.fields.users.me", {
+						? t("fields.users.me", {
 								email: user.email.address,
 						  })
 						: user.email.address}

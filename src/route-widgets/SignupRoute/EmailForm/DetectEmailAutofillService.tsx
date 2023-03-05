@@ -12,6 +12,7 @@ import {
 	DialogTitle,
 	Grid,
 } from "@mui/material"
+import {useTranslation} from "react-i18next"
 
 export interface DetectEmailAutofillServiceProps {
 	domains: string[]
@@ -32,6 +33,8 @@ const STORAGE_KEY = "has-shown-email-autofill-service"
 export default function DetectEmailAutofillService({
 	domains,
 }: DetectEmailAutofillServiceProps): ReactElement {
+	const {t} = useTranslation("relay-service-detected")
+
 	const $hasDetected = useRef<boolean>(false)
 
 	const [type, setType] = useState<AliasType | null>(null)
@@ -100,19 +103,14 @@ export default function DetectEmailAutofillService({
 
 	return (
 		<Dialog open={type !== null} onClose={() => setType(null)}>
-			<DialogTitle>Email relay service detected</DialogTitle>
+			<DialogTitle>{t("title")}</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2} justifyContent="center">
 					<Grid item>
-						<DialogContentText>
-							We detected that you are using an email relay service to sign up. This
-							KleckRelay instance does not support relaying to another email relay
-							service. You can either choose a different instance or sign up with a
-							different email address.
-						</DialogContentText>
+						<DialogContentText>{t("description")}</DialogContentText>
 					</Grid>
 					<Grid item>
-						<DialogContentText>Detected email relay:</DialogContentText>
+						<DialogContentText>{t("detectedExplanation")}</DialogContentText>
 					</Grid>
 					<Grid item>
 						<Alert severity="info">{TYPE_NAME_MAP[type!]}</Alert>
@@ -121,7 +119,7 @@ export default function DetectEmailAutofillService({
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus startIcon={<MdCheck />} onClick={() => setType(null)}>
-					Got it
+					{t("closeActionLabel")}
 				</Button>
 			</DialogActions>
 		</Dialog>

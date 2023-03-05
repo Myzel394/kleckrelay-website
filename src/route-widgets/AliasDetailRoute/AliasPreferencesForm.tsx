@@ -44,7 +44,7 @@ export default function AliasPreferencesForm({
 	alias,
 	queryKey,
 }: AliasPreferencesFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["aliases", "common"])
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_decryptUsingMasterPassword} = useContext(AuthContext)
 
@@ -52,31 +52,34 @@ export default function AliasPreferencesForm({
 		removeTrackers: yup
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
-			.label(t("relations.alias.settings.removeTrackers.label")),
+			.label(t("settings.fields.removeTrackers.label")),
 		createMailReport: yup
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
-			.label(t("relations.alias.settings.createMailReports.label")),
-		proxyImages: yup.mixed<boolean | null>().oneOf([true, false, null]),
+			.label(t("settings.fields.createMailReport.label")),
+		proxyImages: yup
+			.mixed<boolean | null>()
+			.oneOf([true, false, null])
+			.label(t("settings.fields.proxyImages.label")),
 		imageProxyFormat: yup
 			.mixed<ImageProxyFormatType>()
 			.oneOf([null, ...Object.values(ImageProxyFormatType)])
-			.label(t("relations.alias.settings.imageProxyFormat.label")),
+			.label(t("settings.fields.imageProxyFormat.label")),
 		proxyUserAgent: yup
 			.mixed<ProxyUserAgentType>()
 			.oneOf([null, ...Object.values(ProxyUserAgentType)])
-			.label(t("relations.alias.settings.proxyUserAgent.label")),
+			.label(t("settings.fields.proxyUserAgent.label")),
 		expandUrlShorteners: yup
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
-			.label(t("relations.alias.settings.expandUrlShorteners.label")),
+			.label(t("settings.fields.expandUrlShorteners.label")),
 	})
 
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
 		data => updateAlias(alias.id, data),
 		{
 			onSuccess: async newAlias => {
-				showSuccess(t("relations.alias.mutations.success.aliasUpdated"))
+				showSuccess(t("messages.alias.updated", {ns: "common"}))
 				;(newAlias as any as DecryptedAlias).notes = decryptAliasNotes(
 					newAlias.encryptedNotes,
 					_decryptUsingMasterPassword,
@@ -126,7 +129,7 @@ export default function AliasPreferencesForm({
 							<Grid container spacing={4}>
 								<Grid item xs={12} sm={6}>
 									<SelectField
-										label={t("relations.alias.settings.removeTrackers.label")}
+										label={t("settings.fields.removeTrackers.label")}
 										formik={formik}
 										icon={<BsShieldShaded />}
 										name="removeTrackers"
@@ -134,9 +137,7 @@ export default function AliasPreferencesForm({
 								</Grid>
 								<Grid item xs={12} sm={6}>
 									<SelectField
-										label={t(
-											"relations.alias.settings.createMailReports.label",
-										)}
+										label={t("settings.fields.createMailReport.label")}
 										formik={formik}
 										icon={<MdTextSnippet />}
 										name="createMailReport"
@@ -146,9 +147,7 @@ export default function AliasPreferencesForm({
 									<Grid container spacing={2}>
 										<Grid item xs={12}>
 											<SelectField
-												label={t(
-													"relations.alias.settings.proxyImages.label",
-												)}
+												label={t("settings.fields.proxyImages.label")}
 												formik={formik}
 												icon={<BsImage />}
 												name="proxyImages"
@@ -160,7 +159,7 @@ export default function AliasPreferencesForm({
 													<Grid item xs={12} sm={6}>
 														<SelectField
 															label={t(
-																"relations.alias.settings.imageProxyFormat.label",
+																"settings.fields.imageProxyFormat.label",
 															)}
 															formik={formik}
 															icon={<FaFile />}
@@ -173,7 +172,7 @@ export default function AliasPreferencesForm({
 													<Grid item xs={12} sm={6}>
 														<SelectField
 															label={t(
-																"relations.alias.settings.proxyUserAgent.label",
+																"settings.fields.proxyUserAgent.label",
 															)}
 															formik={formik}
 															name="proxyUserAgent"
@@ -196,13 +195,11 @@ export default function AliasPreferencesForm({
 								type="submit"
 								startIcon={<MdCheckCircle />}
 							>
-								{t("relations.alias.settings.saveAction")}
+								{t("settings.continueActionLabel")}
 							</LoadingButton>
 						</Grid>
 						<Grid item>
-							<Typography variant="body2">
-								{t("routes.AliasDetailRoute.sections.settings.description")}
-							</Typography>
+							<Typography variant="body2">{t("settings.description")}</Typography>
 						</Grid>
 					</Grid>
 				</Box>

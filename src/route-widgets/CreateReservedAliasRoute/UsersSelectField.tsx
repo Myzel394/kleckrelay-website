@@ -37,7 +37,7 @@ export default function UsersSelectField({
 	error,
 	...props
 }: UsersSelectFieldProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("admin-reserved-aliases")
 	const meUser = useUser()
 	const {data: {users} = {}} = useQuery<GetAdminUsersResponse, AxiosError>(
 		["getAdminUsers"],
@@ -49,7 +49,7 @@ export default function UsersSelectField({
 	return (
 		<FormControl sx={{minWidth: 180}}>
 			<InputLabel id="users-select" error={error}>
-				{t("routes.AdminRoute.forms.reservedAliases.fields.users.label")}
+				{t("fields.users.label")}
 			</InputLabel>
 			<Select<string[]>
 				{...props}
@@ -98,7 +98,7 @@ export default function UsersSelectField({
 				name="users"
 				id="users"
 				error={error}
-				label={t("routes.AdminRoute.forms.reservedAliases.fields.users.label")}
+				label={t("fields.users.label")}
 			>
 				{users ? (
 					users.map(user => (
@@ -108,12 +108,9 @@ export default function UsersSelectField({
 								primary={(() => {
 									// Check if user is me
 									if (user.id === meUser.id) {
-										return t(
-											"routes.AdminRoute.forms.reservedAliases.fields.users.me",
-											{
-												email: user.email.address,
-											},
-										)
+										return t("fields.users.me", {
+											email: user.email.address,
+										})
 									}
 
 									return user.email.address
@@ -122,7 +119,7 @@ export default function UsersSelectField({
 						</MenuItem>
 					))
 				) : (
-					<MenuItem value={""}>{t("general.loading")}</MenuItem>
+					<MenuItem value={""}>{t("general.loading", {ns: "common"})}</MenuItem>
 				)}
 			</Select>
 			{helperText ? <FormHelperText error={error}>{helperText}</FormHelperText> : null}

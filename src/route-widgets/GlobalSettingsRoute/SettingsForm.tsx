@@ -44,7 +44,7 @@ const DEFAULT_POOLS = createPool({
 })
 
 export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["admin-global-settings", "common"])
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 
 	const validationSchema = yup.object().shape({
@@ -52,50 +52,33 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 			.number()
 			.min(1)
 			.max(1_023)
-			.label(t("routes.AdminRoute.forms.settings.randomEmailIdMinLength.label")),
-		randomEmailIdChars: yup
-			.string()
-			.label(t("routes.AdminRoute.forms.settings.randomEmailIdChars.label")),
+			.label(t("fields.randomEmailIdMinLength.label")),
+		randomEmailIdChars: yup.string().label(t("fields.randomEmailIdChars.label")),
 		randomEmailLengthIncreaseOnPercentage: yup
 			.number()
 			.min(0)
 			.max(1)
-			.label(
-				t("routes.AdminRoute.forms.settings.randomEmailLengthIncreaseOnPercentage.label"),
-			),
+			.label(t("fields.randomEmailLengthIncreaseOnPercentage.label")),
 		imageProxyStorageLifeTimeInHours: yup
 			.number()
-			.label(t("routes.AdminRoute.forms.settings.imageProxyStorageLifeTimeInHours.label")),
+			.label(t("fields.imageProxyStorageLifeTimeInHours.label")),
 		customEmailSuffixLength: yup
 			.number()
 			.min(1)
 			.max(1_023)
-			.label(t("routes.AdminRoute.forms.settings.customEmailSuffixLength-label")),
-		customEmailSuffixChars: yup
-			.string()
-			.label(t("routes.AdminRoute.forms.settings.customEmailSuffixChars.label")),
+			.label(t("fields.customEmailSuffixLength.label")),
+		customEmailSuffixChars: yup.string().label(t("fields.customEmailSuffixChars.label")),
 		userEmailEnableDisposableEmails: yup
 			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.userEmailEnableDisposableEmails.label")),
+			.label(t("fields.userEmailEnableDisposableEmails.label")),
 		userEmailEnableOtherRelays: yup
 			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.userEmailEnableOtherRelays.label")),
-		enableImageProxy: yup
-			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.enableImageProxy.label")),
-		enableImageProxyStorage: yup
-			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.enableImageProxyStorage.label")),
-		allowStatistics: yup
-			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.allowStatistics.label")),
-		allowAliasDeletion: yup
-			.boolean()
-			.label(t("routes.AdminRoute.forms.settings.allowAliasDeletion.label")),
-		maxAliasesPerUser: yup
-			.number()
-			.label(t("routes.AdminRoute.forms.settings.maxAliasesPerUser.label"))
-			.min(0),
+			.label(t("fields.userEmailEnableOtherRelays.label")),
+		enableImageProxy: yup.boolean().label(t("fields.enableImageProxy.label")),
+		enableImageProxyStorage: yup.boolean().label(t("fields.enableImageProxyStorage.label")),
+		allowStatistics: yup.boolean().label(t("fields.allowStatistics.label")),
+		allowAliasDeletion: yup.boolean().label(t("fields.allowAliasDeletion.label")),
+		maxAliasesPerUser: yup.number().label(t("fields.maxAliasesPerUser.label")).min(0),
 	} as Record<keyof AdminSettings, any>)
 
 	const {mutateAsync} = useMutation<
@@ -109,7 +92,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 				return
 			}
 
-			showSuccess(t("routes.AdminRoute.settings.successMessage"))
+			showSuccess(t("updatedSuccessfullyMessage"))
 
 			queryClient.setQueryData<Partial<AdminSettings>>(queryKey, newSettings)
 		},
@@ -144,12 +127,12 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 					<Grid container spacing={2} direction="column">
 						<Grid item>
 							<Typography variant="h4" component="h1" align="center">
-								{t("routes.AdminRoute.settings.title")}
+								{t("title")}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography variant="subtitle1" component="p">
-								{t("routes.AdminRoute.settings.description")}
+								{t("description")}
 							</Typography>
 						</Grid>
 					</Grid>
@@ -160,9 +143,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							<TextField
 								key="max_aliases_per_user"
 								fullWidth
-								label={t(
-									"routes.AdminRoute.forms.settings.maxAliasesPerUser.label",
-								)}
+								label={t("fields.maxAliasesPerUser.label")}
 								name="maxAliasesPerUser"
 								value={formik.values.maxAliasesPerUser}
 								onChange={formik.handleChange}
@@ -173,9 +154,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.maxAliasesPerUser &&
 										formik.errors.maxAliasesPerUser) ||
-									t(
-										"routes.AdminRoute.forms.settings.maxAliasesPerUser.description",
-									)
+									t("fields.maxAliasesPerUser.description")
 								}
 								type="number"
 								disabled={formik.isSubmitting}
@@ -193,9 +172,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							<TextField
 								key="random_email_id_min_length"
 								fullWidth
-								label={t(
-									"routes.AdminRoute.forms.settings.randomEmailIdMinLength.label",
-								)}
+								label={t("fields.randomEmailIdMinLength.label")}
 								name="randomEmailIdMinLength"
 								value={formik.values.randomEmailIdMinLength}
 								onChange={formik.handleChange}
@@ -206,9 +183,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.randomEmailIdMinLength &&
 										formik.errors.randomEmailIdMinLength) ||
-									t(
-										"routes.AdminRoute.forms.settings.randomEmailIdMinLength.description",
-									)
+									t("fields.randomEmailIdMinLength.description")
 								}
 								type="number"
 								disabled={formik.isSubmitting}
@@ -229,9 +204,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								key="random_email_id_chars"
 								pools={DEFAULT_POOLS}
 								id="random_email_id_chars"
-								label={t(
-									"routes.AdminRoute.forms.settings.randomEmailIdChars.label",
-								)}
+								label={t("fields.randomEmailIdChars.label")}
 								name="randomEmailIdChars"
 								value={formik.values.randomEmailIdChars!}
 								onChange={formik.handleChange}
@@ -242,9 +215,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.randomEmailIdChars &&
 										formik.errors.randomEmailIdChars) ||
-									(t(
-										"routes.AdminRoute.forms.settings.randomEmailIdChars.description",
-									) as string)
+									(t("fields.randomEmailIdChars.description") as string)
 								}
 								disabled={formik.isSubmitting}
 								startAdornment={
@@ -264,9 +235,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							<TextField
 								key="random_email_length_increase_on_percentage"
 								fullWidth
-								label={t(
-									"routes.AdminRoute.forms.settings.randomEmailLengthIncreaseOnPercentage.label",
-								)}
+								label={t("fields.randomEmailLengthIncreaseOnPercentage.label")}
 								name="randomEmailLengthIncreaseOnPercentage"
 								value={formik.values.randomEmailLengthIncreaseOnPercentage}
 								onChange={formik.handleChange}
@@ -277,9 +246,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.randomEmailLengthIncreaseOnPercentage &&
 										formik.errors.randomEmailLengthIncreaseOnPercentage) ||
-									t(
-										"routes.AdminRoute.forms.settings.randomEmailLengthIncreaseOnPercentage.description",
-									)
+									t("fields.randomEmailLengthIncreaseOnPercentage.description")
 								}
 								type="number"
 								disabled={formik.isSubmitting}
@@ -304,9 +271,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							<TextField
 								key="custom_email_suffix_length"
 								fullWidth
-								label={t(
-									"routes.AdminRoute.forms.settings.customEmailSuffixLength.label",
-								)}
+								label={t("fields.customEmailSuffixLength.label")}
 								name="customEmailSuffixLength"
 								value={formik.values.customEmailSuffixLength}
 								onChange={formik.handleChange}
@@ -317,9 +282,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.customEmailSuffixLength &&
 										formik.errors.customEmailSuffixLength) ||
-									t(
-										"routes.AdminRoute.forms.settings.customEmailSuffixLength.description",
-									)
+									t("fields.customEmailSuffixLength.description")
 								}
 								type="number"
 								disabled={formik.isSubmitting}
@@ -340,9 +303,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								fullWidth
 								pools={DEFAULT_POOLS}
 								id="custom_email_suffix_chars"
-								label={t(
-									"routes.AdminRoute.forms.settings.customEmailSuffixChars.label",
-								)}
+								label={t("fields.customEmailSuffixChars.label")}
 								name="customEmailSuffixChars"
 								value={formik.values.customEmailSuffixChars!}
 								onChange={formik.handleChange}
@@ -353,9 +314,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.customEmailSuffixChars &&
 										formik.errors.customEmailSuffixChars) ||
-									(t(
-										"routes.AdminRoute.forms.settings.customEmailSuffixChars.description",
-									) as string)
+									(t("fields.customEmailSuffixChars.description") as string)
 								}
 								disabled={formik.isSubmitting}
 								startAdornment={
@@ -369,9 +328,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 							<TextField
 								key="image_proxy_storage_life_time_in_hours"
 								fullWidth
-								label={t(
-									"routes.AdminRoute.forms.settings.imageProxyStorageLifeTimeInHours.label",
-								)}
+								label={t("fields.imageProxyStorageLifeTimeInHours.label")}
 								name="imageProxyStorageLifeTimeInHours"
 								value={formik.values.imageProxyStorageLifeTimeInHours}
 								onChange={formik.handleChange}
@@ -382,9 +339,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								helperText={
 									(formik.touched.imageProxyStorageLifeTimeInHours &&
 										formik.errors.imageProxyStorageLifeTimeInHours) ||
-									t(
-										"routes.AdminRoute.forms.settings.imageProxyStorageLifeTimeInHours.description",
-									)
+									t("fields.imageProxyStorageLifeTimeInHours.description")
 								}
 								type="number"
 								disabled={formik.isSubmitting}
@@ -397,14 +352,11 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									),
 									endAdornment: (
 										<InputAdornment position="end">
-											{t(
-												"routes.AdminRoute.forms.settings.imageProxyStorageLifeTimeInHours.unit",
-												{
-													count:
-														formik.values
-															.imageProxyStorageLifeTimeInHours || 0,
-												},
-											)}
+											{t("fields.imageProxyStorageLifeTimeInHours.unit", {
+												count:
+													formik.values
+														.imageProxyStorageLifeTimeInHours || 0,
+											})}
 										</InputAdornment>
 									),
 								}}
@@ -421,9 +373,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										/>
 									}
 									disabled={formik.isSubmitting}
-									label={t(
-										"routes.AdminRoute.forms.settings.userEmailEnableDisposableEmails.label",
-									)}
+									label={t("fields.userEmailEnableDisposableEmails.label")}
 								/>
 								<FormHelperText
 									error={
@@ -433,9 +383,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								>
 									{(formik.touched.userEmailEnableDisposableEmails &&
 										formik.errors.userEmailEnableDisposableEmails) ||
-										t(
-											"routes.AdminRoute.forms.settings.userEmailEnableDisposableEmails.description",
-										)}
+										t("fields.userEmailEnableDisposableEmails.description")}
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
@@ -450,9 +398,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										/>
 									}
 									disabled={formik.isSubmitting}
-									label={t(
-										"routes.AdminRoute.forms.settings.userEmailEnableOtherRelays.label",
-									)}
+									label={t("fields.userEmailEnableOtherRelays.label")}
 								/>
 								<FormHelperText
 									error={
@@ -462,9 +408,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								>
 									{(formik.touched.userEmailEnableOtherRelays &&
 										formik.errors.userEmailEnableOtherRelays) ||
-										t(
-											"routes.AdminRoute.forms.settings.userEmailEnableOtherRelays.description",
-										)}
+										t("fields.userEmailEnableOtherRelays.description")}
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
@@ -481,9 +425,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 												/>
 											}
 											disabled={formik.isSubmitting}
-											label={t(
-												"routes.AdminRoute.forms.settings.enableImageProxy.label",
-											)}
+											label={t("fields.enableImageProxy.label")}
 										/>
 										<FormHelperText
 											error={
@@ -493,9 +435,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										>
 											{(formik.touched.enableImageProxy &&
 												formik.errors.enableImageProxy) ||
-												t(
-													"routes.AdminRoute.forms.settings.enableImageProxy.description",
-												)}
+												t("fields.enableImageProxy.description")}
 										</FormHelperText>
 									</FormGroup>
 								</Grid>
@@ -513,9 +453,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 													/>
 												}
 												disabled={formik.isSubmitting}
-												label={t(
-													"routes.AdminRoute.forms.settings.enableImageProxyStorage.label",
-												)}
+												label={t("fields.enableImageProxyStorage.label")}
 											/>
 											<FormHelperText
 												error={
@@ -525,9 +463,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 											>
 												{(formik.touched.enableImageProxyStorage &&
 													formik.errors.enableImageProxyStorage) ||
-													t(
-														"routes.AdminRoute.forms.settings.enableImageProxyStorage.description",
-													)}
+													t("fields.enableImageProxyStorage.description")}
 											</FormHelperText>
 										</FormGroup>
 									</Collapse>
@@ -545,9 +481,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										/>
 									}
 									disabled={formik.isSubmitting}
-									label={t(
-										"routes.AdminRoute.forms.settings.allowStatistics.label",
-									)}
+									label={t("fields.allowStatistics.label")}
 								/>
 								<FormHelperText
 									error={
@@ -557,9 +491,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								>
 									{(formik.touched.allowStatistics &&
 										formik.errors.allowStatistics) ||
-										t(
-											"routes.AdminRoute.forms.settings.allowStatistics.description",
-										)}
+										t("fields.allowStatistics.description")}
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
@@ -574,9 +506,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 										/>
 									}
 									disabled={formik.isSubmitting}
-									label={t(
-										"routes.AdminRoute.forms.settings.allowAliasDeletion.label",
-									)}
+									label={t("fields.allowAliasDeletion.label")}
 								/>
 								<FormHelperText
 									error={
@@ -586,9 +516,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								>
 									{(formik.touched.allowAliasDeletion &&
 										formik.errors.allowAliasDeletion) ||
-										t(
-											"routes.AdminRoute.forms.settings.allowAliasDeletion.description",
-										)}
+										t("fields.allowAliasDeletion.description")}
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
@@ -608,7 +536,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									formik.submitForm()
 								}}
 							>
-								{t("routes.AdminRoute.settings.resetLabel")}
+								{t("general.resetLabel", {ns: "common"})}
 							</LoadingButton>
 						</Grid>
 						<Grid item>
@@ -618,7 +546,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 								type="submit"
 								startIcon={<MdCheck />}
 							>
-								{t("general.saveLabel")}
+								{t("general.saveLabel", {ns: "common"})}
 							</LoadingButton>
 						</Grid>
 					</Grid>

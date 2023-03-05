@@ -18,7 +18,7 @@ export interface Setup2FAProps {
 }
 
 export default function Setup2FA({onSuccess}: Setup2FAProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("settings-2fa")
 	const {showError} = useErrorSuccessSnacks()
 
 	const {
@@ -33,9 +33,7 @@ export default function Setup2FA({onSuccess}: Setup2FAProps): ReactElement {
 	return (
 		<Grid container spacing={4} direction="column">
 			<Grid item>
-				<Typography variant="body1">
-					{t("routes.SettingsRoute.2fa.setup.description")}
-				</Typography>
+				<Typography variant="body1">{t("setup.description")}</Typography>
 			</Grid>
 			<Grid item alignSelf="center">
 				{secret ? (
@@ -55,7 +53,7 @@ export default function Setup2FA({onSuccess}: Setup2FAProps): ReactElement {
 						variant="contained"
 						startIcon={<BsShieldLockFill />}
 					>
-						{t("routes.SettingsRoute.2fa.setup.setupLabel")}
+						{t("setup.setupLabel")}
 					</LoadingButton>
 				)}
 			</Grid>

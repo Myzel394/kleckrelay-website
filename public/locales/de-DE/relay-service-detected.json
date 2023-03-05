@@ -1,0 +1,6 @@
+{
+  "title": "Email relay service detected",
+  "description": "We detected that you are using an email relay service to sign up. This KleckRelay instance does not support relaying to another email relay service. You can either choose a different instance or sign up with a different email address.",
+  "detectedExplanation": "Detected email relay:",
+  "closeActionLabel": "Got it"
+}

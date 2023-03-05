@@ -40,7 +40,7 @@ interface Form {
 }
 
 export default function AliasUsersList({users, queryKey, id}: AliasUsersListProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["admin-reserved-aliases", "common"])
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {mutateAsync} = useMutation<
 		ReservedAlias,
@@ -73,7 +73,7 @@ export default function AliasUsersList({users, queryKey, id}: AliasUsersListProp
 				}
 			},
 			onSuccess: async newAlias => {
-				showSuccess(t("relations.alias.mutations.success.aliasUpdated"))
+				showSuccess(t("messages.alias.updated", {ns: "common"}))
 
 				await queryClient.cancelQueries(queryKey)
 
@@ -102,7 +102,7 @@ export default function AliasUsersList({users, queryKey, id}: AliasUsersListProp
 					}),
 				}),
 			)
-			.label(t("routes.AliasDetailRoute.sections.users.fields.users.label")),
+			.label(t("fields.users.label")),
 	})
 	const initialValues: Form = {
 		users: users,
@@ -126,7 +126,7 @@ export default function AliasUsersList({users, queryKey, id}: AliasUsersListProp
 				<Grid container spacing={1} direction="row">
 					<Grid item>
 						<Typography variant="h6" component="h3">
-							{t("routes.ReservedAliasDetailRoute.sections.users.title")}
+							{t("fields.users.label")}
 						</Typography>
 					</Grid>
 					<Grid item>

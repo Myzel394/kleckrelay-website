@@ -25,7 +25,7 @@ import ChangeAliasActivationStatusSwitch from "~/route-widgets/AliasDetailRoute/
 import decryptAliasNotes from "~/apis/helpers/decrypt-alias-notes"
 
 export default function AliasDetailRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["aliases", "common"])
 	const serverSettings = useLoaderData() as ServerSettings
 	const {id: aliasID} = useParams()
 	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
@@ -46,17 +46,17 @@ export default function AliasDetailRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title={t("routes.AliasDetailRoute.title")}
+			title={t("detailsTitle")}
 			actions={
 				serverSettings.allowAliasDeletion &&
 				query.data && (
 					<DeleteButton
 						onDelete={() => deleteAlias(aliasID!)}
-						label={t("routes.AliasDetailRoute.actions.delete.label")}
-						description={t("routes.AliasDetailRoute.actions.delete.description")}
-						continueLabel={t("routes.AliasDetailRoute.actions.delete.continueAction")}
+						label={t("actions.delete.label")}
+						description={t("actions.delete.description")}
+						continueLabel={t("actions.delete.continueActionLabel")}
 						navigateTo={"/aliases"}
-						successMessage={t("relations.alias.mutations.success.aliasDeleted")}
+						successMessage={t("messages.alias.deleted", {ns: "common"})}
 					/>
 				)
 			}
@@ -97,10 +97,7 @@ export default function AliasDetailRoute(): ReactElement {
 									<DecryptionPasswordMissingAlert />
 								)}
 							</div>,
-							<SimplePageBuilder.Section
-								label={t("routes.AliasDetailRoute.sections.settings.title")}
-								key="settings"
-							>
+							<SimplePageBuilder.Section label={t("settings.title")} key="settings">
 								<AliasPreferencesForm alias={alias} queryKey={queryKey} />
 							</SimplePageBuilder.Section>,
 						]}

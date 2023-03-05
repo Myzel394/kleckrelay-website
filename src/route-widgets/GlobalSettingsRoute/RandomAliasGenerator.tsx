@@ -18,7 +18,7 @@ export default function RandomAliasGenerator({
 	length,
 }: RandomAliasGeneratorProps): ReactElement {
 	const serverSettings = useLoaderData() as ServerSettings
-	const {t} = useTranslation()
+	const {t} = useTranslation("admin-global-settings")
 	const theme = useTheme()
 
 	const generateLocal = useCallback(
@@ -39,7 +39,7 @@ export default function RandomAliasGenerator({
 	return (
 		<Alert severity="info" variant="standard">
 			<Typography variant="subtitle1" component="h5">
-				{t("routes.AdminRoute.settings.randomAliasesPreview.title")}
+				{t("randomAliasesPreview.title")}
 			</Typography>
 			<Grid container spacing={2} direction="row" alignItems="center">
 				<Grid item>
@@ -51,9 +51,7 @@ export default function RandomAliasGenerator({
 					</IconButton>
 				</Grid>
 			</Grid>
-			<FormHelperText>
-				{t("routes.AdminRoute.settings.randomAliasesPreview.helperText")}
-			</FormHelperText>
+			<FormHelperText>{t("randomAliasesPreview.helperText")}</FormHelperText>
 		</Alert>
 	)
 }

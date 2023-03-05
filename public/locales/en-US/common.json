@@ -1,0 +1,89 @@
+{
+  "fields": {
+    "email": {
+      "label": "Email",
+      "placeholder": "johndoe@example.com",
+      "errors": {
+        "disposable": "Disposable email addresses are not allowed."
+      }
+    },
+    "2faCode": {
+      "label": "Code",
+      "placeholder": "123456",
+      "errors": {
+        "shouldOnlyBeDigits": "The code should only contain digits."
+      }
+    },
+    "recoveryCode": {
+      "label": "Recovery Code"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "********",
+      "errors": {
+        "invalid": "Password is invalid."
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Confirm Password",
+      "placeholder": "********",
+      "errors": {
+        "mismatch": "Passwords do not match."
+      }
+    },
+    "customAliasLocal": {
+      "label": "Address",
+      "placeholder": "awesome-fish"
+    },
+    "local": {
+      "label": "Address"
+    },
+    "search": {
+      "label": "Search"
+    }
+  },
+  "messages": {
+    "errors": {
+      "unknown": "An unknown error occurred.",
+      "copyFailed": "Copying to clipboard did not work. Please copy the text manually."
+    },
+    "alias": {
+      "addressCopied": "Address has been copied to your clipboard!",
+      "created": "Alias has been created successfully!",
+      "deleted": "Alias has been deleted!",
+      "updated": "Alias has been updated successfully!",
+      "changedToEnabled": "Alias has been enabled",
+      "changedToDisabled": "Alias has been disabled"
+    },
+    "report": {
+      "deleted": "Report has been deleted!"
+    }
+  },
+  "general": {
+    "cancelLabel": "Cancel",
+    "yesLabel": "Yes",
+    "noLabel": "No",
+    "continueLabel": "Continue",
+    "unavailableValue": "Unavailable",
+    "experimentalFeatureExplanation": "This is an experimental feature.",
+    "saveLabel": "Save",
+    "resetLabel": "Reset",
+    "loading": "Loading..."
+  },
+  "noSearchResults": {
+    "title": "Nothing found",
+    "description": "We couldn't find anything for your search query. Try again with a different query."
+  },
+  "navigation": {
+    "overview": "Overview",
+    "aliases": "Aliases",
+    "reports": "Reports",
+    "settings": "Settings",
+    "admin": "Admin"
+  },
+  "routes": {
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
+  }
+}

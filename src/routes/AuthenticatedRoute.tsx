@@ -12,7 +12,7 @@ import NavigationButton, {
 } from "~/route-widgets/AuthenticateRoute/NavigationButton"
 
 export default function AuthenticatedRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const theme = useTheme()
 	const user = useUser()
 
@@ -90,7 +90,7 @@ export default function AuthenticatedRoute(): ReactElement {
 												to="/auth/logout"
 												startIcon={<MdLogout />}
 											>
-												{t("components.AuthenticatedRoute.logout")}
+												{t("routes.logout")}
 											</Button>
 										</Grid>
 										<Grid item>

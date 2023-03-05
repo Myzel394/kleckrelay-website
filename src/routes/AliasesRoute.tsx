@@ -36,7 +36,7 @@ enum TypeFilter {
 }
 
 export default function AliasesRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["aliases", "common"])
 
 	const [searchValue, setSearchValue] = useState<string>("")
 	const [queryValue, setQueryValue] = useState<string>("")
@@ -131,7 +131,7 @@ export default function AliasesRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title={t("routes.AliasesRoute.title")}
+			title={t("title")}
 			pageOptionsActions={
 				showSearch && (
 					<Grid container spacing={2} direction="column">
@@ -146,10 +146,8 @@ export default function AliasesRoute(): ReactElement {
 										setQueryValue(event.target.value)
 									})
 								}}
-								label={t("routes.AliasesRoute.pageActions.search.label")}
-								placeholder={t(
-									"routes.AliasesRoute.pageActions.search.placeholder",
-								)}
+								label={t("fields.search.label", {ns: "common"})}
+								placeholder={t("pageActions.search.placeholder")}
 								id="search"
 								InputProps={{
 									startAdornment: (
@@ -166,9 +164,7 @@ export default function AliasesRoute(): ReactElement {
 									<Grid container spacing={1}>
 										<Grid item>
 											<Chip
-												label={t(
-													"routes.AliasesRoute.pageActions.searchFilter.active",
-												)}
+												label={t("pageActions.searchFilter.active")}
 												variant={
 													searchFilter === SearchFilter.Active
 														? "filled"
@@ -187,9 +183,7 @@ export default function AliasesRoute(): ReactElement {
 										</Grid>
 										<Grid item>
 											<Chip
-												label={t(
-													"routes.AliasesRoute.pageActions.searchFilter.inactive",
-												)}
+												label={t("pageActions.searchFilter.inactive")}
 												variant={
 													searchFilter === SearchFilter.Inactive
 														? "filled"
@@ -213,9 +207,7 @@ export default function AliasesRoute(): ReactElement {
 										<Grid item>
 											<Chip
 												icon={ALIAS_TYPE_ICON_MAP[AliasType.CUSTOM]}
-												label={t(
-													"routes.AliasesRoute.pageActions.typeFilter.custom",
-												)}
+												label={t("pageActions.typeFilter.custom")}
 												variant={
 													typeFilter === TypeFilter.Custom
 														? "filled"
@@ -235,9 +227,7 @@ export default function AliasesRoute(): ReactElement {
 										<Grid item>
 											<Chip
 												icon={ALIAS_TYPE_ICON_MAP[AliasType.RANDOM]}
-												label={t(
-													"routes.AliasesRoute.pageActions.typeFilter.random",
-												)}
+												label={t("pageActions.typeFilter.random")}
 												variant={
 													typeFilter === TypeFilter.Random
 														? "filled"
@@ -307,15 +297,14 @@ export default function AliasesRoute(): ReactElement {
 						</Grid>
 						<SuccessSnack
 							key={value}
-							message={
-								value &&
-								t("relations.alias.mutations.success.addressCopiedToClipboard")
-							}
+							message={value && t("messages.alias.addressCopied", {ns: "common"})}
 						/>
-						<ErrorSnack message={error && t("general.copyError")} />
+						<ErrorSnack
+							message={error && t("messages.errors.unknown", {ns: "common"})}
+						/>
 						<Snackbar open={isInCopyAddressMode} autoHideDuration={null}>
 							<Alert variant="standard" severity="info">
-								{t("routes.AliasesRoute.isInCopyMode")}
+								{t("isInCopyMode")}
 							</Alert>
 						</Snackbar>
 					</>

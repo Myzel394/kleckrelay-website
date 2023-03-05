@@ -1,0 +1,16 @@
+{
+  "forms": {
+    "askForGeneration": {
+      "title": "Generate Email Reports?",
+      "description": "Would you like to create fully encrypted email reports for your mails? Only you will be able to access them. Not even we can decrypt them."
+    },
+    "enterPassword": {
+      "title": "Set up your password",
+      "description": "Please enter a safe password so that we can encrypt your data."
+    }
+  },
+  "alreadyCompleted": {
+    "title": "Encryption already enabled",
+    "description": "You already have encryption enabled. Changing passwords is currently not supported."
+  }
+}

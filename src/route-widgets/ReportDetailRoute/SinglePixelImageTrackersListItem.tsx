@@ -14,7 +14,7 @@ export interface SinglePixelImageTrackersListItemProps {
 export default function SinglePixelImageTrackersListItem({
 	images,
 }: SinglePixelImageTrackersListItemProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("reports")
 
 	const imagesPerTracker = images.reduce((acc, value) => {
 		acc[value.trackerName] = [...(acc[value.trackerName] || []), value]
@@ -26,7 +26,7 @@ export default function SinglePixelImageTrackersListItem({
 		<ExpandableListItem
 			data={images}
 			icon={<BsShieldShaded />}
-			title={t("routes.ReportDetailRoute.sections.trackers.results.imageTrackers.text", {
+			title={t("sections.trackers.results.imageTrackers.text", {
 				count: images.length,
 			})}
 		>

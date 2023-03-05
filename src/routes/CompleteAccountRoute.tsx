@@ -9,7 +9,7 @@ import GenerateEmailReportsForm from "~/route-widgets/CompleteAccountRoute/Gener
 import PasswordForm from "~/route-widgets/CompleteAccountRoute/PasswordForm"
 
 export default function CompleteAccountRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("complete-account")
 	const {encryptionStatus} = useContext(AuthContext)
 	const navigateToNext = useNavigateToNext()
 
@@ -50,13 +50,11 @@ export default function CompleteAccountRoute(): ReactElement {
 			>
 				<Grid item>
 					<Typography variant="h6" component="h1" align="center">
-						{t("routes.CompleteAccountRoute.forms.available.title")}
+						{t("alreadyCompleted.title")}
 					</Typography>
 				</Grid>
 				<Grid item>
-					<Typography variant="body1">
-						{t("routes.CompleteAccountRoute.forms.available.description")}
-					</Typography>
+					<Typography variant="body1">{t("alreadyCompleted.description")}</Typography>
 				</Grid>
 			</Grid>
 		</Paper>

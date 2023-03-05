@@ -24,7 +24,7 @@ export default function ChangeAliasActivationStatusSwitch({
 	isActive,
 	queryKey,
 }: ChangeAliasActivationStatusSwitchProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {_decryptUsingMasterPassword, encryptionStatus} = useContext(AuthContext)
 
@@ -83,8 +83,8 @@ export default function ChangeAliasActivationStatusSwitch({
 
 					showSuccess(
 						isActive
-							? t("relations.alias.mutations.success.aliasChangedToDisabled")
-							: t("relations.alias.mutations.success.aliasChangedToEnabled"),
+							? t("messages.alias.changedToDisabled")
+							: t("messages.alias.changedToEnabled"),
 					)
 				} catch {}
 			}}

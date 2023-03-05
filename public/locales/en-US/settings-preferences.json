@@ -1,0 +1,5 @@
+{
+  "title": "Alias Preferences",
+  "description": "Select default values for your aliases. This only affects aliases you haven't set a custom value for.",
+  "continueActionLabel": "Save preferences"
+}

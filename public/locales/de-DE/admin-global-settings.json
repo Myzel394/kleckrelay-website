@@ -1,0 +1,71 @@
+{
+  "title": "Global Settings",
+  "description": "Configure global settings for your instance.",
+  "updatedSuccessfullyMessage": "Settings have been saved successfully!",
+  "randomAliasesPreview": {
+    "title": "Random aliases will look like this",
+    "helperText": "This is just a preview. Those are not real aliases."
+  },
+  "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created.",
+  "resetLabel": "Reset to defaults",
+  "disabled": {
+    "title": "Global settings are disabled",
+    "description": "Global settings have been disabled. You can enable them in the configuration file."
+  },
+  "fields": {
+    "randomEmailIdMinLength": {
+      "label": "Minimum random alias ID length",
+      "description": "The minimum length for randomly generated emails. The server will automatically increase the length if required so."
+    },
+    "randomEmailIdChars": {
+      "label": "Random alias character pool",
+      "description": "Characters that are used to generate random emails."
+    },
+    "randomEmailLengthIncreaseOnPercentage": {
+      "label": "Percentage of used aliases",
+      "description": "If the percentage of used random email IDs is higher than this value, the length of the random email ID will be increased. This is used to prevent spammers from guessing the email ID."
+    },
+    "customEmailSuffixLength": {
+      "label": "Custom email suffix length",
+      "description": "The length of the custom email suffix."
+    },
+    "customEmailSuffixChars": {
+      "label": "Custom email suffix character pool",
+      "description": "Characters that are used to generate custom email suffixes."
+    },
+    "imageProxyStorageLifeTimeInHours": {
+      "label": "Image proxy storage lifetime",
+      "description": "The lifetime of images that are stored on the server in hours. After this time, the image will be deleted.",
+      "unit_one": "hour",
+      "unit_other": "hours"
+    },
+    "enableImageProxy": {
+      "label": "Enable image proxy",
+      "description": "If enabled, images will be proxied through the server. This enhances your user's privacy as their ip address will not be leaked."
+    },
+    "enableImageProxyStorage": {
+      "label": "Enable image proxy storage",
+      "description": "If enabled, images will be stored on the server and forwarded to the user. This makes email tracking nearly impossible as every message will be marked as read instantly, which is obviously not true as a user is typically not able to view an email in just a few seconds after it has been sent. This will only affect new images."
+    },
+    "userEmailEnableDisposableEmails": {
+      "label": "Enable disposable emails for new accounts",
+      "description": "If enabled, users will be able to use disposable emails when creating a new account. This will only affect new accounts."
+    },
+    "userEmailEnableOtherRelays": {
+      "label": "Enable other relays for new accounts",
+      "description": "If enabled, users will be able to use other relays (such as SimpleLogin or DuckDuckGo's Email Tracking Protection) when creating a new account. This will only affect new accounts."
+    },
+    "allowStatistics": {
+      "label": "Allow statistics",
+      "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
+    },
+    "allowAliasDeletion": {
+      "label": "Allow alias deletion",
+      "description": "If enabled, users will be able to delete their aliases."
+    },
+    "maxAliasesPerUser": {
+      "label": "Maximum aliases per user",
+      "description": "The maximum number of aliases a user can create. 0 means unlimited. Existing aliases will not be affected."
+    }
+  }
+}

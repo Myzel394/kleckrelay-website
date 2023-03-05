@@ -12,7 +12,7 @@ export default function ErrorLoadingDataMessage({
 	message,
 	onRetry,
 }: ErrorLoadingDataMessageProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("components")
 
 	return (
 		<Grid container spacing={2} flexDirection="column" alignItems="center">
@@ -20,9 +20,7 @@ export default function ErrorLoadingDataMessage({
 				<Alert severity="error">{message}</Alert>
 			</Grid>
 			<Grid item>
-				<Button onClick={onRetry}>
-					{t("components.ErrorLoadingDataMessage.tryAgain")}
-				</Button>
+				<Button onClick={onRetry}>{t("ErrorLoadingDataMessage.tryAgain")}</Button>
 			</Grid>
 		</Grid>
 	)

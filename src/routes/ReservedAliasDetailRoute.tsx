@@ -14,7 +14,7 @@ import AliasAddress from "~/route-widgets/AliasDetailRoute/AliasAddress"
 import AliasUsersList from "~/route-widgets/ReservedAliasDetailRoute/AliasUsersList"
 
 export default function ReservedAliasDetailRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["admin-reserved-aliases", "common"])
 	const params = useParams()
 	const queryKey = ["get_reserved_alias", params.id!]
 
@@ -22,20 +22,16 @@ export default function ReservedAliasDetailRoute(): ReactElement {
 
 	return (
 		<SimplePage
-			title={t("routes.ReservedAliasDetailRoute.title")}
+			title={t("detailsTitle")}
 			actions={
 				query.data && (
 					<DeleteButton
 						onDelete={() => deleteReservedAlias(params.id!)}
-						label={t("routes.AdminRoute.reservedAlias.actions.delete.label")}
-						description={t(
-							"routes.adminRoute.reservedAlias.actions.delete.description",
-						)}
-						continueLabel={t(
-							"routes.AdminRoute.reservedAlias.actions.delete.continueAction",
-						)}
+						label={t("actions.delete.label")}
+						description={t("actions.delete.description")}
+						continueLabel={t("actions.delete.continueActionLabel")}
 						navigateTo="/admin/reserved-aliases"
-						successMessage={t("relations.alias.mutations.success.aliasDeleted")}
+						successMessage={t("messages.alias.deleted", {ns: "common"})}
 					/>
 				)
 			}

@@ -22,7 +22,7 @@ export interface LockNavigationContextProviderProps {
 export default function LockNavigationContextProvider({
 	children,
 }: LockNavigationContextProviderProps): JSX.Element {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["components", "common"])
 	const navigate = useNavigate()
 
 	const [isLocked, setIsLocked] = useState<boolean>(false)
@@ -97,18 +97,18 @@ export default function LockNavigationContextProvider({
 				{children}
 			</LockNavigationContext.Provider>
 			<Dialog open={showDialog} onClose={cancel}>
-				<DialogTitle>{t("components.LockNavigationContextProvider.title")}</DialogTitle>
+				<DialogTitle>{t("LockNavigationContextProvider.title")}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						{t("components.LockNavigationContextProvider.description")}
+						{t("LockNavigationContextProvider.description")}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button startIcon={<TiCancel />} onClick={cancel}>
-						{t("general.cancelLabel")}
+						{t("general.cancelLabel", {ns: "common"})}
 					</Button>
 					<Button startIcon={<MdLogout />} onClick={leave}>
-						{t("components.LockNavigationContextProvider.continueLabel")}
+						{t("LockNavigationContextProvider.continueLabel")}
 					</Button>
 				</DialogActions>
 			</Dialog>

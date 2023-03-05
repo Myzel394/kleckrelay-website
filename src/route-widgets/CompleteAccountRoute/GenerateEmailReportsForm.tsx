@@ -17,7 +17,7 @@ export default function GenerateEmailReportsForm({
 	onNo,
 	onYes,
 }: GenerateEmailReportsFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["complete-account", "common"])
 
 	return (
 		<MultiStepFormElement>
@@ -37,9 +37,7 @@ export default function GenerateEmailReportsForm({
 							<Grid container spacing={4} direction="column">
 								<Grid item>
 									<Typography variant="h6" component="h2" align="center">
-										{t(
-											"routes.CompleteAccountRoute.forms.generateReports.title",
-										)}
+										{t("forms.askForGeneration.title")}
 									</Typography>
 								</Grid>
 								<Grid item>
@@ -49,9 +47,7 @@ export default function GenerateEmailReportsForm({
 								</Grid>
 								<Grid item>
 									<Typography variant="subtitle1" component="p">
-										{t(
-											"routes.CompleteAccountRoute.forms.generateReports.description",
-										)}
+										{t("forms.askForGeneration.description")}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -62,9 +58,7 @@ export default function GenerateEmailReportsForm({
 					<Grid container spacing={2} direction="row">
 						<Grid item>
 							<Button startIcon={<TiCancel />} color="secondary" onClick={onNo}>
-								{t(
-									"routes.CompleteAccountRoute.forms.generateReports.cancelAction",
-								)}
+								{t("general.noLabel", {ns: "common"})}
 							</Button>
 						</Grid>
 						<Grid item>
@@ -73,9 +67,7 @@ export default function GenerateEmailReportsForm({
 								color="primary"
 								onClick={onYes}
 							>
-								{t(
-									"routes.CompleteAccountRoute.forms.generateReports.continueAction",
-								)}
+								{t("general.yesLabel", {ns: "common"})}
 							</Button>
 						</Grid>
 					</Grid>

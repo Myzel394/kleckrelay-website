@@ -8,7 +8,7 @@ import {Box, Button, Grid} from "@mui/material"
 import {LanguageButton} from "~/components"
 
 export default function AuthenticateRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 
 	return (
 		<Box
@@ -35,7 +35,7 @@ export default function AuthenticateRoute(): ReactElement {
 						size="small"
 						startIcon={<MdAdd />}
 					>
-						{t("components.AuthenticateRoute.signup")}
+						{t("routes.signup")}
 					</Button>
 				</Grid>
 				<Grid item>
@@ -46,7 +46,7 @@ export default function AuthenticateRoute(): ReactElement {
 						size="small"
 						startIcon={<MdLogin />}
 					>
-						{t("components.AuthenticateRoute.login")}
+						{t("routes.login")}
 					</Button>
 				</Grid>
 				<Grid item>

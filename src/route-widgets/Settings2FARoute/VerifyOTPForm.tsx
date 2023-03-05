@@ -41,7 +41,7 @@ export default function Settings2FARoute({
 	onRecreateRequired,
 	secret,
 }: VerifyOTPFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["settings-2fa", "common"])
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const user = useUser()
 	const theme = useTheme()
@@ -52,16 +52,19 @@ export default function Settings2FARoute({
 		code: yup
 			.string()
 			.required()
+			.matches(
+				/^[0-9]+$/,
+				t("fields.2faCode.errors.shouldOnlyBeDigits", {ns: "common"}) as string,
+			)
 			.length(6)
-			.matches(/^[0-9]+$/, t("routes.SettingsRoute.2fa.setup.code.onlyDigits").toString())
-			.label(t("routes.SettingsRoute.2fa.setup.code.label")),
+			.label(t("fields.2faCode.label", {ns: "common"})),
 	})
 
 	const {mutateAsync} = useMutation<void, AxiosError, Verify2FASetupData>(verify2FASetup, {
 		onSuccess: () => setShowRecoveryCodes(true),
 		onError: error => {
 			if (error.response?.status === 409 || error.response?.status === 410) {
-				showError(t("routes.SettingsRoute.2fa.setup.expired").toString())
+				showError(t("setup.codeExpired").toString())
 				onRecreateRequired()
 			} else {
 				showError(error)
@@ -107,7 +110,7 @@ export default function Settings2FARoute({
 									error={!!formik.errors.code}
 									helperText={formik.errors.code}
 									name="code"
-									label={t("routes.SettingsRoute.2fa.setup.code.label")}
+									label={t("fields.2faCode.label", {ns: "common"})}
 									disabled={formik.isSubmitting}
 									InputProps={{
 										startAdornment: (
@@ -125,7 +128,7 @@ export default function Settings2FARoute({
 									variant="contained"
 									loading={formik.isSubmitting}
 								>
-									{t("routes.SettingsRoute.2fa.setup.submit")}
+									{t("setup.continueActionLabel")}
 								</LoadingButton>
 							</Grid>
 						</Grid>
@@ -133,7 +136,7 @@ export default function Settings2FARoute({
 				</Grid>
 			</form>
 			<Dialog open={showRecoveryCodes}>
-				<DialogTitle>{t("routes.SettingsRoute.2fa.setup.recoveryCodes.title")}</DialogTitle>
+				<DialogTitle>{t("setup.recoveryCodes.title")}</DialogTitle>
 				<DialogContent
 					sx={{
 						background: theme.palette.background.default,
@@ -144,20 +147,18 @@ export default function Settings2FARoute({
 							<p key={code}>{code}</p>
 						))}
 					</code>
-					<Alert severity="warning">
-						{t("routes.SettingsRoute.2fa.setup.recoveryCodes.description")}
-					</Alert>
+					<Alert severity="warning">{t("setup.recoveryCodes.description")}</Alert>
 				</DialogContent>
 				<DialogActions>
 					<Button
 						variant="contained"
 						onClick={() => {
-							showSuccess(t("routes.SettingsRoute.2fa.setup.success"))
+							showSuccess(t("setup.success"))
 							setShowRecoveryCodes(false)
 							onSuccess()
 						}}
 					>
-						{t("routes.SettingsRoute.2fa.setup.recoveryCodes.submit")}
+						{t("setup.recoveryCodes.continueActionLabel")}
 					</Button>
 				</DialogActions>
 			</Dialog>

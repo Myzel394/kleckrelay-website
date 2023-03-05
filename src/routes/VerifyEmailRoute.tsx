@@ -17,9 +17,9 @@ import {AuthContext} from "~/components"
 const emailSchema = yup.string().email()
 
 export default function VerifyEmailRoute(): ReactElement {
+	const {t} = useTranslation("verify-email")
 	const theme = useTheme()
 	const navigate = useNavigate()
-	const {t} = useTranslation()
 
 	const {login} = useContext(AuthContext)
 	const [_, setEmail] = useLocalStorage<string>("signup-form-state-email", "")
@@ -32,7 +32,7 @@ export default function VerifyEmailRoute(): ReactElement {
 	const tokenSchema = yup
 		.string()
 		.length(serverSettings.emailVerificationLength)
-		.test("token", t("routes.VerifyEmailRoute.errors.code.invalid") as string, token => {
+		.test("token", t("errors.invalid") as string, token => {
 			if (!token) {
 				return false
 			}
@@ -69,13 +69,13 @@ export default function VerifyEmailRoute(): ReactElement {
 			>
 				<Grid item>
 					<Typography variant="h5" component="h1" align="center">
-						{t("routes.VerifyEmailRoute.title")}
+						{t("title")}
 					</Typography>
 				</Grid>
 				{loading ? (
 					<Grid item>
 						<Typography variant="subtitle1" component="p" align="center">
-							{t("routes.VerifyEmailRoute.isLoading")}
+							{t("isLoading")}
 						</Typography>
 					</Grid>
 				) : (
@@ -85,7 +85,7 @@ export default function VerifyEmailRoute(): ReactElement {
 						</Grid>
 						<Grid item>
 							<Typography variant="subtitle1" component="p" align="center">
-								{t("routes.VerifyEmailRoute.isCodeInvalid")}
+								{t("errors.invalid")}
 							</Typography>
 						</Grid>
 					</>

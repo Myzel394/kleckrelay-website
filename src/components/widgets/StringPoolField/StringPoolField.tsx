@@ -51,7 +51,7 @@ export default function StringPoolField({
 	fullWidth,
 	...props
 }: StringPoolFieldProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("components")
 
 	const reversedPoolsMap = useMemo(
 		() => Object.fromEntries(Object.entries(pools).map(([key, value]) => [value, key])),
@@ -155,9 +155,7 @@ export default function StringPoolField({
 							<ListItemIcon>
 								<MdAdd />
 							</ListItemIcon>
-							<ListItemText
-								primary={t("components.StringPoolField.addCustom.label")}
-							/>
+							<ListItemText primary={t("StringPoolField.addCustom.label")} />
 						</MenuItem>
 					)}
 				</Select>

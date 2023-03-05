@@ -44,30 +44,26 @@ interface Form {
 }
 
 export default function SettingsAliasPreferencesRoute(): ReactElement {
+	const {t} = useTranslation(["aliases", "settings-preferences", "common"])
 	const {_updateUser} = useContext(AuthContext)
 	const user = useUser()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
-	const {t} = useTranslation()
 
 	const schema = yup.object().shape({
-		removeTrackers: yup.boolean().label(t("relations.alias.settings.removeTrackers.label")),
-		createMailReport: yup
-			.boolean()
-			.label(t("relations.alias.settings.createMailReports.label")),
-		proxyImages: yup.boolean().label(t("relations.alias.settings.proxyImages.label")),
+		removeTrackers: yup.boolean().label(t("settings.fields.removeTrackers.label")),
+		createMailReport: yup.boolean().label(t("settings.fields.createMailReport.label")),
+		proxyImages: yup.boolean().label(t("settings.fields.proxyImages.label")),
 		imageProxyFormat: yup
 			.mixed<ImageProxyFormatType>()
 			.oneOf(Object.values(ImageProxyFormatType))
 			.required()
-			.label(t("relations.alias.settings.imageProxyFormat.label")),
+			.label(t("settings.fields.imageProxyFormat.label")),
 		proxyUserAgent: yup
 			.mixed<ProxyUserAgentType>()
 			.oneOf(Object.values(ProxyUserAgentType))
 			.required()
-			.label(t("relations.alias.settings.proxyUserAgent.label")),
-		expandUrlShorteners: yup
-			.boolean()
-			.label(t("relations.alias.settings.expandUrlShorteners.label")),
+			.label(t("settings.fields.proxyUserAgent.label")),
+		expandUrlShorteners: yup.boolean().label(t("settings.fields.expandUrlShorteners.label")),
 	})
 
 	const {mutateAsync} = useMutation<SimpleDetailResponse, AxiosError, UpdatePreferencesData>(
@@ -121,8 +117,8 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 
 	return (
 		<SimplePageBuilder.Page
-			title={t("routes.SettingsRoute.forms.aliasPreferences.title")}
-			description={t("routes.SettingsRoute.forms.aliasPreferences.description")}
+			title={t("title", {ns: "settings-preferences"})}
+			description={t("description", {ns: "settings-preferences"})}
 		>
 			<form onSubmit={formik.handleSubmit}>
 				<Grid
@@ -146,7 +142,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 									/>
 								}
 								labelPlacement="start"
-								label={t("relations.alias.settings.removeTrackers.label")}
+								label={t("settings.fields.removeTrackers.label")}
 							/>
 							<FormHelperText
 								error={Boolean(
@@ -156,7 +152,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 							>
 								{(formik.touched.createMailReport &&
 									formik.errors.createMailReport) ||
-									t("relations.alias.settings.removeTrackers.helperText")}
+									t("settings.fields.removeTrackers.helperText")}
 							</FormHelperText>
 						</FormGroup>
 					</Grid>
@@ -174,7 +170,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 									/>
 								}
 								labelPlacement="start"
-								label={t("relations.alias.settings.createMailReports.label")}
+								label={t("settings.fields.createMailReport.label")}
 							/>
 							<FormHelperText
 								error={Boolean(
@@ -184,7 +180,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 							>
 								{(formik.touched.createMailReport &&
 									formik.errors.createMailReport) ||
-									t("relations.alias.settings.createMailReports.helperText")}
+									t("settings.fields.createMailReport.helperText")}
 							</FormHelperText>
 						</FormGroup>
 					</Grid>
@@ -202,7 +198,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 									/>
 								}
 								labelPlacement="start"
-								label={t("relations.alias.settings.proxyImages.label")}
+								label={t("settings.fields.proxyImages.label")}
 							/>
 							<FormHelperText
 								error={Boolean(
@@ -210,13 +206,13 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 								)}
 							>
 								{(formik.touched.proxyImages && formik.errors.proxyImages) ||
-									t("relations.alias.settings.proxyImages.helperText")}
+									t("settings.fields.proxyImages.helperText")}
 							</FormHelperText>
 							<Alert
 								sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
 								severity="warning"
 							>
-								{t("general.experimentalFeature")}
+								{t("general.experimentalFeatureExplanation", {ns: "common"})}
 							</Alert>
 						</FormGroup>
 						<Collapse in={formik.values.proxyImages}>
@@ -242,9 +238,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 											}}
 											name="imageProxyFormat"
 											id="imageProxyFormat"
-											label={t(
-												"relations.alias.settings.imageProxyFormat.label",
-											)}
+											label={t("settings.fields.imageProxyFormat.label")}
 											value={formik.values.imageProxyFormat}
 											onChange={formik.handleChange}
 											disabled={formik.isSubmitting}
@@ -286,7 +280,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 								select
 								name="proxyUserAgent"
 								id="proxyUserAgent"
-								label={t("relations.alias.settings.proxyUserAgent.label")}
+								label={t("settings.fields.proxyUserAgent.label")}
 								value={formik.values.proxyUserAgent}
 								onChange={formik.handleChange}
 								disabled={formik.isSubmitting}
@@ -312,7 +306,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 								)}
 							>
 								{(formik.touched.proxyUserAgent && formik.errors.proxyUserAgent) ||
-									t("relations.alias.settings.proxyUserAgent.helperText")}
+									t("settings.fields.proxyUserAgent.helperText")}
 							</FormHelperText>
 						</FormGroup>
 					</Grid>
@@ -330,7 +324,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 									/>
 								}
 								labelPlacement="start"
-								label={t("relations.alias.settings.expandUrlShorteners.label")}
+								label={t("settings.fields.expandUrlShorteners.label")}
 							/>
 							<FormHelperText
 								error={Boolean(
@@ -340,13 +334,13 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 							>
 								{(formik.touched.expandUrlShorteners &&
 									formik.errors.expandUrlShorteners) ||
-									t("relations.alias.settings.expandUrlShorteners.helperText")}
+									t("settings.fields.expandUrlShorteners.helperText")}
 							</FormHelperText>
 							<Alert
 								sx={{width: "fit-content", alignSelf: "end", marginTop: 1}}
 								severity="warning"
 							>
-								{t("general.experimentalFeature")}
+								{t("general.experimentalFeatureExplanation", {ns: "common"})}
 							</Alert>
 						</FormGroup>
 					</Grid>
@@ -357,7 +351,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 					type="submit"
 					startIcon={<MdCheckCircle />}
 				>
-					{t("routes.SettingsRoute.forms.aliasPreferences.saveAction")}
+					{t("continueActionLabel", {ns: "settings-preferences"})}
 				</LoadingButton>
 			</form>
 		</SimplePageBuilder.Page>

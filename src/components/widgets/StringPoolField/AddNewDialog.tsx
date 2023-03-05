@@ -28,22 +28,22 @@ export default function AddNewDialog({
 	open = false,
 	onClose,
 }: StringPoolFieldProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["components", "common"])
 
 	const [value, setValue] = useState<string>("")
 
 	return (
 		<Dialog open={open} onClose={onClose}>
-			<DialogTitle>{t("components.StringPoolField.forms.addNew.title")}</DialogTitle>
+			<DialogTitle>{t("StringPoolField.forms.addNew.title")}</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					{t("components.StringPoolField.forms.addNew.description")}
+					{t("StringPoolField.forms.addNew.description")}
 				</DialogContentText>
 				<Box my={2}>
 					<TextField
 						value={value}
 						onChange={e => setValue(e.target.value)}
-						label={t("components.StringPoolField.forms.addNew.label")}
+						label={t("StringPoolField.forms.addNew.label")}
 						name="addNew"
 						fullWidth
 						autoFocus
@@ -53,14 +53,14 @@ export default function AddNewDialog({
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={onClose} startIcon={<TiCancel />} variant="text">
-					{t("general.cancelLabel")}
+					{t("general.cancelLabel", {ns: "common"})}
 				</Button>
 				<Button
 					onClick={() => onCreated(value)}
 					variant="contained"
 					startIcon={<MdCheck />}
 				>
-					{t("components.StringPoolField.forms.addNew.submit")}
+					{t("StringPoolField.forms.addNew.submit")}
 				</Button>
 			</DialogActions>
 		</Dialog>
