@@ -90,10 +90,6 @@
             }
         },
         "SettingsRoute": {
-            "forms": {
-                "aliasPreferences": {
-                }
-            },
             "2fa": {
                 "title": "Two-Factor-Authentication",
                 "alreadyEnabled": "You have successfully enabled 2FA!",

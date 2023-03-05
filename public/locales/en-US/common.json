@@ -9,7 +9,10 @@
     },
     "2faCode": {
       "label": "Code",
-      "placeholder": "123456"
+      "placeholder": "123456",
+      "errors": {
+        "shouldOnlyBeDigits": "The code should only contain digits."
+      }
     },
     "recoveryCode": {
       "label": "Recovery Code"
