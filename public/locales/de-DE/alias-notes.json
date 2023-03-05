@@ -1,32 +1,31 @@
 {
-  "title": "Notes",
+  "title": "Notizen",
   "form": {
     "createdAt": {
-      "label": "Created at",
-      "empty": "Unavailable"
+      "label": "Erstellt am"
     },
     "creationContext": {
-      "label": "Creation Context",
+      "label": "Erstellt auf",
       "values": {
-        "web": "Created on this instance",
-        "extension": "Created in the extension",
-        "extension-inline": "Created using the extension"
+        "web": "Auf dieser Instanz erstellt",
+        "extension": "In der Erweiterung erstellt",
+        "extension-inline": "Mithilfe der Erweiterung erstellt",
       }
     },
     "createdOn": {
-      "label": "Created on"
+      "label": "Erstellt auf"
     },
     "personalNotes": {
-      "label": "Personal Notes",
-      "helperText": "You can enter personal notes for this alias here. Notes are encrypted."
+      "label": "Persönliche Notizen",
+      "helperText": "Du kannst persönliche Notizen für diesen Alias hier eingeben. Notizen werden verschlüsselt gespeichert."
     },
     "websites": {
-      "label": "Websites",
-      "emptyText": "You haven't used this alias on any site yet.",
+      "label": "Webseiten",
+      "emptyText": "Du hast diesen Alias noch nicht auf einer Webseite verwendet.",
       "placeholder": "https://example.com",
-      "helperText": "Add a website to this alias. Used to autofill.",
+      "helperText": "Füge eine Webseite zu diesem Alias hinzu. Diese wird zum automatischen Ausfüllen verwendet.",
       "errors": {
-        "invalid": "This URL is invalid."
+        "invalid": "Diese URL ist ungültig."
       }
     }
   }

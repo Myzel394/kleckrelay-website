@@ -1,33 +1,33 @@
 {
-  "title": "Two-Factor-Authentication",
-  "alreadyEnabled": "You have successfully enabled 2FA!",
+  "title": "Zwei-Faktor-Authentifizierung",
+  "alreadyEnabled": "Du hast 2FA erfolgreich aktiviert!",
   "setup": {
-    "description": "Enable 2FA to add an extra layer of security to your account. Each time you log in, you will need to enter a code generated from your authenticator app. This makes it harder for an attacker to hack into your account as they would need to have access to your phone.",
-    "setupLabel": "Enable 2FA",
-    "continueActionLabel": "Enable 2FA",
-    "codeExpired": "The verification time for your current Two-Factor-Authentication code has expired. A new code has been generated.",
+    "description": "Aktiviere 2FA, um eine zusätzliche Sicherheitsschicht für dein Konto hinzuzufügen. Jedes Mal, wenn du dich einloggst, musst du einen Code eingeben, der von deiner Authentifizierungs-App generiert wird. Dies macht es für einen Angreifer schwieriger auf dein Konto zuzugreifen, da er zusätzlich zu deinen Zugangsdaten auch noch Zugriff auf dein Telefon benötigt.",
+    "setupLabel": "2FA aktivieren",
+    "continueActionLabel": "2FA aktivieren",
+    "codeExpired": "Die Verifizierungszeit für deinen aktuellen 2FA-Code ist abgelaufen. Ein neuer Code wurde generiert.",
     "recoveryCodes": {
-      "title": "Note down your recovery codes",
-      "description": "These codes are used to recover your account if you lose access to your authenticator app. Note them down and store them in a safe place. You will not be able to view them again. Do not store them in your password manager. IF YOU LOSE YOUR RECOVERY CODES, YOU WILL LOSE ACCESS TO YOUR ACCOUNT. WE WILL NOT BE ABLE TO HELP YOU.",
-      "continueActionLabel": "I have noted down my recovery codes"
+      "title": "Notiere dir deine Wiederherstellungs-Codes",
+      "description": "Diese Codes werden verwendet, um dein Konto wiederherzustellen, wenn du keinen Zugriff mehr auf deine Authentifizierungs-App hast. Notiere sie dir und bewahre sie an einem sicheren Ort auf. Du wirst sie nicht noch einmal sehen können. Speichere sie nicht in deinem Passwort-Manager. WENN DU DEINE WIEDERHERSTELLUNGS-CODES VERLIERST, HAST DU KEINEN ZUGRIFF MEHR AUF DEIN KONTO. WIR KÖNNEN DIR NICHT HELFEN.",
+      "continueActionLabel": "Ich habe meine Wiederherstellungs-Codes notiert"
     },
-    "success": "You have successfully enabled 2FA!"
+    "success": "Du hast 2FA erfolgreich aktiviert!"
   },
   "delete": {
-    "title": "Disable 2FA",
+    "title": "2FA deaktivieren",
     "steps": {
       "askType": {
-        "code": "I have my 2FA code",
-        "recoveryCode": "I have a recovery code"
+        "code": "Ich habe meinen 2FA-Code",
+        "recoveryCode": "Ich habe einen Wiederherstellungs-Code"
       },
       "askCode": {
         "label": "Code"
       },
       "askRecoveryCode": {
-        "label": "Recovery Code"
+        "label": "Wiederherstellungs-Code"
       }
     },
-    "continueActionLabel": "Disable 2FA",
-    "success": "You have successfully disabled 2FA!"
+    "continueActionLabel": "2FA deaktivieren",
+    "success": "Du hast 2FA erfolgreich deaktiviert!"
   }
 }

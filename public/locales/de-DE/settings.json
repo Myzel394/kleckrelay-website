@@ -1,7 +1,7 @@
 {
-  "title": "Settings",
+  "title": "Einstellungen",
   "actions": {
-    "enable2fa": "Two-Factor-Authentication",
-    "aliasPreferences": "Alias Preferences"
+    "enable2fa": "Zwei-Faktor-Authentifizierung",
+    "aliasPreferences": "Alias Präferenzen"
   }
 }

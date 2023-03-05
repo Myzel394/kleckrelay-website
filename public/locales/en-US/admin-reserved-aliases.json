@@ -32,7 +32,7 @@
     }
   },
   "createNew": {
-    "title": "Reserved Aliases",
+    "title": "Create Reserved Alias",
     "description": "Define what alias should forward to whom.",
     "continueActionLabel": "Create Reserved Alias",
     "explanation": {

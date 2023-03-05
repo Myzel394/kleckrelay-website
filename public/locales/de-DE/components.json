@@ -1,41 +1,41 @@
 {
   "ResendMailButton": {
-    "label": "Resend Mail"
+    "label": "E-Mail erneut senden"
   },
   "OpenMailButton": {
-    "label": "Open Mail"
+    "label": "E-Mail öffnen"
   },
   "TimedButton": {
     "remainingTime_one": "({{count}})",
     "remainingTime_other": "({{count}})"
   },
   "ErrorLoadingDataMessage": {
-    "tryAgain": "Try Again"
+    "tryAgain": "Erneut versuchen"
   },
   "LockNavigationContextProvider": {
-    "title": "Are you sure you want to leave?",
-    "description": "You have unsaved changes. If you leave, your changes will be lost.",
-    "continueLabel": "Leave"
+    "title": "Bist du sicher, dass du gehen möchtest?",
+    "description": "Du hast ungespeicherte Änderungen. Wenn du gehst, gehen diese Änderungen verloren.",
+    "continueLabel": "Verlassen"
   },
   "StringPoolField": {
     "addCustom": {
-      "label": "Add custom"
+      "label": "Wert hinzufügen"
     },
     "forms": {
       "addNew": {
-        "title": "Add new value",
-        "description": "Enter your characters you would like to include",
-        "label": "Characters",
-        "submit": "Add"
+        "title": "Neuen Wert hinzufügen",
+        "description": "Füge einen neuen Wert hinzu",
+        "label": "Wert",
+        "submit": "Hinzufügen"
       }
     }
   },
   "SelectField": {
     "values": {
-      "true": "Yes",
-      "false": "No"
+      "true": "Ja",
+      "false": "Nein"
     },
     "valueSelection": "<{{ value }}>",
-    "valueSelectionIsDefault": "Default <{{ value }}>"
+    "valueSelectionIsDefault": "Standard <{{ value }}>"
   }
 }

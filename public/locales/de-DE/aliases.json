@@ -1,62 +1,63 @@
 {
-  "title": "Aliases",
+  "title": "Aliase",
   "detailsTitle": "Alias Details",
-  "isInCopyMode": "You are in copy mode. Click on an alias to copy it to your clipboard.",
+  "isInCopyMode": "Du bist im Kopiermodus. Klicke auf einen Alias, um die Adresse in die Zwischenablage zu kopieren.",
   "emptyState": {
-    "title": "Welcome to your Aliases!",
-    "description": "Create your first Alias to get started."
+    "title": "Willkommen zu deinen Aliasen!",
+    "description": "Erstelle deinen ersten Alias, um loszulegen."
   },
   "pageActions": {
     "search": {
-      "placeholder": "Search for names"
+      "placeholder": "Suche nach Adressen"
     },
     "searchFilter": {
-      "active": "Active",
-      "inactive": "Inactive"
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
     },
     "typeFilter": {
-      "custom": "Custom made",
-      "random": "Randomly generated"
+      "custom": "Benutzerdefinierte",
+      "random": "Zufällig generierte"
     }
   },
   "actions": {
     "createRandomAlias": {
-      "title": "Create Random Alias"
+      "title": "Erstelle einen zufälligen Alias"
     },
     "createCustomAlias": {
-      "title": "Create Custom Alias",
-      "description": "You can define your own custom alias. Note that a random suffix will be added at the end to avoid duplicates.",
-      "continueActionLabel": "Create Alias"
+      "title": "Erstelle einen benutzerdefinierten Alias",
+      "description": "Du kannst einen benutzerdefinierten Alias erstellen. Beachte, dass ein zufälliger Suffix am Ende hinzugefügt wird, um Duplikate zu vermeiden.",
+      "continueActionLabel": "Alias erstellen"
     },
     "delete": {
-      "label": "Delete Alias",
-      "description": "Are you sure you want to delete this alias?",
-      "continueActionLabel": "Delete Alias"
+      "label": "Alias löschen",
+      "description": "Bist du dir sicher, dass du diesen Alias löschen möchtest?",
+      "continueActionLabel": "Alias löschen"
     }
   },
   "aliasTypeExplanation": {
-    "random": "This is a randomly generated alias",
-    "custom": "This is a custom-made alias"
+    "random": "Dies ist ein zufällig generierter Alias",
+    "custom": "Dies ist ein benutzerdefinierter Alias"
   },
   "settings": {
-    "title": "Settings",
-    "description": "These settings apply to this alias only. You can either set a value manually or refer to your default settings. Note that this does change in behavior. When you set a value to refer to your default setting, the alias will always use the latest value. So when you change your default setting, the alias will automatically use the new value.",
-    "continueActionLabel": "Save Settings",
+    "title": "Einstellungen",
+    "description": "Diese Einstellung werden nur auf diesen Alias angewendet. Du kannst entweder einen Wert manuell setzen oder auf deine Standard-Einstellungen verweisen. Beachte, dass sich das Verhalten dadurch ändert. Wenn du einen Wert auf deine Standard-Einstellungen verweist, wird der Alias immer den neuesten Wert verwenden. Wenn du also deine Standard-Einstellungen änderst, wird der Alias automatisch den neuen Wert verwenden.",
+    "continueActionLabel": "Einstellungen speichern",
     "fields": {
       "removeTrackers": {
-        "label": "Remove Trackers",
-        "helperText": "Remove single-pixel image trackers as well as url trackers."
+        "label": "Tracker entfernen",
+        "continueActionLabel": "Einstellungen speichern",
+        "helperText": "Einzelpixel-Tracker und URL-Tracker werden entfernt."
       },
       "createMailReport": {
-        "label": "Create Mail Reports",
-        "helperText": "Create reports of emails sent to aliases. Reports are end-to-end encrypted. Only you can access them."
+        "label": "E-Mail-Berichte erstellen",
+        "helperText": "Erstellt Berichte über E-Mails, die an Aliase gesendet wurden. Berichte sind Ende-zu-Ende verschlüsselt. Nur du kannst darauf zugreifen."
       },
       "proxyImages": {
-        "label": "Proxy Images",
-        "helperText": "Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the sender has no idea you have opened the mail. After the cache time, the image is loaded from the sender, but it will be forwarded by us. This means the sender will not be able to access your IP address nor your browser data."
+        "label": "Bilder weiterleiten",
+        "helperText": "Leitet Bilder in deinen E-Mails über diese KleckRelay-Instanz weiter. Dies fügt eine weitere Schicht der Privatsphäre hinzu. Bilder werden sofort nach dem Empfang der E-Mail geladen. Sie werden dann für eine gewisse Zeit (Cache-Zeit) gespeichert. Während dieser Zeit wird das Bild von uns ausgeliefert. Dies bedeutet, dass der Absender keine Ahnung hat, dass du die Mail geöffnet hast. Nach der Cache-Zeit wird das Bild vom Absender über uns weitergeleitet. Dies bedeutet, dass der Absender weder auf deine IP-Adresse noch auf deine Browserdaten zugreifen kann."
       },
       "imageProxyFormat": {
-        "label": "Image File Type",
+        "label": "Bild-Typ",
         "values": {
           "jpeg": "JPEG",
           "png": "PNG",
@@ -64,8 +65,8 @@
         }
       },
       "proxyUserAgent": {
-        "label": "Proxy User Agent",
-        "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used when we forward it. User Agents are kept up-to-date.",
+        "label": "Weiterleitungs-User-Agent",
+        "helperText": "Ein User Agent ist ein Identifikator, den jeder Browser und E-Mail-Client beim Abrufen von Dateien, wie z.B. Bildern, sendet. Du kannst hier angeben, welcher User Agent verwendet werden soll, wenn wir deine Bilder weiterleiten. User Agents werden auf dem neuesten Stand gehalten."
         "values": {
           "apple-mail": "Apple Mail",
           "google-mail": "Google Mail",
@@ -76,8 +77,8 @@
         }
       },
       "expandUrlShorteners": {
-        "label": "Expand URL Shorteners",
-        "helperText": "Expand shortened URLs (for example bit.ly) to their original URL. This way those services can't track you."
+        "label": "URL-Verkürzer auflösen",
+        "helperText": "Löst gekürzte URLs (z.B. bit.ly) auf ihre ursprüngliche URL auf. Auf diese Weise können diese Dienste dich nicht tracken."
       }
     }
   }

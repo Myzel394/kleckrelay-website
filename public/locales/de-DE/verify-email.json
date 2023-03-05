@@ -1,7 +1,7 @@
 {
-  "title": "Verify your email",
-  "isLoading": "We are verifying your email address...",
+  "title": "E-Mail bestätigen",
+  "isLoading": "Wir prüfen Ihren Link...",
   "errors": {
-    "invalid": "The verification link is invalid or has expired."
+    "invalid": "Dieser Link ist ungültig oder abgelaufen."
   }
 }

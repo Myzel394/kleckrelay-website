@@ -1,12 +1,12 @@
 {
   "sharePassword": {
-    "title": "Share Password?",
-    "description": "An extension is asking for your password. Do you want to share it? Only continue if you initiated this action.",
-    "warning": "THIS WILL SHARE YOUR PASSWORD WITH THE EXTENSION. ALL YOUR DATA CAN BE DECRYPTED USING IT. ONLY CONTINUE IF YOU TRUST THE EXTENSION AND IF YOU INITIATED THIS REQUEST.",
+    "title": "Passwort teilen?",
+    "description": "Eine Erweiterung fragt nach deinem Passwort. Möchtest du es teilen? Fahre nur fort, wenn du diese Aktion initiiert hast.",
+    "warning": "DIES TEILT DEIN PASSWORT MIT DER ERWEITERUNG. ALLE DEINE DATEN KÖNNEN MIT DEM PASSWORT ENTSCHLÜSSELT WERDEN. FAHRE NUR FORT, WENN DU DER ERWEITERUNG VERTRAUST UND WENN DU DIESE ANFRAGE GESTARTET HAST.",
 
-    "sharePassword": "Share Password",
-    "doNotShare": "Do not share",
-    "decideLater": "Decide later",
-    "doNotAskAgain": "Do not ask again"
+    "sharePassword": "Passwort teilen",
+    "doNotShare": "Passwort nicht teilen",
+    "decideLater": "Später entscheiden",
+    "doNotAskAgain": "Nein und nicht erneut nachfragen"
   }
 }

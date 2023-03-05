@@ -1,16 +1,16 @@
 {
   "forms": {
     "askForGeneration": {
-      "title": "Generate Email Reports?",
-      "description": "Would you like to create fully encrypted email reports for your mails? Only you will be able to access them. Not even we can decrypt them."
+      "title": "E-Mail Berichte generieren?",
+      "description": "Möchtest du verschlüsselte E-Mail Berichte für deine E-Mails erstellen lassen? Nur du kannst auf sie zugreifen. Selbst wir können sie nicht entschlüsseln."
     },
     "enterPassword": {
-      "title": "Set up your password",
-      "description": "Please enter a safe password so that we can encrypt your data."
+      "title": "Passwort festlegen",
+      "description": "Bitte gib ein sicheres Passwort ein, damit wir deine Daten verschlüsseln können."
     }
   },
   "alreadyCompleted": {
-    "title": "Encryption already enabled",
-    "description": "You already have encryption enabled. Changing passwords is currently not supported."
+    "title": "Verschlüsselung bereits aktiviert",
+    "description": "Du hast bereits die Verschlüsselung aktiviert. Das Ändern des Passworts wird derzeit nicht unterstützt."
   }
 }

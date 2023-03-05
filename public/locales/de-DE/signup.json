@@ -1,17 +1,17 @@
 {
   "forms": {
     "email": {
-      "title": "Sign up",
-      "description": "We only need your email and you are ready to go!",
-      "continueActionLabel": "Continue"
+      "title": "Registrieren",
+      "description": "Wir brauchen nur deine E-Mail-Adresse und schon kann es losgehen!"
     },
     "mailVerification": {
-      "title": "You got mail!",
-      "description": "We sent you an email with a link to confirm your email address. Please check your inbox and click on the link to continue.",
+      "title": "Du hast Mail!",
+      "description": "Wir haben dir eine E-Mail mit einem Bestätigungslink gesendet. Bitte überprüfe deine E-Mails und klicke auf den Link, um deine Registrierung abzuschließen.",
+      "markAsNotSpam": "Wenn du die E-Mail nicht findest, überprüfe bitte auch deinen Spam-Ordner. Sollte die E-Mail in deinem Spam-Ordner landen, bitte markiere sie als \"Kein Spam\" um in Zukunft alle E-Mails zu erhalten",
       "editEmail": {
-        "title": "Edit email address?",
-        "description": "Would you like to return to the previous step and edit your email address?",
-        "continueActionLabel": "Yes, edit email"
+        "title": "E-Mail-Adresse bearbeiten",
+        "description": "Möchtest du zum vorherigen Schritt zurückkehren und deine E-Mail-Adresse bearbeiten?",
+        "continueActionLabel": "Ja, E-Mail-Adresse bearbeiten"
       }
     }
   }

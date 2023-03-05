@@ -2,8 +2,7 @@
   "title": "Notes",
   "form": {
     "createdAt": {
-      "label": "Created at",
-      "empty": "Unavailable"
+      "label": "Created at"
     },
     "creationContext": {
       "label": "Creation Context",

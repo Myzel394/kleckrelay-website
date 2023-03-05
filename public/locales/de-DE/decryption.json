@@ -1,20 +1,20 @@
 {
   "actions": {
     "enterDecryptionPassword": {
-      "title": "Decrypt Reports",
-      "description": "Please enter your password so that your reports can de decrypted.",
-      "cancelActionLabel": "Decrypt later"
+      "title": "Berichte entschlüsseln",
+      "description": "Bitte gib dein Passwort ein, damit deine Berichte entschlüsselt werden können.",
+      "cancelActionLabel": "Später entschlüsseln"
     },
     "passwordMissing": {
       "unavailable": {
-        "title": "Encryption required",
-        "description": "You need to set up encryption to use this feature.",
-        "continueActionLabel": "Set up encryption"
+        "title": "Verschlüsselung erforderlich",
+        "description": "Um diese Funktion nutzen zu können, musst du die Verschlüsselung einrichten.",
+        "continueActionLabel": "Verschlüsselung einrichten"
       },
       "passwordRequired": {
-        "title": "Password required",
-        "description": "Your decryption password is required to view this section.",
-        "continueActionLabel": "Enter password"
+        "title": "Passwort erforderlich",
+        "description": "Dein Passwort ist erforderlich, um diese Sektion anzuzeigen.",
+        "continueActionLabel": "Passwort eingeben"
       }
     }
   }

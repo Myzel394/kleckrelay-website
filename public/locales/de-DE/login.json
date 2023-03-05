@@ -1,35 +1,35 @@
 {
-  "title": "Log in",
+  "title": "Anmelden",
   "forms": {
     "email": {
-      "description": "We will send you a code to log in",
-      "continueActionLabel": "Send code"
+      "description": "Wir senden dir einen Code, um dich anzumelden",
+      "continueActionLabel": "Code senden"
     },
     "confirmCode": {
-      "title": "You got mail!",
-      "description": "We sent you a code to your email. Enter it below to login",
-      "continueActionLabel": "Log in",
-      "allowLoginFromDifferentDevices": "Allow login from different devices",
-      "expiringSoonWarning": "Your code will expire in less than a minute.",
+      "title": "Du hast Mail!",
+      "description": "Wir haben dir eine E-Mail mit einem Anmelde-Code geschickt. Gib ihn unten ein, um dich anzumelden",
+      "continueActionLabel": "Anmelden",
+      "allowLoginFromDifferentDevices": "Von anderen Geräten anmelden",
+      "expiringSoonWarning": "Dein Code läuft in weniger als einer Minute ab.",
       "fields": {
         "code": {
-          "label": "Verification Code",
+          "label": "Anmelde-Code",
           "errors": {
-            "invalidChars": "Invalid verification code"
+            "invalidChars": "Der Anmelde-Code ist ungültig",
           }
         }
       }
     },
     "confirmFromDifferentDevice": {
-      "title": "Login failed",
-      "description": "You could not be logged in. This could either be because you are not allowed to login from different devices or the verification code is invalid or expired."
+      "title": "Anmeldung fehlgeschlagen",
+      "description": "Du konntest nich angemeldet werden. Dies kann entweder daran liegen, dass du dich nicht von anderen Geräten anmelden darfst oder der Verifizierungscode ungültig oder abgelaufen ist."
     },
     "otp": {
-      "title": "Two-Factor Authentication",
-      "description": "Enter the code from your authenticator app",
-      "isUnavailable": "Your OTP verification time expired or you exceeded the maximum number of attempts. Please log in again.",
-      "codesLostActionLabel": "I lost my codes",
-      "continueActionLabel": "Log in"
+      "title": "Zwei-Faktor-Authentifizierung",
+      "description": "Gib den Code aus deiner Authentifizierungs-App ein",
+      "isUnavailable": "Deine Zwei-Faktor-Anmeldezeit ist abgelaufen oder du hast die maximale Anzahl an Versuchen überschritten. Bitte melde dich erneut an.",
+      "codesLostActionLabel": "Ich habe meine Codes verloren",
+      "continueActionLabel": "Anmelden"
     }
   }
 }

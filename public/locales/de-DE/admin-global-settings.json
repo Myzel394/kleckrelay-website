@@ -1,71 +1,71 @@
 {
-  "title": "Global Settings",
-  "description": "Configure global settings for your instance.",
-  "updatedSuccessfullyMessage": "Settings have been saved successfully!",
+  "title": "Globale Einstellungen",
+  "description": "Konfiguriere globale Einstellungen für deine Instanz.",
+  "updatedSuccessfullyMessage": "Einstellungen wurden erfolgreich gespeichert!",
   "randomAliasesPreview": {
-    "title": "Random aliases will look like this",
-    "helperText": "This is just a preview. Those are not real aliases."
+    "title": "Zufällige Aliase werden so aussehen",
+    "helperText": "Dies ist nur eine Vorschau. Dies sind keine echten Aliase."
   },
-  "randomAliasesIncreaseExplanation": "Random aliases' length will be increased from {{originalLength}} to {{increasedLength}} characters after {{amount}} aliases have been created.",
-  "resetLabel": "Reset to defaults",
+  "randomAliasesIncreaseExplanation": "Die Länge der Adressen von zufälligen Aliase wird von {{originalLength}} auf {{increasedLength}} Zeichen erhöht, nachdem {{amount}} Aliase erstellt wurden.",
+  "resetLabel": "Auf Standards zurücksetzen",
   "disabled": {
-    "title": "Global settings are disabled",
-    "description": "Global settings have been disabled. You can enable them in the configuration file."
+    "title": "Globale Einstellungen sind deaktiviert",
+    "description": "Globale Einstellungen wurden deaktiviert. Du kannst sie in der Konfigurationsdatei aktivieren."
   },
   "fields": {
     "randomEmailIdMinLength": {
-      "label": "Minimum random alias ID length",
-      "description": "The minimum length for randomly generated emails. The server will automatically increase the length if required so."
+      "label": "Minimale Länge zufällier Alias-Adressen",
+      "description": "Die minimale Länge für zufällig generierte E-Mail-Adressen. Der Server wird die Länge automatisch erhöhen, wenn dies erforderlich ist."
     },
     "randomEmailIdChars": {
-      "label": "Random alias character pool",
-      "description": "Characters that are used to generate random emails."
+      "label": "Zeichen zufälliger Alias-Adressen",
+      "description": "Zeichen, die für die Generierung von zufälligen E-Mail-Adressen verwendet werden."
     },
     "randomEmailLengthIncreaseOnPercentage": {
-      "label": "Percentage of used aliases",
-      "description": "If the percentage of used random email IDs is higher than this value, the length of the random email ID will be increased. This is used to prevent spammers from guessing the email ID."
+      "label": "Prozent der zu verwendeten Aliase",
+      "description": "Wenn der Prozentsatz der verwendeten zufälligen E-Mail-Adressen höher als dieser Wert ist, wird die Länge der zufälligen E-Mail-Adressen erhöht. Dies wird verwendet, um Spammern das Erraten von Aliasen zu erschweren."
     },
     "customEmailSuffixLength": {
-      "label": "Custom email suffix length",
-      "description": "The length of the custom email suffix."
+      "label": "Länge benutzerdefinierter E-Mail-Suffixe",
+      "description": "Die Länge des benutzerdefinierten E-Mail-Suffixes."
     },
     "customEmailSuffixChars": {
-      "label": "Custom email suffix character pool",
-      "description": "Characters that are used to generate custom email suffixes."
+      "label": "Zeichen benutzerdefinierte E-Mail-Suffixe",
+      "description": "Zeichen, die für die Generierung von benutzerdefinierten E-Mail-Suffixen verwendet werden."
     },
     "imageProxyStorageLifeTimeInHours": {
-      "label": "Image proxy storage lifetime",
-      "description": "The lifetime of images that are stored on the server in hours. After this time, the image will be deleted.",
-      "unit_one": "hour",
-      "unit_other": "hours"
+      "label": "Lebensdauer von Bildweiterleitungen",
+      "description": "Die Lebensdauer von Bildern, die auf dem Server gespeichert sind, in Stunden. Nach dieser Zeit wird das Bild gelöscht.",
+      "unit_one": "Stunde",
+      "unit_other": "Stunden"
     },
     "enableImageProxy": {
-      "label": "Enable image proxy",
-      "description": "If enabled, images will be proxied through the server. This enhances your user's privacy as their ip address will not be leaked."
+      "label": "Weiterleitung von Bildern aktivieren",
+      "description": "Wenn aktiviert, werden Bilder über den Server weitergeleitet. Dies erhöht die Privatsphäre deiner Benutzer, da ihre IP-Adresse nicht getracked werden können."
     },
     "enableImageProxyStorage": {
-      "label": "Enable image proxy storage",
-      "description": "If enabled, images will be stored on the server and forwarded to the user. This makes email tracking nearly impossible as every message will be marked as read instantly, which is obviously not true as a user is typically not able to view an email in just a few seconds after it has been sent. This will only affect new images."
+      "label": "Speichern von Bildern aktivieren",
+      "description": "Wenn aktiviert, werden Bilder auf dem Server gespeichert und an den Benutzer weitergeleitet. Dies macht das Tracking von E-Mails fast unmöglich, da jede Nachricht sofort als gelesen markiert wird, was natürlich nicht wahr ist, da ein Benutzer normalerweise nicht in wenigen Sekunden nach dem Versand einer E-Mail diese bereits öffnen kann. Dies betrifft nur neue Bilder."
     },
     "userEmailEnableDisposableEmails": {
-      "label": "Enable disposable emails for new accounts",
-      "description": "If enabled, users will be able to use disposable emails when creating a new account. This will only affect new accounts."
+      "label": "Erlauben von Wegwerf-E-Mails für neue Konten",
+      "description": "Wenn aktiviert, können Benutzer bei der Erstellung eines neuen Kontos Wegwerf-E-Mails verwenden. Dies betrifft nur neue Konten."
     },
     "userEmailEnableOtherRelays": {
-      "label": "Enable other relays for new accounts",
-      "description": "If enabled, users will be able to use other relays (such as SimpleLogin or DuckDuckGo's Email Tracking Protection) when creating a new account. This will only affect new accounts."
+      "label": "Erlauben von anderen E-Mail-Alias-Providern für neue Konten",
+      "description": "Wenn aktiviert, können Benutzer bei der Erstellung eines neuen Kontos andere E-Mail-Weiterleitungen (wie SimpleLogin oder DuckDuckGo's Email Tracking Protection) verwenden. Dies betrifft nur neue Konten."
     },
     "allowStatistics": {
-      "label": "Allow statistics",
-      "description": "If enabled, your instance will collect anonymous statistics and share them. They will only be stored locally on this instance but made public."
+      "label": "Statistiken aktivieren",
+      "description": "Wenn aktiviert, sammelt deine Instanz anonyme Statistiken und teilt sie. Sie werden nur lokal auf dieser Instanz gespeichert, aber öffentlich gemacht."
     },
     "allowAliasDeletion": {
-      "label": "Allow alias deletion",
-      "description": "If enabled, users will be able to delete their aliases."
+      "label": "Löschen von Aliasen erlauben",
+      "description": "Wenn aktiviert, können Benutzer ihre Aliase löschen."
     },
     "maxAliasesPerUser": {
-      "label": "Maximum aliases per user",
-      "description": "The maximum number of aliases a user can create. 0 means unlimited. Existing aliases will not be affected."
+      "label": "Maximale Anzahl von Aliase pro Benutzer",
+      "description": "Die maximale Anzahl von Aliase, die ein Benutzer erstellen kann. 0 bedeutet unbegrenzt. Bestehende Aliase werden nicht gelöscht, wenn der Benutzer die maximale Anzahl von Aliase erreicht hat."
     }
   }
 }

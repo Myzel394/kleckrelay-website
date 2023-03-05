@@ -1,94 +1,93 @@
 {
   "fields": {
     "email": {
-      "label": "Email",
-      "placeholder": "johndoe@example.com",
+      "label": "E-Mail",
+      "placeholder": "maxmustermann@example.com",
       "errors": {
-        "disposable": "Disposable email addresses are not allowed."
+        "disposable": "Wegwerf-E-Mails sind nicht erlaubt."
       }
     },
     "2faCode": {
       "label": "Code",
       "placeholder": "123456",
       "errors": {
-        "shouldOnlyBeDigits": "The code should only contain digits."
+        "shouldOnlyBeDigits": "Der Code darf nur aus Zahlen bestehen."
       }
     },
     "recoveryCode": {
-      "label": "Recovery Code"
+      "label": "Wiederherstellungscode"
     },
     "password": {
-      "label": "Password",
+      "label": "Passwort",
       "placeholder": "********",
       "errors": {
-        "invalid": "Password is invalid."
+        "invalid": "Das Passwort ist ungültig."
       }
     },
     "passwordConfirmation": {
-      "label": "Confirm Password",
+      "label": "Passwort bestätigen",
       "placeholder": "********",
       "errors": {
-        "mismatch": "Passwords do not match."
+        "mismatch": "Die Passwörter stimmen nicht überein."
       }
     },
     "customAliasLocal": {
-      "label": "Address",
-      "placeholder": "awesome-fish"
+      "label": "Adresse",
+      "placeholder": "toller-fisch"
     },
     "local": {
-      "label": "Address"
+      "label": "Adresse"
     },
     "search": {
-      "label": "Search"
+      "label": "Suchen"
     }
   },
   "messages": {
-    "successMessage": "Success!",
-    "deletedObject": "Deleted successfully!",
+    "successMessage": "Erfolg!",
+    "deletedObject": "Erfolgreich gelöscht!",
     "errors": {
-      "unknown": "An unknown error occurred.",
-      "copyFailed": "Copying to clipboard did not work. Please copy the text manually."
+      "unknown": "Ein unbekannter Fehler ist aufgetreten.",
+      "copyFailed": "Das Kopieren in die Zwischenablage ist fehlgeschlagen. Bitte kopiere den Text manuell"
     },
     "alias": {
-      "addressCopied": "Address has been copied to your clipboard!",
-      "created": "Alias has been created successfully!",
-      "deleted": "Alias has been deleted!",
-      "updated": "Alias has been updated successfully!",
-      "changedToEnabled": "Alias has been enabled",
-      "changedToDisabled": "Alias has been disabled"
+      "addressCopied": "Die Adresse wurde in die Zwischenablage kopiert.",
+      "created": "Alias wurde erfolgreich erstellt!",
+      "deleted": "Alias wurde erfolgreich gelöscht!",
+      "updated": "Alias wurde erfolgreich aktualisiert!",
+      "changedToEnabled": "Alias wurde aktiviert",
+      "changedToDisabled": "Alias wurde deaktiviert"
     },
     "report": {
-      "deleted": "Report has been deleted!"
+      "deleted": "Bericht wurde erfolgreich gelöscht!"
     }
   },
   "general": {
-    "cancelLabel": "Cancel",
-    "yesLabel": "Yes",
-    "noLabel": "No",
-    "continueLabel": "Continue",
-    "unavailableValue": "Unavailable",
-    "experimentalFeatureExplanation": "This is an experimental feature.",
-    "saveLabel": "Save",
-    "resetLabel": "Reset",
-    "loading": "Loading...",
-    "actionNotUndoable": "This action cannot be undone!",
-    "appError": "We are sorry but there was an error. Please try again later.",
+    "cancelLabel": "Abbrechen",
+    "yesLabel": "Ja",
+    "noLabel": "Nein",
+    "continueLabel": "Weiter",
+    "unavailableValue": "Nicht verfügbar",
+    "experimentalFeatureExplanation": "Diese Funktion ist experimentell.",
+    "saveLabel": "Speichern",
+    "resetLabel": "Zurücksetzen",
+    "loading": "Lädt...",
+    "actionNotUndoable": "Diese Aktion kann nicht rückgängig gemacht werden!",
+    "appError": "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
     "emptyValue": "-"
   },
   "noSearchResults": {
-    "title": "Nothing found",
-    "description": "We couldn't find anything for your search query. Try again with a different query."
+    "title": "Keine Ergebnisse gefunden",
+    "description": "Wir konnten keine Ergebnisse für deine Suche finden. Versuche es mit einem anderen Suchbegriff."
   },
   "navigation": {
-    "overview": "Overview",
-    "aliases": "Aliases",
-    "reports": "Reports",
-    "settings": "Settings",
+    "aliases": "Aliase",
+    "reports": "Berichte",
+    "settings": "Einstellungen",
     "admin": "Admin"
   },
   "routes": {
-    "signup": "Sign up",
-    "login": "Log in",
-    "logout": "Log out"
+    "signup": "Registrieren",
+    "login": "Anmelden",
+    "logout": "Abmelden"
   }
 }

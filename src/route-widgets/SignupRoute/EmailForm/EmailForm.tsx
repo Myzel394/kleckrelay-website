@@ -84,7 +84,6 @@ export default function EmailForm({onSignUp, serverSettings}: EmailFormProps): R
 					<SimpleForm
 						title={t("forms.email.title")}
 						description={t("forms.email.description")}
-						continueActionLabel={t("forms.email.continueActionLabel")}
 						nonFieldError={formik.errors.detail}
 						isSubmitting={formik.isSubmitting}
 					>

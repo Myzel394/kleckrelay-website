@@ -1,5 +1,5 @@
 {
-  "title": "Alias Preferences",
-  "description": "Select default values for your aliases. This only affects aliases you haven't set a custom value for.",
-  "continueActionLabel": "Save preferences"
+  "title": "Alias-Präferenzen",
+  "description": "Wähle Standardwerte für deine Aliase. Dies betrifft nur Aliase, für die du keine benutzerdefinierten Wert festgelegt hast.",
+  "continueActionLabel": "Präferenzen speichern"
 }

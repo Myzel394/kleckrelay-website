@@ -1,10 +1,10 @@
 {
-  "title": "Recover Two-Factor Authentication",
-  "description": "We are very sorry if you lost your codes. Please enter a recovery code to continue. Note that this will disable two-factor authentication for your account. You can enable it again in the settings.",
-  "continueActionLabel": "Disable 2FA",
+  "title": "Zwei-Faktor-Authentifizierung wiederherstellen",
+  "description": "Wir bedauern sehr, wenn du deine Codes verloren hast. Bitte gib einen Wiederherstellungscode ein, um fortzufahren. Beachte, dass dies die Zwei-Faktor-Authentifizierung für dein Konto deaktiviert. Du kannst sie in den Einstellungen wieder aktivieren.",
+  "continueActionLabel": "2FA deaktivieren",
   "events": {
-    "unauthorized": "Please make sure to log in first and then reset your two-factor authentication on its screen.",
-    "canLogInNow": "Two-factor authentication has been disabled. You can log in now.",
-    "loggedIn": "Two-factor authentication has been disabled. You are logged in now."
+    "unauthorized": "Bitte logge dich zuerst ein und deaktiviere dann die Zwei-Faktor-Authentifizierung auf der entsprechenden Seite.",
+    "canLoginNow": "Zwei-Faktor-Authentifizierung wurde deaktiviert. Du kannst dich jetzt einloggen.",
+    "loggedIn": "Zwei-Faktor-Authentifizierung wurde deaktiviert. Du bist jetzt eingeloggt."
   }
 }

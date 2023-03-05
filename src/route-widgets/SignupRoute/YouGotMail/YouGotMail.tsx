@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next"
 import React, {ReactElement, useState} from "react"
 
 import {
+	Alert,
 	Button,
 	Dialog,
 	DialogActions,
@@ -50,6 +51,9 @@ export default function YouGotMail({email, onGoBack}: YouGotMailProps): ReactEle
 						<Typography variant="subtitle1" component="p">
 							{t("forms.mailVerification.description")}
 						</Typography>
+					</Grid>
+					<Grid item>
+						<Alert severity="info">{t("forms.mailVerification.markAsNotSpam")}</Alert>
 					</Grid>
 					<Grid item>
 						<Grid container alignItems="center" direction="row" spacing={2}>
