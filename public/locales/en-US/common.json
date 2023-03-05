@@ -19,7 +19,10 @@
     },
     "password": {
       "label": "Password",
-      "placeholder": "********"
+      "placeholder": "********",
+      "errors": {
+        "invalid": "Password is invalid."
+      }
     },
     "passwordConfirmation": {
       "label": "Confirm Password",
@@ -70,5 +73,17 @@
   "noSearchResults": {
     "title": "Nothing found",
     "description": "We couldn't find anything for your search query. Try again with a different query."
+  },
+  "navigation": {
+    "overview": "Overview",
+    "aliases": "Aliases",
+    "reports": "Reports",
+    "settings": "Settings",
+    "admin": "Admin"
+  },
+  "routes": {
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
   }
 }

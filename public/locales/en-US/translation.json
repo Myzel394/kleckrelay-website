@@ -21,60 +21,12 @@
         "appError": "We are sorry but there was an error. Please try again later."
     },
 
-    "routes": {
-        "OverviewRoute": {
-            "title": "Overview",
-            "description": "Not much to see here, yet."
-        }
-    },
-
     "components": {
-        "NavigationButton": {
-            "overview": "Overview",
-            "aliases": "Aliases",
-            "reports": "Reports",
-            "settings": "Settings",
-            "admin": "Admin"
-        },
-        "AuthenticateRoute": {
-            "signup": "Sign up",
-            "login": "Log in"
-        },
-        "AuthenticatedRoute": {
-            "logout": "Logout"
-        },
-        "EnterDecryptionPassword": {
-            "title": "Decrypt Reports",
-            "description": "Please enter your password so that your reports can de decrypted.",
-            "cancelAction": "Decrypt later",
-            "continueAction": "Continue",
-            "form": {
-                "password": {
-                    "label": "Password",
-                    "placeholder": "********",
-                    "errors": {
-                        "invalidPassword": "Password is invalid"
-                    }
-                }
-            }
-        },
         "ResendMailButton": {
             "label": "Resend Mail"
         },
         "OpenMailButton": {
             "label": "Open Mail"
-        },
-        "DecryptionPasswordMissingAlert": {
-            "unavailable": {
-                "title": "Encryption required",
-                "description": "You need to set up encryption to use this feature.",
-                "continueAction": "Set up encryption"
-            },
-            "passwordRequired": {
-                "title": "Password required",
-                "description": "Your decryption password is required to view this section.",
-                "continueAction": "Enter password"
-            }
         },
         "TimedButton": {
             "remainingTime_one": "({{count}})",
@@ -111,20 +63,4 @@
             }
         }
     },
-
-    "relations": {
-        "alias": {
-            "mutations": {
-                "success": {
-                    "aliasCreation": "Created Alias successfully!",
-                    "aliasUpdated": "Updated Alias successfully!",
-                    "notesUpdated": "Updated & encrypted notes successfully!",
-                    "aliasChangedToEnabled": "Alias has been enabled",
-                    "aliasChangedToDisabled": "Alias has been disabled",
-                    "addressCopiedToClipboard": "Address has been copied to your clipboard!",
-                    "aliasDeleted": "Alias has been deleted!"
-                }
-            }
-        },
-    }
 }

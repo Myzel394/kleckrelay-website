@@ -17,7 +17,7 @@ interface Form {
 }
 
 export default function EnterDecryptionPassword(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["decryption", "common"])
 	const navigate = useNavigate()
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
@@ -29,7 +29,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 		password: yup
 			.string()
 			.required()
-			.label(t("components.EnterDecryptionPassword.form.password.label")),
+			.label(t("fields.password.label", {ns: "common"})),
 	})
 
 	const formik = useFormik<Form>({
@@ -46,9 +46,7 @@ export default function EnterDecryptionPassword(): ReactElement {
 			} catch (error) {
 				// Password is incorrect
 				setErrors({
-					password: t(
-						"components.EnterDecryptionPassword.form.password.errors.invalidPassword",
-					),
+					password: t("fields.password.errors,invalid", {ns: "common"}),
 				})
 			}
 		},
@@ -67,10 +65,9 @@ export default function EnterDecryptionPassword(): ReactElement {
 	return (
 		<form onSubmit={formik.handleSubmit}>
 			<SimpleForm
-				title={t("components.EnterDecryptionPassword.title")}
-				description={t("components.EnterDecryptionPassword.description")}
-				cancelActionLabel={t("components.EnterDecryptionPassword.cancelAction")}
-				continueActionLabel={t("components.EnterDecryptionPassword.continueAction")}
+				title={t("actions.enterDecryptionPassword.title")}
+				description={t("actions.enterDecryptionPassword.description")}
+				cancelActionLabel={t("actions.enterDecryptionPassword.cancelActionLabel")}
 				isSubmitting={formik.isSubmitting}
 				onCancel={navigateToNext}
 			>
@@ -81,10 +78,8 @@ export default function EnterDecryptionPassword(): ReactElement {
 						autoFocus
 						name="password"
 						id="password"
-						label={t("components.EnterDecryptionPassword.form.password.label")}
-						placeholder={t(
-							"components.EnterDecryptionPassword.form.password.placeholder",
-						)}
+						label={t("fields.password.label", {ns: "common"})}
+						placeholder={t("fields.password.placeholder", {ns: "common"})}
 						value={formik.values.password}
 						onChange={formik.handleChange}
 						disabled={formik.isSubmitting}

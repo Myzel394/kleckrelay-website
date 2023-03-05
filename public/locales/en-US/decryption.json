@@ -1,0 +1,21 @@
+{
+  "actions": {
+    "enterDecryptionPassword": {
+      "title": "Decrypt Reports",
+      "description": "Please enter your password so that your reports can de decrypted.",
+      "cancelActionLabel": "Decrypt later"
+    },
+    "passwordMissing": {
+      "unavailable": {
+        "title": "Encryption required",
+        "description": "You need to set up encryption to use this feature.",
+        "continueActionLabel": "Set up encryption"
+      },
+      "passwordRequired": {
+        "title": "Password required",
+        "description": "Your decryption password is required to view this section.",
+        "continueActionLabel": "Enter password"
+      }
+    }
+  }
+}

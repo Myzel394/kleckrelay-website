@@ -15,7 +15,7 @@ export interface WithEncryptionRequiredProps {
 export default function DecryptionPasswordMissingAlert({
 	children = <></>,
 }: WithEncryptionRequiredProps): JSX.Element {
-	const {t} = useTranslation()
+	const {t} = useTranslation("decryption")
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const {encryptionStatus} = useContext(AuthContext)
 	const theme = useTheme()
@@ -33,12 +33,12 @@ export default function DecryptionPasswordMissingAlert({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2">
-							{t("components.DecryptionPasswordMissingAlert.unavailable.title")}
+							{t("actions.passwordMissing.unavailable.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography>
-							{t("components.DecryptionPasswordMissingAlert.unavailable.description")}
+							{t("actions.passwordMissing.unavailable.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -49,9 +49,7 @@ export default function DecryptionPasswordMissingAlert({
 							startIcon={<MdLock />}
 							onClick={handleAnchorClick}
 						>
-							{t(
-								"components.DecryptionPasswordMissingAlert.unavailable.continueAction",
-							)}
+							{t("actions.passwordMissing.unavailable.continueActionLabel")}
 						</Button>
 					</Grid>
 				</Grid>
@@ -70,14 +68,12 @@ export default function DecryptionPasswordMissingAlert({
 				>
 					<Grid item>
 						<Typography variant="h6" component="h2">
-							{t("components.DecryptionPasswordMissingAlert.passwordRequired.title")}
+							{t("actions.passwordMissing.passwordRequired.title")}
 						</Typography>
 					</Grid>
 					<Grid item>
 						<Typography>
-							{t(
-								"components.DecryptionPasswordMissingAlert.passwordRequired.description",
-							)}
+							{t("actions.passwordMissing.passwordRequired.description")}
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -87,9 +83,7 @@ export default function DecryptionPasswordMissingAlert({
 							startIcon={<MdLock />}
 							onClick={handleAnchorClick}
 						>
-							{t(
-								"components.DecryptionPasswordMissingAlert.passwordRequired.continueAction",
-							)}
+							{t("actions.passwordMissing.passwordRequired.continueActionLabel")}
 						</Button>
 					</Grid>
 				</Grid>

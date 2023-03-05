@@ -30,11 +30,11 @@ const SECTION_ICON_MAP: Record<NavigationSection, ReactElement> = {
 }
 
 const SECTION_TEXT_MAP: Record<NavigationSection, string> = {
-	[NavigationSection.Overview]: "components.NavigationButton.overview",
-	[NavigationSection.Aliases]: "components.NavigationButton.aliases",
-	[NavigationSection.Reports]: "components.NavigationButton.reports",
-	[NavigationSection.Settings]: "components.NavigationButton.settings",
-	[NavigationSection.Admin]: "components.NavigationButton.admin",
+	[NavigationSection.Overview]: "navigation.overview",
+	[NavigationSection.Aliases]: "navigation.aliases",
+	[NavigationSection.Reports]: "navigation.reports",
+	[NavigationSection.Settings]: "navigation.settings",
+	[NavigationSection.Admin]: "navigation.admin",
 }
 
 const PATH_SECTION_MAP: Record<string, NavigationSection> = {
@@ -46,7 +46,7 @@ const PATH_SECTION_MAP: Record<string, NavigationSection> = {
 }
 
 export default function NavigationButton({section}: NavigationButtonProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const {handleAnchorClick} = useContext(LockNavigationContext)
 	const location = useLocation()
 
