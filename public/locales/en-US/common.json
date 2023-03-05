@@ -40,14 +40,19 @@
     },
     "alias": {
       "addressCopied": "Address has been copied to your clipboard!",
-      "created": "Alias has been created successfully!"
+      "created": "Alias has been created successfully!",
+      "deleted": "Alias has been deleted!",
+      "updated": "Alias has been updated successfully!",
+      "changedToEnabled": "Alias has been enabled",
+      "changedToDisabled": "Alias has been disabled"
     }
   },
   "general": {
     "cancelLabel": "Cancel",
     "yesLabel": "Yes",
     "noLabel": "No",
-    "continueLabel": "Continue"
+    "continueLabel": "Continue",
+    "unavailableValue": "Unavailable"
   },
   "noSearchResults": {
     "title": "Nothing found",

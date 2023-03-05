@@ -26,57 +26,6 @@
             "title": "Overview",
             "description": "Not much to see here, yet."
         },
-        "AliasDetailRoute": {
-            "title": "Alias Details",
-            "sections": {
-                "settings": {
-                    "title": "Settings",
-                    "description": "These settings apply to this alias only. You can either set a value manually or refer to your default settings. Note that this does change in behavior. When you set a value to refer to your default setting, the alias will always use the latest value. So when you change your default setting, the alias will automatically use the new value."
-                },
-                "notes": {
-                    "title": "Notes",
-                    "form": {
-                        "createdAt": {
-                            "label": "Created at",
-                            "empty": "Unavailable"
-                        },
-                        "creationContext": {
-                            "label": "Creation Context",
-                            "web": {
-                                "label": "Created on this instance"
-                            },
-                            "extension": {
-                                "label": "Created in the extension"
-                            },
-                            "extension-inline": {
-                                "label": "Created using the extension"
-                            }
-                        },
-                        "createdOn": {
-                            "label": "Created on"
-                        },
-                        "personalNotes": {
-                            "label": "Personal Notes",
-                            "empty": "-",
-                            "helperText": "You can enter personal notes for this alias here. Notes are encrypted."
-                        },
-                        "websites": {
-                            "label": "Websites",
-                            "emptyText": "You haven't used this alias on any site yet.",
-                            "placeholder": "https://example.com",
-                            "helperText": "Add a website to this alias. Used to autofill."
-                        }
-                    }
-                }
-            },
-            "actions": {
-                "delete": {
-                    "label": "Delete Alias",
-                    "description": "Are you sure you want to delete this alias?",
-                    "continueAction": "Delete Alias"
-                }
-            }
-        },
         "ReportsRoute": {
             "title": "Reports",
             "emptyState": {
@@ -394,10 +343,6 @@
         "ErrorLoadingDataMessage": {
             "tryAgain": "Try Again"
         },
-        "AliasTypeIndicator": {
-            "random": "This is a randomly generated alias",
-            "custom": "This is a custom-made alias"
-        },
         "LockNavigationContextProvider": {
             "title": "Are you sure you want to leave?",
             "description": "You have unsaved changes. If you leave, your changes will be lost.",
@@ -439,45 +384,6 @@
                     "addressCopiedToClipboard": "Address has been copied to your clipboard!",
                     "aliasDeleted": "Alias has been deleted!"
                 }
-            },
-            "settings": {
-                "removeTrackers": {
-                    "label": "Remove Trackers",
-                    "helperText": "Remove single-pixel image trackers as well as url trackers."
-                },
-                "createMailReports": {
-                    "label": "Create Mail Reports",
-                    "helperText": "Create reports of emails sent to aliases. Reports are end-to-end encrypted. Only you can access them."
-                },
-                "proxyImages": {
-                    "label": "Proxy Images",
-                    "helperText": "Proxies images in your emails through this KleckRelay instance. This adds an extra layer of privacy. Images are loaded immediately after we receive the email. They then will be stored for some time (cache time). During that time, the image will be served from us. This means the sender has no idea you have opened the mail. After the cache time, the image is loaded from the sender, but it will be forwarded by us. This means the sender will not be able to access your IP address nor your browser data."
-                },
-                "imageProxyFormat": {
-                    "label": "Image File Type",
-                    "enumTexts": {
-                        "jpeg": "JPEG",
-                        "png": "PNG",
-                        "webp": "WEBP"
-                    }
-                },
-                "proxyUserAgent": {
-                    "label": "Proxy User Agent",
-                    "helperText": "An User Agent is a identifier each browser and email client sends when retrieving files, such as images. You can specify here what user agent you would like to be used when we forward it. User Agents are kept up-to-date.",
-                    "enumTexts": {
-                        "apple-mail": "Apple Mail",
-                        "google-mail": "Google Mail",
-                        "outlook-windows": "Outlook / Windows",
-                        "outlook-macos": "Outlook / MacOS",
-                        "firefox": "Firefox Browser",
-                        "chrome": "Chrome Browser"
-                    }
-                },
-                "expandUrlShorteners": {
-                    "label": "Expand URL Shorteners",
-                    "helperText": "Expand shortened URLs (for example bit.ly) to their original URL. This way those services can't track you."
-                },
-                "saveAction": "Save Settings"
             }
         },
         "report": {

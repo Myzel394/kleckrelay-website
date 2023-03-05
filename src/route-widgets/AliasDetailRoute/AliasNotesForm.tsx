@@ -64,21 +64,19 @@ const CREATION_CONTEXT_ICON_MAP: Record<AliasNote["data"]["creationContext"], Re
 const IMAGE_WIDTH = 20
 
 export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation(["alias-notes", "common"])
 	const {showError, showSuccess} = useErrorSuccessSnacks()
 	const {_encryptUsingMasterPassword, _decryptUsingMasterPassword} = useContext(AuthContext)
 
 	const schema = yup.object().shape({
-		personalNotes: yup
-			.string()
-			.label(t("routes.AliasDetailRoute.sections.notes.form.personalNotes.label")),
+		personalNotes: yup.string().label(t("personalNotes.label")),
 		websites: yup.array().of(
 			yup
 				.object()
 				.shape({
 					url: yup.string().url(),
 				})
-				.label(t("routes.AliasDetailRoute.sections.notes.form.websites.label")),
+				.label(t("form.websites.label")),
 		),
 	})
 
@@ -122,7 +120,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 					_decryptUsingMasterPassword,
 				)
 
-				showSuccess(t("relations.alias.mutations.success.notesUpdated"))
+				showSuccess(t("messages.alias.updated", {ns: "common"}))
 
 				await queryClient.cancelQueries(queryKey)
 
@@ -181,7 +179,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 						<Grid container spacing={1} direction="row">
 							<Grid item>
 								<Typography variant="h6" component="h3">
-									{t("routes.AliasDetailRoute.sections.notes.title")}
+									{t("title")}
 								</Typography>
 							</Grid>
 							<Grid item>
@@ -211,11 +209,9 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 							{notes.data.createdAt && (
 								<Grid item>
 									<SimpleOverlayInformation
-										emptyText={t("general.emptyUnavailableValue")}
+										emptyText={t("general.unavailableValue")}
 										icon={<MdEditCalendar />}
-										label={t(
-											"routes.AliasDetailRoute.sections.notes.form.createdAt.label",
-										)}
+										label={t("form.createdAt.label")}
 									>
 										{notes.data.createdAt && (
 											<Tooltip title={notes.data.createdAt.toISOString()}>
@@ -231,13 +227,11 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 								<Grid item>
 									<SimpleOverlayInformation
 										icon={CREATION_CONTEXT_ICON_MAP[notes.data.creationContext]}
-										label={t(
-											"routes.AliasDetailRoute.sections.notes.form.creationContext.label",
-										)}
+										label={t("form.creationContext.label")}
 									>
 										<Typography variant="body1">
 											{t(
-												`routes.AliasDetailRoute.sections.notes.form.creationContext.${notes.data.creationContext}.label`,
+												`form.creationContext.values.${notes.data.creationContext}`,
 											)}
 										</Typography>
 									</SimpleOverlayInformation>
@@ -247,9 +241,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 								<Grid item>
 									<SimpleOverlayInformation
 										icon={<RiLinkM />}
-										label={t(
-											"routes.AliasDetailRoute.sections.notes.form.createdOn.label",
-										)}
+										label={t("form.createdOn.label")}
 									>
 										<Link
 											href={notes.data.createdOn}
@@ -265,14 +257,10 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 								</Grid>
 							)}
 							<Grid item>
-								<SimpleOverlayInformation
-									label={t(
-										"routes.AliasDetailRoute.sections.notes.form.personalNotes.label",
-									)}
-								>
+								<SimpleOverlayInformation label={t("form.personalNotes.label")}>
 									{isInEditMode ? (
 										<TextField
-											label="Personal Notes"
+											label={t("form.personalNotes.label")}
 											multiline
 											fullWidth
 											key="personalNotes"
@@ -289,9 +277,7 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 											helperText={
 												(formik.touched.personalNotes &&
 													formik.errors.personalNotes) ||
-												t(
-													"routes.AliasDetailRoute.sections.notes.form.personalNotes.helperText",
-												)
+												t("form.personalNotes.helperText")
 											}
 											InputProps={{
 												startAdornment: (
@@ -308,12 +294,8 @@ export default function AliasNotesForm({id, notes, queryKey}: AliasNotesFormProp
 							</Grid>
 							<Grid item>
 								<SimpleOverlayInformation
-									label={t(
-										"routes.AliasDetailRoute.sections.notes.form.websites.label",
-									)}
-									emptyText={t(
-										"routes.AliasDetailRoute.sections.notes.form.websites.emptyText",
-									)}
+									label={t("form.websites.label")}
+									emptyText={t("form.websites.emptyText")}
 								>
 									{isInEditMode ? (
 										<Grid item>

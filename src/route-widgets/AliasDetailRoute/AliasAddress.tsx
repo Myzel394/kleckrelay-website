@@ -12,7 +12,7 @@ export interface AliasAddressProps {
 }
 
 export default function AliasAddress({address}: AliasAddressProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("common")
 	const [{value, error}, copyToClipboard] = useCopyToClipboard()
 
 	return (
@@ -26,11 +26,8 @@ export default function AliasAddress({address}: AliasAddressProps): ReactElement
 			>
 				{address}
 			</Button>
-			<SuccessSnack
-				key={value}
-				message={value && t("relations.alias.mutations.success.addressCopiedToClipboard")}
-			/>
-			<ErrorSnack message={error && t("general.copyError")} />
+			<SuccessSnack key={value} message={value && t("messages.alias.addressCopied")} />
+			<ErrorSnack message={error && t("messages.errors.copyFailed")} />
 		</>
 	)
 }
