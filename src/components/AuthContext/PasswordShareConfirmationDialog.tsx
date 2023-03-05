@@ -25,32 +25,28 @@ export default function PasswordShareConfirmationDialog({
 	onShare,
 	onClose,
 }: PasswordShareConfirmationDialogProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("extension")
 
 	return (
 		<Dialog open={open} onClose={() => onClose(false)} maxWidth="sm" fullWidth={false}>
-			<DialogTitle>{t("components.passwordShareConfirmationDialog.title")}</DialogTitle>
+			<DialogTitle>{t("sharePassword.title")}</DialogTitle>
 			<DialogContent>
-				<DialogContentText>
-					{t("components.passwordShareConfirmationDialog.description")}
-				</DialogContentText>
+				<DialogContentText>{t("sharePassword.description")}</DialogContentText>
 				<Box my={2}>
-					<Alert severity="warning">
-						{t("components.passwordShareConfirmationDialog.warning")}
-					</Alert>
+					<Alert severity="warning">{t("sharePassword.warning")}</Alert>
 				</Box>
 			</DialogContent>
 			<DialogActions>
 				<Box mr="auto">
 					<Button startIcon={<MdAccessTimeFilled />} onClick={() => onClose(false)}>
-						{t("components.passwordShareConfirmationDialog.decideLater")}
+						{t("sharePassword.decideLater")}
 					</Button>
 				</Box>
 				<Button startIcon={<TiCancel />} onClick={() => onClose(true)}>
-					{t("components.passwordShareConfirmationDialog.doNotShare")}
+					{t("sharePassword.doNotAskAgain")}
 				</Button>
 				<Button color="error" onClick={onShare} startIcon={<MdShield />}>
-					{t("components.passwordShareConfirmationDialog.continueAction")}
+					{t("sharePassword.sharePassword")}
 				</Button>
 			</DialogActions>
 		</Dialog>
