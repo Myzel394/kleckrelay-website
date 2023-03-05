@@ -19,8 +19,8 @@ export default function ResendMailButton({
 	email,
 	sameRequestToken,
 }: ResendMailButtonProps): ReactElement {
+	const {t} = useTranslation("components")
 	const settings = useLoaderData() as ServerSettings
-	const {t} = useTranslation()
 
 	const mutation = useMutation<SimpleDetailResponse, AxiosError, void>(() =>
 		resendEmailLoginCode({
@@ -37,7 +37,7 @@ export default function ResendMailButton({
 				startIcon={<MdMail />}
 				onClick={() => mutate()}
 			>
-				{t("components.ResendMailButton.label")}
+				{t("ResendMailButton.label")}
 			</TimedButton>
 			<MutationStatusSnackbar mutation={mutation} />
 		</>

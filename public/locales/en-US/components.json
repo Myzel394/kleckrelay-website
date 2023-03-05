@@ -1,0 +1,33 @@
+{
+  "ResendMailButton": {
+    "label": "Resend Mail"
+  },
+  "OpenMailButton": {
+    "label": "Open Mail"
+  },
+  "TimedButton": {
+    "remainingTime_one": "({{count}})",
+    "remainingTime_other": "({{count}})"
+  },
+  "ErrorLoadingDataMessage": {
+    "tryAgain": "Try Again"
+  },
+  "LockNavigationContextProvider": {
+    "title": "Are you sure you want to leave?",
+    "description": "You have unsaved changes. If you leave, your changes will be lost.",
+    "continueLabel": "Leave"
+  },
+  "StringPoolField": {
+    "addCustom": {
+      "label": "Add custom"
+    },
+    "forms": {
+      "addNew": {
+        "title": "Add new value",
+        "description": "Enter your characters you would like to include",
+        "label": "Characters",
+        "submit": "Add"
+      }
+    }
+  }
+}

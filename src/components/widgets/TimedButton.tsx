@@ -18,7 +18,7 @@ export default function TimedButton({
 	disabled: parentDisabled = false,
 	...props
 }: TimedButtonProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("components")
 
 	const [startDate, resetInterval] = useIntervalUpdate(1000)
 
@@ -35,9 +35,7 @@ export default function TimedButton({
 			}}
 		>
 			<span>{children} </span>
-			{secondsLeft > 0 && (
-				<span>{t("components.TimedButton.remainingTime", {count: secondsLeft})}</span>
-			)}
+			{secondsLeft > 0 && <span>{t("TimedButton.remainingTime", {count: secondsLeft})}</span>}
 		</LoadingButton>
 	)
 }

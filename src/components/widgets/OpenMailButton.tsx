@@ -12,14 +12,14 @@ export interface OpenMailButtonProps {
 }
 
 export default function OpenMailButton({domain}: OpenMailButtonProps): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("components")
 
 	const userAgent = new UAParser()
 
 	if (userAgent.getOS().name === "Android" && APP_LINK_MAP[domain]) {
 		return (
 			<Button startIcon={<IoMdMailOpen />} variant="text" href={APP_LINK_MAP[domain].android}>
-				{t("components.OpenMailButton.label")}
+				{t("OpenMailButton.label")}
 			</Button>
 		)
 	}

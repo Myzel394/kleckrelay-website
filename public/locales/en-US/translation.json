@@ -22,24 +22,6 @@
     },
 
     "components": {
-        "ResendMailButton": {
-            "label": "Resend Mail"
-        },
-        "OpenMailButton": {
-            "label": "Open Mail"
-        },
-        "TimedButton": {
-            "remainingTime_one": "({{count}})",
-            "remainingTime_other": "({{count}})"
-        },
-        "ErrorLoadingDataMessage": {
-            "tryAgain": "Try Again"
-        },
-        "LockNavigationContextProvider": {
-            "title": "Are you sure you want to leave?",
-            "description": "You have unsaved changes. If you leave, your changes will be lost.",
-            "continueLabel": "Leave"
-        },
         "passwordShareConfirmationDialog": {
             "title": "Share Password?",
             "description": "An extension is asking for your password. Do you want to share it? Only continue if you initiated this action.",
@@ -48,19 +30,6 @@
             "doNotShare": "Do not share",
             "decideLater": "Decide later",
             "doNotAskAgain": "Do not ask again"
-        },
-        "StringPoolField": {
-            "addCustom": {
-                "label": "Add custom"
-            },
-            "forms": {
-                "addNew": {
-                    "title": "Add new value",
-                    "description": "Enter your characters you would like to include",
-                    "label": "Characters",
-                    "submit": "Add"
-                }
-            }
         }
-    },
+    }
 }
