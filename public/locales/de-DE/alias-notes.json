@@ -1,0 +1,33 @@
+{
+  "title": "Notes",
+  "form": {
+    "createdAt": {
+      "label": "Created at",
+      "empty": "Unavailable"
+    },
+    "creationContext": {
+      "label": "Creation Context",
+      "values": {
+        "web": "Created on this instance",
+        "extension": "Created in the extension",
+        "extension-inline": "Created using the extension"
+      }
+    },
+    "createdOn": {
+      "label": "Created on"
+    },
+    "personalNotes": {
+      "label": "Personal Notes",
+      "helperText": "You can enter personal notes for this alias here. Notes are encrypted."
+    },
+    "websites": {
+      "label": "Websites",
+      "emptyText": "You haven't used this alias on any site yet.",
+      "placeholder": "https://example.com",
+      "helperText": "Add a website to this alias. Used to autofill.",
+      "errors": {
+        "invalid": "This URL is invalid."
+      }
+    }
+  }
+}

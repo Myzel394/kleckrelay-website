@@ -1,0 +1,12 @@
+{
+  "title": "Seite konfigurieren",
+  "routes": {
+    "reservedAliases": "Reservierte Aliase",
+    "settings": "Einstellungen"
+  },
+  "serverStatus": {
+    "noRecentReports": "Es scheint, als gäbe es Probleme mit deinem Server. Cleanup Jobs wurden in den letzten Tagen nicht mehr ausgeführt. Der letzte Bereicht war am {{date}}.",
+    "error": "Es gab einen Fehler beim Ausführen des Cleanup Jobs {{relativeDescription}}. Bitte überprüfe die Logs für weitere Informationen.",
+    "success": "Alles okay mit deinem Server! Der letzte Cleanup Job {{relativeDescription}} wurde erfolgreich ausgeführt."
+  }
+}
