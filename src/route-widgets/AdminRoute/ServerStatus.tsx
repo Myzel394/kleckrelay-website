@@ -18,8 +18,8 @@ import decryptCronReportData from "~/apis/helpers/decrypt-cron-report-data"
 const MAX_REPORT_DAY_THRESHOLD = 5
 
 function ServerStatus(): ReactElement | null {
+	const {t} = useTranslation("admin")
 	const serverSettings = useLoaderData() as ServerSettings
-	const {t} = useTranslation()
 	const {_decryptUsingPrivateKey} = useContext(AuthContext)
 
 	const query = useQuery<CronReport | null, AxiosError>(["get_latest_cron_report"], async () => {
@@ -50,7 +50,7 @@ function ServerStatus(): ReactElement | null {
 				if (report.createdAt < thresholdDate) {
 					return (
 						<Alert severity="warning">
-							{t("routes.AdminRoute.serverStatus.noRecentReports", {
+							{t("serverStatus.noRecentReports", {
 								date: format(new Date(report.createdAt), "Pp"),
 							})}
 						</Alert>
@@ -60,7 +60,7 @@ function ServerStatus(): ReactElement | null {
 				if (report.reportData.report.status === "error") {
 					return (
 						<Alert severity="error">
-							{t("routes.AdminRoute.serverStatus.error", {
+							{t("serverStatus.error", {
 								relativeDescription: formatRelative(
 									new Date(report.createdAt),
 									new Date(),
@@ -72,7 +72,7 @@ function ServerStatus(): ReactElement | null {
 
 				return (
 					<Alert severity="success">
-						{t("routes.AdminRoute.serverStatus.success", {
+						{t("serverStatus.success", {
 							relativeDescription: formatRelative(
 								new Date(report.createdAt),
 								new Date(),

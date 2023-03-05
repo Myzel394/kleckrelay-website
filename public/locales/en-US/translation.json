@@ -89,50 +89,7 @@
                 }
             }
         },
-        "ReservedAliasesRoute": {
-            "title": "Reserved Aliases",
-            "pageActions": {
-                "search": {
-                    "label": "Search",
-                    "placeholder": "Search for aliases"
-                }
-            },
-            "actions": {
-                "create": {
-                    "label": "Create new Reserved Alias"
-                }
-            },
-            "userAmount_one": "Forwards to one user",
-            "userAmount_other": "Forwards to {{count}} users",
-            "emptyState": {
-                "title": "Create your first reserved alias",
-                "description": "Reserved aliases are aliases that will be forwarded to selected admin users. This is useful if you want to create aliases that are meant to be public, like contact@example.com or hello@example.com."
-            }
-        },
-        "ReservedAliasDetailRoute": {
-            "title": "Reserved Alias Details",
-            "sections": {
-                "users": {
-                    "title": "Users",
-                    "fields": {
-                        "users": {
-                            "label": "Users",
-                            "me": "{{email}} (Me)"
-                        }
-                    }
-                }
-            }
-        },
         "AdminRoute": {
-            "reservedAlias": {
-                "actions": {
-                    "delete": {
-                        "label": "Delete Reserved Alias",
-                        "description": "Are you sure you want to delete this reserved alias?",
-                        "continueAction": "Delete Reserved Alias"
-                    }
-                }
-            },
             "serverStatus": {
                 "noRecentReports": "There seems to be some issues with your server. The server hasn't done its cleanup in the last few days. The last report was on {{date}}.",
                 "error": "There was an error during the last server cleanup job from {{relativeDescription}}. Please check the logs for more information.",
