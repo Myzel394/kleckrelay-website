@@ -52,7 +52,8 @@
     "yesLabel": "Yes",
     "noLabel": "No",
     "continueLabel": "Continue",
-    "unavailableValue": "Unavailable"
+    "unavailableValue": "Unavailable",
+    "experimentalFeatureExplanation": "This is an experimental feature."
   },
   "noSearchResults": {
     "title": "Nothing found",

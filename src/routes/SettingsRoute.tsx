@@ -9,22 +9,22 @@ import {List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 import {SimplePageBuilder} from "~/components"
 
 export default function SettingsRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("settings")
 
 	return (
-		<SimplePageBuilder.Page title={t("routes.SettingsRoute.title")}>
+		<SimplePageBuilder.Page title={t("title")}>
 			<List>
 				<ListItemButton component={Link} to="/settings/alias-preferences">
 					<ListItemIcon>
 						<GoSettings />
 					</ListItemIcon>
-					<ListItemText primary={t("routes.SettingsRoute.actions.aliasPreferences")} />
+					<ListItemText primary={t("actions.aliasPreferences")} />
 				</ListItemButton>
 				<ListItemButton component={Link} to="/settings/2fa">
 					<ListItemIcon>
 						<BsShieldLockFill />
 					</ListItemIcon>
-					<ListItemText primary={t("routes.SettingsRoute.actions.enable2fa")} />
+					<ListItemText primary={t("actions.enable2fa")} />
 				</ListItemButton>
 			</List>
 		</SimplePageBuilder.Page>

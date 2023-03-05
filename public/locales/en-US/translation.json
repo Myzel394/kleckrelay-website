@@ -90,17 +90,9 @@
             }
         },
         "SettingsRoute": {
-            "title": "Settings",
             "forms": {
                 "aliasPreferences": {
-                    "title": "Alias Preferences",
-                    "description": "Select default values for your aliases. This only affects aliases you haven't set a custom value for.",
-                    "saveAction": "Save preferences"
                 }
-            },
-            "actions": {
-                "enable2fa": "Two-Factor-Authentication",
-                "aliasPreferences": "Alias Preferences"
             },
             "2fa": {
                 "title": "Two-Factor-Authentication",
