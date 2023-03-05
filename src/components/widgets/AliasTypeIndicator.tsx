@@ -16,14 +16,17 @@ export const ALIAS_TYPE_ICON_MAP: Record<AliasType, ReactElement> = {
 	[AliasType.CUSTOM]: <FaHashtag />,
 }
 
-const ALIAS_TYPE_TOOLTIP_MAP = createEnumMapFromTranslation("aliasTypeExplanation", AliasType)
-
 export default function AliasTypeIndicator({type}: AliasTypeIndicatorProps): ReactElement {
 	const {t} = useTranslation("aliases")
 
+	const aliasTypeTooltipMap = createEnumMapFromTranslation(
+		"aliasTypeExplanation",
+		AliasType,
+	)(key => t(key))
+
 	return (
 		// @ts-ignore
-		<Tooltip title={t(ALIAS_TYPE_TOOLTIP_MAP[type] as string)} arrow>
+		<Tooltip title={t(aliasTypeTooltipMap[type] as string)} arrow>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{ALIAS_TYPE_ICON_MAP[type]}
 			</Box>

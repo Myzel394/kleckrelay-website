@@ -66,7 +66,7 @@
       },
       "proxyUserAgent": {
         "label": "Weiterleitungs-User-Agent",
-        "helperText": "Ein User Agent ist ein Identifikator, den jeder Browser und E-Mail-Client beim Abrufen von Dateien, wie z.B. Bildern, sendet. Du kannst hier angeben, welcher User Agent verwendet werden soll, wenn wir deine Bilder weiterleiten. User Agents werden auf dem neuesten Stand gehalten."
+        "helperText": "Ein User Agent ist ein Identifikator, den jeder Browser und E-Mail-Client beim Abrufen von Dateien, wie z.B. Bildern, sendet. Du kannst hier angeben, welcher User Agent verwendet werden soll, wenn wir deine Bilder weiterleiten. User Agents werden auf dem neuesten Stand gehalten.",
         "values": {
           "apple-mail": "Apple Mail",
           "google-mail": "Google Mail",

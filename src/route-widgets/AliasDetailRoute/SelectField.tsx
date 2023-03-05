@@ -30,17 +30,17 @@ export default function SelectField({
 	valueTextMap: parentValueTextMap,
 }: SelectFieldProps): ReactElement {
 	const user = useUser()
-	const {t} = useTranslation("components")
+	const {t} = useTranslation(["components", "aliases"])
 	const BOOLEAN_SELECT_TEXT_MAP: Record<string, string> = {
-		true: "SelectField.values.true",
-		false: "SelectField.values.false",
+		true: t("SelectField.values.true"),
+		false: t("SelectField.values.false"),
 	}
 	const valueTextMap = parentValueTextMap ?? BOOLEAN_SELECT_TEXT_MAP
 
 	const labelId = `${name}-label`
 	const preferenceName = `alias${name.charAt(0).toUpperCase() + name.slice(1)}`
 	const value = user.preferences[preferenceName as keyof User["preferences"]]
-	const defaultValueText = t(valueTextMap[value.toString()])
+	const defaultValueText = valueTextMap[value.toString()]
 
 	return (
 		<FormControl fullWidth>
@@ -81,7 +81,7 @@ export default function SelectField({
 							})}
 						</i>
 					) : (
-						t(valueTextMap[value.toString()])
+						valueTextMap[value.toString()]
 					)
 				}
 			>
@@ -95,7 +95,7 @@ export default function SelectField({
 				{valueTextMap &&
 					Object.entries(valueTextMap).map(([value, translationString]) => (
 						<MenuItem key={value} value={value}>
-							{t(translationString)}
+							{translationString}
 						</MenuItem>
 					))}
 			</Select>

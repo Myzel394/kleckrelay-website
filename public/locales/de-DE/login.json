@@ -15,7 +15,7 @@
         "code": {
           "label": "Anmelde-Code",
           "errors": {
-            "invalidChars": "Der Anmelde-Code ist ungültig",
+            "invalidChars": "Der Anmelde-Code ist ungültig"
           }
         }
       }

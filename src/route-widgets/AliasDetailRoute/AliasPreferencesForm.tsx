@@ -13,11 +13,7 @@ import {QueryKey, useMutation} from "@tanstack/react-query"
 
 import {Alias, DecryptedAlias, ImageProxyFormatType, ProxyUserAgentType} from "~/server-types"
 import {UpdateAliasData, updateAlias} from "~/apis"
-import {parseFastAPIError} from "~/utils"
-import {
-	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-	PROXY_USER_AGENT_TYPE_NAME_MAP,
-} from "~/constants/enum-mappings"
+import {createEnumMapFromTranslation, parseFastAPIError} from "~/utils"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {queryClient} from "~/constants/react-query"
 import {AuthContext, FormikAutoLockNavigation} from "~/components"
@@ -47,6 +43,15 @@ export default function AliasPreferencesForm({
 	const {t} = useTranslation(["aliases", "common"])
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 	const {_decryptUsingMasterPassword} = useContext(AuthContext)
+
+	const imageProxyMap = createEnumMapFromTranslation(
+		"settings.fields.imageProxyFormat.values",
+		ImageProxyFormatType,
+	)(key => t(key))
+	const imageProxyUserAgentMap = createEnumMapFromTranslation(
+		"settings.fields.proxyUserAgent.values",
+		ProxyUserAgentType,
+	)(key => t(key))
 
 	const schema = yup.object().shape({
 		removeTrackers: yup
@@ -164,9 +169,7 @@ export default function AliasPreferencesForm({
 															formik={formik}
 															icon={<FaFile />}
 															name="imageProxyFormat"
-															valueTextMap={
-																IMAGE_PROXY_FORMAT_TYPE_NAME_MAP
-															}
+															valueTextMap={imageProxyMap}
 														/>
 													</Grid>
 													<Grid item xs={12} sm={6}>
@@ -176,9 +179,7 @@ export default function AliasPreferencesForm({
 															)}
 															formik={formik}
 															name="proxyUserAgent"
-															valueTextMap={
-																PROXY_USER_AGENT_TYPE_NAME_MAP
-															}
+															valueTextMap={imageProxyUserAgentMap}
 														/>
 													</Grid>
 												</Grid>

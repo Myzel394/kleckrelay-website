@@ -26,13 +26,14 @@ const SORTING_VIEW_ICON_MAP: Record<SortingView, ReactElement> = {
 	[SortingView.List]: <MdList />,
 	[SortingView.GroupByAlias]: <FaMask />,
 }
-const SORTING_VIEW_NAME_MAP: Record<SortingView, string> = createEnumMapFromTranslation(
-	"pageActions.sort.values",
-	SortingView,
-)
 
 function ReportsRoute(): ReactElement {
 	const {t} = useTranslation("reports")
+
+	const sortingViewNameMap = createEnumMapFromTranslation(
+		"pageActions.sort.values",
+		SortingView,
+	)(key => t(key))
 
 	const query = useQuery<PaginationResult<Report>, AxiosError>(["get_reports"], getReports)
 
@@ -57,9 +58,9 @@ function ReportsRoute(): ReactElement {
 						}}
 						select
 					>
-						{Object.keys(SORTING_VIEW_NAME_MAP).map(name => (
+						{Object.keys(sortingViewNameMap).map(name => (
 							<MenuItem key={name} value={name}>
-								{t(SORTING_VIEW_NAME_MAP[name as SortingView])}
+								{t(sortingViewNameMap[name as SortingView])}
 							</MenuItem>
 						))}
 					</TextField>

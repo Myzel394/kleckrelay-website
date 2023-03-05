@@ -25,11 +25,7 @@ import {LoadingButton} from "@mui/lab"
 import {ImageProxyFormatType, ProxyUserAgentType, SimpleDetailResponse} from "~/server-types"
 import {UpdatePreferencesData, updatePreferences} from "~/apis"
 import {useErrorSuccessSnacks, useUser} from "~/hooks"
-import {parseFastAPIError} from "~/utils"
-import {
-	IMAGE_PROXY_FORMAT_TYPE_NAME_MAP,
-	PROXY_USER_AGENT_TYPE_NAME_MAP,
-} from "~/constants/enum-mappings"
+import {createEnumMapFromTranslation, parseFastAPIError} from "~/utils"
 import {AuthContext, SimplePageBuilder} from "~/components"
 
 interface Form {
@@ -48,6 +44,15 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 	const {_updateUser} = useContext(AuthContext)
 	const user = useUser()
 	const {showError, showSuccess} = useErrorSuccessSnacks()
+
+	const imageProxyMap = createEnumMapFromTranslation(
+		"settings.fields.imageProxyFormat.values",
+		ImageProxyFormatType,
+	)(key => t(key))
+	const imageProxyUserAgentMap = createEnumMapFromTranslation(
+		"settings.fields.proxyUserAgent.values",
+		ProxyUserAgentType,
+	)(key => t(key))
 
 	const schema = yup.object().shape({
 		removeTrackers: yup.boolean().label(t("settings.fields.removeTrackers.label")),
@@ -251,7 +256,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 												formik.errors.imageProxyFormat
 											}
 										>
-											{Object.entries(IMAGE_PROXY_FORMAT_TYPE_NAME_MAP).map(
+											{Object.entries(imageProxyMap).map(
 												([value, translationString]) => (
 													<MenuItem key={value} value={value}>
 														{t(translationString)}
@@ -292,7 +297,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 									formik.touched.proxyUserAgent && formik.errors.proxyUserAgent
 								}
 							>
-								{Object.entries(PROXY_USER_AGENT_TYPE_NAME_MAP).map(
+								{Object.entries(imageProxyUserAgentMap).map(
 									([value, translationString]) => (
 										<MenuItem key={value} value={value}>
 											{t(translationString)}

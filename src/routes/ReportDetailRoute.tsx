@@ -36,7 +36,7 @@ function ReportDetailRoute(): ReactElement {
 					<DeleteButton
 						onDelete={() => deleteReport(params.id!)}
 						label={t("actions.delete.label")}
-						description={t("delete.description")}
+						description={t("actions.delete.description")}
 						continueLabel={t("actions.delete.continueActionLabel")}
 						navigateTo={"/reports"}
 						successMessage={t("messages.report.deleted", {ns: "common"})}
