@@ -56,7 +56,9 @@
     "noLabel": "No",
     "continueLabel": "Continue",
     "unavailableValue": "Unavailable",
-    "experimentalFeatureExplanation": "This is an experimental feature."
+    "experimentalFeatureExplanation": "This is an experimental feature.",
+    "saveLabel": "Save",
+    "resetLabel": "Reset"
   },
   "noSearchResults": {
     "title": "Nothing found",

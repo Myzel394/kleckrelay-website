@@ -1,0 +1,7 @@
+{
+  "title": "Site configuration",
+  "routes": {
+    "reservedAliases": "Reserved Aliases",
+    "settings": "Global Settings"
+  }
+}

@@ -11,7 +11,7 @@ import {useNavigateToNext, useUser} from "~/hooks"
 import ServerStatus from "~/route-widgets/AdminRoute/ServerStatus"
 
 export default function AdminRoute(): ReactElement {
-	const {t} = useTranslation()
+	const {t} = useTranslation("title")
 	const navigateToNext = useNavigateToNext()
 	const user = useUser()
 
@@ -22,20 +22,20 @@ export default function AdminRoute(): ReactElement {
 	}, [user.isAdmin, navigateToNext])
 
 	return (
-		<SimplePageBuilder.Page title={t("routes.AdminRoute.title")}>
+		<SimplePageBuilder.Page title={t("title")}>
 			<ServerStatus />
 			<List>
 				<ListItemButton component={Link} to="/admin/reserved-aliases">
 					<ListItemIcon>
 						<BsStarFill />
 					</ListItemIcon>
-					<ListItemText primary={t("routes.AdminRoute.routes.reservedAliases")} />
+					<ListItemText primary={t("routes.reservedAliases")} />
 				</ListItemButton>
 				<ListItemButton component={Link} to="/admin/settings">
 					<ListItemIcon>
 						<AiFillEdit />
 					</ListItemIcon>
-					<ListItemText primary={t("routes.AdminRoute.routes.settings")} />
+					<ListItemText primary={t("routes.settings")} />
 				</ListItemButton>
 			</List>
 		</SimplePageBuilder.Page>
