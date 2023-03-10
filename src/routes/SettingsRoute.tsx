@@ -1,6 +1,7 @@
 import {useTranslation} from "react-i18next"
 import {GoSettings} from "react-icons/go"
 import {BsShieldLockFill} from "react-icons/bs"
+import {MdVpnKey} from "react-icons/md"
 import {Link} from "react-router-dom"
 import React, {ReactElement} from "react"
 
@@ -25,6 +26,12 @@ export default function SettingsRoute(): ReactElement {
 						<BsShieldLockFill />
 					</ListItemIcon>
 					<ListItemText primary={t("actions.enable2fa")} />
+				</ListItemButton>
+				<ListItemButton component={Link} to="/settings/api-keys">
+					<ListItemIcon>
+						<MdVpnKey />
+					</ListItemIcon>
+					<ListItemText primary={t("actions.apiKeys")} />
 				</ListItemButton>
 			</List>
 		</SimplePageBuilder.Page>

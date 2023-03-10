@@ -2,6 +2,7 @@
   "title": "Settings",
   "actions": {
     "enable2fa": "Two-Factor-Authentication",
-    "aliasPreferences": "Alias Preferences"
+    "aliasPreferences": "Alias Preferences",
+    "apiKeys": "Edit API Keys"
   }
 }
