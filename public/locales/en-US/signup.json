@@ -7,7 +7,7 @@
     "mailVerification": {
       "title": "You got mail!",
       "description": "We sent you an email with a link to confirm your email address. Please check your inbox and click on the link to continue.",
-      "maskAsNotSpam": "If you can't find the email, please check your spam folder. If the email lands in your spam folder, please mark it as \"Not Spam\" to receive all emails in the future",
+      "markAsNotSpam": "If you can't find the email, please check your spam folder. If the email lands in your spam folder, please mark it as \"Not Spam\" to receive all emails in the future",
       "editEmail": {
         "title": "Edit email address?",
         "description": "Would you like to return to the previous step and edit your email address?",
