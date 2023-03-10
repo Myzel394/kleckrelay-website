@@ -1,0 +1,10 @@
+{
+  "title": "Manage your API Keys",
+  "create": {
+    "label": "Create a new API Key"
+  },
+  "emptyState": {
+    "title": "Welcome to your API Keys",
+    "description": "Create an API Key to get started with the API."
+  }
+}

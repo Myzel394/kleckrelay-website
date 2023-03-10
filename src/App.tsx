@@ -28,6 +28,7 @@ import ReservedAliasDetailRoute from "~/routes/ReservedAliasDetailRoute"
 import ReservedAliasesRoute from "~/routes/ReservedAliasesRoute"
 import RootRoute from "~/routes/Root"
 import Settings2FARoute from "~/routes/Settings2FARoute"
+import SettingsAPIKeysRoute from "~/routes/SettingsAPIKeysRoute"
 import SettingsAliasPreferencesRoute from "~/routes/SettingsAliasPreferencesRoute"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
 					{
 						path: "/settings/2fa",
 						element: <Settings2FARoute />,
+					},
+					{
+						path: "/settings/api-keys",
+						element: <SettingsAPIKeysRoute />,
 					},
 					{
 						path: "/reports",

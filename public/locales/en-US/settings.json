@@ -3,6 +3,6 @@
   "actions": {
     "enable2fa": "Two-Factor-Authentication",
     "aliasPreferences": "Alias Preferences",
-    "apiKeys": "Edit API Keys"
+    "apiKeys": "Manage API Keys"
   }
 }

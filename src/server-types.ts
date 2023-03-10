@@ -141,6 +141,13 @@ export interface AliasList {
 	type: AliasType
 }
 
+export interface APIKey {
+	id: string
+	label: string
+	expiresAt: Date
+	scopes: string[]
+}
+
 export interface Report {
 	id: string
 	encryptedContent: string
