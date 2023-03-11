@@ -143,8 +143,8 @@ export interface AliasList {
 }
 
 export type APIKeyScope =
-	| "full_profile"
-	| "basic_profile"
+	| "read:profile"
+	| "update:profile"
 	| "read:preferences"
 	| "update:preferences"
 	| "read:alias"
@@ -153,6 +153,13 @@ export type APIKeyScope =
 	| "delete:alias"
 	| "read:report"
 	| "delete:report"
+	| "read:admin_cron_report"
+	| "read:admin_settings"
+	| "update:admin_settings"
+	| "read:admin_reserved_alias"
+	| "create:admin_reserved_alias"
+	| "update:admin_reserved_alias"
+	| "delete:admin_reserved_alias"
 
 export interface APIKey {
 	id: string

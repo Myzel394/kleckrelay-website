@@ -96,8 +96,8 @@
   },
   "values": {
     "scopes": {
-      "basic_profile": "Basic Profile",
-      "full_profile": "Full Profile",
+      "read_profile": "Read Profile",
+      "update_profile": "Update Profile",
 
       "read_preferences": "Read Preferences",
       "update_preferences": "Update Preferences",
@@ -108,7 +108,16 @@
       "delete_alias": "Delete Aliases",
 
       "read_report": "Read Reports",
-      "delete_report": "Delete Reports"
+      "delete_report": "Delete Reports",
+
+      "read_admin_cron_report": "Read Cron Reports (Admin)",
+      "read_admin_settings": "Read Settings (Admin)",
+      "update_admin_settings": "Update Settings (Admin)",
+
+      "read_admin_reserved_alias": "Read Reserved Aliases (Admin)",
+      "create_admin_reserved_alias": "Create Reserved Aliases (Admin)",
+      "update_admin_reserved_alias": "Update Reserved Aliases (Admin)",
+      "delete_admin_reserved_alias": "Delete Reserved Aliases (Admin)"
     }
   }
 }
