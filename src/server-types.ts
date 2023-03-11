@@ -143,8 +143,8 @@ export interface AliasList {
 }
 
 export type APIKeyScope =
-	| "profile_basic"
 	| "full_profile"
+	| "basic_profile"
 	| "read:preferences"
 	| "update:preferences"
 	| "read:alias"
