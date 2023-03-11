@@ -1,7 +1,7 @@
 import {ReactElement, useLayoutEffect, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useQuery} from "@tanstack/react-query"
-import {APIKey, PaginationResult} from "~/server-types"
+import {APIKey, APIKeyScope, PaginationResult} from "~/server-types"
 import {AxiosError} from "axios"
 import {getAPIKeys} from "~/apis"
 import {QueryResult, SimplePage} from "~/components"
@@ -23,7 +23,9 @@ export default function SettingsAPIKeysRoute(): ReactElement {
 	const params = {
 		action: rawParams.action === "create-new" ? "create-new" : undefined,
 		scopes: isArray(rawParams.scopes?.split(","))
-			? rawParams.scopes.split(",").filter((scope: string) => API_KEY_SCOPES.includes(scope))
+			? rawParams.scopes
+					.split(",")
+					.filter((scope: APIKeyScope) => API_KEY_SCOPES.includes(scope))
 			: [],
 		label: rawParams.label,
 	}
