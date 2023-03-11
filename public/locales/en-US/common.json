@@ -61,7 +61,8 @@
       "deleted": "Report has been deleted!"
     },
     "apiKey": {
-      "keyCopied": "API key has been copied to your clipboard!"
+      "keyCopied": "API key has been copied to your clipboard!",
+      "deleted": "API key has been deleted!"
     }
   },
   "general": {

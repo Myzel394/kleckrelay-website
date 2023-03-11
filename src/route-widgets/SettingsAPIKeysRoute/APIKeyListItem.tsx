@@ -4,14 +4,21 @@ import {Alert, IconButton, ListItem, ListItemSecondaryAction, ListItemText} from
 import {useTranslation} from "react-i18next"
 import {MdContentCopy, MdDelete} from "react-icons/md"
 import {useCopyToClipboard} from "react-use"
-import {ErrorSnack, SuccessSnack} from "~/components"
+import {DeleteButton, ErrorSnack, SuccessSnack} from "~/components"
+import {deleteAPIKey} from "~/apis"
+import {queryClient} from "~/constants/react-query"
 
 export interface APIKeyListItemProps {
 	apiKey: APIKey
+	queryKey: readonly string[]
 	privateKey?: string
 }
 
-export default function APIKeyListItem({apiKey, privateKey}: APIKeyListItemProps): ReactElement {
+export default function APIKeyListItem({
+	queryKey,
+	apiKey,
+	privateKey,
+}: APIKeyListItemProps): ReactElement {
 	const {t} = useTranslation(["settings-api-keys", "common"])
 
 	const [{value, error}, copy] = useCopyToClipboard()
@@ -43,9 +50,24 @@ export default function APIKeyListItem({apiKey, privateKey}: APIKeyListItemProps
 			<>
 				<ListItemText primary={apiKey.label} secondary={apiKey.expiresAt.toString()} />
 				<ListItemSecondaryAction>
-					<IconButton edge="end">
-						<MdDelete />
-					</IconButton>
+					<DeleteButton
+						onDelete={() => deleteAPIKey(apiKey.id)}
+						onDone={() =>
+							queryClient.invalidateQueries({
+								queryKey,
+							})
+						}
+						label={t("actions.delete.label")}
+						description={t("actions.delete.description")}
+						continueLabel={t("actions.delete.continueActionLabel")}
+						successMessage={t("messages.apiKey.deleted", {ns: "common"})}
+					>
+						{onDelete => (
+							<IconButton edge="end" onClick={onDelete}>
+								<MdDelete />
+							</IconButton>
+						)}
+					</DeleteButton>
 				</ListItemSecondaryAction>
 			</>
 		</ListItem>

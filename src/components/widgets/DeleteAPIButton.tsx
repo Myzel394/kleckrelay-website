@@ -25,6 +25,8 @@ export interface DeleteAPIButtonProps {
 	description?: string
 	successMessage?: string
 	navigateTo?: string
+	children?: (onDelete: () => void) => ReactElement
+	onDone?: () => void
 }
 
 export default function DeleteAPIButton({
@@ -33,7 +35,9 @@ export default function DeleteAPIButton({
 	label,
 	continueLabel,
 	description,
-	navigateTo = "/aliases",
+	navigateTo,
+	onDone,
+	children: render,
 }: DeleteAPIButtonProps): ReactElement {
 	const {t} = useTranslation("common")
 	const {showError, showSuccess} = useErrorSuccessSnacks()
@@ -43,7 +47,12 @@ export default function DeleteAPIButton({
 		onError: showError,
 		onSuccess: () => {
 			showSuccess(successMessage || t("messages.deletedObject"))
-			navigate(navigateTo)
+
+			if (navigateTo) {
+				navigate(navigateTo)
+			} else if (onDone) {
+				onDone()
+			}
 		},
 	})
 
@@ -51,15 +60,19 @@ export default function DeleteAPIButton({
 
 	return (
 		<>
-			<Button
-				variant="outlined"
-				color="error"
-				size="small"
-				startIcon={<MdDelete />}
-				onClick={() => setShowDeleteDialog(true)}
-			>
-				{label}
-			</Button>
+			{render ? (
+				render(() => setShowDeleteDialog(true))
+			) : (
+				<Button
+					variant="outlined"
+					color="error"
+					size="small"
+					startIcon={<MdDelete />}
+					onClick={() => setShowDeleteDialog(true)}
+				>
+					{label}
+				</Button>
+			)}
 			<Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
 				<DialogTitle>{label}</DialogTitle>
 				<DialogContent>
