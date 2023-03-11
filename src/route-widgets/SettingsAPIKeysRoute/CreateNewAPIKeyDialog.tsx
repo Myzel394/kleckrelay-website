@@ -48,6 +48,9 @@ export interface CreateNewAPIKeyDialogProps {
 	open: boolean
 	onClose: () => void
 	onCreated: (key: APIKey & {key: string}) => void
+
+	prefilledLabel: string
+	prefilledScopes: APIKeyScope[]
 }
 
 const PRESET_DAYS: number[] = [1, 7, 30, 180, 360]
@@ -76,6 +79,8 @@ const normalizeTime = (date: Date) =>
 
 export default function CreateNewAPIKeyDialog({
 	open,
+	prefilledLabel,
+	prefilledScopes,
 	onClose,
 	onCreated,
 }: CreateNewAPIKeyDialogProps): ReactElement {
@@ -108,9 +113,9 @@ export default function CreateNewAPIKeyDialog({
 	const formik = useFormik<CreateAPIKeyData & {detail: string}>({
 		validationSchema: scheme,
 		initialValues: {
-			label: "",
+			label: prefilledLabel,
 			expiresAt: addDays(new Date(), 30),
-			scopes: [],
+			scopes: [...prefilledScopes],
 			detail: "",
 		},
 		onSubmit: async (values, {setErrors}) => {
