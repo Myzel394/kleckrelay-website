@@ -59,6 +59,10 @@
     },
     "report": {
       "deleted": "Report has been deleted!"
+    },
+    "apiKey": {
+      "keyCopied": "API key has been copied to your clipboard!",
+      "deleted": "API key has been deleted!"
     }
   },
   "general": {
@@ -89,5 +93,22 @@
     "signup": "Sign up",
     "login": "Log in",
     "logout": "Log out"
+  },
+  "values": {
+    "scopes": {
+      "basic_profile": "Basic Profile",
+      "full_profile": "Full Profile",
+
+      "read_preferences": "Read Preferences",
+      "update_preferences": "Update Preferences",
+
+      "read_alias": "Read Aliases",
+      "create_alias": "Create Aliases",
+      "update_alias": "Update Aliases",
+      "delete_alias": "Delete Aliases",
+
+      "read_report": "Read Reports",
+      "delete_report": "Delete Reports"
+    }
   }
 }
