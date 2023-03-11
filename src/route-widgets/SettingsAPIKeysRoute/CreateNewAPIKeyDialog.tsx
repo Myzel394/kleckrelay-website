@@ -31,15 +31,17 @@ import {BiText} from "react-icons/bi"
 import {CgProfile} from "react-icons/cg"
 import {DatePicker} from "@mui/x-date-pickers"
 import {useLoaderData} from "react-router-dom"
-import {API_KEY_SCOPES} from "~/constants/values"
-import {FaMask} from "react-icons/fa"
+import {ADMIN_API_KEY_SCOPES, API_KEY_SCOPES} from "~/constants/values"
+import {FaMask, FaServer} from "react-icons/fa"
 import {MdAdd, MdCancel, MdDelete, MdEdit, MdTextSnippet} from "react-icons/md"
 import {GoSettings} from "react-icons/go"
 import {TiEye} from "react-icons/ti"
 import {useMutation} from "@tanstack/react-query"
 import {AxiosError} from "axios"
 import {parseFastAPIError} from "~/utils"
-import {useErrorSuccessSnacks} from "~/hooks"
+import {useErrorSuccessSnacks, useUser} from "~/hooks"
+import {HiDocumentReport} from "react-icons/hi"
+import {BsStarFill} from "react-icons/bs"
 import addDays from "date-fns/addDays"
 import diffInDays from "date-fns/differenceInDays"
 import set from "date-fns/set"
@@ -60,6 +62,9 @@ const API_KEY_SCOPE_ICON_MAP: Record<string, ReactElement> = {
 	alias: <FaMask />,
 	report: <MdTextSnippet />,
 	preferences: <GoSettings />,
+	admin_cron_report: <HiDocumentReport />,
+	admin_settings: <FaServer />,
+	admin_reserved_alias: <BsStarFill />,
 }
 
 const API_KEY_SCOPE_TYPE_ICON_MAP: Record<string, ReactElement> = {
@@ -87,6 +92,7 @@ export default function CreateNewAPIKeyDialog({
 	const {t} = useTranslation(["settings-api-keys", "common"])
 	const serverSettings = useLoaderData() as ServerSettings
 	const {showSuccess} = useErrorSuccessSnacks()
+	const user = useUser()
 
 	const scheme = yup.object().shape({
 		label: yup.string().required().label(t("create.form.label.label")),
@@ -126,6 +132,7 @@ export default function CreateNewAPIKeyDialog({
 			}
 		},
 	})
+	const availableScopes = [...API_KEY_SCOPES, ...(user.isAdmin ? ADMIN_API_KEY_SCOPES : [])]
 
 	return (
 		<Dialog open={open} onClose={onClose}>
@@ -190,24 +197,20 @@ export default function CreateNewAPIKeyDialog({
 										</Box>
 									)}
 								>
-									{API_KEY_SCOPES.map(scope => (
+									{availableScopes.map(scope => (
 										<MenuItem key={scope} value={scope}>
 											<ListItem>
 												<ListItemIcon>
 													<Badge
 														badgeContent={
 															API_KEY_SCOPE_TYPE_ICON_MAP[
-																scope
-																	.replace(":", "_")
-																	.split("_")[0]
+																scope.split(":")[0]
 															]
 														}
 													>
 														{
 															API_KEY_SCOPE_ICON_MAP[
-																scope
-																	.replace(":", "_")
-																	.split("_")[1]
+																scope.split(":")[1]
 															]
 														}
 													</Badge>
