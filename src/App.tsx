@@ -7,6 +7,8 @@ import React, {ReactElement} from "react"
 import {queryClient} from "~/constants/react-query"
 import {getServerSettings} from "~/apis"
 import {darkTheme, lightTheme} from "~/constants/themes"
+import {LocalizationProvider} from "@mui/x-date-pickers"
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns"
 import AdminRoute from "~/routes/AdminRoute"
 import AliasDetailRoute from "~/routes/AliasDetailRoute"
 import AliasesRoute from "~/routes/AliasesRoute"
@@ -108,6 +110,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/settings/api-keys",
+						loader: getServerSettings,
 						element: <SettingsAPIKeysRoute />,
 					},
 					{
@@ -167,9 +170,11 @@ export default function App(): ReactElement {
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={THEME_THEME_MAP[theme]}>
 					<SnackbarProvider>
-						<CssBaseline />
-						<RouterProvider router={router} />
-						<I18nHandler />
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<CssBaseline />
+							<RouterProvider router={router} />
+							<I18nHandler />
+						</LocalizationProvider>
 					</SnackbarProvider>
 				</ThemeProvider>
 			</QueryClientProvider>

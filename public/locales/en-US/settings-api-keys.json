@@ -1,7 +1,32 @@
 {
   "title": "Manage your API Keys",
   "create": {
-    "label": "Create a new API Key"
+    "label": "Create a new API Key",
+    "description": "Define a label and the scopes you want to grant to this API Key.",
+    "continueActionLabel": "Create API Key",
+    "success": "Your API Key has been created. Copy it now, you won't be able to see it again.",
+    "form": {
+      "label": {
+        "label": "Label"
+      },
+      "expiresAt": {
+        "label": "Expiration date",
+        "errors": {
+          "tooFarInFuture": "This date is too far in the future.",
+          "inPast": "Expiration date must be in the future."
+        },
+        "values": {
+          "1days": "1 Day",
+          "7days": "1 Week",
+          "30days": "1 Month",
+          "180days": "1/2 Year",
+          "360days": "1 Year"
+        }
+      },
+      "scopes": {
+        "label": "Scopes"
+      }
+    }
   },
   "emptyState": {
     "title": "Welcome to your API Keys",

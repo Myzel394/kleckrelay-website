@@ -84,6 +84,7 @@ export interface ServerSettings {
 	instanceSalt: string
 	publicKey: string
 	allowAliasDeletion: boolean
+	apiKeyMaxDays: number
 }
 
 export interface Alias {
@@ -141,11 +142,23 @@ export interface AliasList {
 	type: AliasType
 }
 
+export type APIKeyScope =
+	| "profile_basic"
+	| "full_profile"
+	| "read:preferences"
+	| "update:preferences"
+	| "read:alias"
+	| "create:alias"
+	| "update:alias"
+	| "delete:alias"
+	| "read:report"
+	| "delete:report"
+
 export interface APIKey {
 	id: string
 	label: string
 	expiresAt: Date
-	scopes: string[]
+	scopes: APIKeyScope[]
 }
 
 export interface Report {
