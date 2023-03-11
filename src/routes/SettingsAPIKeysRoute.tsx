@@ -42,6 +42,7 @@ export default function SettingsAPIKeysRoute(): ReactElement {
 									<APIKeyListItem
 										apiKey={apiKey}
 										key={apiKey.id}
+										queryKey={queryKey}
 										privateKey={
 											apiKey.id === createdAPIKey?.id
 												? createdAPIKey.key
