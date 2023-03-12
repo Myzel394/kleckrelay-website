@@ -1,4 +1,4 @@
-import {ReactElement, useContext, useLayoutEffect} from "react"
+import {ReactElement, useContext, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
 
 import {AuthContext} from "~/components"
@@ -8,7 +8,7 @@ export default function RedirectRoute(): ReactElement {
 	const navigate = useNavigate()
 	const {user} = useContext(AuthContext)
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (user) {
 			navigate("/aliases")
 		} else {
