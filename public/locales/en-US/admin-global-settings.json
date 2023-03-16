@@ -66,6 +66,10 @@
     "maxAliasesPerUser": {
       "label": "Maximum aliases per user",
       "description": "The maximum number of aliases a user can create. 0 means unlimited. Existing aliases will not be affected."
+    },
+    "allowRegistrations": {
+      "label": "Allow registrations",
+      "description": "If enabled, users will be able to register on your instance. This only affects new account registrations."
     }
   }
 }

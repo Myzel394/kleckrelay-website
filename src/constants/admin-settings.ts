@@ -14,4 +14,5 @@ export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
 	allowStatistics: true,
 	allowAliasDeletion: false,
 	maxAliasesPerUser: 0,
+	allowRegistrations: true,
 }

@@ -241,6 +241,7 @@ export interface AdminSettings {
 	allowStatistics: boolean
 	allowAliasDeletion: boolean
 	maxAliasesPerUser: number
+	allowRegistrations: boolean
 }
 
 export interface ServerCronReport {
