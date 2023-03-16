@@ -79,6 +79,7 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 		allowStatistics: yup.boolean().label(t("fields.allowStatistics.label")),
 		allowAliasDeletion: yup.boolean().label(t("fields.allowAliasDeletion.label")),
 		maxAliasesPerUser: yup.number().label(t("fields.maxAliasesPerUser.label")).min(0),
+		allowRegistrations: yup.boolean().label(t("fields.allowRegistrations.label")),
 	} as Record<keyof AdminSettings, any>)
 
 	const {mutateAsync} = useMutation<
@@ -517,6 +518,31 @@ export default function SettingsForm({settings, queryKey}: SettingsFormProps) {
 									{(formik.touched.allowAliasDeletion &&
 										formik.errors.allowAliasDeletion) ||
 										t("fields.allowAliasDeletion.description")}
+								</FormHelperText>
+							</FormGroup>
+						</Grid>
+						<Grid item xs={12}>
+							<FormGroup key="allow_registrations">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={formik.values.allowRegistrations}
+											onChange={formik.handleChange}
+											name="allowRegistrations"
+										/>
+									}
+									disabled={formik.isSubmitting}
+									label={t("fields.allowRegistrations.label")}
+								/>
+								<FormHelperText
+									error={
+										formik.touched.allowRegistrations &&
+										Boolean(formik.errors.allowRegistrations)
+									}
+								>
+									{(formik.touched.allowRegistrations &&
+										formik.errors.allowRegistrations) ||
+										t("fields.allowRegistrations.description")}
 								</FormHelperText>
 							</FormGroup>
 						</Grid>
