@@ -14,5 +14,10 @@
         "continueActionLabel": "Yes, edit email"
       }
     }
+  },
+  "registrationsDisabled": {
+    "title": "Registrations are disabled",
+    "description": "We are sorry, but registrations on this instance are disabled.",
+    "login": "Login"
   }
 }

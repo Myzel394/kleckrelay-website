@@ -5,6 +5,7 @@ import {useLoaderData} from "react-router-dom"
 import {MultiStepForm} from "~/components"
 import {ServerSettings} from "~/server-types"
 import EmailForm from "~/route-widgets/SignupRoute/EmailForm"
+import RegistrationsDisabled from "~/route-widgets/SignupRoute/RegistrationsDisabled"
 import YouGotMail from "~/route-widgets/SignupRoute/YouGotMail"
 
 export default function SignupRoute(): ReactElement {
@@ -12,6 +13,10 @@ export default function SignupRoute(): ReactElement {
 	const [email, setEmail] = useLocalStorage<string>("signup-form-state-email", "")
 
 	const index = email ? 1 : 0
+
+	if (!serverSettings.allowRegistrations) {
+		return <RegistrationsDisabled />
+	}
 
 	return (
 		<MultiStepForm
