@@ -35,6 +35,7 @@ interface Form {
 	imageProxyFormat: ImageProxyFormatType
 	proxyUserAgent: ProxyUserAgentType
 	expandUrlShorteners: boolean
+	rejectOnPrivacyLeak: boolean
 
 	detail?: string
 }
@@ -69,6 +70,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 			.required()
 			.label(t("settings.fields.proxyUserAgent.label")),
 		expandUrlShorteners: yup.boolean().label(t("settings.fields.expandUrlShorteners.label")),
+		rejectOnPrivacyLeak: yup.boolean().label(t("settings.fields.rejectOnPrivacyLeak.label")),
 	})
 
 	const {mutateAsync} = useMutation<SimpleDetailResponse, AxiosError, UpdatePreferencesData>(
@@ -101,6 +103,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 			imageProxyFormat: user.preferences.aliasImageProxyFormat,
 			proxyUserAgent: user.preferences.aliasProxyUserAgent,
 			expandUrlShorteners: user.preferences.aliasExpandUrlShorteners,
+			rejectOnPrivacyLeak: user.preferences.aliasRejectOnPrivacyLeak,
 		},
 		onSubmit: async (values, {setErrors}) => {
 			try {
@@ -111,6 +114,7 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 					aliasImageProxyFormat: values.imageProxyFormat,
 					aliasProxyUserAgent: values.proxyUserAgent,
 					aliasExpandUrlShorteners: values.expandUrlShorteners,
+					aliasRejectOnPrivacyLeak: values.rejectOnPrivacyLeak,
 				})
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
@@ -347,6 +351,34 @@ export default function SettingsAliasPreferencesRoute(): ReactElement {
 							>
 								{t("general.experimentalFeatureExplanation", {ns: "common"})}
 							</Alert>
+						</FormGroup>
+					</Grid>
+					<Grid item xs={12}>
+						<FormGroup>
+							<FormControlLabel
+								disabled={formik.isSubmitting}
+								control={
+									<Checkbox
+										name="rejectOnPrivacyLeak"
+										id="rejectOnPrivacyLeak"
+										checked={formik.values.rejectOnPrivacyLeak}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								}
+								labelPlacement="start"
+								label={t("settings.fields.rejectOnPrivacyLeak.label")}
+							/>
+							<FormHelperText
+								error={Boolean(
+									formik.touched.rejectOnPrivacyLeak &&
+										formik.errors.rejectOnPrivacyLeak,
+								)}
+							>
+								{(formik.touched.rejectOnPrivacyLeak &&
+									formik.errors.rejectOnPrivacyLeak) ||
+									t("settings.fields.rejectOnPrivacyLeak.helperText")}
+							</FormHelperText>
 						</FormGroup>
 					</Grid>
 				</Grid>

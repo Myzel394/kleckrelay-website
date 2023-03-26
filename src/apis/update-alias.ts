@@ -9,6 +9,8 @@ export interface UpdateAliasData {
 	prefProxyImages?: boolean | null
 	prefImagProxyFormat?: ImageProxyFormatType | null
 	prefProxyUserAgent?: ProxyUserAgentType | null
+	prefExpandUrlShorteners?: boolean | null
+	prefRejectOnPrivacyLeak?: boolean | null
 }
 
 export default async function updateAlias(id: string, updateData: UpdateAliasData): Promise<Alias> {
