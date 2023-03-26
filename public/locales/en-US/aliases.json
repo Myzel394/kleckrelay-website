@@ -78,6 +78,10 @@
       "expandUrlShorteners": {
         "label": "Expand URL Shorteners",
         "helperText": "Expand shortened URLs (for example bit.ly) to their original URL. This way those services can't track you."
+      },
+      "rejectOnPrivacyLeak": {
+        "label": "Reject on Privacy Leak",
+        "helperText": "Reject emails that contain your email address. This happens especially often when you reply to emails. We recommend you to enable this feature."
       }
     }
   }

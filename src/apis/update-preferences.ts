@@ -8,6 +8,7 @@ export interface UpdatePreferencesData {
 	aliasImageProxyFormat?: ImageProxyFormatType
 	aliasProxyUserAgent?: ProxyUserAgentType
 	aliasExpandUrlShorteners?: boolean
+	aliasRejectOnPrivacyLeak?: boolean
 }
 
 export default async function updatePreferences(

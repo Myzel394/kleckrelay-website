@@ -1,8 +1,8 @@
 import * as yup from "yup"
 import {ReactElement, useContext} from "react"
-import {BsImage, BsShieldShaded} from "react-icons/bs"
+import {BsArrowsAngleExpand, BsImage, BsShieldShaded} from "react-icons/bs"
 import {useFormik} from "formik"
-import {FaFile} from "react-icons/fa"
+import {FaFile, FaHandPaper} from "react-icons/fa"
 import {MdCheckCircle, MdTextSnippet} from "react-icons/md"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
@@ -32,6 +32,8 @@ interface Form {
 	proxyImages: boolean | null
 	imageProxyFormat: ImageProxyFormatType | null
 	proxyUserAgent: ProxyUserAgentType | null
+	expandUrlShorteners: boolean | null
+	rejectOnPrivacyLeak: boolean | null
 
 	detail?: string
 }
@@ -78,6 +80,10 @@ export default function AliasPreferencesForm({
 			.mixed<boolean | null>()
 			.oneOf([true, false, null])
 			.label(t("settings.fields.expandUrlShorteners.label")),
+		rejectOnPrivacyLeak: yup
+			.mixed<boolean | null>()
+			.oneOf([true, false, null])
+			.label(t("settings.fields.rejectOnPrivacyLeak.label")),
 	})
 
 	const {mutateAsync} = useMutation<Alias, AxiosError, UpdateAliasData>(
@@ -108,6 +114,8 @@ export default function AliasPreferencesForm({
 			proxyImages: alias.prefProxyImages,
 			imageProxyFormat: alias.prefImageProxyFormat,
 			proxyUserAgent: alias.prefProxyUserAgent,
+			expandUrlShorteners: alias.prefExpandUrlShorteners,
+			rejectOnPrivacyLeak: alias.prefRejectOnPrivacyLeak,
 		},
 		validationSchema: schema,
 		onSubmit: async (values, {setErrors}) => {
@@ -118,6 +126,8 @@ export default function AliasPreferencesForm({
 					prefProxyImages: values.proxyImages,
 					prefImagProxyFormat: values.imageProxyFormat,
 					prefProxyUserAgent: values.proxyUserAgent,
+					prefExpandUrlShorteners: values.expandUrlShorteners,
+					prefRejectOnPrivacyLeak: values.rejectOnPrivacyLeak,
 				})
 			} catch (error) {
 				setErrors(parseFastAPIError(error as AxiosError))
@@ -186,6 +196,22 @@ export default function AliasPreferencesForm({
 											</Collapse>
 										</Grid>
 									</Grid>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<SelectField
+										label={t("settings.fields.expandUrlShorteners.label")}
+										formik={formik}
+										icon={<BsArrowsAngleExpand />}
+										name="expandUrlShorteners"
+									/>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<SelectField
+										label={t("settings.fields.rejectOnPrivacyLeak.label")}
+										formik={formik}
+										icon={<FaHandPaper />}
+										name="rejectOnPrivacyLeak"
+									/>
 								</Grid>
 							</Grid>
 						</Grid>

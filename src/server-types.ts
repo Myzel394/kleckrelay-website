@@ -53,6 +53,7 @@ export interface ServerUser {
 		aliasImageProxyFormat: ImageProxyFormatType
 		aliasProxyUserAgent: ProxyUserAgentType
 		aliasExpandUrlShorteners: boolean
+		aliasRejectOnPrivacyLeak: boolean
 	}
 }
 
@@ -102,6 +103,7 @@ export interface Alias {
 	prefImageProxyFormat: ImageProxyFormatType | null
 	prefProxyUserAgent: ProxyUserAgentType | null
 	prefExpandUrlShorteners: boolean | null
+	prefRejectOnPrivacyLeak: boolean | null
 }
 
 export interface ReservedAlias {
