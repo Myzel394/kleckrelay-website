@@ -9,6 +9,7 @@ export interface UpdatePreferencesData {
 	aliasProxyUserAgent?: ProxyUserAgentType
 	aliasExpandUrlShorteners?: boolean
 	aliasRejectOnPrivacyLeak?: boolean
+	emailGpgPublicKey: string | null
 }
 
 export default async function updatePreferences(
