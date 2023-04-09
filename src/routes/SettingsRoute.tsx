@@ -8,6 +8,7 @@ import React, {ReactElement} from "react"
 import {List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 
 import {SimplePageBuilder} from "~/components"
+import {RiLockFill} from "react-icons/ri"
 
 export default function SettingsRoute(): ReactElement {
 	const {t} = useTranslation("settings")
@@ -32,6 +33,12 @@ export default function SettingsRoute(): ReactElement {
 						<MdVpnKey />
 					</ListItemIcon>
 					<ListItemText primary={t("actions.apiKeys")} />
+				</ListItemButton>
+				<ListItemButton component={Link} to="/settings/email-pgp">
+					<ListItemIcon>
+						<RiLockFill />
+					</ListItemIcon>
+					<ListItemText primary={t("actions.emailPgp")} />
 				</ListItemButton>
 			</List>
 		</SimplePageBuilder.Page>

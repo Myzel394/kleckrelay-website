@@ -1,0 +1,20 @@
+{
+  "title": "Set up PGP encryption",
+  "description": "By providing your public key, we will encrypt all emails sent to you. This will ensure that only you can read the emails we send you. Your email provider will not be able to read your emails anymore.",
+  "form": {
+    "fields": {
+      "publicKey": {
+        "label": "Your public key",
+        "helperText": "Paste your raw public key in armored format here."
+      }
+    },
+    "continueActionLabel": "Enable PGP encryption"
+  },
+  "findPublicKey": {
+    "label": "Find public key automatically",
+    "title": "Use this key?",
+    "description": "We found a public key for your email! Would you like to use it? The key has been created on {{createdAt}} and is of type {{type}}. This is the fingerprint:",
+    "continueActionLabel": "Use Key"
+  },
+  "alreadyConfigured": "PGP encryption is activated. You are using a public key with this fingerprint:"
+}

@@ -54,6 +54,7 @@ export interface ServerUser {
 		aliasProxyUserAgent: ProxyUserAgentType
 		aliasExpandUrlShorteners: boolean
 		aliasRejectOnPrivacyLeak: boolean
+		emailGpgPublicKey: string | null
 	}
 }
 
