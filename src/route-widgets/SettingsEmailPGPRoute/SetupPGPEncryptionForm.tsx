@@ -127,7 +127,6 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 							loading={formik.isSubmitting}
 							type="submit"
 							variant="contained"
-							disabled={!formik.isValid}
 							startIcon={<RiLockFill />}
 						>
 							{t("form.continueActionLabel")}
