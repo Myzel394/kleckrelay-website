@@ -16,5 +16,6 @@
     "description": "We found a public key for your email! Would you like to use it? The key has been created on {{createdAt}} and is of type {{type}}. This is the fingerprint:",
     "continueActionLabel": "Use Key"
   },
-  "alreadyConfigured": "PGP encryption is activated. You are using a public key with this fingerprint:"
+  "alreadyConfigured": "PGP encryption is activated. You are using a public key with this fingerprint:",
+  "remove": "Disable PGP encryption"
 }
