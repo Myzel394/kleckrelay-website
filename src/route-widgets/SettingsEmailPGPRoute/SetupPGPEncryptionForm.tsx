@@ -96,7 +96,7 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 								fullWidth
 								multiline
 								minRows={5}
-								maxRows={20}
+								maxRows={15}
 								label={t("form.fields.publicKey.label")}
 								name="publicKey"
 								value={formik.values.publicKey}
