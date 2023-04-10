@@ -5,7 +5,8 @@
     "fields": {
       "publicKey": {
         "label": "Your public key",
-        "helperText": "Paste your raw public key in armored format here."
+        "helperText": "Paste your raw public key in armored format here.",
+        "placeholder": "----BEGIN PGP PUBLIC KEY BLOCK----\n\n...\n----END PGP PUBLIC KEY BLOCK----"
       }
     },
     "continueActionLabel": "Enable PGP encryption"

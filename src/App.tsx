@@ -116,6 +116,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/settings/email-pgp",
+						loader: getServerSettings,
 						element: <SettingsEmailPGPRoute />,
 					},
 					{

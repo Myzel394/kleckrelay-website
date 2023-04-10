@@ -88,6 +88,7 @@ export interface ServerSettings {
 	allowAliasDeletion: boolean
 	apiKeyMaxDays: number
 	allowRegistrations: boolean
+	allowPgpKeyDiscovery: boolean
 }
 
 export interface Alias {

@@ -1,23 +1,27 @@
 import * as yup from "yup"
+import {useLoaderData} from "react-router-dom"
 import {ReactElement, useContext, useState} from "react"
 import {useFormik} from "formik"
+import {HiSearch} from "react-icons/hi"
+import {AxiosError} from "axios"
+import {RiLockFill} from "react-icons/ri"
+import {useTranslation} from "react-i18next"
+
+import {LoadingButton} from "@mui/lab"
 import {useMutation} from "@tanstack/react-query"
 import {Box, FormGroup, FormHelperText, Grid, TextField} from "@mui/material"
+
 import {
 	FindPublicKeyResponse,
 	UpdatePreferencesData,
 	findPublicKey,
 	updatePreferences,
 } from "~/apis"
-import {HiSearch} from "react-icons/hi"
-import {LoadingButton} from "@mui/lab"
 import {parseFastAPIError} from "~/utils"
-import {AxiosError} from "axios"
-import {RiLockFill} from "react-icons/ri"
-import {SimpleDetailResponse, User} from "~/server-types"
-import {useTranslation} from "react-i18next"
+import {ServerSettings, SimpleDetailResponse, User} from "~/server-types"
 import {useErrorSuccessSnacks} from "~/hooks"
 import {AuthContext} from "~/components"
+
 import ImportKeyDialog from "./ImportKeyDialog"
 
 interface Form {
@@ -28,12 +32,13 @@ interface Form {
 
 export default function SetupPGPEncryptionForm(): ReactElement {
 	const {t} = useTranslation(["settings-email-pgp", "common"])
+	const serverSettings = useLoaderData() as ServerSettings
 	const {showSuccess, showError} = useErrorSuccessSnacks()
 
 	const [publicKeyResult, setPublicKeyResult] = useState<FindPublicKeyResponse | null>(null)
 
 	const schema = yup.object().shape({
-		publicKey: yup.string().label(t("form.publicKey.label")),
+		publicKey: yup.string().label(t("form.publicKey.label")).min(1),
 	})
 	const {user, _updateUser} = useContext(AuthContext)
 
@@ -88,7 +93,7 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 				<Grid container spacing={4} direction="column" alignItems="stretch">
 					<Grid item xs={12}>
 						<FormGroup
-							title={t("form.fields.publicKey.title")}
+							title={t("form.fields.publicKey.label")}
 							key="publicKey"
 							sx={{width: "100%"}}
 						>
@@ -98,6 +103,7 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 								minRows={5}
 								maxRows={15}
 								label={t("form.fields.publicKey.label")}
+								placeholder={t("form.fields.publicKey.placeholder")}
 								name="publicKey"
 								value={formik.values.publicKey}
 								onChange={formik.handleChange}
@@ -111,16 +117,18 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 								{t("form.fields.publicKey.helperText")}
 							</FormHelperText>
 						</FormGroup>
-						<Box mt={1}>
-							<LoadingButton
-								loading={isFindingPublicKey}
-								type="submit"
-								startIcon={<HiSearch />}
-								onClick={() => findPublicKeyAsync()}
-							>
-								{t("findPublicKey.label")}
-							</LoadingButton>
-						</Box>
+						{serverSettings.allowPgpKeyDiscovery && (
+							<Box mt={1}>
+								<LoadingButton
+									loading={isFindingPublicKey}
+									type="button"
+									startIcon={<HiSearch />}
+									onClick={() => findPublicKeyAsync()}
+								>
+									{t("findPublicKey.label")}
+								</LoadingButton>
+							</Box>
+						)}
 					</Grid>
 					<Grid item alignSelf="center">
 						<LoadingButton
@@ -128,6 +136,7 @@ export default function SetupPGPEncryptionForm(): ReactElement {
 							type="submit"
 							variant="contained"
 							startIcon={<RiLockFill />}
+							disabled={!formik.isValid}
 						>
 							{t("form.continueActionLabel")}
 						</LoadingButton>
