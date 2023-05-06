@@ -1,6 +1,6 @@
-import {usePrevious} from "react-use"
 import React, {ReactElement, useEffect, useState} from "react"
 
+import {usePrevious} from "@react-hookz/web"
 import {Alert, Snackbar} from "@mui/material"
 
 export interface SuccessSnackProps {

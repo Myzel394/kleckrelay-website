@@ -1,5 +1,6 @@
 import {useCallback, useState} from "react"
-import {useEvent} from "react-use"
+
+import {useEventListener} from "@react-hookz/web"
 
 export default function useIsAnyInputFocused(): boolean {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -14,8 +15,8 @@ export default function useIsAnyInputFocused(): boolean {
 		setIsFocused(false)
 	}, [])
 
-	useEvent("focus", focusHandler, window, {capture: true})
-	useEvent("blur", blurHandler, window, {capture: true})
+	useEventListener(window, "focus", focusHandler, {capture: true})
+	useEventListener(window, "blur", blurHandler, {capture: true})
 
 	return isFocused
 }

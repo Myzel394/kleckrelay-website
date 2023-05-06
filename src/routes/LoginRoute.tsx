@@ -1,6 +1,7 @@
 import {ReactElement, useContext, useState} from "react"
 import {useNavigate} from "react-router-dom"
-import {useUpdateEffect} from "react-use"
+
+import {useUpdateEffect} from "@react-hookz/web"
 
 import {AuthContext, MultiStepForm} from "~/components"
 import {useQueryParams} from "~/hooks"

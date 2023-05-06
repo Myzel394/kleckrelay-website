@@ -6,10 +6,10 @@ import {FaHashtag} from "react-icons/fa"
 import {MdChevronRight, MdMail} from "react-icons/md"
 import {useLoaderData} from "react-router-dom"
 import {useTranslation} from "react-i18next"
-import {useEffectOnce} from "react-use"
 import differenceInSeconds from "date-fns/differenceInSeconds"
 import inMilliseconds from "in-milliseconds"
 
+import {useMountEffect} from "@react-hookz/web"
 import {useMutation} from "@tanstack/react-query"
 import {
 	Alert,
@@ -142,7 +142,7 @@ export default function ConfirmCodeForm({
 		}
 	}, [requestDate])
 
-	useEffectOnce(() => {
+	useMountEffect(() => {
 		const preCheck = setInterval(checkExpiration, inMilliseconds.seconds(isDev ? 1 : 20))
 		const finalCheck = setTimeout(checkExpiration, inMilliseconds.seconds(expirationTime))
 

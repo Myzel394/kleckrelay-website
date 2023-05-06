@@ -1,7 +1,8 @@
-import {useLocalStorage} from "react-use"
 import {Dispatch, SetStateAction, useCallback} from "react"
 import {decrypt, readMessage, readPrivateKey} from "openpgp"
 import fastHashCode from "fast-hash-code"
+
+import {useLocalStorageValue} from "@react-hookz/web"
 
 import {decryptString, encryptString} from "~/utils"
 import {ServerUser, User} from "~/server-types"
@@ -19,10 +20,13 @@ export interface UseMasterPasswordResult {
 }
 
 export default function useMasterPassword(user: User | ServerUser | null): UseMasterPasswordResult {
-	const [encryptionPassword, setEncryptionPassword] = useLocalStorage<string | null>(
-		"_global-context-auth-encryption-password",
-		null,
-	)
+	const {
+		value: encryptionPassword,
+		remove: removeEncryptionPassword,
+		set: setEncryptionPassword,
+	} = useLocalStorageValue<string | null>("_global-context-auth-encryption-password", {
+		defaultValue: null,
+	})
 
 	const encryptUsingMasterPassword = useCallback(
 		(content: string) => {
@@ -70,9 +74,7 @@ export default function useMasterPassword(user: User | ServerUser | null): UseMa
 		[user],
 	)
 
-	const logout = useCallback(() => {
-		setEncryptionPassword(null)
-	}, [])
+	const logout = removeEncryptionPassword
 
 	return {
 		encryptUsingMasterPassword,

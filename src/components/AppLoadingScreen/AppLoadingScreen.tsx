@@ -1,5 +1,4 @@
 import {ReactElement, useMemo} from "react"
-import {useAsyncFn} from "react-use"
 
 import AppLoadingScreenContext, {AppLoadingScreenContextType} from "./AppLoadingScreenContext"
 

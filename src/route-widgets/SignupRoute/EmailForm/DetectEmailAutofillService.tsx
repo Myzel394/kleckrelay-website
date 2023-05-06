@@ -1,7 +1,8 @@
 import {MdCheck} from "react-icons/md"
-import {useSessionStorage} from "react-use"
+import {useTranslation} from "react-i18next"
 import React, {ReactElement, useCallback, useEffect, useRef, useState} from "react"
 
+import {useSessionStorageValue} from "@react-hookz/web"
 import {
 	Alert,
 	Button,
@@ -12,7 +13,6 @@ import {
 	DialogTitle,
 	Grid,
 } from "@mui/material"
-import {useTranslation} from "react-i18next"
 
 export interface DetectEmailAutofillServiceProps {
 	domains: string[]
@@ -38,7 +38,12 @@ export default function DetectEmailAutofillService({
 	const $hasDetected = useRef<boolean>(false)
 
 	const [type, setType] = useState<AliasType | null>(null)
-	const [hasShownModal, setHasShownModal] = useSessionStorage<boolean>(STORAGE_KEY, false)
+	const {value: hasShownModal, set: setHasShownModal} = useSessionStorageValue<boolean>(
+		STORAGE_KEY,
+		{
+			defaultValue: false,
+		},
+	)
 
 	const handleFound = useCallback(
 		(type: AliasType) => {
@@ -50,7 +55,7 @@ export default function DetectEmailAutofillService({
 				}
 			}
 		},
-		[domains.length, hasShownModal],
+		[domains.length, hasShownModal, setHasShownModal],
 	)
 
 	useEffect(() => {

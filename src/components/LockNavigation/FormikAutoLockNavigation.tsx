@@ -1,7 +1,8 @@
 import {FormikContextType} from "formik"
 import {useContext} from "react"
-import {useShallowCompareEffect} from "react-use"
 import deepEqual from "deep-equal"
+
+import {useUpdateEffect} from "@react-hookz/web"
 
 import LockNavigationContext from "./LockNavigationContext"
 
@@ -17,7 +18,7 @@ export default function FormikAutoLockNavigation({
 }: LockNavigationContextProviderProps): null {
 	const {lock, release} = useContext(LockNavigationContext)
 
-	useShallowCompareEffect(() => {
+	useUpdateEffect(() => {
 		if (!deepEqual(formik.values, formik.initialValues) && active) {
 			lock()
 		} else {

@@ -1,7 +1,7 @@
 import {ReactElement, useContext} from "react"
 import {useTranslation} from "react-i18next"
-import {useEffectOnce} from "react-use"
 
+import {useMountEffect} from "@react-hookz/web"
 import {Box, CircularProgress, Grid, Paper, Typography} from "@mui/material"
 
 import {useNavigateToNext} from "~/hooks"
@@ -12,7 +12,7 @@ export default function LogoutRoute(): ReactElement {
 	const navigateToNext = useNavigateToNext("/auth/login")
 	const {logout} = useContext(AuthContext)
 
-	useEffectOnce(() => {
+	useMountEffect(() => {
 		logout()
 		navigateToNext()
 	})

@@ -1,8 +1,8 @@
 import {ReactElement} from "react"
 import {AxiosError} from "axios"
-import {useMount} from "react-use"
 import {useTranslation} from "react-i18next"
 
+import {useMountEffect} from "@react-hookz/web"
 import {useMutation} from "@tanstack/react-query"
 import {Box, Grid, Paper, Typography} from "@mui/material"
 
@@ -34,7 +34,7 @@ export default function ConfirmFromDifferentDevice({
 		},
 	)
 
-	useMount(mutate)
+	useMountEffect(mutate)
 
 	if (isLoading) {
 		return (

@@ -2,7 +2,8 @@ import {ReactElement, useCallback, useState, useTransition} from "react"
 import {AxiosError} from "axios"
 import {MdSearch} from "react-icons/md"
 import {useTranslation} from "react-i18next"
-import {useCopyToClipboard, useEffectOnce, useKeyPress, useUpdateEffect} from "react-use"
+import {useMountEffect, useUpdateEffect} from "@react-hookz/web"
+import {useCopyToClipboard, useKeyPress} from "react-use"
 
 import {useQuery} from "@tanstack/react-query"
 import {Alert, Chip, Grid, InputAdornment, List, Snackbar, TextField} from "@mui/material"
@@ -119,7 +120,7 @@ export default function AliasesRoute(): ReactElement {
 	}, [latestAliasId])
 
 	// Fetch the latest alias
-	useEffectOnce(() => {
+	useMountEffect(() => {
 		window.dispatchEvent(
 			new CustomEvent("kleckrelay-blob", {
 				detail: {

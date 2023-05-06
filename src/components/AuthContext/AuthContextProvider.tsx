@@ -1,6 +1,7 @@
 import {ReactElement, ReactNode, useCallback} from "react"
-import {useLocalStorage} from "react-use"
 import fastHashCode from "fast-hash-code"
+
+import {useLocalStorageValue} from "@react-hookz/web"
 
 import {ServerUser, User} from "~/server-types"
 
@@ -16,10 +17,13 @@ export interface AuthContextProviderProps {
 }
 
 export default function AuthContextProvider({children}: AuthContextProviderProps): ReactElement {
-	const [user, setUser] = useLocalStorage<ServerUser | User | null>(
-		"_global-context-auth-user",
-		null,
-	)
+	const {
+		value: user,
+		set: setUser,
+		remove: removeUser,
+	} = useLocalStorageValue<ServerUser | User | null>("_global-context-auth-user", {
+		defaultValue: null,
+	})
 	const {
 		encryptUsingMasterPassword,
 		decryptUsingMasterPassword,
@@ -37,8 +41,8 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 	const logout = useCallback(() => {
 		localStorage.removeItem("signup-form-state-email")
 		logoutMasterPassword()
-		setUser(null)
-	}, [logoutMasterPassword])
+		removeUser()
+	}, [logoutMasterPassword, removeUser])
 
 	const contextValue = useContextValue({
 		_decryptUsingPrivateKey: decryptUsingPrivateKey,
@@ -55,6 +59,7 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
 		logout,
 		decryptUsingMasterPassword,
 		user: user || null,
+		// @ts-ignore: `undefined` should not be passed
 		updateUser: setUser,
 		masterPasswordHash: passwordHash,
 	})

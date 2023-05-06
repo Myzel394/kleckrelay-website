@@ -1,5 +1,6 @@
 import {Dispatch, SetStateAction, useMemo, useRef} from "react"
-import {useUpdateEffect} from "react-use"
+
+import {useUpdateEffect} from "@react-hookz/web"
 
 import {ServerUser, User} from "~/server-types"
 import {AuthContextType, EncryptionStatus} from "~/components"

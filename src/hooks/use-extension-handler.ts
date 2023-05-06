@@ -1,5 +1,6 @@
 import {useCallback} from "react"
-import {useEvent} from "react-use"
+
+import {useEventListener} from "@react-hookz/web"
 
 import {ExtensionKleckEvent, ExtensionKleckMessageLatestAlias} from "~/extension-types"
 
@@ -30,5 +31,7 @@ export default function useExtensionHandler({
 		[onEnterPassword, onRefetchAliases, onLatestAliasChange],
 	)
 
-	useEvent("kleckrelay-kleck", handleExtensionEvent)
+	useEventListener(window, "kleckrelay-kleck", handleExtensionEvent, {
+		passive: true,
+	})
 }

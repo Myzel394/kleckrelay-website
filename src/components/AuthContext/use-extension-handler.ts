@@ -1,6 +1,7 @@
 import {useCallback, useRef, useState} from "react"
 import {useNavigate} from "react-router-dom"
-import {useEvent} from "react-use"
+
+import {useEventListener} from "@react-hookz/web"
 
 import {ExtensionKleckEvent} from "~/extension-types"
 import {User} from "~/server-types"
@@ -102,7 +103,9 @@ export default function useExtensionHandler(
 		[dispatchPasswordStatus],
 	)
 
-	useEvent("kleckrelay-kleck", handleExtensionEvent)
+	useEventListener(window, "kleckrelay-kleck", handleExtensionEvent, {
+		passive: true,
+	})
 
 	return {
 		sharePassword: () => {

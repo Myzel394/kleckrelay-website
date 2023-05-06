@@ -1,9 +1,9 @@
 import {useLoaderData} from "react-router-dom"
 import {ReactElement, useCallback, useState} from "react"
-import {useUpdateEffect} from "react-use"
 import {BiRefresh} from "react-icons/bi"
 import {useTranslation} from "react-i18next"
 
+import {useUpdateEffect} from "@react-hookz/web"
 import {Alert, FormHelperText, Grid, IconButton, Typography, useTheme} from "@mui/material"
 
 import {ServerSettings} from "~/server-types"
