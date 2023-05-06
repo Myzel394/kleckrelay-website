@@ -2,9 +2,9 @@ import {ReactElement, useCallback, useState, useTransition} from "react"
 import {AxiosError} from "axios"
 import {MdSearch} from "react-icons/md"
 import {useTranslation} from "react-i18next"
-import {useMountEffect, useUpdateEffect} from "@react-hookz/web"
-import {useCopyToClipboard, useKeyPress} from "react-use"
+import {useCopyToClipboard} from "react-use"
 
+import {useKeyboardEvent, useMountEffect, useUpdateEffect} from "@react-hookz/web"
 import {useQuery} from "@tanstack/react-query"
 import {Alert, Chip, Grid, InputAdornment, List, Snackbar, TextField} from "@mui/material"
 
@@ -47,10 +47,10 @@ export default function AliasesRoute(): ReactElement {
 	const [typeFilter, setTypeFilter] = useState<TypeFilter>(TypeFilter.All)
 
 	const [{value, error}, copyToClipboard] = useCopyToClipboard()
-	const [isPressingControl] = useKeyPress("Shift")
+	const [isPressingShift, setIsPressingShift] = useState<boolean>(false)
 	const isAnyInputFocused = useIsAnyInputFocused()
 	const [lockDisabledCopyMode, setLockDisabledCopyMode] = useState<boolean>(false)
-	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingControl
+	const isInCopyAddressMode = !isAnyInputFocused && !lockDisabledCopyMode && isPressingShift
 	const [latestAliasId, setLatestAliasId] = useState<string | null>()
 
 	const query = useQuery<PaginationResult<AliasList>, AxiosError>(
@@ -101,11 +101,28 @@ export default function AliasesRoute(): ReactElement {
 		onRefetchAliases: query.refetch,
 	})
 
-	useUpdateEffect(() => {
-		if (!isPressingControl) {
+	useKeyboardEvent(
+		"Shift",
+		() => {
+			setIsPressingShift(true)
+		},
+		[],
+		{
+			event: "keydown",
+		},
+	)
+
+	useKeyboardEvent(
+		"Shift",
+		() => {
+			setIsPressingShift(false)
 			setLockDisabledCopyMode(false)
-		}
-	}, [isPressingControl])
+		},
+		[],
+		{
+			event: "keyup",
+		},
+	)
 
 	useUpdateEffect(() => {
 		if (!query.data) {

@@ -1,9 +1,11 @@
 import {ReactElement} from "react"
-import {APIKey} from "~/server-types"
-import {Alert, IconButton, ListItem, ListItemSecondaryAction, ListItemText} from "@mui/material"
 import {useTranslation} from "react-i18next"
 import {MdContentCopy, MdDelete} from "react-icons/md"
 import {useCopyToClipboard} from "react-use"
+
+import {Alert, IconButton, ListItem, ListItemSecondaryAction, ListItemText} from "@mui/material"
+
+import {APIKey} from "~/server-types"
 import {DeleteButton, ErrorSnack, SuccessSnack} from "~/components"
 import {deleteAPIKey} from "~/apis"
 import {queryClient} from "~/constants/react-query"
