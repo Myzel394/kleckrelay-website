@@ -1,10 +1,9 @@
 import * as yup from "yup"
 import {useLoaderData, useNavigate} from "react-router-dom"
-import {useAsync} from "react-use"
 import {MdCancel} from "react-icons/md"
 import {AxiosError} from "axios"
 import {useTranslation} from "react-i18next"
-import React, {ReactElement, useContext} from "react"
+import React, {ReactElement, useContext, useEffect} from "react"
 
 import {Grid, Paper, Typography, useTheme} from "@mui/material"
 import {useMutation} from "@tanstack/react-query"
@@ -13,6 +12,7 @@ import {ServerSettings, ServerUser} from "~/server-types"
 import {VerifyEmailData, verifyEmail} from "~/apis"
 import {useQueryParams} from "~/hooks"
 import {AuthContext} from "~/components"
+import {useAsync} from "@react-hookz/web"
 
 const emailSchema = yup.string().email()
 
@@ -46,7 +46,7 @@ export default function VerifyEmailRoute(): ReactElement {
 			navigate("/auth/complete-account")
 		},
 	})
-	const {loading} = useAsync(async () => {
+	const [{status}, actions] = useAsync(async () => {
 		await emailSchema.validate(email)
 		await tokenSchema.validate(token)
 
@@ -54,7 +54,13 @@ export default function VerifyEmailRoute(): ReactElement {
 			email,
 			token,
 		})
-	}, [email, token])
+	})
+	const isLoading = status == "loading"
+
+	useEffect(() => {
+		actions.reset()
+		actions.execute()
+	}, [actions.reset, actions.execute, email, token])
 
 	return (
 		<Paper>
@@ -71,7 +77,7 @@ export default function VerifyEmailRoute(): ReactElement {
 						{t("title")}
 					</Typography>
 				</Grid>
-				{loading ? (
+				{isLoading ? (
 					<Grid item>
 						<Typography variant="subtitle1" component="p" align="center">
 							{t("isLoading")}
