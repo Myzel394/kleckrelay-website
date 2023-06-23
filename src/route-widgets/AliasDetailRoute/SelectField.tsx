@@ -40,10 +40,7 @@ export default function SelectField({
 	const labelId = `${name}-label`
 	const preferenceName = `alias${name.charAt(0).toUpperCase() + name.slice(1)}`
 	const value = user.preferences[preferenceName as keyof User["preferences"]]
-	console.log(user.preferences)
-	console.log(preferenceName)
-	console.log(value)
-	const defaultValueText = valueTextMap[value.toString()]
+	const defaultValueText = valueTextMap[value!.toString()]
 
 	return (
 		<FormControl fullWidth>

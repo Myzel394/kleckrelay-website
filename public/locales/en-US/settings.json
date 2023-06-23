@@ -3,6 +3,7 @@
   "actions": {
     "enable2fa": "Two-Factor-Authentication",
     "aliasPreferences": "Alias Preferences",
-    "apiKeys": "Manage API Keys"
+    "apiKeys": "Manage API Keys",
+    "emailPgp": "PGP Encryption for Emails"
   }
 }

@@ -32,6 +32,7 @@ import RootRoute from "~/routes/Root"
 import Settings2FARoute from "~/routes/Settings2FARoute"
 import SettingsAPIKeysRoute from "~/routes/SettingsAPIKeysRoute"
 import SettingsAliasPreferencesRoute from "~/routes/SettingsAliasPreferencesRoute"
+import SettingsEmailPGPRoute from "~/routes/SettingsEmailPGPRoute"
 import SettingsRoute from "~/routes/SettingsRoute"
 import SignupRoute from "~/routes/SignupRoute"
 import VerifyEmailRoute from "~/routes/VerifyEmailRoute"
@@ -112,6 +113,11 @@ const router = createBrowserRouter([
 						path: "/settings/api-keys",
 						loader: getServerSettings,
 						element: <SettingsAPIKeysRoute />,
+					},
+					{
+						path: "/settings/email-pgp",
+						loader: getServerSettings,
+						element: <SettingsEmailPGPRoute />,
 					},
 					{
 						path: "/reports",

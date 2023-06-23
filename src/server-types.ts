@@ -54,6 +54,7 @@ export interface ServerUser {
 		aliasProxyUserAgent: ProxyUserAgentType
 		aliasExpandUrlShorteners: boolean
 		aliasRejectOnPrivacyLeak: boolean
+		emailGpgPublicKey: string | null
 	}
 }
 
@@ -87,6 +88,7 @@ export interface ServerSettings {
 	allowAliasDeletion: boolean
 	apiKeyMaxDays: number
 	allowRegistrations: boolean
+	allowPgpKeyDiscovery: boolean
 }
 
 export interface Alias {
