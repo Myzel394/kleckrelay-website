@@ -40,7 +40,7 @@
     "in-seconds": "^1.2.0",
     "lodash": "^4.17.21",
     "notistack": "^2.0.8",
-    "openpgp": "^5.5.0",
+    "openpgp": "^5.10.1",
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
