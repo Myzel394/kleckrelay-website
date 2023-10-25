@@ -26,7 +26,7 @@
     "axios": "^1.1.2",
     "axios-case-converter": "^0.11.1",
     "camelcase-keys": "^8.0.2",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "date-fns": "^2.29.3",
     "deep-equal": "^2.0.5",
     "fast-hash-code": "^2.1.0",
